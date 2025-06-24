@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6CA042212E0AD0F5006125AD /* Cerdeuk-iOS */ = {
+		6CA042372E0AD133006125AD /* Cerdeuk-iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Cerdeuk-iOS";
 			sourceTree = "<group>";
@@ -32,7 +32,7 @@
 		6CA042162E0AD0F5006125AD = {
 			isa = PBXGroup;
 			children = (
-				6CA042212E0AD0F5006125AD /* Cerdeuk-iOS */,
+				6CA042372E0AD133006125AD /* Cerdeuk-iOS */,
 				6CA042202E0AD0F5006125AD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,7 +61,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				6CA042212E0AD0F5006125AD /* Cerdeuk-iOS */,
+				6CA042372E0AD133006125AD /* Cerdeuk-iOS */,
 			);
 			name = "Cerdeuk-iOS";
 			packageProductDependencies = (
@@ -261,6 +261,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -289,6 +290,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
