@@ -9,10 +9,6 @@ import SwiftUI
 
 struct RootView: View {
     var body: some View {
-        CDTabBarView()
+        AppCoordinatorView()
     }
-}
-
-#Preview {
-    RootView()
 }
