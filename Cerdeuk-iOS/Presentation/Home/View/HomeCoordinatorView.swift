@@ -8,20 +8,18 @@
 import SwiftUI
 
 struct HomeCoordinatorView: View {
-    @ObservedObject var coordinator: HomeCoordinator
+    @ObservedObject var homeCoordinator: HomeCoordinator
     
     var body: some View {
-        NavigationStack(path: $coordinator.path) {
+        NavigationStack(path: $homeCoordinator.path) {
             HomeView()
                 .navigationDestination(for: HomeRoute.self) { route in
                     switch route {
                     case .detail:
-                        HomeDetailView {
-                            appCoordinator.goToSuggestDetail()
-                        }
+                        HomeDetailView()
                     }
                 }
         }
-        .environmentObject(coordinator)
+        .environmentObject(homeCoordinator)
     }
 }

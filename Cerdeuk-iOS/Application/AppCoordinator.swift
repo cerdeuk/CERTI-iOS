@@ -18,7 +18,7 @@ final class AppCoordinator: ObservableObject {
     // MARK: - Properties
     
     @Published var appState: AppRoute = .main
-    @Published var tabRouter = CDTabCoordinator()
+    @Published var tabCoordinator = CDTabCoordinator()
     
     //MARK: - Method
     

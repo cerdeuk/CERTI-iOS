@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct SuggestDetailView: View {
+    @EnvironmentObject var tabRouter: CDTabCoordinator
+
     var body: some View {
         VStack {
-            Text("추천 디테일 화면")
+            Button("홈 탭으로 전환") {
+                tabRouter.selectedTab = .home
+            }
         }
     }
 }

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct AppCoordinatorView: View {
-    @StateObject private var coordinator = AppCoordinator()
+    @StateObject private var appCoordinator = AppCoordinator()
 
     var body: some View {
-        switch coordinator.appState {
+        switch appCoordinator.appState {
         case .onboarding:
             OnboardingView()
 
@@ -19,7 +19,8 @@ struct AppCoordinatorView: View {
             OnboardingView()    // 추후 로그인뷰
 
         case .main:
-            CDTabBarCoordinatorView(tabCoordinator: coordinator.tabRouter)
+            CDTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator)
+                .environmentObject(appCoordinator.tabCoordinator)
         }
     }
 }

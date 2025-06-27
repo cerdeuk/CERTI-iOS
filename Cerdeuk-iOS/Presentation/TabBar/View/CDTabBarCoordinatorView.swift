@@ -15,13 +15,13 @@ struct CDTabBarCoordinatorView: View {
             Group {
                 switch tabCoordinator.selectedTab {
                 case .home:
-                    HomeCoordinatorView(coordinator: tabCoordinator.homeCoordinator)
+                    HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
                 case .list:
-                    HomeCoordinatorView(coordinator: tabCoordinator.homeCoordinator)
+                    HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
                 case .suggest:
-                    SuggestCoordinatorView(coordinator: tabCoordinator.suggestCoordinator)
+                    SuggestCoordinatorView(suggestCoordinator: tabCoordinator.suggestCoordinator)
                 case .resume:
-                    HomeCoordinatorView(coordinator: tabCoordinator.homeCoordinator)
+                    HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
                 }
             }
             .id(tabCoordinator.selectedTab)

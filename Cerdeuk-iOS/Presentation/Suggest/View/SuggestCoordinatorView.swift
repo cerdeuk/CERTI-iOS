@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SuggestCoordinatorView: View {
-    @ObservedObject var coordinator: SuggestCoordinator
+    @ObservedObject var suggestCoordinator: SuggestCoordinator
     
     var body: some View {
-        NavigationStack(path: $coordinator.path) {
+        NavigationStack(path: $suggestCoordinator.path) {
             SuggestView()
                 .navigationDestination(for: SuggestRoute.self) { route in
                     switch route {
@@ -20,7 +20,6 @@ struct SuggestCoordinatorView: View {
                     }
                 }
         }
-        .environmentObject(coordinator)
-
+        .environmentObject(suggestCoordinator)
     }
 }
