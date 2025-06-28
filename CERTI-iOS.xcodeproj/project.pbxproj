@@ -6,12 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		6CBA9DC02E1046CB0073696A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DBF2E1046CB0073696A /* Kingfisher */; };
+		6CBA9DC32E10472F0073696A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DC22E10472F0073696A /* Moya */; };
+		6CBA9DC62E1047780073696A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DC52E1047780073696A /* Lottie */; };
+		6CBA9DC92E1047EF0073696A /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DC82E1047EF0073696A /* KakaoSDK */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		6CA0421F2E0AD0F5006125AD /* Cerdeuk-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cerdeuk-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CA0421F2E0AD0F5006125AD /* CERTI-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CERTI-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6CA042FA2E0BFC81006125AD /* Exceptions for "Cerdeuk-iOS" folder in "Cerdeuk-iOS" target */ = {
+		6CBA9DBD2E1046670073696A /* Exceptions for "CERTI-iOS" folder in "CERTI-iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Global/Components/.gitkeep,
@@ -21,17 +28,17 @@
 				Global/Modifier/.gitkeep,
 				Network/Base/.gitkeep,
 			);
-			target = 6CA0421E2E0AD0F5006125AD /* Cerdeuk-iOS */;
+			target = 6CA0421E2E0AD0F5006125AD /* CERTI-iOS */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6CA042602E0AF761006125AD /* Cerdeuk-iOS */ = {
+		6CA042602E0AF761006125AD /* CERTI-iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				6CA042FA2E0BFC81006125AD /* Exceptions for "Cerdeuk-iOS" folder in "Cerdeuk-iOS" target */,
+				6CBA9DBD2E1046670073696A /* Exceptions for "CERTI-iOS" folder in "CERTI-iOS" target */,
 			);
-			path = "Cerdeuk-iOS";
+			path = "CERTI-iOS";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -41,6 +48,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CBA9DC32E10472F0073696A /* Moya in Frameworks */,
+				6CBA9DC92E1047EF0073696A /* KakaoSDK in Frameworks */,
+				6CBA9DC02E1046CB0073696A /* Kingfisher in Frameworks */,
+				6CBA9DC62E1047780073696A /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,7 +61,7 @@
 		6CA042162E0AD0F5006125AD = {
 			isa = PBXGroup;
 			children = (
-				6CA042602E0AF761006125AD /* Cerdeuk-iOS */,
+				6CA042602E0AF761006125AD /* CERTI-iOS */,
 				6CA042202E0AD0F5006125AD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,7 +69,7 @@
 		6CA042202E0AD0F5006125AD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6CA0421F2E0AD0F5006125AD /* Cerdeuk-iOS.app */,
+				6CA0421F2E0AD0F5006125AD /* CERTI-iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,9 +77,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6CA0421E2E0AD0F5006125AD /* Cerdeuk-iOS */ = {
+		6CA0421E2E0AD0F5006125AD /* CERTI-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6CA0422A2E0AD0F6006125AD /* Build configuration list for PBXNativeTarget "Cerdeuk-iOS" */;
+			buildConfigurationList = 6CA0422A2E0AD0F6006125AD /* Build configuration list for PBXNativeTarget "CERTI-iOS" */;
 			buildPhases = (
 				6CA0421B2E0AD0F5006125AD /* Sources */,
 				6CA0421C2E0AD0F5006125AD /* Frameworks */,
@@ -79,13 +90,17 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				6CA042602E0AF761006125AD /* Cerdeuk-iOS */,
+				6CA042602E0AF761006125AD /* CERTI-iOS */,
 			);
-			name = "Cerdeuk-iOS";
+			name = "CERTI-iOS";
 			packageProductDependencies = (
+				6CBA9DBF2E1046CB0073696A /* Kingfisher */,
+				6CBA9DC22E10472F0073696A /* Moya */,
+				6CBA9DC52E1047780073696A /* Lottie */,
+				6CBA9DC82E1047EF0073696A /* KakaoSDK */,
 			);
-			productName = "Cerdeuk-iOS";
-			productReference = 6CA0421F2E0AD0F5006125AD /* Cerdeuk-iOS.app */;
+			productName = "CERTI-iOS";
+			productReference = 6CA0421F2E0AD0F5006125AD /* CERTI-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -103,7 +118,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6CA0421A2E0AD0F5006125AD /* Build configuration list for PBXProject "Cerdeuk-iOS" */;
+			buildConfigurationList = 6CA0421A2E0AD0F5006125AD /* Build configuration list for PBXProject "CERTI-iOS" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -112,12 +127,18 @@
 			);
 			mainGroup = 6CA042162E0AD0F5006125AD;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				6CBA9DBE2E1046CB0073696A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				6CBA9DC12E10472F0073696A /* XCRemoteSwiftPackageReference "Moya" */,
+				6CBA9DC42E1047780073696A /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				6CBA9DC72E1047EF0073696A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6CA042202E0AD0F5006125AD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6CA0421E2E0AD0F5006125AD /* Cerdeuk-iOS */,
+				6CA0421E2E0AD0F5006125AD /* CERTI-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -285,7 +306,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.OneTen.Cerdeuk-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.OneTen.CERTI-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -314,7 +335,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.OneTen.Cerdeuk-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.OneTen.CERTI-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -325,7 +346,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6CA0421A2E0AD0F5006125AD /* Build configuration list for PBXProject "Cerdeuk-iOS" */ = {
+		6CA0421A2E0AD0F5006125AD /* Build configuration list for PBXProject "CERTI-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6CA042282E0AD0F6006125AD /* Debug */,
@@ -334,7 +355,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6CA0422A2E0AD0F6006125AD /* Build configuration list for PBXNativeTarget "Cerdeuk-iOS" */ = {
+		6CA0422A2E0AD0F6006125AD /* Build configuration list for PBXNativeTarget "CERTI-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6CA0422B2E0AD0F6006125AD /* Debug */,
@@ -344,6 +365,64 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6CBA9DBE2E1046CB0073696A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.3;
+			};
+		};
+		6CBA9DC12E10472F0073696A /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		6CBA9DC42E1047780073696A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
+		6CBA9DC72E1047EF0073696A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.24.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6CBA9DBF2E1046CB0073696A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CBA9DBE2E1046CB0073696A /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		6CBA9DC22E10472F0073696A /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CBA9DC12E10472F0073696A /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		6CBA9DC52E1047780073696A /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CBA9DC42E1047780073696A /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		6CBA9DC82E1047EF0073696A /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CBA9DC72E1047EF0073696A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6CA042172E0AD0F5006125AD /* Project object */;
 }
