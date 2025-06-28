@@ -10,9 +10,27 @@
 		6CA0421F2E0AD0F5006125AD /* Cerdeuk-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cerdeuk-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6CA042FA2E0BFC81006125AD /* Exceptions for "Cerdeuk-iOS" folder in "Cerdeuk-iOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Global/Components/.gitkeep,
+				Global/Enums/.gitkeep,
+				Global/Extensions/.gitkeep,
+				Global/Literals/.gitkeep,
+				Global/Modifier/.gitkeep,
+				Network/Base/.gitkeep,
+			);
+			target = 6CA0421E2E0AD0F5006125AD /* Cerdeuk-iOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6CA042602E0AF761006125AD /* Cerdeuk-iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6CA042FA2E0BFC81006125AD /* Exceptions for "Cerdeuk-iOS" folder in "Cerdeuk-iOS" target */,
+			);
 			path = "Cerdeuk-iOS";
 			sourceTree = "<group>";
 		};
