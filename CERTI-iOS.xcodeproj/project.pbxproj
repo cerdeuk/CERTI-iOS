@@ -26,7 +26,6 @@
 				Global/Extensions/.gitkeep,
 				Global/Literals/.gitkeep,
 				Global/Modifier/.gitkeep,
-				Network/Base/.gitkeep,
 			);
 			target = 6CA0421E2E0AD0F5006125AD /* CERTI-iOS */;
 		};
