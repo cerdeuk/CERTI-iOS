@@ -26,6 +26,7 @@
 				Global/Extensions/.gitkeep,
 				Global/Literals/.gitkeep,
 				Global/Modifier/.gitkeep,
+				Info.plist,
 			);
 			target = 6CA0421E2E0AD0F5006125AD /* CERTI-iOS */;
 		};
@@ -294,6 +295,7 @@
 				DEVELOPMENT_TEAM = 3RFJ9FQWHA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CERTI-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -323,6 +325,7 @@
 				DEVELOPMENT_TEAM = 3RFJ9FQWHA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CERTI-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
