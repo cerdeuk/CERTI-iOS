@@ -23,7 +23,6 @@
 			membershipExceptions = (
 				Global/Components/.gitkeep,
 				Global/Enums/.gitkeep,
-				Global/Extensions/.gitkeep,
 				Global/Literals/.gitkeep,
 				Global/Modifier/.gitkeep,
 				Info.plist,

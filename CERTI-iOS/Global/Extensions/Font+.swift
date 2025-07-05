@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum TextStyle {
+enum CertiFont {
     case title_bold_24
     case title_bold_22
 
@@ -103,8 +103,8 @@ enum TextStyle {
     }
 }
 
-struct TextStyleModifier: ViewModifier {
-    let style: TextStyle
+struct ApplyCertiFontModifier: ViewModifier {
+    let style: CertiFont
 
     func body(content: Content) -> some View {
         content
@@ -115,7 +115,7 @@ struct TextStyleModifier: ViewModifier {
 }
 
 extension View {
-    func textStyle(_ style: TextStyle) -> some View {
-        self.modifier(TextStyleModifier(style: style))
+    func applyCertiFont(_ style: CertiFont) -> some View {
+        self.modifier(ApplyCertiFontModifier(style: style))
     }
 }
