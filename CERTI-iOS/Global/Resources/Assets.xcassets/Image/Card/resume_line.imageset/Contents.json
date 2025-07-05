@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "resume_line_ios.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}
