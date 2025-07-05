@@ -7,41 +7,115 @@
 
 import SwiftUI
 
-extension Font {
-    enum Pretend {
-        case bold, semibold, regular
-        
-        var value: String {
-            switch self {
-            case .bold:
-                return "Pretendard-Bold"
-            case .semibold:
-                return "Pretendard-SemiBold"
-            case .regular:
-                return "Pretendard-Regular"
-            }
+enum TextStyle {
+    case title_bold_24
+    case title_bold_22
+
+    case sub_bold_20
+    case sub_semibold_20
+
+    case body_bold_18
+    case body_semibold_18
+    case body_bold_16
+    case body_semibold_16
+    case body_regular_16
+
+    case caption_bold_14
+    case caption_semibold_14
+    case caption_regular_14
+    case caption_semibold_12
+    case caption_regular_12
+    
+    case caption_semibold_10
+    case caption_regular_10
+
+    var font: Font {
+        switch self {
+        case .title_bold_24:       return .custom("Pretendard-Bold", size: 24)
+        case .title_bold_22:       return .custom("Pretendard-Bold", size: 22)
+
+        case .sub_bold_20:         return .custom("Pretendard-Bold", size: 20)
+        case .sub_semibold_20:     return .custom("Pretendard-SemiBold", size: 20)
+
+        case .body_bold_18:        return .custom("Pretendard-Bold", size: 18)
+        case .body_semibold_18:    return .custom("Pretendard-SemiBold", size: 18)
+        case .body_bold_16:        return .custom("Pretendard-Bold", size: 16)
+        case .body_semibold_16:    return .custom("Pretendard-SemiBold", size: 16)
+        case .body_regular_16:     return .custom("Pretendard-Regular", size: 16)
+
+        case .caption_bold_14:     return .custom("Pretendard-Bold", size: 14)
+        case .caption_semibold_14: return .custom("Pretendard-SemiBold", size: 14)
+        case .caption_regular_14:  return .custom("Pretendard-Regular", size: 14)
+        case .caption_semibold_12: return .custom("Pretendard-SemiBold", size: 12)
+        case .caption_regular_12:  return .custom("Pretendard-Regular", size: 12)
+       
+        case .caption_semibold_10: return .custom("Pretendard-SemiBold", size: 10)
+        case .caption_regular_10:  return .custom("Pretendard-Regular", size: 10)
         }
     }
-    
-    static func pretend(type: Pretend, size: CGFloat) -> Font {
-        return .custom(type.value, size: size)
+
+    var lineHeight: CGFloat {
+        switch self {
+        case .title_bold_24, .title_bold_22:
+            return 1.2
+        case .sub_bold_20, .sub_semibold_20:
+            return 1.3
+        case .body_bold_18, .body_semibold_18,
+             .body_bold_16, .body_semibold_16, .body_regular_16,
+             .caption_bold_14, .caption_semibold_14, .caption_regular_14:
+            return 1.4
+        case .caption_semibold_12, .caption_regular_12, .caption_semibold_10, .caption_regular_10:
+            return 1.5
+        }
     }
-    
-    static let title_bold_24 = pretend(type: .bold, size: 24)
-    static let title_bold_22 = pretend(type: .bold, size: 22)
 
-    static let sub_bold_20 = pretend(type: .bold, size: 20)
-    static let sub_semibold_20 = pretend(type: .semibold, size: 20)
+    var letterSpacing: CGFloat {
+        switch self {
+        case .title_bold_24:
+            return -0.016
+        case .title_bold_22:
+            return -0.014
+        case .sub_bold_20, .sub_semibold_20:
+            return -0.01
+        case .body_bold_18, .body_semibold_18:
+            return -0.005
+        case .body_bold_16, .body_semibold_16, .body_regular_16,
+             .caption_bold_14, .caption_semibold_14, .caption_regular_14:
+            return 0
+        case .caption_semibold_12, .caption_regular_12:
+            return 0.008
+        case .caption_semibold_10, .caption_regular_10:
+            return 0.01
+        }
+    }
 
-    static let body_bold_18 = pretend(type: .bold, size: 18)
-    static let body_semibold_18 = pretend(type: .semibold, size: 18)
-    static let body_bold_16 = pretend(type: .bold, size: 16)
-    static let body_regular_16 = pretend(type: .regular, size: 16)
-    static let body_semibold_16 = pretend(type: .semibold, size: 16)
+    var fontSize: CGFloat {
+        switch self {
+        case .title_bold_24: return 24
+        case .title_bold_22: return 22
+        case .sub_bold_20, .sub_semibold_20: return 20
+        case .body_bold_18, .body_semibold_18: return 18
+        case .body_bold_16, .body_semibold_16, .body_regular_16: return 16
+        case .caption_bold_14, .caption_semibold_14, .caption_regular_14: return 14
+        case .caption_semibold_12, .caption_regular_12: return 12
+        case .caption_semibold_10, .caption_regular_10: return 10
+        }
+    }
+}
 
-    static let caption_bold_14 = pretend(type: .bold, size: 14)
-    static let caption_semibold_14 = pretend(type: .semibold, size: 14)
-    static let caption_regular_14 = pretend(type: .regular, size: 14)
-    static let caption_semibold_12 = pretend(type: .semibold, size: 12)
-    static let caption_regular_12 = pretend(type: .regular, size: 12)
+struct TextStyleModifier: ViewModifier {
+    let style: TextStyle
+
+    func body(content: Content) -> some View {
+        content
+            .font(style.font)
+            .lineSpacing(style.fontSize * (style.lineHeight - 1))
+            .kerning(style.letterSpacing * style.fontSize)
+    }
+}
+
+extension View {
+    func textStyle(_ style: TextStyle) -> some View {
+        self.modifier(TextStyleModifier(style: style))
+    }
 }
