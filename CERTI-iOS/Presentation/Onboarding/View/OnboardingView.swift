@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    let onComplete: () -> Void
 
-#Preview {
-    OnboardingView()
+    var body: some View {
+        VStack {
+            Text("온보딩 화면")
+            Button("온보딩 완료") {
+                onComplete()
+            }
+        }
+    }
 }

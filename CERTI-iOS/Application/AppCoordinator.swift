@@ -8,21 +8,53 @@
 import SwiftUI
 
 enum AppRoute {
+    case splash
     case onboarding
     case auth
     case main
 }
 
 final class AppCoordinator: ObservableObject {
-    
-    // MARK: - Properties
-    
-    @Published var appState: AppRoute = .main
-    @Published var tabCoordinator = CDTabCoordinator()
-    
-    //MARK: - Method
-    
-    func switchAppState(state: AppRoute) {
-        appState = state
+    @Published var appState: AppRoute = .splash
+    let tabCoordinator = CDTabCoordinator()
+
+    init() {
+        Task {
+            await start()
+        }
+    }
+
+    private func start() async {
+        try? await Task.sleep(for: .seconds(2)) // Splash 대기 시간
+
+        let tokenResult = TokenManager.shared.getAccessToken()
+        let didOnboard = UserDefaults.standard.bool(forKey: "didOnboard")
+
+        await MainActor.run {
+            switch tokenResult {
+            case .success:
+                appState = didOnboard ? .main : .onboarding
+            case .failure:
+                appState = .auth
+            }
+        }
+    }
+
+    /// 로그인 완료 시 호출
+    func completeLogin() {
+        let didOnboard = UserDefaults.standard.bool(forKey: "didOnboard")
+        appState = didOnboard ? .main : .onboarding
+    }
+
+    /// 온보딩 완료 시 호출
+    func completeOnboarding() {
+        UserDefaults.standard.set(true, forKey: "didOnboard")
+        appState = .main
+    }
+
+    /// 로그아웃 시
+    func logout() {
+        _ = TokenManager.shared.clearTokens()
+        appState = .auth
     }
 }
