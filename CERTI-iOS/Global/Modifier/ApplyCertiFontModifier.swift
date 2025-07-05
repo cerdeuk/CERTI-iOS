@@ -14,6 +14,6 @@ struct ApplyCertiFontModifier: ViewModifier {
         content
             .font(style.font)
             .lineSpacing(style.fontSize * (style.lineHeight - 1))
-            .tracking(style.letterSpacing * style.fontSize)
+            .kerning(style.letterSpacing * style.fontSize)
     }
 }
