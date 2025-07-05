@@ -22,9 +22,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Global/Components/.gitkeep,
-				Global/Enums/.gitkeep,
 				Global/Literals/.gitkeep,
-				Global/Modifier/.gitkeep,
 				Info.plist,
 			);
 			target = 6CA0421E2E0AD0F5006125AD /* CERTI-iOS */;

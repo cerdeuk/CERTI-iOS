@@ -1,5 +1,5 @@
 //
-//  Font+.swift
+//  CertiFont.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 7/4/25.
@@ -103,19 +103,6 @@ enum CertiFont {
     }
 }
 
-struct ApplyCertiFontModifier: ViewModifier {
-    let style: CertiFont
 
-    func body(content: Content) -> some View {
-        content
-            .font(style.font)
-            .lineSpacing(style.fontSize * (style.lineHeight - 1))
-            .kerning(style.letterSpacing * style.fontSize)
-    }
-}
 
-extension View {
-    func applyCertiFont(_ style: CertiFont) -> some View {
-        self.modifier(ApplyCertiFontModifier(style: style))
-    }
-}
+
