@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct CERTI_iOSApp: App {
+
     var body: some Scene {
         WindowGroup {
             RootView()

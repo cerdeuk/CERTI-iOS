@@ -17,5 +17,7 @@ final class NetworkService {
     /// 일단 앱잼에서는 이렇게 사용하지만, 추후 아키텍처 고민하면서 DI 컨테이너 같은 거 활용하는 방향으로 리팩토링 하면 좋을 것 같아요
     /// let authService: AuthServiceProtocol = AuthService()
     /// let authService: AuthServiceProtocol = AuthService()
+    ///
+    let tokenRefreshService: TokenRefreshServiceProtocol = TokenRefreshService()
     
 }

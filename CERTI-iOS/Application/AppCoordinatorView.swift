@@ -12,12 +12,16 @@ struct AppCoordinatorView: View {
 
     var body: some View {
         switch appCoordinator.appState {
+        case .splash:
+            SplashView()
         case .onboarding:
-            OnboardingView()
-
+            OnboardingView {
+                appCoordinator.completeOnboarding()
+            }
         case .auth:
-            OnboardingView()    // 추후 로그인뷰
-
+            LoginView {
+                appCoordinator.completeLogin()
+            }
         case .main:
             CDTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator)
                 .environmentObject(appCoordinator.tabCoordinator)
