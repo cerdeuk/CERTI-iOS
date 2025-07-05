@@ -8,8 +8,8 @@
 import Foundation
 
 enum AuthError: Error {
-    case loginFailed/*(service: SocialLoginType)*/
-    case logoutFailed/*(service: SocialLoginType)*/
+    case loginFailed(service: SocialLoginType)
+    case logoutFailed(service: SocialLoginType)
     case notLoggedIn
     case tokenNotFound
     case keychainError
@@ -18,10 +18,10 @@ enum AuthError: Error {
     
     var message: String {
         switch self {
-        case .loginFailed/*(let service)*/:
-            return "로그인에 실패했습니다"
-        case .logoutFailed/*(let service)*/:
-            return "로그아웃에 실패했습니다"
+        case .loginFailed(let service):
+            return "\(service.serviceName) 로그인에 실패했습니다"
+        case .logoutFailed(let service):
+            return "\(service.serviceName) 로그아웃에 실패했습니다"
         case .notLoggedIn:
             return "로그인이 필요합니다"
         case .tokenNotFound:

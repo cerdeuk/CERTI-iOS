@@ -28,10 +28,12 @@ final class TokenManager {
         }
     }
 
+    @discardableResult
     func updateAccessToken(_ token: String) -> Result<Void, AuthError> {
         return keychain.save(token, for: .accessToken)
     }
 
+    @discardableResult
     func updateRefreshToken(_ token: String) -> Result<Void, AuthError> {
         return keychain.save(token, for: .refreshToken)
     }
@@ -44,6 +46,7 @@ final class TokenManager {
         return keychain.load(for: .refreshToken)
     }
 
+    @discardableResult
     func clearTokens() -> Result<Void, AuthError> {
         return keychain.clearAll()
     }

@@ -11,8 +11,8 @@ import Moya
 
 enum HeaderType {
     case noneHeader
-    //    case accessTokenHeader
-    //    case refreshTokenHeader
+    case accessTokenHeader
+    case refreshTokenHeader
 }
 
 protocol BaseTargetType: TargetType {
@@ -37,6 +37,18 @@ extension BaseTargetType {
         switch headerType {
         case .noneHeader:
             return nil
+            
+        case .accessTokenHeader:
+            if case .success(let token) = TokenManager.shared.getAccessToken() {
+                headers["Authorization"] = "Bearer \(token)"
+            }
+            return headers
+            
+        case .refreshTokenHeader:
+            if case .success(let token) = TokenManager.shared.getRefreshToken() {
+                headers["Cookie"] = "refreshToken=\(token)"
+            }
+            return headers
         }
     }
     

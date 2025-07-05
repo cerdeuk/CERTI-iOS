@@ -54,21 +54,21 @@ class BaseService {
                             }
                         case 400:
                             continuation.resume(returning: .failure(.badRequest))
-                            //                    case 401 where retry:
-                            //                        RefreshTask.detached {
-                            //                            let refreshResult = await TokenRefresher.shared.refresh()
-                            //
-                            //                            switch refreshResult {
-                            //                            case .success:
-                            //                                Self.logger.info("Token refreshed, retrying request")
-                            //                                let retryResult: Result<T, NetworkError> = await self.requestDecodable(provider, target, retry: false)
-                            //                                continuation.resume(returning: retryResult)
-                            //
-                            //                            case .failure:
-                            //                                Self.logger.error("Token refresh failed")
-                            //                                continuation.resume(returning: .failure(.unauthorized))
-                            //                            }
-                            //                        }
+                        case 401 where retry:
+                            RefreshTask.detached {
+                                let refreshResult = await TokenRefresher.shared.refresh()
+                                
+                                switch refreshResult {
+                                case .success:
+                                    Self.logger.info("Token refreshed, retrying request")
+                                    let retryResult: Result<T, NetworkError> = await self.requestDecodable(provider, target, retry: false)
+                                    continuation.resume(returning: retryResult)
+                                    
+                                case .failure:
+                                    Self.logger.error("Token refresh failed")
+                                    continuation.resume(returning: .failure(.unauthorized))
+                                }
+                            }
                             
                         case 401:
                             continuation.resume(returning: .failure(.unauthorized))
@@ -123,21 +123,21 @@ class BaseService {
                         } else {
                             continuation.resume(returning: .failure(.badRequest))
                         }
-                        //                    case 401 where retry:
-                        //                        RefreshTask.detached {
-                        //                            let refreshResult = await TokenRefresher.shared.refresh()
-                        //
-                        //                            switch refreshResult {
-                        //                            case .success:
-                        //                                Self.logger.info("Token refreshed, retrying request")
-                        //                                let retryResult: Result<Void, NetworkError> = await self.requestVoid(provider, target, retry: false)
-                        //                                continuation.resume(returning: retryResult)
-                        //
-                        //                            case .failure:
-                        //                                Self.logger.error("Token refresh failed")
-                        //                                continuation.resume(returning: .failure(.unauthorized))
-                        //                            }
-                        //                        }
+                    case 401 where retry:
+                        RefreshTask.detached {
+                            let refreshResult = await TokenRefresher.shared.refresh()
+                            
+                            switch refreshResult {
+                            case .success:
+                                Self.logger.info("Token refreshed, retrying request")
+                                let retryResult: Result<Void, NetworkError> = await self.requestVoid(provider, target, retry: false)
+                                continuation.resume(returning: retryResult)
+                                
+                            case .failure:
+                                Self.logger.error("Token refresh failed")
+                                continuation.resume(returning: .failure(.unauthorized))
+                            }
+                        }
                         
                     case 401:
                         continuation.resume(returning: .failure(.unauthorized))

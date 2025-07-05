@@ -19,6 +19,12 @@ final class AppCoordinator: ObservableObject {
     let tabCoordinator = CDTabCoordinator()
 
     init() {
+        #if DEBUG
+        TokenManager.shared.clearTokens()
+        UserDefaults.standard.removeObject(forKey: "didOnboard")
+        print("[DEBUG] Keychain cleared for login testing")
+        #endif
+        
         Task {
             await start()
         }

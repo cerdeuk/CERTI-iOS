@@ -15,7 +15,7 @@ struct LoginView: View {
             Text("로그인 화면")
             Button("로그인 성공") {
                 // 로그인 성공 시 Keychain 저장
-                _ = TokenManager.shared.saveTokens(accessToken: "access_token", refreshToken: "refresh_token")
+                _ = TokenManager.shared.saveTokens(accessToken: "액세스토큰", refreshToken: "리프레시 토큰")
                 onLoginSuccess()
             }
             
