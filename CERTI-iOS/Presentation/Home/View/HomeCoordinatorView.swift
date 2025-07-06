@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeCoordinatorView: View {
-    @EnvironmentObject var tabCoordinator: CDTabCoordinator
+    @EnvironmentObject var tabCoordinator: CertiTabCoordinator
 
     @ObservedObject var homeCoordinator: HomeCoordinator
     

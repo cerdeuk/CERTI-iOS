@@ -21,7 +21,7 @@ struct AppCoordinatorView: View {
             LoginView()
                 .environmentObject(appCoordinator)
         case .main:
-            CDTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator)
+            CertiTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator)
                 .environmentObject(appCoordinator.tabCoordinator)
         }
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryDetailView: View {
-    @EnvironmentObject var tabRouter: CDTabCoordinator
+    @EnvironmentObject var tabRouter: CertiTabCoordinator
 
     var body: some View {
         VStack {

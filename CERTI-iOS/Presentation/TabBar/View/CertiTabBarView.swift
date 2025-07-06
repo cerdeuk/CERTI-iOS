@@ -1,5 +1,5 @@
 //
-//  CDTabBarView.swift
+//  CertiTabBarView.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 6/25/25.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct CDTabBarView: View {
-    @Binding var selectedTab: CDTabRoute
+struct CertiTabBarView: View {
+    @Binding var selectedTab: CertiTabRoute
     
     var body: some View {
         HStack {
-            ForEach(CDTabRoute.allCases, id: \.self) { tab in
+            ForEach(CertiTabRoute.allCases, id: \.self) { tab in
                 Button {
                     selectedTab = tab
                 } label: {
@@ -36,7 +36,7 @@ struct CDTabBarView: View {
 }
 
 #Preview {
-    @State var tab = CDTabRoute.home
+    @State var tab = CertiTabRoute.home
     
-    CDTabBarView(selectedTab: $tab)
+    CertiTabBarView(selectedTab: $tab)
 }

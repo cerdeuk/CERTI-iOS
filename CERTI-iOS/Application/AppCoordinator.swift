@@ -16,7 +16,7 @@ enum AppRoute {
 
 final class AppCoordinator: ObservableObject {
     @Published var appState: AppRoute = .main
-    let tabCoordinator = CDTabCoordinator()
+    let tabCoordinator = CertiTabCoordinator()
 
     init() {
 //        #if DEBUG

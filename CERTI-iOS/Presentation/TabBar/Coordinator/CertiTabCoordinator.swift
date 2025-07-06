@@ -1,5 +1,5 @@
 //
-//  CDTabCoordinator.swift
+//  CertiTabCoordinator.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 6/25/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum CDTabRoute: Int, CaseIterable, Hashable {
+enum CertiTabRoute: Int, CaseIterable, Hashable {
     case home, category, recommend, resume
 
     var title: String {
@@ -38,11 +38,11 @@ enum CDTabRoute: Int, CaseIterable, Hashable {
 }
 
 
-class CDTabCoordinator: ObservableObject {
+class CertiTabCoordinator: ObservableObject {
     
     //MARK: - Property Wrappers
     
-    @Published var selectedTab: CDTabRoute = .home
+    @Published var selectedTab: CertiTabRoute = .home
     @Published var isTabBarHidden: Bool = false
     
     let homeCoordinator = HomeCoordinator()
@@ -52,7 +52,7 @@ class CDTabCoordinator: ObservableObject {
 
     //MARK: - Method
     
-    func switchTab(tab: CDTabRoute) {
+    func switchTab(tab: CertiTabRoute) {
         isTabBarHidden = false
         selectedTab = tab
     }

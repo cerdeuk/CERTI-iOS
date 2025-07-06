@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryCoordinatorView: View {
-    @EnvironmentObject var tabCoordinator: CDTabCoordinator
+    @EnvironmentObject var tabCoordinator: CertiTabCoordinator
 
     @ObservedObject var categoryCoordinator: CategoryCoordinator
     

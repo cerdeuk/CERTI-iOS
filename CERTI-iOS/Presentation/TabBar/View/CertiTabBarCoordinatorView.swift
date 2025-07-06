@@ -1,5 +1,5 @@
 //
-//  CDTabBarCoordinatorView.swift
+//  CertiTabBarCoordinatorView.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 6/25/25.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct CDTabBarCoordinatorView: View {
-    @ObservedObject var tabCoordinator: CDTabCoordinator
+struct CertiTabBarCoordinatorView: View {
+    @ObservedObject var tabCoordinator: CertiTabCoordinator
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -28,7 +28,7 @@ struct CDTabBarCoordinatorView: View {
             .environmentObject(tabCoordinator)
 
             if !tabCoordinator.isTabBarHidden {
-                CDTabBarView(selectedTab: $tabCoordinator.selectedTab)
+                CertiTabBarView(selectedTab: $tabCoordinator.selectedTab)
             }
         }
         .onChange(of: tabCoordinator.selectedTab) { newTab in
