@@ -19,9 +19,10 @@ struct AppCoordinatorView: View {
                 appCoordinator.completeOnboarding()
             }
         case .auth:
-            LoginView {
-                appCoordinator.completeLogin()
-            }
+            LoginView()
+//            LoginView {
+//                appCoordinator.completeLogin()
+//            }
         case .main:
             CDTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator)
                 .environmentObject(appCoordinator.tabCoordinator)

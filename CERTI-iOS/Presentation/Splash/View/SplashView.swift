@@ -25,9 +25,4 @@ struct SplashView: View {
         .ignoresSafeArea()
         .background(.mainblue)
     }
-    
-}
-
-#Preview {
-    SplashView()
 }
