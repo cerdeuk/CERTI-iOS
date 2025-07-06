@@ -16,22 +16,27 @@ struct CDTabBarView: View {
                 Button {
                     selectedTab = tab
                 } label: {
-                    VStack(spacing: 4) {
-                        Image(systemName: tab.icon)
-                            .font(.system(size: 18, weight: .semibold))
+                    VStack(alignment: .center, spacing: 2) {
+                        Image(uiImage: tab.icon)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+
                         Text(tab.title)
-                            .font(.caption)
+                            .applyCertiFont(.caption_semibold_10)
                     }
-                    .foregroundColor(selectedTab == tab ? .blue : .gray)
-                    .padding(.vertical, 10)
+                    .foregroundStyle(selectedTab == tab ? .mainblue : .grayscale600)
                     .frame(maxWidth: .infinity)
                 }
             }
         }
-        .padding(.horizontal)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .padding(.horizontal, 16)
-        .shadow(radius: 4)
+        .frame(height: 49)
     }
+}
+
+#Preview {
+    @State var tab = CDTabRoute.home
+    
+    CDTabBarView(selectedTab: $tab)
 }

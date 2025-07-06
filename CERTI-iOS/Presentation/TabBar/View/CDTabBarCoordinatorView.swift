@@ -16,9 +16,9 @@ struct CDTabBarCoordinatorView: View {
                 switch tabCoordinator.selectedTab {
                 case .home:
                     HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
-                case .list:
+                case .category:
                     HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
-                case .suggest:
+                case .recommend:
                     SuggestCoordinatorView(suggestCoordinator: tabCoordinator.suggestCoordinator)
                 case .resume:
                     HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
@@ -35,9 +35,9 @@ struct CDTabBarCoordinatorView: View {
             switch newTab {
             case .home:
                 tabCoordinator.homeCoordinator.reset()
-            case .list:
+            case .category:
                 tabCoordinator.listCoordinator.reset()
-            case .suggest:
+            case .recommend:
                 tabCoordinator.suggestCoordinator.reset()
             case .resume:
                 tabCoordinator.resumeCoordinator.reset()

@@ -8,31 +8,31 @@
 import SwiftUI
 
 enum CDTabRoute: Int, CaseIterable, Hashable {
-    case home, list, suggest, resume
+    case home, category, recommend, resume
 
     var title: String {
         switch self {
         case .home:
             return "홈"
-        case .list:
-            return "목록"
-        case .suggest:
+        case .category:
+            return "카테고리"
+        case .recommend:
             return "추천"
         case .resume:
             return "이력서"
         }
     }
 
-    var icon: String {
+    var icon: UIImage {
         switch self {
         case .home:
-            return "house"
-        case .list:
-            return "list.bullet"
-        case .suggest:
-            return "sparkles"
+            return .iconHome
+        case .category:
+            return .iconCategory
+        case .recommend:
+            return .iconRecommendation
         case .resume:
-            return "doc.text"
+            return .iconResume
         }
     }
 }
