@@ -1,17 +1,17 @@
 //
-//  SuggestCoordinator.swift
+//  RecommendCoordinator.swift
 //  CERTI-iOS
 //
-//  Created by OneTen on 6/25/25.
+//  Created by OneTen on 7/6/25.
 //
 
 import SwiftUI
 
-enum SuggestRoute: Hashable {
+enum RecommendRoute: Hashable {
     case detail
 }
 
-final class SuggestCoordinator: ObservableObject {
+final class RecommendCoordinator: ObservableObject {
     
     //MARK: - Property Wrappers
     
@@ -20,7 +20,7 @@ final class SuggestCoordinator: ObservableObject {
     //MARK: - Method
     
     //다음에 보여질 view를 navigationStack에 push
-    func push(next route: SuggestRoute) {
+    func push(next route: RecommendRoute) {
         path.append(route)
     }
     

@@ -1,5 +1,5 @@
 //
-//  SuggestDetailView.swift
+//  RecommendDetailView.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 6/25/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SuggestDetailView: View {
+struct RecommendDetailView: View {
     @EnvironmentObject var tabRouter: CDTabCoordinator
 
     var body: some View {

@@ -47,8 +47,8 @@ class CDTabCoordinator: ObservableObject {
     
     let homeCoordinator = HomeCoordinator()
     let listCoordinator = HomeCoordinator()
-    let suggestCoordinator = SuggestCoordinator()
-    let resumeCoordinator = SuggestCoordinator()
+    let suggestCoordinator = RecommendCoordinator()
+    let resumeCoordinator = RecommendCoordinator()
 
     //MARK: - Method
     

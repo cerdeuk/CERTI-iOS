@@ -23,7 +23,7 @@
 			membershipExceptions = (
 				Global/Components/.gitkeep,
 				Global/Literals/.gitkeep,
-				Info.plist,
+				Global/Resources/Info.plist,
 			);
 			target = 6CA0421E2E0AD0F5006125AD /* CERTI-iOS */;
 		};

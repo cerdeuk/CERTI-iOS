@@ -19,7 +19,7 @@ struct CDTabBarCoordinatorView: View {
                 case .category:
                     HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
                 case .recommend:
-                    SuggestCoordinatorView(suggestCoordinator: tabCoordinator.suggestCoordinator)
+                    RecommendCoordinatorView(suggestCoordinator: tabCoordinator.suggestCoordinator)
                 case .resume:
                     HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
                 }
