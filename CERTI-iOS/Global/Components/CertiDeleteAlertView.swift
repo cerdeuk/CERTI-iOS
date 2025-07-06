@@ -23,8 +23,7 @@ struct CertiDeleteAlertView: View {
 
     var body: some View {
         ZStack {
-            //TODO: - 디자인 문의 결과 피그마 파일 이상 있어서 추후 색깔 변경예정
-            Color.blackOpacity85
+            Color.blackOpacity40
             
             VStack(alignment: .center, spacing: 0) {
                 Spacer()
