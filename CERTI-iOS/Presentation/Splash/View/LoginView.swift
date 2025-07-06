@@ -8,7 +8,16 @@
 import SwiftUI
 
 struct LoginView: View {
-    //    let onLoginSuccess: () -> Void
+    
+    //MARK: - Property Wrappers
+    
+    @EnvironmentObject private var appCoordinator: AppCoordinator
+    
+    //MARK: - Properties
+
+    @State var isAnimating: Bool = false
+
+    //MARK: - Main Body
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -29,9 +38,12 @@ struct LoginView: View {
                 .scaledToFit()
                 .frame(width: 255, height: 298)
                 .padding(.bottom, 72)
+                .offset(y: isAnimating ? 0 : 10)
+                .animation(.easeInOut.repeatForever().speed(0.3), value: isAnimating)
             
             Button {
                 // 카카오 로그인
+                appCoordinator.completeLogin()
             } label: {
                 Image(.imageSocialLoginKakao)
                     .resizable()
@@ -42,19 +54,19 @@ struct LoginView: View {
             
             Button {
                 // 애플 로그인
+                appCoordinator.completeLogin()
             } label: {
                 Image(.imageSocialLoginApple)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 335, height: 56)
             }
-
+            
         }
         .ignoresSafeArea()
         .background(.white)
+        .onAppear {
+            isAnimating = true
+        }
     }
-}
-
-#Preview {
-    LoginView()
 }
