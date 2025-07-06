@@ -10,10 +10,27 @@ import SwiftUI
 struct HomeDetailView: View {
     @EnvironmentObject var tabRouter: CertiTabCoordinator
 
+    @State private var isDeleteAlertPresented = false
+
     var body: some View {
-        VStack {
-            Button("카테고리 탭으로 전환") {
-                tabRouter.switchTab(tab: .category)
+        ZStack {
+            VStack {
+                Button {
+                    isDeleteAlertPresented = true
+                } label: {
+                    Text("삭제 알림 버튼 띄우기")
+                }
+            }
+            
+            if isDeleteAlertPresented {
+                CertiDeleteAlertView {
+                    isDeleteAlertPresented = false
+                    print("확인 버튼 클릭")
+                } onCancel: {
+                    isDeleteAlertPresented = false
+                    print("취소버튼 클릭")
+                }
+
             }
         }
     }
