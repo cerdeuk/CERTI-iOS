@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct CategoryView: View {
+    @EnvironmentObject var categoryCoordinator: CategoryCoordinator
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("카테고리 화면")
+            Button("디테일 보기") {
+                categoryCoordinator.push(next: .detail)
+            }
+        }
     }
 }
 

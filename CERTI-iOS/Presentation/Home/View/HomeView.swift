@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var coordinator: HomeCoordinator
+    @EnvironmentObject var homeCoordinator: HomeCoordinator
 
     var body: some View {
         VStack {
             Text("홈 화면")
             Button("디테일 보기") {
-                coordinator.push(next: .detail)
+                homeCoordinator.push(next: .detail)
             }
         }
     }

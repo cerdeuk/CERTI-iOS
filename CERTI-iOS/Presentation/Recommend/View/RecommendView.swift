@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct RecommendView: View {
-    @EnvironmentObject var coordinator: RecommendCoordinator
+    @EnvironmentObject var recommendCoordinator: RecommendCoordinator
 
     var body: some View {
         VStack {
             Text("추천 화면")
             Button("디테일 보기") {
-                coordinator.push(next: .detail)
+                recommendCoordinator.push(next: .detail)
             }
         }
     }

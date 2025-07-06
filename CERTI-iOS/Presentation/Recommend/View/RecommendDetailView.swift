@@ -12,8 +12,8 @@ struct RecommendDetailView: View {
 
     var body: some View {
         VStack {
-            Button("홈 탭으로 전환") {
-                tabRouter.switchTab(tab: .home)
+            Button("이력서 탭으로 전환") {
+                tabRouter.switchTab(tab: .resume)
             }
         }
     }

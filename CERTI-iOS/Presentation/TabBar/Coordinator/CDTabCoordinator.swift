@@ -46,9 +46,9 @@ class CDTabCoordinator: ObservableObject {
     @Published var isTabBarHidden: Bool = false
     
     let homeCoordinator = HomeCoordinator()
-    let listCoordinator = HomeCoordinator()
-    let suggestCoordinator = RecommendCoordinator()
-    let resumeCoordinator = RecommendCoordinator()
+    let categoryCoordinator = CategoryCoordinator()
+    let recommendCoordinator = RecommendCoordinator()
+    let resumeCoordinator = ResumeCoordinator()
 
     //MARK: - Method
     

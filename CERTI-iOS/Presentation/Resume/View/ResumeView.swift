@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct ResumeView: View {
+    @EnvironmentObject var resumeCoordinator: ResumeCoordinator
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("이력서 화면")
+            Button("디테일 보기") {
+                resumeCoordinator.push(next: .detail)
+            }
+        }
     }
 }
 

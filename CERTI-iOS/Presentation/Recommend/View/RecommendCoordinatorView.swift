@@ -10,10 +10,10 @@ import SwiftUI
 struct RecommendCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CDTabCoordinator
 
-    @ObservedObject var suggestCoordinator: RecommendCoordinator
+    @ObservedObject var recommendCoordinator: RecommendCoordinator
     
     var body: some View {
-        NavigationStack(path: $suggestCoordinator.path) {
+        NavigationStack(path: $recommendCoordinator.path) {
             RecommendView()
                 .navigationDestination(for: RecommendRoute.self) { route in
                     switch route {
@@ -22,8 +22,8 @@ struct RecommendCoordinatorView: View {
                     }
                 }
         }
-        .environmentObject(suggestCoordinator)
-        .onChange(of: suggestCoordinator.path) { value in
+        .environmentObject(recommendCoordinator)
+        .onChange(of: recommendCoordinator.path) { value in
             if value.isEmpty {
                 tabCoordinator.isTabBarHidden = false
             } else {
