@@ -13,7 +13,7 @@ struct HomeDetailView: View {
     var body: some View {
         VStack {
             Button("추천 탭으로 전환") {
-                tabRouter.selectedTab = .suggest
+                tabRouter.switchTab(tab: .suggest)
             }
         }
     }

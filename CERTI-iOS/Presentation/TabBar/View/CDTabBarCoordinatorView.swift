@@ -25,8 +25,11 @@ struct CDTabBarCoordinatorView: View {
                 }
             }
             .id(tabCoordinator.selectedTab)
+            .environmentObject(tabCoordinator)
 
-            CDTabBarView(selectedTab: $tabCoordinator.selectedTab)
+            if !tabCoordinator.isTabBarHidden {
+                CDTabBarView(selectedTab: $tabCoordinator.selectedTab)
+            }
         }
         .onChange(of: tabCoordinator.selectedTab) { newTab in
             switch newTab {

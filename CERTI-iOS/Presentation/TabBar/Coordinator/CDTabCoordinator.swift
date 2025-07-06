@@ -43,6 +43,7 @@ class CDTabCoordinator: ObservableObject {
     //MARK: - Property Wrappers
     
     @Published var selectedTab: CDTabRoute = .home
+    @Published var isTabBarHidden: Bool = false
     
     let homeCoordinator = HomeCoordinator()
     let listCoordinator = HomeCoordinator()
@@ -52,6 +53,7 @@ class CDTabCoordinator: ObservableObject {
     //MARK: - Method
     
     func switchTab(tab: CDTabRoute) {
+        isTabBarHidden = false
         selectedTab = tab
     }
 }

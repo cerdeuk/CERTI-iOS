@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SuggestCoordinatorView: View {
+    @EnvironmentObject var tabCoordinator: CDTabCoordinator
+
     @ObservedObject var suggestCoordinator: SuggestCoordinator
     
     var body: some View {
@@ -21,5 +23,12 @@ struct SuggestCoordinatorView: View {
                 }
         }
         .environmentObject(suggestCoordinator)
+        .onChange(of: suggestCoordinator.path) { value in
+            if value.isEmpty {
+                tabCoordinator.isTabBarHidden = false
+            } else {
+                tabCoordinator.isTabBarHidden = true
+            }
+        }
     }
 }
