@@ -34,12 +34,11 @@ struct LicenseCardGridItemView: View {
                 HStack(alignment: .bottom) {
                     FieldTagView(fieldTags: model.tagList, spacing: 4)
                     Spacer()
-                    HStack(alignment: .center) {
+                    HStack(alignment: .center, spacing: 4) {
                         Image(.iconPaper16)
                         Text(model.type)
                             .applyCertiFont(.caption_regular_12)
                             .foregroundStyle(.grayscale500)
-                            .padding(.leading, 4)
                     }
                     .padding(.bottom, 2)
                     .padding(.trailing, 16)
