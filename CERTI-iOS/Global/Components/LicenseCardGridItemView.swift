@@ -50,7 +50,7 @@ struct LicenseCardGridItemView: View {
             Button {
                 onTapFavorite()
             } label: {
-                Image(model.isFavorite ? .iconStar: .iconStarYellow)
+                Image(model.isFavorite ? .iconStarYellow : .iconStar)
             }
             .padding(.top, 12)
             .padding(.trailing, 12)
