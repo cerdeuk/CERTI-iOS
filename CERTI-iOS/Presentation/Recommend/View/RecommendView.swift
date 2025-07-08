@@ -11,12 +11,16 @@ struct RecommendView: View {
     @EnvironmentObject var recommendCoordinator: RecommendCoordinator
 
     var body: some View {
-        LicenseCardGridView()
-//        VStack {
-//            Text("추천 화면")
-//            Button("디테일 보기") {
-//                recommendCoordinator.push(next: .detail)
-//            }
-//        }
+        
+        VStack {
+            Text("추천 화면")
+            Button("디테일 보기") {
+                recommendCoordinator.push(next: .detail)
+            }
+        }
     }
+}
+
+#Preview {
+    RecommendView()
 }
