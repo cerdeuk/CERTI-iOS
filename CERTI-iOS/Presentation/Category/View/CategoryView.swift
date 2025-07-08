@@ -9,13 +9,18 @@ import SwiftUI
 
 struct CategoryView: View {
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
-
+    @StateObject private var viewModel = LicenseCardViewModel()
+    @State private var showOnlyFavorite = false
+    
     var body: some View {
-        VStack {
-            Text("카테고리 화면")
-            Button("디테일 보기") {
+        VStack(alignment: .leading,spacing: 0) {
+            CategoryTabBarView{
                 categoryCoordinator.push(next: .detail)
             }
+            FavoriteFilterToggleButton(isSelected: showOnlyFavorite) {
+                showOnlyFavorite.toggle()
+            }
+            LicenseCardGridView(viewModel: viewModel, showOnlyFavorites: showOnlyFavorite)
         }
     }
 }
