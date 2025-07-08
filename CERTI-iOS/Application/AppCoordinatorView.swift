@@ -15,15 +15,13 @@ struct AppCoordinatorView: View {
         case .splash:
             SplashView()
         case .onboarding:
-            OnboardingView {
-                appCoordinator.completeOnboarding()
-            }
+            OnboardingView()
+                .environmentObject(appCoordinator)
         case .auth:
-            LoginView {
-                appCoordinator.completeLogin()
-            }
+            LoginView()
+                .environmentObject(appCoordinator)
         case .main:
-            CDTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator)
+            CertiTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator)
                 .environmentObject(appCoordinator.tabCoordinator)
         }
     }

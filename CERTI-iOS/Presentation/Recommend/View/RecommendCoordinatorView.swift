@@ -1,5 +1,5 @@
 //
-//  HomeCoordinatorView.swift
+//  RecommendCoordinatorView.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 6/25/25.
@@ -7,23 +7,23 @@
 
 import SwiftUI
 
-struct HomeCoordinatorView: View {
+struct RecommendCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
 
-    @ObservedObject var homeCoordinator: HomeCoordinator
+    @ObservedObject var recommendCoordinator: RecommendCoordinator
     
     var body: some View {
-        NavigationStack(path: $homeCoordinator.path) {
-            HomeView()
-                .navigationDestination(for: HomeRoute.self) { route in
+        NavigationStack(path: $recommendCoordinator.path) {
+            RecommendView()
+                .navigationDestination(for: RecommendRoute.self) { route in
                     switch route {
                     case .detail:
-                        HomeDetailView()
+                        RecommendDetailView()
                     }
                 }
         }
-        .environmentObject(homeCoordinator)
-        .onChange(of: homeCoordinator.path) { value in
+        .environmentObject(recommendCoordinator)
+        .onChange(of: recommendCoordinator.path) { value in
             if value.isEmpty {
                 tabCoordinator.isTabBarHidden = false
             } else {

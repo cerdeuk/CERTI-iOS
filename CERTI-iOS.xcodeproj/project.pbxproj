@@ -11,19 +11,20 @@
 		6CBA9DC32E10472F0073696A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DC22E10472F0073696A /* Moya */; };
 		6CBA9DC62E1047780073696A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DC52E1047780073696A /* Lottie */; };
 		6CBA9DC92E1047EF0073696A /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DC82E1047EF0073696A /* KakaoSDK */; };
+		6CF163D32E1C175A00BD84D3 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6CF163D22E1C175A00BD84D3 /* Config.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6CA0421F2E0AD0F5006125AD /* CERTI-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CERTI-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CF163D22E1C175A00BD84D3 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		6CBA9DBD2E1046670073696A /* Exceptions for "CERTI-iOS" folder in "CERTI-iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Global/Components/.gitkeep,
 				Global/Literals/.gitkeep,
-				Info.plist,
+				Global/Resources/Info.plist,
 			);
 			target = 6CA0421E2E0AD0F5006125AD /* CERTI-iOS */;
 		};
@@ -58,6 +59,7 @@
 		6CA042162E0AD0F5006125AD = {
 			isa = PBXGroup;
 			children = (
+				6CF163D22E1C175A00BD84D3 /* Config.xcconfig */,
 				6CA042602E0AF761006125AD /* CERTI-iOS */,
 				6CA042202E0AD0F5006125AD /* Products */,
 			);
@@ -145,6 +147,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CF163D32E1C175A00BD84D3 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +166,7 @@
 /* Begin XCBuildConfiguration section */
 		6CA042282E0AD0F6006125AD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6CF163D22E1C175A00BD84D3 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -227,6 +231,7 @@
 		};
 		6CA042292E0AD0F6006125AD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6CF163D22E1C175A00BD84D3 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -284,6 +289,7 @@
 		};
 		6CA0422B2E0AD0F6006125AD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6CF163D22E1C175A00BD84D3 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -292,19 +298,20 @@
 				DEVELOPMENT_TEAM = 3RFJ9FQWHA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "CERTI-iOS/Info.plist";
+				INFOPLIST_FILE = "CERTI-iOS/Global/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.OneTen.CERTI-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cerdeuk.CERTI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -314,6 +321,7 @@
 		};
 		6CA0422C2E0AD0F6006125AD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6CF163D22E1C175A00BD84D3 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -322,19 +330,20 @@
 				DEVELOPMENT_TEAM = 3RFJ9FQWHA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "CERTI-iOS/Info.plist";
+				INFOPLIST_FILE = "CERTI-iOS/Global/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.OneTen.CERTI-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cerdeuk.CERTI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -11,8 +11,10 @@ import os
 
 actor TokenRefresher {
     static let shared = TokenRefresher()
+    
+    private init() {}
 
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Napzak", category: "Auth.Refresh")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Auth.Refresh")
     
     private let tokenRefreshService = NetworkService.shared.tokenRefreshService
     private var refreshTask: Task<Result<String, NetworkError>, Never>?

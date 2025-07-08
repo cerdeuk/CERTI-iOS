@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    let onComplete: () -> Void
+    @EnvironmentObject private var appCoordinator: AppCoordinator
 
     var body: some View {
         VStack {
             Text("온보딩 화면")
             Button("온보딩 완료") {
-                onComplete()
+                appCoordinator.completeOnboarding()
             }
         }
     }
