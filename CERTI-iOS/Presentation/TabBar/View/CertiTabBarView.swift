@@ -34,9 +34,3 @@ struct CertiTabBarView: View {
         .frame(height: 49)
     }
 }
-
-#Preview {
-    @State var tab = CertiTabRoute.home
-    
-    CertiTabBarView(selectedTab: $tab)
-}
