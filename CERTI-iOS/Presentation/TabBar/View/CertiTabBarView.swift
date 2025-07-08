@@ -32,5 +32,6 @@ struct CertiTabBarView: View {
             }
         }
         .frame(height: 49)
+        .background(.white)
     }
 }
