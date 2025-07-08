@@ -16,4 +16,8 @@ class LicenseCardViewModel: ObservableObject {
         guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
         licenseCards[index].isFavorite.toggle()
     }
+    
+    func filteredCards(onlyFavorites: Bool) -> [LicenseCardModel] {
+        onlyFavorites ? licenseCards.filter { $0.isFavorite } : licenseCards
+    }
 }
