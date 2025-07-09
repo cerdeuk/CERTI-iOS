@@ -12,7 +12,7 @@ struct JobCategorySegmentedView: View {
     @Binding var selectedCategory: JobCategory
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal) {
             HStack(spacing: 24) {
                 ForEach(JobCategory.allCases) { category in
                     Button {
@@ -27,5 +27,6 @@ struct JobCategorySegmentedView: View {
             }
             .padding(.leading, 20)
         }
+        .scrollIndicators(.hidden)
     }
 }
