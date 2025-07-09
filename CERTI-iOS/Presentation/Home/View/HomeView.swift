@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var tabCoordinator: CertiTabCoordinator
     @EnvironmentObject var homeCoordinator: HomeCoordinator
     
     let username = "김서티22"
@@ -171,6 +172,7 @@ extension HomeView {
             
             Button {
                 // 추천 자격증 항목 이동
+                tabCoordinator.switchTab(tab: .recommend)
             } label: {
                 Image(.iconArrowright36)
                     .resizable()
