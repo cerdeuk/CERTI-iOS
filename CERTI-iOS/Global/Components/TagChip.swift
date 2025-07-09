@@ -13,14 +13,11 @@ struct TagChip: View {
     let spacing: CGFloat
     
     var body: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: spacing) {
-                ForEach(tags, id: \.self) { tag in
-                    tagItem(for: tag)
-                }
+        LazyHStack(spacing: spacing) {
+            ForEach(tags, id: \.self) { tag in
+                tagItem(for: tag)
             }
         }
-        .scrollIndicators(.hidden)
     }
 
     private func tagItem(for text: String) -> some View {
