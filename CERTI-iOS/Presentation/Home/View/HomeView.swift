@@ -42,14 +42,23 @@ struct HomeView: View {
 
                     preLicenseTitle
                         .padding(.horizontal, 20)
+                    
+                    // 값이 없으면 나타내는 뷰
+                    if false {
+                        preLicenseEmptyView
+                    }
 
                     preLicenseList
                     
                     favoriteLicenseTitle
                         .padding(.horizontal, 20)
 
-                    favoriteLicenseList
+                    // 값이 없으면 나타내는 뷰
+                    if false {
+                        favoriteLicenseEmptyView
+                    }
                     
+                    favoriteLicenseList
                 }
             }
             .scrollIndicators(.hidden)
@@ -224,6 +233,23 @@ extension HomeView {
         .scrollIndicators(.hidden)
     }
     
+    private var preLicenseEmptyView: some View {
+        VStack(alignment: .center, spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
+                Spacer()
+                Image(.imageEmpty)
+                Spacer()
+            }
+            .padding(.bottom, 20)
+            
+            Text("취득 예정 자격증이 없습니다.")
+                .applyCertiFont(.caption_regular_14)
+                .foregroundStyle(.grayscale400)
+        }
+        .padding(.top, 44)
+        .padding(.bottom, 35)
+    }
+    
     private var favoriteLicenseTitle: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("즐겨찾기한 자격증")
@@ -250,6 +276,23 @@ extension HomeView {
         .frame(height: 160)
         .padding(.bottom, 81)
         .scrollIndicators(.hidden)
+    }
+    
+    private var favoriteLicenseEmptyView: some View {
+        VStack(alignment: .center, spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
+                Spacer()
+                Image(.imageEmpty)
+                Spacer()
+            }
+            .padding(.bottom, 20)
+            
+            Text("즐겨찾기한 자격증이 없습니다.")
+                .applyCertiFont(.caption_regular_14)
+                .foregroundStyle(.grayscale400)
+        }
+        .padding(.top, 44)
+        .padding(.bottom, 98)
     }
 }
 
