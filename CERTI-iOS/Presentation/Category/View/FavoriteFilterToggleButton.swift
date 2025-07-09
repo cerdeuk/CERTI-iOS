@@ -25,7 +25,7 @@ struct FavoriteFilterToggleButton: View {
                         .padding(.vertical, 6)
                         .foregroundStyle(isSelected ? .mainblue : .grayscale400)
                         .background(
-                            Capsule()
+                            RoundedRectangle(cornerRadius: 24)
                                 .stroke(isSelected ? .mainblue : .grayscale100, lineWidth: 1)
                                         )
                 }
