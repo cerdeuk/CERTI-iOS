@@ -42,6 +42,8 @@ struct RecommendLicenseCard: View {
     }
 }
 
+
+//TODO: - pr 머지되면 지울 구조체
 struct FieldTagView: View {
     
     let fieldTags: [String]

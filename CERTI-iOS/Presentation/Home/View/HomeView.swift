@@ -49,6 +49,7 @@ struct HomeView: View {
                     .padding(.bottom, 16)
                     
                     
+                    
                 }
             }
             .scrollIndicators(.hidden)
@@ -175,7 +176,11 @@ extension HomeView {
             
             LazyVGrid(columns: columns, spacing: 12) {
                 ForEach(recommendLicenseDummy) { dummy in
-                    RecommendLicenseCard(licenseCard: dummy)
+                    if dummy.ranking < 4 {
+                        RecommendLicenseCard(licenseCard: dummy)
+                    } else {
+                        EmptyView()
+                    }
                 }
             }
             .padding(.bottom, 36)
