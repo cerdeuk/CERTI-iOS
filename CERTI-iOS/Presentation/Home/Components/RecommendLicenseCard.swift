@@ -33,10 +33,8 @@ struct RecommendLicenseCard: View {
             .padding(.top, 9)
             
             TagChip(tags: licenseCard.tagChip, spacing: 6)
-            
         }
         .padding(.leading, 16)
-        .frame(maxWidth: .infinity)
         .frame(height: 80)
         .background(.purplewhite)
         .clipShape(RoundedRectangle(cornerRadius: 12))

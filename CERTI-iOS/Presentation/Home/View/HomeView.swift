@@ -17,6 +17,7 @@ struct HomeView: View {
     
     let recommendLicenseDummy: [RecommendLicenseCardModel] = RecommendLicenseCardModel.dummy()
     let preLicenseDummy: [PreLicenseCardModel] = PreLicenseCardModel.dummy()
+    let favoriteDummy: [FavoriteLicenseCardModel] = FavoriteLicenseCardModel.dummy()
     
     let columns = [GridItem(.fixed(335))]
     let rows = [GridItem(.fixed(200))]
@@ -34,14 +35,20 @@ struct HomeView: View {
                     progressSection
                         .padding(.horizontal, 20)
 
-                    recommendLicenseSection
+                    recommendLicenseTitle
                         .padding(.horizontal, 20)
+
+                    recommendLicenseList
 
                     preLicenseTitle
                         .padding(.horizontal, 20)
 
                     preLicenseList
                     
+                    favoriteLicenseTitle
+                        .padding(.horizontal, 20)
+
+                    favoriteLicenseList
                     
                 }
             }
@@ -141,42 +148,42 @@ extension HomeView {
         }
     }
     
-    private var recommendLicenseSection: some View {
-        Group {
-            HStack(alignment: .center, spacing: 0) {
-                Text.trimmedUsername(username)
-                    .frame(height: 26)
-                
-                Text("님에게 추천하는 자격증")
-                    .frame(height: 26)
-                
-                Spacer()
-                
-                Button {
-                    // 추천 자격증 항목 이동
-                } label: {
-                    Image(.iconArrowright36)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 36, height: 36)
-                }
-            }
-            .frame(height: 36)
-            .foregroundStyle(.grayscale600)
-            .applyCertiFont(.sub_semibold_20)
-            .padding(.bottom, 16)
+    private var recommendLicenseTitle: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text.trimmedUsername(username)
+                .frame(height: 26)
             
-            LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(recommendLicenseDummy) { dummy in
-                    if dummy.ranking < 4 {
-                        RecommendLicenseCard(licenseCard: dummy)
-                    } else {
-                        EmptyView()
-                    }
+            Text("님에게 추천하는 자격증")
+                .frame(height: 26)
+            
+            Spacer()
+            
+            Button {
+                // 추천 자격증 항목 이동
+            } label: {
+                Image(.iconArrowright36)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 36, height: 36)
+            }
+        }
+        .frame(height: 36)
+        .foregroundStyle(.grayscale600)
+        .applyCertiFont(.sub_semibold_20)
+        .padding(.bottom, 16)
+    }
+    
+    private var recommendLicenseList: some View {
+        LazyVGrid(columns: columns, spacing: 12) {
+            ForEach(recommendLicenseDummy) { dummy in
+                if dummy.ranking < 4 {
+                    RecommendLicenseCard(licenseCard: dummy)
+                } else {
+                    EmptyView()
                 }
             }
-            .padding(.bottom, 36)
         }
+        .padding(.bottom, 36)
     }
     
     private var preLicenseTitle: some View {
@@ -213,6 +220,35 @@ extension HomeView {
 
         }
         .frame(height: 132)
+        .padding(.bottom, 36)
+        .scrollIndicators(.hidden)
+    }
+    
+    private var favoriteLicenseTitle: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text("즐겨찾기한 자격증")
+                .frame(height: 26)
+            
+            Spacer()
+
+        }
+        .frame(height: 36)
+        .foregroundStyle(.grayscale600)
+        .applyCertiFont(.sub_semibold_20)
+        .padding(.bottom, 16)
+    }
+    
+    private var favoriteLicenseList: some View {
+        ScrollView(.horizontal){
+            LazyHGrid(rows: rows, spacing: 12) {
+                ForEach(favoriteDummy) { dummy in
+                    FavoriteLicenseCard(licenseCard: dummy)
+                }
+            }
+            .padding(.horizontal, 20)
+        }
+        .frame(height: 160)
+        .padding(.bottom, 81)
         .scrollIndicators(.hidden)
     }
 }

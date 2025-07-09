@@ -62,7 +62,6 @@ struct PreLicenseCard: View {
         .frame(width: 200, height: 132)
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        
     }
 }
 
