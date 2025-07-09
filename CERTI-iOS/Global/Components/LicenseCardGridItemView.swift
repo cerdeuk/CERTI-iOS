@@ -32,7 +32,7 @@ struct LicenseCardGridItemView: View {
                 }
                 .padding(.top, 22)
                 HStack(alignment: .bottom) {
-                    FieldTagView(fieldTags: model.tagList, spacing: 4)
+                    TagChip(tags: model.tagList, spacing: 4)
                     Spacer()
                     HStack(alignment: .center, spacing: 4) {
                         Image(.iconPaper16)
