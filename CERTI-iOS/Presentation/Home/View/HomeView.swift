@@ -67,8 +67,7 @@ extension HomeView {
                 .frame(width: 75, height: 25)
             Spacer()
         }
-        .frame(height: 65)
-        .padding(.bottom, 16)
+        .frame(height: 49)
     }
     
     private var profileSection: some View {
@@ -82,6 +81,7 @@ extension HomeView {
             .applyCertiFont(.sub_bold_20)
             .foregroundStyle(.grayscale600)
             .padding(.bottom, 24)
+            .padding(.top, 32)
             
             HStack(alignment: .center, spacing: 0) {
                 Image(.imageProfileP)
@@ -135,6 +135,7 @@ extension HomeView {
                             .applyCertiFont(.caption_regular_14)
                             .foregroundStyle(.grayscale600)
                         Text("\(progressValue)% ")
+                            .applyCertiFont(.caption_semibold_14)
                             .foregroundStyle(.mainblue)
                         Text("채워졌어요!")
                             .applyCertiFont(.caption_regular_14)
