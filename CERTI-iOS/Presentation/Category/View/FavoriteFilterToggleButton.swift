@@ -13,8 +13,8 @@ struct FavoriteFilterToggleButton: View {
     let onToggle: () -> Void
     
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 0) {
                 Button {
                     onToggle()
                 } label: {

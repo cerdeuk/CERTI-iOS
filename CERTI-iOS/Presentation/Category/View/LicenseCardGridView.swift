@@ -17,7 +17,7 @@ struct LicenseCardGridView: View {
     ]
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(viewModel.filteredCards(onlyFavorites: showOnlyFavorites)) { item in

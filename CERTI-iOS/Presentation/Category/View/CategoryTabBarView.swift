@@ -13,13 +13,13 @@ struct CategoryTabBarView: View {
     var onSearchTapped: () -> Void
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ZStack {
                 Text("카테고리별 자격증 검색")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale500)
                     .frame(height: 26)
-                HStack {
+                HStack(spacing: 0) {
                     Spacer()
                     Button {
                         onSearchTapped()
@@ -35,7 +35,7 @@ struct CategoryTabBarView: View {
             Rectangle()
                 .fill(Color.grayscale100)
                 .frame(height: 1)
-                .padding(.top, 5)
+                .padding(.top, 13)
         }
     }
 }
