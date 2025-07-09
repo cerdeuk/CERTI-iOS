@@ -8,13 +8,31 @@
 import SwiftUI
 
 struct CategoryDetailView: View {
-    @EnvironmentObject var tabRouter: CertiTabCoordinator
+    @EnvironmentObject var categoryCoordinator: CategoryCoordinator
+    @State private var inputText: String = ""
+    @FocusState private var isTextFieldFocused: Bool
 
     var body: some View {
-        VStack {
-            Button("추천 탭으로 전환") {
-                tabRouter.switchTab(tab: .recommend)
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    isTextFieldFocused = false
+                }
+            
+            VStack(spacing: 0) {
+                BackButton {
+                    categoryCoordinator.pop()
+                }
+                
+                SearchBar(isFocused: $isTextFieldFocused, text: $inputText)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 24)
+                
+                Spacer()
+                
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }

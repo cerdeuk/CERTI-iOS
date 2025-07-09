@@ -22,6 +22,7 @@ struct CategoryCoordinatorView: View {
                     }
                 }
         }
+
         .environmentObject(categoryCoordinator)
         .onChange(of: categoryCoordinator.path) { value in
             if value.isEmpty {

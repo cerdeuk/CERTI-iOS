@@ -11,4 +11,9 @@ extension View {
     func applyCertiFont(_ style: CertiFont) -> some View {
         self.modifier(ApplyCertiFontModifier(style: style))
     }
+    
+    //커서 까맣게
+    func blackCursor() -> some View {
+        self.tint(.black)
+    }
 }
