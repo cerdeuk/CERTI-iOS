@@ -1,15 +1,15 @@
 //
-//  LicenseCardViewModel.swift
+//  CategoryViewModel.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/8/25.
 //
 
 
-import Foundation
 import SwiftUI
 
-class LicenseCardViewModel: ObservableObject {
+class CategoryViewModel: ObservableObject {
+    
     @Published var licenseCards: [LicenseCardModel] = LicenseCardModel.dummy()
     
     func toggleFavorite(id: UUID) {
