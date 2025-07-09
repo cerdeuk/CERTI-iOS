@@ -20,7 +20,7 @@ struct CategoryView: View {
             FavoriteFilterToggleButton(isSelected: showOnlyFavorite) {
                 showOnlyFavorite.toggle()
             }
-            LicenseCardGridView(viewModel: viewModel, showOnlyFavorites: showOnlyFavorite)
+            LicenseCardList(viewModel: viewModel, showOnlyFavorites: showOnlyFavorite)
         }
     }
 }

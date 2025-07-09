@@ -1,5 +1,5 @@
 //
-//  LicenseCardGridView.swift
+//  LicenseCardList.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/8/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LicenseCardGridView: View {
+struct LicenseCardList: View {
     
     @StateObject var viewModel = LicenseCardViewModel()
     let showOnlyFavorites: Bool
@@ -21,7 +21,7 @@ struct LicenseCardGridView: View {
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(viewModel.filteredCards(onlyFavorites: showOnlyFavorites)) { item in
-                        LicenseCardGridItemView(model: item) {
+                        LicenseCardItem(model: item) {
                             viewModel.toggleFavorite(id: item.id)
                         }
                     }
