@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchBar: View {
     @FocusState.Binding var isFocused: Bool
     @Binding var text: String
+    var onSearchTapped: () -> Void
     
     var body: some View {
         ZStack {
@@ -33,7 +34,7 @@ struct SearchBar: View {
                 .focused($isFocused)
                 
                 Button {
-                    print("뿡")
+                    onSearchTapped()
                 } label: {
                     Image(.iconSearch24)
                 }

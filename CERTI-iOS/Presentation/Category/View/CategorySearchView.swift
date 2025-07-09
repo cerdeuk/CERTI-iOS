@@ -11,6 +11,7 @@ struct CategorySearchView: View {
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
     @State private var inputText: String = ""
     @FocusState private var isTextFieldFocused: Bool
+    @State private var searchPerformed: Bool = false
 
     var body: some View {
         ZStack {
@@ -25,14 +26,36 @@ struct CategorySearchView: View {
                     categoryCoordinator.pop()
                 }
                 
-                SearchBar(isFocused: $isTextFieldFocused, text: $inputText)
+                SearchBar(isFocused: $isTextFieldFocused, text: $inputText) {
+                    searchPerformed = true
+                }
                     .padding(.horizontal, 20)
                     .padding(.top, 24)
+                
+                if searchPerformed {
+                    renderSearchResult(for: inputText)
+                }
                 
                 Spacer()
                 
             }
         }
         .navigationBarBackButtonHidden(true)
+    }
+}
+
+extension CategorySearchView {
+    func renderSearchResult(for text: String) -> some View {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        return Group {
+            if trimmed == "뿡" {
+                EmptySearchResultView(searchQuery: trimmed)
+                    .padding(.top, 24)
+            } else if trimmed == "똥" {
+                SearchResultView()
+                    .padding(.top, 24)
+            }
+        }
     }
 }
