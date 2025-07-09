@@ -11,6 +11,7 @@ struct RecommendView: View {
     @EnvironmentObject var recommendCoordinator: RecommendCoordinator
 
     var body: some View {
+        
         VStack {
             Text("추천 화면")
             Button("디테일 보기") {
@@ -18,4 +19,8 @@ struct RecommendView: View {
             }
         }
     }
+}
+
+#Preview {
+    RecommendView()
 }
