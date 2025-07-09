@@ -16,7 +16,9 @@ struct HomeView: View {
     let progressValue: Int = 30
     
     let recommendLicenseDummy: [RecommendLicenseCardModel] = RecommendLicenseCardModel.dummy()
-    let preLicenseDummy: [PreLicenseCardModel] = PreLicenseCardModel.dummy()
+    
+    @State private var preLicenseDummy: [PreLicenseCardModel] = PreLicenseCardModel.dummy()
+    
     let favoriteDummy: [FavoriteLicenseCardModel] = FavoriteLicenseCardModel.dummy()
     
     let columns = [GridItem(.fixed(335))]
@@ -203,7 +205,7 @@ extension HomeView {
             Spacer()
             
             Button {
-                // 취득 예정 자격증 항목 이동
+                homeCoordinator.push(next: .preLicenseEdit)
             } label: {
                 Image(.iconArrowright36)
                     .resizable()
