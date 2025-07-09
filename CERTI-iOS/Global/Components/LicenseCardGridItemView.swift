@@ -20,8 +20,8 @@ struct LicenseCardGridItemView: View {
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(.grayscale100, lineWidth: 1)
                     )
-            VStack(alignment: .leading) {
-                HStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .center, spacing: 0) {
                     Text(model.title)
                         .applyCertiFont(.body_semibold_18)
                         .foregroundStyle(.black)
@@ -31,7 +31,7 @@ struct LicenseCardGridItemView: View {
                         .foregroundStyle(.black)
                 }
                 .padding(.top, 22)
-                HStack(alignment: .bottom) {
+                HStack(alignment: .bottom, spacing: 0) {
                     TagChip(tags: model.tagList, spacing: 4)
                     Spacer()
                     HStack(alignment: .center, spacing: 4) {
