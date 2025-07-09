@@ -60,6 +60,8 @@ struct PreLicenseCard: View {
             .padding(.horizontal, 12)
         }
         .frame(width: 200, height: 132)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
         
     }
 }

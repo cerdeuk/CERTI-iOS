@@ -32,40 +32,13 @@ struct RecommendLicenseCard: View {
             .frame(height: 25)
             .padding(.top, 9)
             
-            FieldTagView(fieldTags: licenseCard.tagChip, spacing: 6)
+            TagChip(tags: licenseCard.tagChip, spacing: 6)
+            
         }
         .padding(.leading, 16)
         .frame(maxWidth: .infinity)
         .frame(height: 80)
         .background(.purplewhite)
         .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-}
-
-
-//TODO: - pr 머지되면 지울 구조체
-struct FieldTagView: View {
-    
-    let fieldTags: [String]
-    let spacing: CGFloat
-    
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack(spacing: spacing) {
-                ForEach(fieldTags, id: \.self) { tag in
-                    tagItem(for: tag)
-                }
-            }
-        }
-    }
-
-    private func tagItem(for text: String) -> some View {
-        Text(text)
-            .applyCertiFont(.caption_semibold_12)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(.lightpurple)
-            .foregroundColor(.mainblue)
-            .clipShape(Capsule())
     }
 }

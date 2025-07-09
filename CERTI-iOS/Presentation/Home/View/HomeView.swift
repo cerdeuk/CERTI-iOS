@@ -16,45 +16,37 @@ struct HomeView: View {
     let progressValue: Int = 30
     
     let recommendLicenseDummy: [RecommendLicenseCardModel] = RecommendLicenseCardModel.dummy()
+    let preLicenseDummy: [PreLicenseCardModel] = PreLicenseCardModel.dummy()
     
     let columns = [GridItem(.fixed(335))]
+    let rows = [GridItem(.fixed(200))]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             certiLogo
+                .padding(.horizontal, 20)
+
             ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: 0) {
                     profileSection
+                        .padding(.horizontal, 20)
+
                     progressSection
+                        .padding(.horizontal, 20)
+
                     recommendLicenseSection
-                    
-                    HStack(alignment: .center, spacing: 0) {
-                        Text("취득 예정 자격증")
-                            .frame(height: 26)
-                        
-                        Spacer()
-                        
-                        Button {
-                            // 취득 예정 자격증 항목 이동
-                        } label: {
-                            Image(.iconArrowright36)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 36, height: 36)
-                        }
-                    }
-                    .frame(height: 36)
-                    .foregroundStyle(.grayscale600)
-                    .applyCertiFont(.sub_semibold_20)
-                    .padding(.bottom, 16)
-                    
+                        .padding(.horizontal, 20)
+
+                    preLicenseTitle
+                        .padding(.horizontal, 20)
+
+                    preLicenseList
                     
                     
                 }
             }
             .scrollIndicators(.hidden)
         }
-        .padding(.horizontal, 20)
         
     }
 }
@@ -185,6 +177,43 @@ extension HomeView {
             }
             .padding(.bottom, 36)
         }
+    }
+    
+    private var preLicenseTitle: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text("취득 예정 자격증")
+                .frame(height: 26)
+            
+            Spacer()
+            
+            Button {
+                // 취득 예정 자격증 항목 이동
+            } label: {
+                Image(.iconArrowright36)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 36, height: 36)
+            }
+        }
+        .frame(height: 36)
+        .foregroundStyle(.grayscale600)
+        .applyCertiFont(.sub_semibold_20)
+        .padding(.bottom, 16)
+    }
+    
+    private var preLicenseList: some View {
+        ScrollView(.horizontal){
+            LazyHGrid(rows: rows, spacing: 12) {
+                ForEach(preLicenseDummy) { dummy in
+                    PreLicenseCard(licenseCard: dummy)
+                        .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
+                }
+            }
+            .padding(.horizontal, 20)
+
+        }
+        .frame(height: 132)
+        .scrollIndicators(.hidden)
     }
 }
 
