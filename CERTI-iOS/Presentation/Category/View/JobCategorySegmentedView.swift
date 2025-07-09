@@ -20,6 +20,7 @@ struct JobCategorySegmentedView: View {
                     } label: {
                         Text(category.description)
                             .applyCertiFont(.body_semibold_16)
+                            .frame(height: 22)
                             .foregroundStyle(selectedCategory == category ? .grayscale500 : .grayscale400)
                     }
                 }

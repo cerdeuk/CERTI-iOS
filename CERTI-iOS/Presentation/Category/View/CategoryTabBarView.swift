@@ -18,6 +18,7 @@ struct CategoryTabBarView: View {
                 Text("카테고리별 자격증 검색")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale500)
+                    .frame(height: 26)
                 HStack {
                     Spacer()
                     Button {

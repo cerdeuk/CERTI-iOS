@@ -25,6 +25,7 @@ struct TagChip: View {
     private func tagItem(for text: String) -> some View {
         Text(text)
             .applyCertiFont(.caption_semibold_12)
+            .frame(height: 18)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .background(.lightpurple)

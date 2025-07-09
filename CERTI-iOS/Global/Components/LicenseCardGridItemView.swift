@@ -25,10 +25,12 @@ struct LicenseCardGridItemView: View {
                     Text(model.title)
                         .applyCertiFont(.body_semibold_18)
                         .foregroundStyle(.black)
+                        .frame(height: 25)
                         .padding(.trailing, 8)
                     Text(model.subtitle)
                         .applyCertiFont(.caption_regular_12)
                         .foregroundStyle(.black)
+                        .frame(height: 18)
                 }
                 .padding(.top, 22)
                 HStack(alignment: .bottom, spacing: 0) {
@@ -39,6 +41,7 @@ struct LicenseCardGridItemView: View {
                         Text(model.type)
                             .applyCertiFont(.caption_regular_12)
                             .foregroundStyle(.grayscale500)
+                            .frame(height: 18)
                     }
                     .padding(.bottom, 2)
                     .padding(.trailing, 16)

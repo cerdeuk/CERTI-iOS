@@ -20,6 +20,7 @@ struct FavoriteFilterToggleButton: View {
                 } label: {
                     Text("즐겨찾기")
                         .applyCertiFont(.caption_semibold_12)
+                        .frame(height: 18)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .foregroundStyle(isSelected ? .mainblue : .grayscale400)
