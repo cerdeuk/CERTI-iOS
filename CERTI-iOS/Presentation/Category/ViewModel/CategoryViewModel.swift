@@ -9,6 +9,7 @@
 import SwiftUI
 
 class CategoryViewModel: ObservableObject {
+    
     @Published var licenseCards: [LicenseCardModel] = LicenseCardModel.dummy()
     
     func toggleFavorite(id: UUID) {

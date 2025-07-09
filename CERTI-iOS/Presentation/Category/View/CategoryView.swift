@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CategoryView: View {
+    
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
     @StateObject private var viewModel = CategoryViewModel()
     @State private var isFilterToggle = false
@@ -17,15 +18,13 @@ struct CategoryView: View {
             CategoryTabBarView{
                 categoryCoordinator.push(next: .detail)
             }
+            
             FavoriteFilterToggleButton(isSelected: isFilterToggle) {
                 isFilterToggle.toggle()
                 print("즐겨찾기 버튼 눌림")
             }
+            
             LicenseCardList(viewModel: viewModel)
         }
     }
 }
-
-//#Preview {
-//    CategoryView()
-//}

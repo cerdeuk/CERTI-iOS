@@ -20,6 +20,7 @@ struct LicenseCardItem: View {
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(.grayscale100, lineWidth: 1)
                     )
+            
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 0) {
                     Text(model.title)
@@ -27,15 +28,19 @@ struct LicenseCardItem: View {
                         .foregroundStyle(.black)
                         .frame(height: 25)
                         .padding(.trailing, 8)
+                    
                     Text(model.subtitle)
                         .applyCertiFont(.caption_regular_12)
                         .foregroundStyle(.black)
                         .frame(height: 18)
                 }
                 .padding(.top, 22)
+                
                 HStack(alignment: .bottom, spacing: 0) {
                     TagChip(tags: model.tagList, spacing: 4)
+                    
                     Spacer()
+                    
                     HStack(alignment: .center, spacing: 4) {
                         Image(.iconPaper16)
                         Text(model.type)
@@ -50,6 +55,7 @@ struct LicenseCardItem: View {
                 .padding(.bottom, 16)
             }
             .padding(.leading, 14)
+            
             Button {
                 onTapFavorite()
             } label: {
@@ -58,7 +64,6 @@ struct LicenseCardItem: View {
             .padding(.top, 12)
             .padding(.trailing, 12)
         }
-        
     }
 }
 
