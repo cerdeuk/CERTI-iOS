@@ -9,22 +9,23 @@ import SwiftUI
 
 struct CategoryView: View {
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
-    @StateObject private var viewModel = LicenseCardViewModel()
-    @State private var showOnlyFavorite = false
+    @StateObject private var viewModel = CategoryViewModel()
+    @State private var isFilterToggle = false
     
     var body: some View {
         VStack(alignment: .leading,spacing: 0) {
             CategoryTabBarView{
                 categoryCoordinator.push(next: .detail)
             }
-            FavoriteFilterToggleButton(isSelected: showOnlyFavorite) {
-                showOnlyFavorite.toggle()
+            FavoriteFilterToggleButton(isSelected: isFilterToggle) {
+                isFilterToggle.toggle()
+                print("즐겨찾기 버튼 눌림")
             }
-            LicenseCardList(viewModel: viewModel, showOnlyFavorites: showOnlyFavorite)
+            LicenseCardList(viewModel: viewModel)
         }
     }
 }
 
-#Preview {
-    CategoryView()
-}
+//#Preview {
+//    CategoryView()
+//}

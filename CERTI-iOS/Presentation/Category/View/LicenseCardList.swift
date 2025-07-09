@@ -9,25 +9,25 @@ import SwiftUI
 
 struct LicenseCardList: View {
     
-    @StateObject var viewModel = LicenseCardViewModel()
-    let showOnlyFavorites: Bool
+    @ObservedObject var viewModel: CategoryViewModel
     
     let columns = [
         GridItem(.fixed(335))
     ]
     
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
+        VStack(alignment: .center) {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(viewModel.filteredCards(onlyFavorites: showOnlyFavorites)) { item in
-                        LicenseCardItem(model: item) {
+                    ForEach(viewModel.licenseCards) { item in
+                        LicenseCardItem(model: item,
+                                                onTapFavorite: {
                             viewModel.toggleFavorite(id: item.id)
                         }
+                        )
                     }
                 }
             }
-            .scrollIndicators(.hidden)
         }
     }
 }
