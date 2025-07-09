@@ -15,6 +15,10 @@ struct HomeView: View {
     let userDepartment = "서티취득학과"
     let progressValue: Int = 30
     
+    let recommendLicenseDummy: [RecommendLicenseCardModel] = RecommendLicenseCardModel.dummy()
+    
+    let columns = [GridItem(.fixed(335))]
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             certiLogo
@@ -22,27 +26,32 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     profileSection
                     progressSection
+                    recommendLicenseSection
                     
                     HStack(alignment: .center, spacing: 0) {
-                        Text.trimmedUsername(username)
-                            .frame(height: 26)
-
-                        Text("님에게 추천하는 자격증")
+                        Text("취득 예정 자격증")
                             .frame(height: 26)
                         
                         Spacer()
                         
-                        Image(.iconArrowright36)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 36, height: 36)
+                        Button {
+                            // 취득 예정 자격증 항목 이동
+                        } label: {
+                            Image(.iconArrowright36)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 36, height: 36)
+                        }
                     }
                     .frame(height: 36)
                     .foregroundStyle(.grayscale600)
                     .applyCertiFont(.sub_semibold_20)
+                    .padding(.bottom, 16)
+                    
                     
                 }
             }
+            .scrollIndicators(.hidden)
         }
         .padding(.horizontal, 20)
         
@@ -108,7 +117,7 @@ extension HomeView {
         Group {
             ProgressView(value: Double(progressValue) / 100.0)
                 .frame(height: 12)
-                .scaleEffect(x: 1, y: 1.5)
+                .scaleEffect(x: 1, y: 1.3)
                 .tint(.purpleblue)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding(.bottom, 8)
@@ -138,6 +147,39 @@ extension HomeView {
         }
     }
     
+    private var recommendLicenseSection: some View {
+        Group {
+            HStack(alignment: .center, spacing: 0) {
+                Text.trimmedUsername(username)
+                    .frame(height: 26)
+                
+                Text("님에게 추천하는 자격증")
+                    .frame(height: 26)
+                
+                Spacer()
+                
+                Button {
+                    // 추천 자격증 항목 이동
+                } label: {
+                    Image(.iconArrowright36)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 36, height: 36)
+                }
+            }
+            .frame(height: 36)
+            .foregroundStyle(.grayscale600)
+            .applyCertiFont(.sub_semibold_20)
+            .padding(.bottom, 16)
+            
+            LazyVGrid(columns: columns, spacing: 12) {
+                ForEach(recommendLicenseDummy) { dummy in
+                    RecommendLicenseCard(licenseCard: dummy)
+                }
+            }
+            .padding(.bottom, 36)
+        }
+    }
 }
 
 #Preview {
