@@ -1,5 +1,5 @@
 //
-//  CategoryDetailView.swift
+//  CategorySearchView.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 7/6/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CategoryDetailView: View {
+struct CategorySearchView: View {
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
     @State private var inputText: String = ""
     @FocusState private var isTextFieldFocused: Bool

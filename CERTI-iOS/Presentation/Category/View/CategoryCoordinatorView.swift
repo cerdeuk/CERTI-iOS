@@ -18,7 +18,7 @@ struct CategoryCoordinatorView: View {
                 .navigationDestination(for: CategoryRoute.self) { route in
                     switch route {
                     case .detail:
-                        CategoryDetailView()
+                        CategorySearchView()
                     }
                 }
         }
