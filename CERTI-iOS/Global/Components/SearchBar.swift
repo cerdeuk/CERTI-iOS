@@ -26,6 +26,9 @@ struct SearchBar: View {
                 .frame(height: 22)
                 .foregroundColor(.black)
                 .blackCursor()
+                .onSubmit {
+                    onSearchTapped()
+                }
                 
                 Button {
                     onSearchTapped()
