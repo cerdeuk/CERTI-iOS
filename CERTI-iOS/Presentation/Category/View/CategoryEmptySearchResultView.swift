@@ -50,10 +50,10 @@ extension CategorySearchView {
         
         return Group {
             if trimmed == "뿡" {
-                EmptySearchResultView(searchQuery: trimmed)
+                CategoryEmptySearchResultView(searchQuery: trimmed)
                     .padding(.top, 24)
             } else if trimmed == "똥" {
-                SearchResultView()
+                CategorySearchResultView()
                     .padding(.top, 24)
             }
         }

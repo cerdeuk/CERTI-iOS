@@ -1,5 +1,5 @@
 //
-//  SearchResultView.swift
+//  CategorySearchResultView.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/10/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchResultView: View {
+struct CategorySearchResultView: View {
     @StateObject private var viewModel = CategoryViewModel()
 
     var body: some View {

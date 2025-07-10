@@ -1,5 +1,5 @@
 //
-//  EmptySearchResultView.swift
+//  CategoryEmptySearchResultView.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/10/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EmptySearchResultView: View {
+struct CategoryEmptySearchResultView: View {
     let searchQuery: String
     
     var body: some View {
