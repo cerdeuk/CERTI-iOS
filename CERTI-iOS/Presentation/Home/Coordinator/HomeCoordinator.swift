@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum HomeRoute: Hashable {
-    case detail
+    case preLicenseEdit
 }
 
 final class HomeCoordinator: ObservableObject {

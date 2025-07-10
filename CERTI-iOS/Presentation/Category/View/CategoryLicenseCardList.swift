@@ -1,5 +1,5 @@
 //
-//  LicenseCardList.swift
+//  CategoryLicenseCardList.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/8/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LicenseCardList: View {
+struct CategoryLicenseCardList: View {
     
     @ObservedObject var viewModel: CategoryViewModel
     
