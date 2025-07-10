@@ -29,7 +29,7 @@ struct CategorySearchResultView: View {
                 Spacer()
             }
             
-            LicenseCardList(viewModel: viewModel)
+            CategoryLicenseCardList(viewModel: viewModel)
                 .padding(.top, 16)
         }
     }

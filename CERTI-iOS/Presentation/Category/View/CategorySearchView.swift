@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum SearchResultType {
+    case empty
+    case noResult(String)
+    case result
+}
+
 struct CategorySearchView: View {
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
     @State private var inputText: String = ""
@@ -56,10 +62,4 @@ struct CategorySearchView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
-}
-
-enum SearchResultType {
-    case empty
-    case noResult(String)
-    case result
 }
