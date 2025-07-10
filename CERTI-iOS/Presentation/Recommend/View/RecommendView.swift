@@ -29,7 +29,7 @@ struct RecommendView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 0) {
                 Group {
-                    //                Text.trimmedUsername(username)
+                    Text.trimmedUsername(username)
                     Text("님에게 추천하는 자격증")
                 }
                 .applyCertiFont(.sub_bold_20)
