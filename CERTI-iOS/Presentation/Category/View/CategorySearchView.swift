@@ -10,7 +10,7 @@ import SwiftUI
 struct CategorySearchView: View {
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
     @State private var inputText: String = ""
-    @State private var searchPerformed: Bool = false
+    @State private var searchResult: SearchResultType? = nil
 
     var body: some View {
         ZStack {
@@ -26,13 +26,28 @@ struct CategorySearchView: View {
                 }
                 
                 SearchBar(text: $inputText) {
-                    searchPerformed = true
+                    if inputText.isEmpty {
+                        searchResult = .empty
+                    } else if inputText.trimmingCharacters(in: .whitespacesAndNewlines) == "뿡" {
+                        searchResult = .noResult(inputText)
+                    } else {
+                        searchResult = .result
+                    }
                 }
                     .padding(.horizontal, 20)
                     .padding(.top, 24)
                 
-                if searchPerformed {
-                    renderSearchResult(for: inputText)
+                if let result = searchResult {
+                    switch result {
+                    case .empty:
+                        EmptyView()
+                    case .noResult(let string):
+                        CategoryEmptySearchResultView(searchQuery: string)
+                            .padding(.top, 24)
+                    case .result:
+                        CategorySearchResultView()
+                            .padding(.top, 24)
+                    }
                 }
                 
                 Spacer()
@@ -43,18 +58,8 @@ struct CategorySearchView: View {
     }
 }
 
-extension CategorySearchView {
-    func renderSearchResult(for text: String) -> some View {
-        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        return Group {
-            if trimmed == "뿡" {
-                CategoryEmptySearchResultView(searchQuery: trimmed)
-                    .padding(.top, 24)
-            } else if trimmed == "똥" {
-                CategorySearchResultView()
-                    .padding(.top, 24)
-            }
-        }
-    }
+enum SearchResultType {
+    case empty
+    case noResult(String)
+    case result
 }
