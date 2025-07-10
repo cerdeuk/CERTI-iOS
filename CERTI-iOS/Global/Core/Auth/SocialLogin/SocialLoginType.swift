@@ -13,14 +13,14 @@ enum SocialLoginType: String {
     
     var serviceName: String {
         switch self {
-        case .kakao: return "Kakao"
-        case .apple: return "Apple"
+        case .kakao: return "kakao"
+        case .apple: return "apple"
         }
     }
     
     var loginPath: String {
         switch self {
-        case .kakao: return "카카오 로그인 주소"
+        case .kakao: return "auth/login"
         case .apple: return "애플 로그인 주소"
         }
     }

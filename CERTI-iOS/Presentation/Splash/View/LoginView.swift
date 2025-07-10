@@ -13,6 +13,8 @@ struct LoginView: View {
     
     @EnvironmentObject private var appCoordinator: AppCoordinator
     
+    @StateObject private var viewModel = LoginViewModel()
+
     //MARK: - Properties
 
     @State var isAnimating: Bool = false
@@ -36,14 +38,21 @@ struct LoginView: View {
             Image(.imageLogin)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 255, height: 298)
-                .padding(.bottom, 72)
+                .frame(width: 255, height: 243)
+                .padding(.bottom, 28)
                 .offset(y: isAnimating ? 0 : 10)
                 .animation(.easeInOut.repeatForever().speed(0.3), value: isAnimating)
             
+            Image(.imageLoginShadow)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 172, height: 19)
+                .padding(.bottom, 84)
+            
             Button {
                 // 카카오 로그인
-                appCoordinator.completeLogin()
+                viewModel.kakaoLogin()
+//                appCoordinator.completeLogin()
             } label: {
                 Image(.imageSocialLoginKakao)
                     .resizable()
