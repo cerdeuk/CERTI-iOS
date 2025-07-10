@@ -22,6 +22,7 @@ struct SearchBar: View {
                     prompt: Text("검색어를 입력해주세요.")
                         .foregroundColor(.grayscale300)
                 )
+                .maxLength(30, text: $text)
                 .applyCertiFont(.body_regular_16)
                 .frame(height: 22)
                 .foregroundColor(.black)
