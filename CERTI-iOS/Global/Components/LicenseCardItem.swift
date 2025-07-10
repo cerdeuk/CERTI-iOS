@@ -15,11 +15,7 @@ struct LicenseCardItem: View {
     var body: some View {
         ZStack(alignment: .topTrailing){
             RoundedRectangle(cornerRadius: 12)
-                .fill(.clear)
-                .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(.grayscale100, lineWidth: 1)
-                    )
+                .stroke(.grayscale100, lineWidth: 1)
             
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 0) {

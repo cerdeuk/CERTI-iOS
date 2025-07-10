@@ -24,7 +24,7 @@ struct CategoryView: View {
                 print("즐겨찾기 버튼 눌림")
             }
             
-            LicenseCardList(viewModel: viewModel)
+            CategoryLicenseCardList(viewModel: viewModel)
         }
     }
 }
