@@ -56,6 +56,7 @@ struct PreLicenseEditView: View {
                         }
                     }
                 }
+                .scrollIndicators(.hidden)
                 
             }
             

@@ -16,11 +16,13 @@ struct FavoriteLicenseCard: View {
                 Text(licenseCard.certificationType)
                     .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.grayscale600)
+                    .frame(height: 20)
                     .padding(.bottom, 8)
                 
                 Text(licenseCard.certificationName)
                     .applyCertiFont(.body_bold_18)
                     .foregroundStyle(.grayscale600)
+                    .frame(height: 25)
                 
                 Spacer()
                 
@@ -54,13 +56,12 @@ struct FavoriteLicenseCard: View {
                     Spacer()
                 }
                 .frame(height: 18)
-
                 
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 14)
             .frame(width: 160, height: 160)
-
+            
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 0) {
                     Spacer()
@@ -79,7 +80,7 @@ struct FavoriteLicenseCard: View {
                 }
                 Spacer()
             }
-
+            
         }
         .frame(width: 160, height: 160)
         .clipShape(RoundedRectangle(cornerRadius: 12))

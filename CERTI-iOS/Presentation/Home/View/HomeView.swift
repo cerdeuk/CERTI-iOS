@@ -240,6 +240,8 @@ extension HomeView {
             Text("취득 예정 자격증이 없습니다.")
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale400)
+                .frame(height: 20)
+
         }
         .padding(.top, 44)
         .padding(.bottom, 35)
@@ -285,6 +287,7 @@ extension HomeView {
             Text("즐겨찾기한 자격증이 없습니다.")
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale400)
+                .frame(height: 20)
         }
         .padding(.top, 44)
         .padding(.bottom, 98)
