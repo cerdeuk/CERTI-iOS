@@ -36,7 +36,7 @@ struct MyCertificateEditView: View {
                             MyCertificateEditItems(isDeleteAlertPresented: $isDeleteAlertPresented, cardImage: dummy.cardFrontImageUrl, name: dummy.name, date: dummy.createdAt, certiTag: dummy.tag)
                         }
                     }
-                    .frame(width: 248)
+                    .frame(width: 264)
                 }
                 .scrollIndicators(.hidden)
                 .padding(.top, 36)
