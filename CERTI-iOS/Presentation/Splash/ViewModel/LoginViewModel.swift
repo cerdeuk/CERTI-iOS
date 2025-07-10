@@ -19,6 +19,8 @@ final class LoginViewModel: ObservableObject {
 
     @Published var isLoginSuccess = false
     @Published var errorMessage: String?
+    
+    private let authService = NetworkService.shared.authService
 
     func kakaoLogin() {
         if UserApi.isKakaoTalkLoginAvailable() {
@@ -48,6 +50,32 @@ final class LoginViewModel: ObservableObject {
         }
 
         print("✅ 로그인 성공! AccessToken: \(token)")
+        
+        Task {
+            let result = await authService.login(type: .kakao, authorizationCode: token)
+
+            switch result {
+            case .success(let authResponse):
+                switch authResponse {
+                case .success(let loginDTO):
+                    print("✅ 서버 로그인 성공, 유저 ID: \(loginDTO.userId)")
+                    // 토큰 저장
+                    _ = TokenManager.shared.saveTokens(
+                        accessToken: loginDTO.tokenResponse!.accessToken,
+                        refreshToken: loginDTO.tokenResponse!.refreshToken
+                    )
+                    self.isLoginSuccess = true
+
+                case .needSignUp(let signupDTO):
+                    print("🔁 회원가입 필요: \(signupDTO.userInformation.nickname)")
+                    // TODO: 회원가입 화면 전환 로직 추가
+                }
+
+            case .failure(let error):
+                print("❌ 서버 로그인 실패: \(error.localizedDescription)")
+                self.errorMessage = "서버 로그인 실패"
+            }
+        }
         self.isLoginSuccess = true
     }
     

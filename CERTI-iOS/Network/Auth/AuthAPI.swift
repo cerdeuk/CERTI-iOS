@@ -51,20 +51,10 @@ extension AuthAPI: BaseTargetType {
         switch self {
         case let .login(type, code):
             let bodyParameters: [String: Any] = [
-                "socialType": type.rawValue,
-                "platform": type.platform
+                type.authorizationQueryKey: code,
+                "socialType": type.rawValue
             ]
-            
-            let queryParameters: [String: Any] = [
-                type.authorizationQueryKey: code
-            ]
-            
-            return .requestCompositeParameters(
-                bodyParameters: bodyParameters,
-                bodyEncoding: JSONEncoding.default,
-                urlParameters: queryParameters
-            )
-            
+            return .requestParameters(parameters: bodyParameters, encoding: JSONEncoding.default)
         case .refresh:
             return .requestPlain
         case .logout:

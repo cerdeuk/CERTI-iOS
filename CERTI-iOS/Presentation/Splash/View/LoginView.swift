@@ -49,6 +49,8 @@ struct LoginView: View {
                 .frame(width: 172, height: 19)
                 .padding(.bottom, 84)
             
+            Spacer()
+            
             Button {
                 // 카카오 로그인
                 viewModel.kakaoLogin()
@@ -63,13 +65,13 @@ struct LoginView: View {
             
             Button {
                 // 애플 로그인
-                appCoordinator.completeLogin()
             } label: {
                 Image(.imageSocialLoginApple)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 335, height: 56)
             }
+            .padding(.bottom, 36)
             
         }
         .ignoresSafeArea()

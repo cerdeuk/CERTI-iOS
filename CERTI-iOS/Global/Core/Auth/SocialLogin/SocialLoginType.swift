@@ -8,8 +8,8 @@
 import Foundation
 
 enum SocialLoginType: String {
-    case kakao = "KAKAO"
-    case apple = "APPLE"
+    case kakao = "kakao"
+    case apple = "apple"
     
     var serviceName: String {
         switch self {
@@ -20,15 +20,8 @@ enum SocialLoginType: String {
     
     var loginPath: String {
         switch self {
-        case .kakao: return "auth/login"
+        case .kakao: return "auth/sign-in"
         case .apple: return "애플 로그인 주소"
-        }
-    }
-    
-    var platform: String {
-        switch self {
-        case .kakao: return "WEB"
-        case .apple: return "IOS"
         }
     }
     
