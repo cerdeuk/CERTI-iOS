@@ -15,11 +15,7 @@ struct SearchBar: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
-                .fill(.clear)
-                .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(.grayscale300, lineWidth: 1)
-                    )
+                .stroke(.grayscale300, lineWidth: 1)
             
             HStack(alignment: .center, spacing: 0) {
                 TextField(
