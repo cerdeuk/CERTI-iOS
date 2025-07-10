@@ -30,6 +30,7 @@ struct CategorySearchView: View {
                 BackButton {
                     categoryCoordinator.pop()
                 }
+                .padding(.bottom, 12)
                 
                 SearchBar(text: $inputText) {
                     if inputText.isEmpty {
@@ -41,7 +42,7 @@ struct CategorySearchView: View {
                     }
                 }
                     .padding(.horizontal, 20)
-                    .padding(.top, 24)
+                    .padding(.vertical, 12)
                 
                 if let result = searchResult {
                     switch result {
@@ -49,10 +50,8 @@ struct CategorySearchView: View {
                         EmptyView()
                     case .noResult(let string):
                         CategoryEmptySearchResultView(searchQuery: string)
-                            .padding(.top, 24)
                     case .result:
                         CategorySearchResultView()
-                            .padding(.top, 24)
                     }
                 }
                 

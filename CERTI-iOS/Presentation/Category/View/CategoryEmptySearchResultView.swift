@@ -28,6 +28,7 @@ struct CategoryEmptySearchResultView: View {
                 
                 Spacer()
             }
+            .padding(.top, 12)
             
             Image(.imageEmpty)
                 .padding(.top, 103.5)
