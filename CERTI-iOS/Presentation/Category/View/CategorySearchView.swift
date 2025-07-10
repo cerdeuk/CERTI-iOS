@@ -10,7 +10,6 @@ import SwiftUI
 struct CategorySearchView: View {
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
     @State private var inputText: String = ""
-    @FocusState private var isTextFieldFocused: Bool
     @State private var searchPerformed: Bool = false
 
     var body: some View {
@@ -18,7 +17,7 @@ struct CategorySearchView: View {
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    isTextFieldFocused = false
+                    hideKeyboard()
                 }
             
             VStack(spacing: 0) {
@@ -26,7 +25,7 @@ struct CategorySearchView: View {
                     categoryCoordinator.pop()
                 }
                 
-                SearchBar(isFocused: $isTextFieldFocused, text: $inputText) {
+                SearchBar(text: $inputText) {
                     searchPerformed = true
                 }
                     .padding(.horizontal, 20)

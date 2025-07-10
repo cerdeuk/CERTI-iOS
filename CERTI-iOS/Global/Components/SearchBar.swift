@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SearchBar: View {
-    @FocusState.Binding var isFocused: Bool
     @Binding var text: String
     var onSearchTapped: () -> Void
     
@@ -27,7 +26,6 @@ struct SearchBar: View {
                 .frame(height: 22)
                 .foregroundColor(.black)
                 .blackCursor()
-                .focused($isFocused)
                 
                 Button {
                     onSearchTapped()

@@ -16,4 +16,9 @@ extension View {
     func blackCursor() -> some View {
         self.tint(.black)
     }
+    
+    //키보드 닫히게
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
