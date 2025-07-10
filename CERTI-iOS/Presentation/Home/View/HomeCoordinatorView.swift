@@ -17,8 +17,8 @@ struct HomeCoordinatorView: View {
             HomeView()
                 .navigationDestination(for: HomeRoute.self) { route in
                     switch route {
-                    case .detail:
-                        HomeDetailView()
+                    case .preLicenseEdit:
+                        PreLicenseEditView()
                     }
                 }
         }
