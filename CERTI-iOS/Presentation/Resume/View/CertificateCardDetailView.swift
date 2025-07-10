@@ -1,5 +1,5 @@
 //
-//  CertificateCardView.swift
+//  CertificateCardDetailView.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 7/8/25.
