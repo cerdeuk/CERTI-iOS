@@ -10,13 +10,32 @@ import SwiftUI
 struct OnboardingUnivView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
 
+    @State private var searchText: String = ""
+    
     var body: some View {
-        VStack {
-            Text("온보딩 화면")
-            Button("온보딩 완료") {
-                appCoordinator.completeOnboarding()
+        VStack(alignment: .leading, spacing: 0) {
+            BackButton {
+                appCoordinator.cancelOnboarding()
             }
+            .padding(.bottom, 13)
+            
+            Image(.onboardingProgressbar1)
+                .padding(.leading, 20)
+                .padding(.bottom, 40)
+            
+            Text("대학교 이름을 입력해주세요")
+                .applyCertiFont(.sub_bold_20)
+                .foregroundStyle(.grayscale600)
+                .padding(.leading, 20)
+            
+            SearchBar(text: $searchText) {
+                //
+            }
+
+            Spacer()
+
         }
+        
     }
 }
 

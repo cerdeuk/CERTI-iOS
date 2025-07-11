@@ -57,6 +57,10 @@ final class AppCoordinator: ObservableObject {
         UserDefaults.standard.set(true, forKey: "didOnboard")
         appState = .main
     }
+    
+    func cancelOnboarding() {
+        appState = .auth
+    }
 
     /// 로그아웃 시
     func logout() {
