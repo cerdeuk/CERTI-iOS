@@ -27,15 +27,30 @@ struct OnboardingUnivView: View {
                 .applyCertiFont(.sub_bold_20)
                 .foregroundStyle(.grayscale600)
                 .padding(.leading, 20)
+                .padding(.bottom, 38)
             
             SearchBar(text: $searchText) {
                 //
             }
+            .padding(.horizontal, 20)
 
             Spacer()
 
+            Button {
+                // 다음 뷰 전환
+            } label: {
+                Text("다음")
+                    .applyCertiFont(.body_semibold_16)
+                    .foregroundStyle(.grayscale400)
+                    .frame(maxWidth: .infinity, minHeight: 56)
+            }
+            .background(.grayscale100)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding(.horizontal, 20)
+            .padding(.bottom, 22)
+
+            
         }
-        
     }
 }
 
