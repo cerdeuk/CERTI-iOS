@@ -8,11 +8,73 @@
 import SwiftUI
 
 struct OnboardingTrackView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
+    @Binding var selectedMajor: String
 
-#Preview {
-    OnboardingTrackView()
+    private let majorOptions = ["인문계열", "사회계열", "교육계열", "자연계열", "공학계열", "의약계열", "예체능계열"]
+    
+    private let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            BackButton {
+                onboardingCoordinator.pop()
+            }
+            .padding(.bottom, 13)
+            
+            Image(.onboardingProgressbar2)
+                .padding(.leading, 20)
+                .padding(.bottom, 40)
+            
+            Text("계열을 선택해주세요")
+                .applyCertiFont(.sub_bold_20)
+                .foregroundStyle(.grayscale600)
+                .padding(.leading, 20)
+                .padding(.bottom, 58)
+            
+            LazyVGrid(columns: columns, spacing: 17) {
+                ForEach(majorOptions, id: \.self) { major in
+                    Button {
+                        if selectedMajor == major {
+                            selectedMajor = ""
+                        } else {
+                            selectedMajor = major
+                        }
+                    } label: {
+                        Text(major)
+                            .applyCertiFont(.body_regular_16)
+                            .foregroundColor(selectedMajor == major ? .grayscale600 : .grayscale500)
+                            .frame(maxWidth: .infinity, minHeight: 80)
+                            .background(selectedMajor == major ? .lightblue : .bluewhite)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(selectedMajor == major ? .skyblue : .lightblue , lineWidth: 1)
+                            }
+                    }
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 22)
+            
+            Spacer()
+            
+            Button {
+                onboardingCoordinator.push(next: .major)
+            } label: {
+                Text("다음")
+                    .applyCertiFont(.body_semibold_16)
+                    .foregroundColor(selectedMajor.isEmpty ? .grayscale400 : .white)
+                    .frame(maxWidth: .infinity, minHeight: 56)
+                    .background(selectedMajor.isEmpty ? .grayscale100 : .purpleblue)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+            .disabled(selectedMajor.isEmpty)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 22)
+        }
+    }
 }

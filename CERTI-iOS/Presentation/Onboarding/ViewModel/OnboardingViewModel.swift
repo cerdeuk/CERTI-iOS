@@ -11,6 +11,7 @@ final class OnboardingViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var userUniversity: String = ""
     @Published var selectedGrade: String = ""
+    @Published var selectedMajor: String = ""
 
     
     func searchValidate() -> Bool {

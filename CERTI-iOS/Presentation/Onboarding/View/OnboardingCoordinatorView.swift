@@ -22,7 +22,7 @@ struct OnboardingCoordinatorView: View {
                             .navigationBarBackButtonHidden()
 
                     case .track:
-                        OnboardingTrackView()
+                        OnboardingTrackView(selectedMajor: $viewModel.selectedMajor)
                             .navigationBarBackButtonHidden()
 
                     case .major:
