@@ -16,6 +16,7 @@ struct ResumeView: View {
             VStack(alignment: .center, spacing: 0) {
                 ResumeTopMainLogoView
                 ResumeProfileView
+                ResumeMyCertifivateTitleView
                 ResumeMyCertificateView(isPresented: $isPresented)
                 ResumeMyCareerView
                 ResumeMyExtracurricularActivityView
@@ -74,9 +75,27 @@ extension ResumeView {
         .padding(.horizontal, 20)
     }
     
+    private var ResumeMyCertifivateTitleView: some View {
+        HStack{
+            Text("취득한 자격증")
+                .applyCertiFont(.sub_semibold_20)
+                .foregroundStyle(.grayscale600)
+                .frame(height: 26)
+            
+            Spacer()
+            
+            Button {
+                resumeCoordinator.push(next: .myCertificateEdit)
+            } label: {
+                Image(.iconArrowright36)
+            }
+        }
+        .frame(height: 36)
+        .padding(.horizontal, 20)
+    }
+    
     private struct ResumeMyCertificateView: View {
         @Binding var isPresented: Bool
-        @EnvironmentObject var resumeCoordinator: ResumeCoordinator
 
         let rows = [
             GridItem(.fixed(100))
@@ -85,23 +104,7 @@ extension ResumeView {
         let CertificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
         
         var body: some View {
-            VStack{
-                HStack{
-                    Text("취득한 자격증")
-                        .applyCertiFont(.sub_semibold_20)
-                        .foregroundStyle(.grayscale600)
-                        .frame(height: 26)
-                    
-                    Spacer()
-                    
-                    Button {
-                        resumeCoordinator.push(next: .myCertificateEdit)
-                    } label: {
-                        Image(.iconArrowright36)
-                    }
-                }
-                .padding(.horizontal, 20)
-                
+            VStack(spacing: 0) {
 //                 취득한 자격증이 없을 때
 //                            Image(.imageEmpty)
 //                                .padding(.top, 60)
@@ -124,11 +127,13 @@ extension ResumeView {
                     .padding(.leading, 20)
                 }
                 .scrollIndicators(.hidden)
+                .padding(.top, 16)
                 
                 Image(.resumeLine)
                     .padding(.top, 36)
                     .padding(.bottom, 36)
             }
+
         }
     }
     
