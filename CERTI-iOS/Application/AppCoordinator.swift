@@ -15,19 +15,19 @@ enum AppRoute {
 }
 
 final class AppCoordinator: ObservableObject {
-    @Published var appState: AppRoute = .splash
+    @Published var appState: AppRoute = .main
     let tabCoordinator = CertiTabCoordinator()
 
     init() {
-        #if DEBUG
-        TokenManager.shared.clearTokens()
-        UserDefaults.standard.removeObject(forKey: "didOnboard")
-        print("[DEBUG] Keychain cleared for login testing")
-        #endif
-        
-        Task {
-            await start()
-        }
+//        #if DEBUG
+//        TokenManager.shared.clearTokens()
+//        UserDefaults.standard.removeObject(forKey: "didOnboard")
+//        print("[DEBUG] Keychain cleared for login testing")
+//        #endif
+//        
+//        Task {
+//            await start()
+//        }
     }
 
     private func start() async {

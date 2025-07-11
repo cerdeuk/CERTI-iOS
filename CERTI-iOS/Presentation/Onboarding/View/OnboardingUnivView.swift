@@ -19,3 +19,8 @@ struct OnboardingUnivView: View {
         }
     }
 }
+
+#Preview {
+    OnboardingUnivView()
+        .environmentObject(AppCoordinator())
+}

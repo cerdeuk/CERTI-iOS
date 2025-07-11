@@ -13,7 +13,7 @@ struct HomeView: View {
     
     @Binding var homeState: HomeStateModel
     
-    let columns = [GridItem(.fixed(335))]
+    let columns = [GridItem(.flexible())]
     let rows = [GridItem(.fixed(200))]
     
     var body: some View {
@@ -33,6 +33,7 @@ struct HomeView: View {
                         .padding(.horizontal, 20)
 
                     recommendLicenseList
+                        .padding(.horizontal, 20)
 
                     preLicenseTitle
                         .padding(.horizontal, 20)
@@ -182,6 +183,7 @@ extension HomeView {
             ForEach(homeState.recommendLicenses) { dummy in
                 if dummy.ranking < 4 {
                     RecommendLicenseCard(licenseCard: dummy)
+                        .frame(maxWidth: .infinity)
                 } else {
                     EmptyView()
                 }
