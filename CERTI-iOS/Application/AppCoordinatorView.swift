@@ -15,7 +15,7 @@ struct AppCoordinatorView: View {
         case .splash:
             SplashView()
         case .onboarding:
-            OnboardingView()
+            OnboardingUnivView()
                 .environmentObject(appCoordinator)
         case .auth:
             LoginView()
