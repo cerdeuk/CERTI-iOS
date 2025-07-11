@@ -54,7 +54,6 @@ struct LoginView: View {
             Button {
                 // 카카오 로그인
                 viewModel.kakaoLogin()
-//                appCoordinator.completeLogin()
             } label: {
                 Image(.imageSocialLoginKakao)
                     .resizable()
@@ -78,6 +77,11 @@ struct LoginView: View {
         .background(.white)
         .onAppear {
             isAnimating = true
+        }
+        .onChange(of: viewModel.isLoginSuccess) { isSuccess in
+            if isSuccess {
+                appCoordinator.completeLogin()
+            }
         }
     }
 }
