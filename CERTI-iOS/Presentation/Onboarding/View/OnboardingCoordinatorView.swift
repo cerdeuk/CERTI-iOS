@@ -9,12 +9,12 @@ import SwiftUI
 
 struct OnboardingCoordinatorView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
-
     @ObservedObject var onboardingCoordinator: OnboardingCoordinator
+    @StateObject var viewModel = OnboardingViewModel()
     
     var body: some View {
         NavigationStack(path: $onboardingCoordinator.path) {
-            OnboardingUnivView()
+            OnboardingUnivView(viewModel: viewModel)
                 .navigationDestination(for: OnboardingRoute.self) { route in
                     switch route {
                     case .grade:

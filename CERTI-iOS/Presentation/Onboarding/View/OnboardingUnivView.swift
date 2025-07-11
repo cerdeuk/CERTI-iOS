@@ -7,49 +7,19 @@
 
 import SwiftUI
 
-struct OnboardingUnivModel: Identifiable {
-    var id: UUID = UUID()
-    
-    var university: String
-}
-
-extension OnboardingUnivModel {
-    static func dummy() -> [OnboardingUnivModel] {
-        return [
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름"),
-            OnboardingUnivModel(university: "대학교 이름")
-        ]
-    }
-}
-
-
 struct OnboardingUnivView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
     @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
-
-    @State private var searchText: String = ""
-    @State private var userUniversity: String = ""
+    @ObservedObject var viewModel: OnboardingViewModel
+    
     @State private var univListToggle: Bool = false
     @State private var searchBarDisabled: Bool = false
+    
     @FocusState private var isSearchFieldFocused: Bool
     
     let univModel = OnboardingUnivModel.dummy()
-
     let columns = [GridItem(.flexible())]
-
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
@@ -68,7 +38,7 @@ struct OnboardingUnivView: View {
                     .padding(.leading, 20)
                     .padding(.bottom, 38)
                 
-                SearchBar(text: $searchText) {
+                SearchBar(text: $viewModel.searchText) {
                     // 돋보기 누르면 대학 리스트 받아오기
                     univListToggle = true
                     isSearchFieldFocused = false
@@ -76,8 +46,8 @@ struct OnboardingUnivView: View {
                 .disabled(searchBarDisabled)
                 .focused($isSearchFieldFocused)
                 .onTapGesture {
-                    searchText = ""
-                    userUniversity = ""
+                    viewModel.searchText = ""
+                    viewModel.userUniversity = ""
                     searchBarDisabled = false
                 }
                 .padding(.horizontal, 20)
@@ -98,8 +68,8 @@ struct OnboardingUnivView: View {
                                     Divider()
                                 }
                                 .onTapGesture {
-                                    userUniversity = univ.university
-                                    searchText = univ.university
+                                    viewModel.userUniversity = univ.university
+                                    viewModel.searchText = univ.university
                                     searchBarDisabled = true
                                     univListToggle = false
                                 }
@@ -117,29 +87,15 @@ struct OnboardingUnivView: View {
             } label: {
                 Text("다음")
                     .applyCertiFont(.body_semibold_16)
-                    .foregroundStyle(searchValidate() ? .white : .grayscale400)
+                    .foregroundStyle(viewModel.searchValidate() ? .white : .grayscale400)
                     .frame(maxWidth: .infinity, minHeight: 56)
             }
-            .disabled(!searchValidate())
-            .background(searchValidate() ? .purpleblue : .grayscale100)
+            .disabled(!viewModel.searchValidate())
+            .background(viewModel.searchValidate() ? .purpleblue : .grayscale100)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding(.horizontal, 20)
             .padding(.bottom, 22)
         }
         .ignoresSafeArea(.keyboard)
     }
-}
-
-extension OnboardingUnivView {
-    private func searchValidate() -> Bool {
-        let searchTextValid = !searchText.trimmingCharacters(in: .whitespaces).isEmpty
-        let userUniversityValid = !userUniversity.trimmingCharacters(in: .whitespaces).isEmpty
-
-        return searchTextValid && userUniversityValid
-    }
-}
-
-#Preview {
-    OnboardingUnivView()
-        .environmentObject(AppCoordinator())
 }
