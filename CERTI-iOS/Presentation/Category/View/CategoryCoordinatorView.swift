@@ -18,10 +18,11 @@ struct CategoryCoordinatorView: View {
                 .navigationDestination(for: CategoryRoute.self) { route in
                     switch route {
                     case .detail:
-                        CategoryDetailView()
+                        CategorySearchView()
                     }
                 }
         }
+
         .environmentObject(categoryCoordinator)
         .onChange(of: categoryCoordinator.path) { value in
             if value.isEmpty {
