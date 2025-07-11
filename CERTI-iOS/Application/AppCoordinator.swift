@@ -15,8 +15,9 @@ enum AppRoute {
 }
 
 final class AppCoordinator: ObservableObject {
-    @Published var appState: AppRoute = .main
+    @Published var appState: AppRoute = .onboarding
     let tabCoordinator = CertiTabCoordinator()
+    let onboardingCoordinator = OnboardingCoordinator()
 
     init() {
 //        #if DEBUG

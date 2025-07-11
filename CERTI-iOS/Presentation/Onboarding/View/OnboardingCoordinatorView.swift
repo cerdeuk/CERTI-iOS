@@ -8,17 +8,15 @@
 import SwiftUI
 
 struct OnboardingCoordinatorView: View {
-    @EnvironmentObject var tabCoordinator: CertiTabCoordinator
+    @EnvironmentObject private var appCoordinator: AppCoordinator
 
     @ObservedObject var onboardingCoordinator: OnboardingCoordinator
     
     var body: some View {
         NavigationStack(path: $onboardingCoordinator.path) {
-            RecommendView()
+            OnboardingUnivView()
                 .navigationDestination(for: OnboardingRoute.self) { route in
                     switch route {
-                    case .univ:
-                        OnboardingUnivView()
                     case .grade:
                         OnboardingGradeView()
                     case .track:
@@ -33,12 +31,5 @@ struct OnboardingCoordinatorView: View {
                 }
         }
         .environmentObject(onboardingCoordinator)
-        .onChange(of: onboardingCoordinator.path) { value in
-            if value.isEmpty {
-                tabCoordinator.isTabBarHidden = false
-            } else {
-                tabCoordinator.isTabBarHidden = true
-            }
-        }
     }
 }

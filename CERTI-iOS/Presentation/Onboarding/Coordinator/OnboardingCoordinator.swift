@@ -8,7 +8,6 @@
 import SwiftUI
 
 enum OnboardingRoute: Hashable {
-    case univ
     case grade
     case track
     case major

@@ -7,50 +7,135 @@
 
 import SwiftUI
 
+struct OnboardingUnivModel: Identifiable {
+    var id: UUID = UUID()
+    
+    var university: String
+}
+
+extension OnboardingUnivModel {
+    static func dummy() -> [OnboardingUnivModel] {
+        return [
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름"),
+            OnboardingUnivModel(university: "대학교 이름")
+        ]
+    }
+}
+
+
 struct OnboardingUnivView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
+    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
 
     @State private var searchText: String = ""
+    @State private var userUniversity: String = ""
+    @State private var univListToggle: Bool = false
+    @State private var searchBarDisabled: Bool = false
+    @FocusState private var isSearchFieldFocused: Bool
     
+    let univModel = OnboardingUnivModel.dummy()
+
+    let columns = [GridItem(.flexible())]
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            BackButton {
-                appCoordinator.cancelOnboarding()
+        ZStack(alignment: .bottom) {
+            VStack(alignment: .leading, spacing: 0) {
+                BackButton {
+                    appCoordinator.cancelOnboarding()
+                }
+                .padding(.bottom, 13)
+                
+                Image(.onboardingProgressbar1)
+                    .padding(.leading, 20)
+                    .padding(.bottom, 40)
+                
+                Text("대학교 이름을 입력해주세요")
+                    .applyCertiFont(.sub_bold_20)
+                    .foregroundStyle(.grayscale600)
+                    .padding(.leading, 20)
+                    .padding(.bottom, 38)
+                
+                SearchBar(text: $searchText) {
+                    // 돋보기 누르면 대학 리스트 받아오기
+                    univListToggle = true
+                    isSearchFieldFocused = false
+                }
+                .disabled(searchBarDisabled)
+                .focused($isSearchFieldFocused)
+                .onTapGesture {
+                    searchText = ""
+                    userUniversity = ""
+                    searchBarDisabled = false
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 5)
+                
+                if univListToggle {
+                    ScrollView(.vertical) {
+                        LazyVGrid(columns: columns, alignment: .leading) {
+                            ForEach(univModel, id: \.id) { univ in
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text(univ.university)
+                                        .applyCertiFont(.body_regular_16)
+                                        .foregroundStyle(.black)
+                                        .padding(.horizontal, 20)
+                                        .padding(.top, 20)
+                                        .padding(.bottom, 17)
+                                    
+                                    Divider()
+                                }
+                                .onTapGesture {
+                                    userUniversity = univ.university
+                                    searchText = univ.university
+                                    searchBarDisabled = true
+                                    univListToggle = false
+                                }
+                            }
+                        }
+                    }
+                    .scrollIndicators(.hidden)
+                }
+                
+                Spacer()
             }
-            .padding(.bottom, 13)
             
-            Image(.onboardingProgressbar1)
-                .padding(.leading, 20)
-                .padding(.bottom, 40)
-            
-            Text("대학교 이름을 입력해주세요")
-                .applyCertiFont(.sub_bold_20)
-                .foregroundStyle(.grayscale600)
-                .padding(.leading, 20)
-                .padding(.bottom, 38)
-            
-            SearchBar(text: $searchText) {
-                //
-            }
-            .padding(.horizontal, 20)
-
-            Spacer()
-
             Button {
-                // 다음 뷰 전환
+                onboardingCoordinator.push(next: .grade)
             } label: {
                 Text("다음")
                     .applyCertiFont(.body_semibold_16)
-                    .foregroundStyle(.grayscale400)
+                    .foregroundStyle(searchValidate() ? .white : .grayscale400)
                     .frame(maxWidth: .infinity, minHeight: 56)
             }
-            .background(.grayscale100)
+            .disabled(!searchValidate())
+            .background(searchValidate() ? .purpleblue : .grayscale100)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding(.horizontal, 20)
             .padding(.bottom, 22)
-
-            
         }
+        .ignoresSafeArea(.keyboard)
+    }
+}
+
+extension OnboardingUnivView {
+    private func searchValidate() -> Bool {
+        let searchTextValid = !searchText.trimmingCharacters(in: .whitespaces).isEmpty
+        let userUniversityValid = !userUniversity.trimmingCharacters(in: .whitespaces).isEmpty
+
+        return searchTextValid && userUniversityValid
     }
 }
 
