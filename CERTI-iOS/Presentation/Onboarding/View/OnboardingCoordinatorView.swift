@@ -19,14 +19,24 @@ struct OnboardingCoordinatorView: View {
                     switch route {
                     case .grade:
                         OnboardingGradeView()
+                            .navigationBarBackButtonHidden()
+
                     case .track:
                         OnboardingTrackView()
+                            .navigationBarBackButtonHidden()
+
                     case .major:
                         OnboardingMajorView()
+                            .navigationBarBackButtonHidden()
+
                     case .jobCategory:
                         OnboardingJobCategoryView()
+                            .navigationBarBackButtonHidden()
+
                     case .info:
                         OnboardingInfoView()
+                            .navigationBarBackButtonHidden()
+
                     }
                 }
         }
