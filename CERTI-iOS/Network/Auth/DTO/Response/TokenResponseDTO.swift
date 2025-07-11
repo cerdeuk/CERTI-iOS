@@ -11,4 +11,5 @@ typealias TokenResponseDTO = BaseResponseDTO<AccessTokenData>
 
 struct AccessTokenData: Decodable {
     let accessToken: String
+    let refreshToken: String
 }
