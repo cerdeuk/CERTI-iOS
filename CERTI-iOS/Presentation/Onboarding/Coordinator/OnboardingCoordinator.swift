@@ -8,12 +8,12 @@
 import SwiftUI
 
 enum OnboardingRoute: Hashable {
-    case step1
-    case step2
-    case step3
-    case step4
-    case step5
-    case step6
+    case univ
+    case grade
+    case track
+    case major
+    case jobCategory
+    case info
 }
 
 final class OnboardingCoordinator: ObservableObject {

@@ -15,11 +15,22 @@ struct OnboardingCoordinatorView: View {
     var body: some View {
         NavigationStack(path: $onboardingCoordinator.path) {
             RecommendView()
-//                .navigationDestination(for: OnboardingRoute.self) { route in
-//                    switch route {
-//                        
-//                    }
-//                }
+                .navigationDestination(for: OnboardingRoute.self) { route in
+                    switch route {
+                    case .univ:
+                        OnboardingUnivView()
+                    case .grade:
+                        OnboardingGradeView()
+                    case .track:
+                        OnboardingTrackView()
+                    case .major:
+                        OnboardingMajorView()
+                    case .jobCategory:
+                        OnboardingJobCategoryView()
+                    case .info:
+                        OnboardingInfoView()
+                    }
+                }
         }
         .environmentObject(onboardingCoordinator)
         .onChange(of: onboardingCoordinator.path) { value in
