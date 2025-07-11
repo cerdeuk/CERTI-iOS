@@ -17,7 +17,8 @@ final class OnboardingViewModel: ObservableObject {
     
     @Published var searchMajorText: String = ""
     @Published var userMajor: String = ""
-
+    
+    @Published var selectedJobCategory: [String] = []
     
     func searchUnivValidate() -> Bool {
         let searchTextValid = !searchUnivText.trimmingCharacters(in: .whitespaces).isEmpty

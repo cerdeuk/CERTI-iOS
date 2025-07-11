@@ -39,7 +39,7 @@ struct OnboardingGradeView: View {
                         }
                     } label: {
                         Text(grade)
-                            .applyCertiFont(.body_regular_16)
+                            .applyCertiFont(selectedGrade == grade ? .body_semibold_16 : .body_regular_16)
                             .foregroundColor(selectedGrade == grade ? .grayscale600 : .grayscale500)
                             .frame(maxWidth: .infinity, minHeight: 56)
                             .background(selectedGrade == grade ? .lightblue : .bluewhite)

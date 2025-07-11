@@ -30,7 +30,7 @@ struct OnboardingCoordinatorView: View {
                             .navigationBarBackButtonHidden()
 
                     case .jobCategory:
-                        OnboardingJobCategoryView()
+                        OnboardingJobCategoryView(selectedJobCategory: $viewModel.selectedJobCategory)
                             .navigationBarBackButtonHidden()
 
                     case .info:
