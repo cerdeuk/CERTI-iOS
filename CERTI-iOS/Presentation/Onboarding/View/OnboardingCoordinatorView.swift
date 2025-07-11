@@ -26,7 +26,7 @@ struct OnboardingCoordinatorView: View {
                             .navigationBarBackButtonHidden()
 
                     case .major:
-                        OnboardingMajorView()
+                        OnboardingMajorView(viewModel: viewModel)
                             .navigationBarBackButtonHidden()
 
                     case .jobCategory:

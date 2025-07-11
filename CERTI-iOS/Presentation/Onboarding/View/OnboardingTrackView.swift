@@ -25,7 +25,7 @@ struct OnboardingTrackView: View {
             }
             .padding(.bottom, 13)
             
-            Image(.onboardingProgressbar2)
+            Image(.onboardingProgressbar3)
                 .padding(.leading, 20)
                 .padding(.bottom, 40)
             

@@ -38,7 +38,7 @@ struct OnboardingUnivView: View {
                     .padding(.leading, 20)
                     .padding(.bottom, 38)
                 
-                SearchBar(text: $viewModel.searchText) {
+                SearchBar(text: $viewModel.searchUnivText) {
                     // 돋보기 누르면 대학 리스트 받아오기
                     univListToggle = true
                     isSearchFieldFocused = false
@@ -46,7 +46,7 @@ struct OnboardingUnivView: View {
                 .disabled(searchBarDisabled)
                 .focused($isSearchFieldFocused)
                 .onTapGesture {
-                    viewModel.searchText = ""
+                    viewModel.searchUnivText = ""
                     viewModel.userUniversity = ""
                     searchBarDisabled = false
                 }
@@ -69,7 +69,7 @@ struct OnboardingUnivView: View {
                                 }
                                 .onTapGesture {
                                     viewModel.userUniversity = univ.university
-                                    viewModel.searchText = univ.university
+                                    viewModel.searchUnivText = univ.university
                                     searchBarDisabled = true
                                     univListToggle = false
                                 }
@@ -87,11 +87,11 @@ struct OnboardingUnivView: View {
             } label: {
                 Text("다음")
                     .applyCertiFont(.body_semibold_16)
-                    .foregroundStyle(viewModel.searchValidate() ? .white : .grayscale400)
+                    .foregroundStyle(viewModel.searchUnivValidate() ? .white : .grayscale400)
                     .frame(maxWidth: .infinity, minHeight: 56)
             }
-            .disabled(!viewModel.searchValidate())
-            .background(viewModel.searchValidate() ? .purpleblue : .grayscale100)
+            .disabled(!viewModel.searchUnivValidate())
+            .background(viewModel.searchUnivValidate() ? .purpleblue : .grayscale100)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding(.horizontal, 20)
             .padding(.bottom, 22)
