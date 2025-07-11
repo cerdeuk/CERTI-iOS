@@ -10,6 +10,8 @@ import Foundation
 final class OnboardingViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var userUniversity: String = ""
+    @Published var selectedGrade: String = ""
+
     
     func searchValidate() -> Bool {
         let searchTextValid = !searchText.trimmingCharacters(in: .whitespaces).isEmpty

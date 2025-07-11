@@ -18,7 +18,7 @@ struct OnboardingCoordinatorView: View {
                 .navigationDestination(for: OnboardingRoute.self) { route in
                     switch route {
                     case .grade:
-                        OnboardingGradeView()
+                        OnboardingGradeView(selectedGrade: $viewModel.selectedGrade)
                             .navigationBarBackButtonHidden()
 
                     case .track:

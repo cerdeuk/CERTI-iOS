@@ -72,6 +72,5 @@ struct PreLicenseEditView: View {
                 
             }
         }
-        .navigationBarBackButtonHidden()
     }
 }
