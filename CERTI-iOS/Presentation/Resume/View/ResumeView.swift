@@ -61,10 +61,12 @@ extension ResumeView {
                 Text("희망직무")
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
+                    .frame(height: 22)
                 
-                Text("IT/인터넷·경영/사무·경영/사무")
+                Text("IT/인터넷·경영/사무  ·경영/사무")
                     .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.mainblue)
+                    .frame(width: 118, height: 42)
             }
             Spacer()
         }
@@ -88,6 +90,7 @@ extension ResumeView {
                     Text("취득한 자격증")
                         .applyCertiFont(.sub_semibold_20)
                         .foregroundStyle(.grayscale600)
+                        .frame(height: 26)
                     
                     Spacer()
                     
@@ -99,15 +102,15 @@ extension ResumeView {
                 }
                 .padding(.horizontal, 20)
                 
-                // 취득한 자격증이 없을 때
-                //            Image(.imageEmpty)
-                //                .padding(.top, 60)
-                //
-                //            Text("취득한 자격증이 없습니다.")
-                //                .applyCertiFont(.caption_regular_14)
-                //                .foregroundStyle(.grayscale400)
-                //                .padding(.bottom, 60)
-                //
+//                 취득한 자격증이 없을 때
+//                            Image(.imageEmpty)
+//                                .padding(.top, 60)
+//                
+//                            Text("취득한 자격증이 없습니다.")
+//                                .applyCertiFont(.caption_regular_14)
+//                                .foregroundStyle(.grayscale400)
+//                                .frame(height: 20)
+//                                .padding(.bottom, 60)
                 
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: rows, spacing: 12) {
@@ -135,6 +138,7 @@ extension ResumeView {
                 Text("경력사항")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
+                    .frame(height: 26)
                 
                 Spacer()
                 
@@ -152,6 +156,7 @@ extension ResumeView {
             Text("경력사항을 추가해보세요!")
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale400)
+                .frame(height: 20)
                 .padding(.bottom, 60)
             
             Image(.resumeLine)
@@ -165,6 +170,7 @@ extension ResumeView {
                 Text("대내외 활동")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
+                    .frame(height: 26)
                 
                 Spacer()
                 
@@ -182,6 +188,7 @@ extension ResumeView {
             Text("대내외 활동을 추가해보세요!")
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale400)
+                .frame(height: 20)
                 .padding(.bottom, 60)
         }
     }
