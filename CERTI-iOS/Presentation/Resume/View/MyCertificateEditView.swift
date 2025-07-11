@@ -33,7 +33,18 @@ struct MyCertificateEditView: View {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns, spacing: 24) {
                         ForEach(CertificatedDummy) { dummy in
-                            MyCertificateEditItems(isDeleteAlertPresented: $isDeleteAlertPresented, cardImage: dummy.cardFrontImageUrl, name: dummy.name, date: dummy.createdAt, certiTag: dummy.tag)
+                            HStack {
+                                CeritificateCardComponent(cardImage: dummy.cardFrontImageUrl, name: dummy.name, date: dummy.createdAt, certiTag: dummy.tag)
+                                
+                                Button {
+                                    isDeleteAlertPresented.toggle()
+                                } label: {
+                                    Image(.iconClose36)
+                                }
+                                .padding(.leading, 12)
+                                
+                                Spacer()
+                            }
                         }
                     }
                     .frame(width: 264)
@@ -56,55 +67,6 @@ struct MyCertificateEditView: View {
         .navigationBarBackButtonHidden()
     }
     
-}
-
-extension MyCertificateEditView {
-    struct MyCertificateEditItems: View {
-        @Binding var isDeleteAlertPresented: Bool
-        
-        var cardImage: String = ""
-        var name: String = ""
-        var date: String = ""
-        var certiTag: [String]
-        
-        var body: some View {
-            HStack {
-                ZStack(alignment: .top) {
-                    Image(cardImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 300)
-                    
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(name)
-                            .foregroundStyle(.grayscale600)
-                            .applyCertiFont(.caption_bold_14)
-                            .frame(height: 20)
-                            .padding(.top, 32)
-                        
-                        Text(date)
-                            .applyCertiFont(.caption_regular_12)
-                            .foregroundStyle(.grayscale600)
-                            .frame(height: 18)
-                            .padding(.top, 4)
-                        
-                        TagChip(tags: certiTag, spacing: 4)
-                            .padding(.top, 8)
-                            .frame(height: 23)
-                    }
-                }
-                
-                Button {
-                    isDeleteAlertPresented = true
-                } label: {
-                    Image(.iconClose36)
-                }
-                .padding(.leading, 12)
-                
-                Spacer()
-            }
-        }
-    }
 }
 
 #Preview {

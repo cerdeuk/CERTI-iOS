@@ -112,7 +112,10 @@ extension ResumeView {
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: rows, spacing: 12) {
                         ForEach(CertificatedDummy) { dummy in
-                            ResumeMyCertificateItems(isPresented: $isPresented, cardImage: dummy.cardFrontImageUrl, name: dummy.name, date: dummy.createdAt, certiTag: dummy.tag)
+                            CeritificateCardComponent(cardImage: dummy.cardFrontImageUrl, name: dummy.name, date: dummy.createdAt, certiTag: dummy.tag)
+                                .onTapGesture {
+                                    isPresented.toggle()
+                                }
                         }
                     }
                     .padding(.leading, 20)
@@ -126,48 +129,9 @@ extension ResumeView {
         }
     }
     
-    struct ResumeMyCertificateItems: View {
-        @Binding var isPresented: Bool
-        
-        var cardImage: String = ""
-        var name: String = ""
-        var date: String = ""
-        var certiTag: [String]
-        
-        var body: some View {
-            ZStack(alignment: .top) {
-                Image(cardImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 200, height: 300)
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(name)
-                        .foregroundStyle(.grayscale600)
-                        .applyCertiFont(.caption_bold_14)
-                        .frame(height: 20)
-                        .padding(.top, 32)
-                    
-                    Text(date)
-                        .applyCertiFont(.caption_regular_12)
-                        .foregroundStyle(.grayscale600)
-                        .frame(height: 18)
-                        .padding(.top, 4)
-                    
-                    TagChip(tags: certiTag, spacing: 4)
-                        .padding(.top, 8)
-                        .frame(height: 23)
-                }
-            }
-            .onTapGesture {
-                isPresented = true
-            }
-        }
-    }
-    
     private var ResumeMyCareerView: some View {
-        VStack{
-            HStack{
+        VStack {
+            HStack {
                 Text("경력사항")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
@@ -196,8 +160,8 @@ extension ResumeView {
     }
     
     private var ResumeMyExtracurricularActivityView: some View {
-        VStack{
-            HStack{
+        VStack {
+            HStack {
                 Text("대내외 활동")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
