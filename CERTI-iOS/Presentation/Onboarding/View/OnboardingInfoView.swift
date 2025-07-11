@@ -36,41 +36,48 @@ struct OnboardingInfoView: View {
                     Image(.imageOnboardingImageSmall)
                 }
                 .applyCertiFont(.sub_bold_20)
+                .padding(.horizontal, 20)
                 
                 Text("이제 서티와 함께 해요!")
                     .applyCertiFont(.sub_bold_20)
                     .foregroundStyle(.black)
                     .padding(.bottom, 46)
+                    .padding(.horizontal, 20)
 
                 Text("최종학력")
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.black)
                     .frame(height: 25)
                     .padding(.bottom, 14)
+                    .padding(.horizontal, 20)
                 
                 Text(viewModel.userUniversity)
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.mainblue)
                     .frame(height: 22)
                     .padding(.bottom, 36)
+                    .padding(.horizontal, 20)
                 
                 Text("학과")
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.black)
                     .frame(height: 25)
                     .padding(.bottom, 14)
+                    .padding(.horizontal, 20)
                 
                 Text(viewModel.userMajor)
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.mainblue)
                     .frame(height: 22)
                     .padding(.bottom, 36)
+                    .padding(.horizontal, 20)
                 
                 Text("희망직무")
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.black)
                     .frame(height: 25)
                     .padding(.bottom, 14)
+                    .padding(.horizontal, 20)
 
                 VStack(alignment: .leading, spacing: 13) {
                     ForEach(viewModel.selectedJobCategory, id: \.self) { job in
@@ -84,6 +91,7 @@ struct OnboardingInfoView: View {
                     }
                 }
                 .padding(.bottom, 36)
+                .padding(.horizontal, 20)
                 
                 Spacer()
                 
@@ -98,8 +106,9 @@ struct OnboardingInfoView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 .padding(.bottom, 22)
+                .padding(.horizontal, 20)
+
             }
-            .padding(.horizontal, 20)
 
         }
     }
