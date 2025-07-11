@@ -9,9 +9,9 @@ import SwiftUI
 
 struct OnboardingTrackView: View {
     @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
-    @Binding var selectedMajor: String
+    @Binding var selectedtrack: String
 
-    private let majorOptions = ["인문계열", "사회계열", "교육계열", "자연계열", "공학계열", "의약계열", "예체능계열"]
+    private let trackOptions = ["인문계열", "사회계열", "교육계열", "자연계열", "공학계열", "의약계열", "예체능계열"]
     
     private let columns = [
         GridItem(.flexible()),
@@ -36,23 +36,23 @@ struct OnboardingTrackView: View {
                 .padding(.bottom, 58)
             
             LazyVGrid(columns: columns, spacing: 17) {
-                ForEach(majorOptions, id: \.self) { major in
+                ForEach(trackOptions, id: \.self) { track in
                     Button {
-                        if selectedMajor == major {
-                            selectedMajor = ""
+                        if selectedtrack == track {
+                            selectedtrack = ""
                         } else {
-                            selectedMajor = major
+                            selectedtrack = track
                         }
                     } label: {
-                        Text(major)
+                        Text(track)
                             .applyCertiFont(.body_regular_16)
-                            .foregroundColor(selectedMajor == major ? .grayscale600 : .grayscale500)
+                            .foregroundColor(selectedtrack == track ? .grayscale600 : .grayscale500)
                             .frame(maxWidth: .infinity, minHeight: 80)
-                            .background(selectedMajor == major ? .lightblue : .bluewhite)
+                            .background(selectedtrack == track ? .lightblue : .bluewhite)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                             .overlay {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(selectedMajor == major ? .skyblue : .lightblue , lineWidth: 1)
+                                    .stroke(selectedtrack == track ? .skyblue : .lightblue , lineWidth: 1)
                             }
                     }
                 }
@@ -67,12 +67,12 @@ struct OnboardingTrackView: View {
             } label: {
                 Text("다음")
                     .applyCertiFont(.body_semibold_16)
-                    .foregroundColor(selectedMajor.isEmpty ? .grayscale400 : .white)
+                    .foregroundColor(selectedtrack.isEmpty ? .grayscale400 : .white)
                     .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(selectedMajor.isEmpty ? .grayscale100 : .purpleblue)
+                    .background(selectedtrack.isEmpty ? .grayscale100 : .purpleblue)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .disabled(selectedMajor.isEmpty)
+            .disabled(selectedtrack.isEmpty)
             .padding(.horizontal, 20)
             .padding(.bottom, 22)
         }
