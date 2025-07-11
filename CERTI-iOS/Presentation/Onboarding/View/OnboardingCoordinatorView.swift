@@ -34,7 +34,7 @@ struct OnboardingCoordinatorView: View {
                             .navigationBarBackButtonHidden()
 
                     case .info:
-                        OnboardingInfoView()
+                        OnboardingInfoView(viewModel: viewModel)
                             .navigationBarBackButtonHidden()
 
                     }
