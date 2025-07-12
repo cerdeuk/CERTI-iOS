@@ -12,16 +12,18 @@ struct PeriodInputComponent: View {
     @State private var endDate: Date? = nil
     @State private var isStartDateExpanded = false
     @State private var isEndDateExpanded = false
-    
+    @Binding var isFilled: Bool
+
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 0) {
                 customDatePicker(
                     selectedDate: $startDate,
                     isExpanded: $isStartDateExpanded,
                     placeholder: "시작일"
                 )
-                
+                .padding(.leading, 20)
+
                 Text("부터")
                     .applyCertiFont(.caption_semibold_14)
                     .foregroundStyle(.grayscale600)
@@ -64,9 +66,11 @@ struct PeriodInputComponent: View {
                     .onChange(of: startDate) { _ in
                         withAnimation(.easeInOut(duration: 0.2)) {
                             isStartDateExpanded = false
+                            isFilled = startDate != nil && endDate != nil
                         }
                     }
                 }
+                .padding(.horizontal, 20)
             } else if isEndDateExpanded {
                 withAnimation(.easeInOut(duration: 0.2)) {
                     DatePicker("", selection: Binding<Date>(
@@ -83,17 +87,18 @@ struct PeriodInputComponent: View {
                     .padding()
                     .background(Color.white)
                     .cornerRadius(10)
-                    .shadow(radius: 8)
+                    .shadow(color: .black.opacity(0.05), radius: 20, x: 4, y: 4)
                     .frame(maxWidth: .infinity)
                     .onChange(of: endDate) { _ in
                         withAnimation(.easeInOut(duration: 0.2)) {
                             isEndDateExpanded = false
+                            isFilled = startDate != nil && endDate != nil
                         }
                     }
                 }
+                .padding(.horizontal, 20)
             }
         }
-        .padding()
     }
     
     private var dateFormatter: DateFormatter {
@@ -147,6 +152,3 @@ extension PeriodInputComponent {
     }
 }
 
-#Preview {
-    PeriodInputComponent()
-}
