@@ -161,7 +161,7 @@ extension ResumeView {
     
     private struct ResumeMyCareerView: View {
         let columns = [GridItem(.fixed(335))]
-        let careerDummy: [MyCareerModel] = MyCareerModel.dummy()
+        let careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
         
         var body: some View {
             VStack {
@@ -175,7 +175,7 @@ extension ResumeView {
                 //                .frame(height: 20)
                 //                .padding(.bottom, 60)
                 
-                LazyVGrid(columns: columns, spacing: 0) {
+                LazyVGrid(columns: columns, spacing: 24) {
                     ForEach(careerDummy) { dummy in
                         HStack(spacing: 0) {
                             Image(.resumeList)
@@ -215,7 +215,7 @@ extension ResumeView {
     
     private struct ResumeMyExtracurricularActivityView: View {
         let columns = [GridItem(.fixed(335))]
-        let myExtracurricularActivityModelDummy: [MyExtracurricularActivityModel] = MyExtracurricularActivityModel.dummy()
+        let myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
         
         var body: some View {
             VStack {
