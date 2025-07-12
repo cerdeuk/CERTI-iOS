@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecommendInterestTagBar: View {
     
+    @Binding var isModalPresented: Bool
     let interestTags: [String] = [JobCategory.marketing.description, JobCategory.sales.description,
                                   JobCategory.rnd.description]
     
@@ -16,7 +17,7 @@ struct RecommendInterestTagBar: View {
         ScrollView(.horizontal) {
             HStack(spacing: 8) {
                 Button {
-                    
+                    isModalPresented = true
                 } label: {
                     Text("희망분야 재설정하기")
                         .applyCertiFont(.caption_semibold_12)
@@ -24,11 +25,10 @@ struct RecommendInterestTagBar: View {
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .foregroundColor(.mainblue)
-                        .overlay(
+                        .background(
                             RoundedRectangle(cornerRadius: 24)
                                 .stroke(Color.mainblue, lineWidth: 1)
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: 24))
                 }
                 
                 ForEach(interestTags, id: \.self) { tag in

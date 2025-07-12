@@ -10,6 +10,7 @@ import SwiftUI
 struct RecommendView: View {
     @EnvironmentObject var recommendCoordinator: RecommendCoordinator
     @StateObject private var viewModel = RecommendViewModel()
+    @State private var isFilterModalPresented = false
     
     let username = "김서티"
     
@@ -18,10 +19,16 @@ struct RecommendView: View {
         VStack(spacing: 0) {
             RecommendViewHeader
             
-            RecommendInterestTagBar()
+            RecommendInterestTagBar(isModalPresented: $isFilterModalPresented)
                 .padding(.top, 12)
             
             RecommendLicenseCardList(viewModel: viewModel)
+        }
+        .sheet(isPresented: $isFilterModalPresented) {
+            RecommendFilterModalView()
+                .presentationDetents([.height(548)])
+                .presentationCornerRadius(40)
+                .presentationDragIndicator(.visible)
         }
     }
     
