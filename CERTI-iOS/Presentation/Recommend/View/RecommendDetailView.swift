@@ -9,11 +9,11 @@ import SwiftUI
 
 struct RecommendDetailView: View {
     @EnvironmentObject var recommendCoordinator: RecommendCoordinator
-    @EnvironmentObject var tabRouter: CertiTabCoordinator
     let model: RecommendDetailModel = RecommendDetailModel.dummy()
     @State private var showSuccessAcquired = false
     @State private var showFailAcquired = false
     @State private var showFailToBeAcquired = false
+    @State private var showCompleteModal = false
     @State private var opacity: Double = 1.0
     
     var body: some View {
@@ -104,6 +104,10 @@ struct RecommendDetailView: View {
                     }
                     .padding(.horizontal, 37)
                     .padding(.bottom, 36)
+            }
+            
+            if showCompleteModal {
+                RecommendCompleteModalView(certificationName: model.certificationName)
             }
         }
     }
@@ -289,7 +293,7 @@ struct RecommendDetailView: View {
     
     private var AcquiredButton: some View {
         Button {
-            showSuccessAcquired = true
+            showCompleteModal = true
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
