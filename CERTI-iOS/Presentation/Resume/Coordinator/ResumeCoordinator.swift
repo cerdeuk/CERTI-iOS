@@ -10,7 +10,9 @@ import SwiftUI
 enum ResumeRoute: Hashable {
     case myCertificateEdit
     case myCareerEdit
-    case MyCareerWriteView
+    case myCareerWriteView
+    case myExtracurricularActivityEditView
+    case myExtracurricularActivityWriteView
 }
 
 final class ResumeCoordinator: ObservableObject {

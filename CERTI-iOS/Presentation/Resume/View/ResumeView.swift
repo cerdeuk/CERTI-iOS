@@ -211,7 +211,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                //                resumeCoordinator.push(next: .myCertificateEdit)
+                resumeCoordinator.push(next: .myExtracurricularActivityEditView)
             } label: {
                 Image(.iconArrowright36)
             }

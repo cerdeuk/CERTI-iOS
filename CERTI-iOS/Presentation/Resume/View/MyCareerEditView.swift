@@ -22,7 +22,7 @@ struct MyCareerEditView: View {
                 }
                 
                 Button {
-                    resumeCoordinator.push(next: .MyCareerWriteView)
+                    resumeCoordinator.push(next: .myCareerWriteView)
                 } label: {
                     HStack(spacing: 0) {
                         Image(systemName: "plus")
@@ -55,7 +55,7 @@ struct MyCareerEditView: View {
                             ResumeActivityListComponent(model: dummy)
                                 .frame(height: 50)
                                 .onTapGesture {
-                                    resumeCoordinator.push(next: .MyCareerWriteView)
+                                    resumeCoordinator.push(next: .myCareerWriteView)
                                 }
                             
                             Button {
