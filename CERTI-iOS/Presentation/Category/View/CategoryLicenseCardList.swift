@@ -27,7 +27,9 @@ struct CategoryLicenseCardList: View {
                         )
                     }
                 }
+                .padding(.bottom, 63)
             }
+            .scrollIndicators(.hidden)
         }
     }
 }

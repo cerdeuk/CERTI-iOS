@@ -9,16 +9,17 @@ import SwiftUI
 
 struct HomeCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
-
     @ObservedObject var homeCoordinator: HomeCoordinator
+    @StateObject var homeViewModel = HomeViewModel()
     
     var body: some View {
         NavigationStack(path: $homeCoordinator.path) {
-            HomeView()
+            HomeView(homeState: $homeViewModel.homewStateModel)
                 .navigationDestination(for: HomeRoute.self) { route in
                     switch route {
                     case .preLicenseEdit:
-                        PreLicenseEditView()
+                        PreLicenseEditView(preLicenses: $homeViewModel.homewStateModel.preLicenses)
+                            .navigationBarBackButtonHidden()
                     }
                 }
         }

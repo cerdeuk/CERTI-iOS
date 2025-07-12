@@ -8,27 +8,20 @@
 import Foundation
 
 enum SocialLoginType: String {
-    case kakao = "KAKAO"
-    case apple = "APPLE"
+    case kakao = "kakao"
+    case apple = "apple"
     
     var serviceName: String {
         switch self {
-        case .kakao: return "Kakao"
-        case .apple: return "Apple"
+        case .kakao: return "kakao"
+        case .apple: return "apple"
         }
     }
     
     var loginPath: String {
         switch self {
-        case .kakao: return "카카오 로그인 주소"
+        case .kakao: return "auth/sign-in"
         case .apple: return "애플 로그인 주소"
-        }
-    }
-    
-    var platform: String {
-        switch self {
-        case .kakao: return "WEB"
-        case .apple: return "IOS"
         }
     }
     
