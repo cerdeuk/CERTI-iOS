@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct CharLimitTextField: View {
-    @State private var info: String = ""
+    @Binding var text: String
+
     var maxLength: Int
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             TextField(
-                "텍스트를 작성해주세요.",
-                text: $info
-            ).maxLength(maxLength, text: $info)
+                "", text: $text,
+                prompt: Text("텍스트를 입력해주세요.")
+                    .foregroundColor(.grayscale300)
+            ).maxLength(maxLength, text: $text)
                 .applyCertiFont(.caption_semibold_14)
-                .foregroundStyle(.grayscale300)
+                .foregroundStyle(.grayscale600)
             
             Rectangle()
                  .frame(height: 1)
@@ -26,18 +28,13 @@ struct CharLimitTextField: View {
                  .padding(.top, 8)
                  .padding(.bottom, 8)
 
-
             HStack {
                 Spacer()
-                Text("\(info.count)/\(maxLength)")
+                Text("\(text.count)/\(maxLength)")
                     .applyCertiFont(.caption_semibold_14)
                     .foregroundStyle(.grayscale300)
                     .frame(height: 20)
             }
         }
     }
-}
-
-#Preview {
-    CharLimitTextField(maxLength: 10)
 }
