@@ -15,4 +15,13 @@ extension Text {
             return Text("\(username.prefix(3))...")
         }
     }
+    
+    static func trimmedResumeInfo(_ resumeInfo: String, _ charCount: Int) -> Text {
+        if resumeInfo.count == charCount {
+            return Text(resumeInfo)
+        } else {
+            return Text("\(resumeInfo.prefix(charCount))...")
+        }
+    }
+
 }
