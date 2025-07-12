@@ -12,7 +12,7 @@ struct MyCareerEditView: View {
     @State private var isDeleteAlertPresented = false
     
     let columns = [GridItem(.fixed(335))]
-    let careerDummy: [MyCareerModel] = MyCareerModel.dummy()
+    let careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
 
     var body: some View {
         ZStack {
@@ -52,7 +52,7 @@ struct MyCareerEditView: View {
                 LazyVGrid(columns: columns, spacing: 36) {
                     ForEach(careerDummy) { dummy in
                         HStack(spacing: 0) {
-                            ResumeActivityListComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                            ResumeActivityListComponent(model: dummy)
                                 .frame(height: 50)
                                 .onTapGesture {
                                     //수정하기
