@@ -195,7 +195,11 @@ struct RecommendDetailView: View {
                     .padding(.top, 12)
                 
                 Text("시험일자")
+                    .applyCertiFont(.body_semibold_16)
+                    .foregroundStyle(.grayscale600)
+                    .frame(height: 22)
                     .padding(.top, 24)
+                
                 
                 HStack(spacing: 0) {
                     Image(.iconDate16)
@@ -212,6 +216,9 @@ struct RecommendDetailView: View {
                 .padding(.top, 12)
                 
                 Text("신청방법")
+                    .applyCertiFont(.body_semibold_16)
+                    .foregroundStyle(.grayscale600)
+                    .frame(height: 22)
                     .padding(.top, 24)
                 
                 HStack(spacing: 0) {
@@ -229,10 +236,13 @@ struct RecommendDetailView: View {
                 .padding(.top, 12)
                 
                 Text("자격증 유효기간")
+                    .applyCertiFont(.body_semibold_16)
+                    .foregroundStyle(.grayscale600)
+                    .frame(height: 22)
                     .padding(.top, 24)
                 
                 HStack(spacing: 0) {
-                    Image(.iconCertification16)
+                    Image(.iconClock16)
                     
                     Text(model.expirationPeriod)
                         .applyCertiFont(.body_regular_16)
@@ -288,7 +298,6 @@ struct RecommendDetailView: View {
             .padding(.horizontal, 20)
         }
         .padding(.bottom, 12)
-        .background(.clear)
     }
     
     private var AcquiredButton: some View {
@@ -308,6 +317,5 @@ struct RecommendDetailView: View {
             .padding(.horizontal, 20)
         }
         .padding(.bottom, 12)
-        .background(.clear)
     }
 }
