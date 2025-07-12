@@ -174,7 +174,7 @@ extension ResumeView {
                 //                .frame(height: 20)
                 //                .padding(.bottom, 60)
                 
-                LazyVGrid(columns: columns, spacing: 0) {
+                LazyVGrid(columns: columns, spacing: 24) {
                     ForEach(careerDummy) { dummy in
                         ResumeLoadMapComponent(model: dummy)
                     }
@@ -220,7 +220,7 @@ extension ResumeView {
 //                    .foregroundStyle(.grayscale400)
 //                    .frame(height: 20)
 //                    .padding(.bottom, 60)
-                LazyVGrid(columns: columns, spacing: 0) {
+                LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(myExtracurricularActivityModelDummy) { model in
                         ResumeLoadMapComponent(model: model)
                     }
