@@ -10,7 +10,7 @@ import SwiftUI
 struct OnboardingGradeView: View {
     @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
     @Binding var selectedGrade: String
-    private let gradeOptions = ["1학년", "2학년", "3학년", "4학년"]
+    private let gradeOptions = ["1학년", "2학년", "3학년", "4학년 이상", "졸업/졸업유예"]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
