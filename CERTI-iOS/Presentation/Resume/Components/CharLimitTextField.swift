@@ -24,7 +24,7 @@ struct CharLimitTextField: View {
             
             Rectangle()
                  .frame(height: 1)
-                 .foregroundColor(.grayscale100)
+                 .foregroundColor(text.isEmpty ? .grayscale100 : .grayscale300)
                  .padding(.top, 8)
                  .padding(.bottom, 8)
 
