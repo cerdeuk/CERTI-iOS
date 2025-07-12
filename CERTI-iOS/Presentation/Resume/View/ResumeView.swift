@@ -133,6 +133,8 @@ extension ResumeView {
                 .padding(.top, 16)
                 
                 Image(.resumeLine)
+                    .resizable()
+                    .scaledToFit()
                     .padding(.top, 36)
                     .padding(.bottom, 36)
             }
@@ -157,6 +159,7 @@ extension ResumeView {
         }
         .frame(height: 36)
         .padding(.horizontal, 20)
+        .padding(.bottom, 16)
     }
     
     private struct ResumeMyCareerView: View {
@@ -181,14 +184,18 @@ extension ResumeView {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
                                 .padding(.trailing, 24)
+                                .padding(.top, 20.5)
+                                .padding(.bottom, 29.5)
                             
-                            ResumeActivityListComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                            ResumeActivityListComponent(model: dummy)
                                 .frame(height: 74)
                         }
                     }
                 }
                 
                 Image(.resumeLine)
+                    .resizable()
+                    .scaledToFit()
                     .padding(.bottom, 36)
             }
         }
@@ -211,6 +218,7 @@ extension ResumeView {
         }
         .frame(height: 36)
         .padding(.horizontal, 20)
+        .padding(.bottom, 16)
     }
     
     private struct ResumeMyExtracurricularActivityView: View {
@@ -228,15 +236,18 @@ extension ResumeView {
 //                    .foregroundStyle(.grayscale400)
 //                    .frame(height: 20)
 //                    .padding(.bottom, 60)
-                LazyVGrid(columns: columns, spacing: 0) {
+                LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(myExtracurricularActivityModelDummy) { dummy in
                         HStack(spacing: 0) {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
                                 .padding(.trailing, 24)
+                                .padding(.top, 20.5)
+                                .padding(.bottom, 29.5)
                             
-                            ResumeActivityListComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                            ResumeActivityListComponent(model: dummy)
                                 .frame(height: 74)
+
                         }
                     }
                 }
