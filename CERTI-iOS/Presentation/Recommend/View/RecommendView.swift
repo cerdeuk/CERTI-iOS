@@ -35,10 +35,22 @@ struct RecommendView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 0) {
-                Group {
+                Button {
+                    recommendCoordinator.push(next: .detail)
+                } label: {
                     Text.trimmedUsername(username)
-                    Text("님에게 추천하는 자격증")
+                        .applyCertiFont(.sub_bold_20)
+                        .foregroundStyle(.grayscale600)
+                        .frame(height: 26)
                 }
+                Text("님에게 추천하는 자격증")
+                    .foregroundStyle(.grayscale600)
+                    .frame(height: 26)
+
+//                Group {
+//                    Text.trimmedUsername(username)
+//                    Text("님에게 추천하는 자격증")
+//                }
                 .applyCertiFont(.sub_bold_20)
                 .foregroundStyle(.grayscale600)
                 .frame(height: 26)

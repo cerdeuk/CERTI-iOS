@@ -96,7 +96,7 @@ extension HomeView {
             .padding(.top, 32)
             
             HStack(alignment: .center, spacing: 0) {
-                Image(.imageProfileP)
+                Image(.imageProfilePdf)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 80, height: 80)
@@ -301,9 +301,4 @@ extension HomeView {
         .padding(.top, 44)
         .padding(.bottom, 98)
     }
-}
-
-#Preview {
-    HomeView()
-        .environmentObject(HomeCoordinator())
 }
