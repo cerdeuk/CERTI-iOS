@@ -1,5 +1,5 @@
 //
-//  CategoryLicenseCardList.swift
+//  RecommendLicenseCardList.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/8/25.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct CategoryLicenseCardList: View {
+struct RecommendLicenseCardList: View {
     
-    @ObservedObject var viewModel: CategoryViewModel
+    @ObservedObject var viewModel: RecommendViewModel
     
     let columns = [
         GridItem(.fixed(335))
@@ -20,11 +20,8 @@ struct CategoryLicenseCardList: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(viewModel.licenseCards) { item in
-                        LicenseCardItem(model: item,
-                                                onTapFavorite: {
-                            viewModel.toggleFavorite(id: item.id)
-                        }
-                        )
+                        LicenseCardItem(model: item, onTapFavorite: {})
+                            .padding(.top, 16)
                     }
                 }
                 .padding(.bottom, 63)
