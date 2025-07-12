@@ -17,8 +17,8 @@ struct ResumeCoordinatorView: View {
             ResumeView()
                 .navigationDestination(for: ResumeRoute.self) { route in
                     switch route {
-                    case .detail:
-                        ResumeDetailView()
+                    case .myCertificateEdit:
+                        MyCertificateEditView()
                     }
                 }
         }
