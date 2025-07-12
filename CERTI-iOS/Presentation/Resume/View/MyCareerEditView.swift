@@ -22,7 +22,7 @@ struct MyCareerEditView: View {
                 }
                 
                 Button {
-                    //작성하기
+                    resumeCoordinator.push(next: .MyCareerWriteView)
                 } label: {
                     HStack(spacing: 0) {
                         Image(systemName: "plus")
@@ -55,7 +55,7 @@ struct MyCareerEditView: View {
                             ResumeActivityListComponent(model: dummy)
                                 .frame(height: 50)
                                 .onTapGesture {
-                                    //수정하기
+                                    resumeCoordinator.push(next: .MyCareerWriteView)
                                 }
                             
                             Button {
