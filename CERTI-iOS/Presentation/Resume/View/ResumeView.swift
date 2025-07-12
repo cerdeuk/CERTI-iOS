@@ -20,7 +20,8 @@ struct ResumeView: View {
                 ResumeMyCertificateView(isPresented: $isPresented)
                 ResumeMyCareerTitleView
                 ResumeMyCareerView()
-                ResumeMyExtracurricularActivityView
+                ResumeMyExtracurricularActivityTitleView
+                ResumeMyExtracurricularActivityView()
             }
         }
         .scrollIndicators(.hidden)
@@ -97,7 +98,7 @@ extension ResumeView {
     
     private struct ResumeMyCertificateView: View {
         @Binding var isPresented: Bool
-
+        
         let rows = [
             GridItem(.fixed(100))
         ]
@@ -106,15 +107,15 @@ extension ResumeView {
         
         var body: some View {
             VStack(spacing: 0) {
-//                 취득한 자격증이 없을 때
-//                            Image(.imageEmpty)
-//                                .padding(.top, 60)
-//                
-//                            Text("취득한 자격증이 없습니다.")
-//                                .applyCertiFont(.caption_regular_14)
-//                                .foregroundStyle(.grayscale400)
-//                                .frame(height: 20)
-//                                .padding(.bottom, 60)
+                //                 취득한 자격증이 없을 때
+                //                            Image(.imageEmpty)
+                //                                .padding(.top, 60)
+                //
+                //                            Text("취득한 자격증이 없습니다.")
+                //                                .applyCertiFont(.caption_regular_14)
+                //                                .foregroundStyle(.grayscale400)
+                //                                .frame(height: 20)
+                //                                .padding(.bottom, 60)
                 
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: rows, spacing: 12) {
@@ -134,7 +135,7 @@ extension ResumeView {
                     .padding(.top, 36)
                     .padding(.bottom, 36)
             }
-
+            
         }
     }
     
@@ -148,7 +149,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-//                resumeCoordinator.push(next: .myCertificateEdit)
+                //                resumeCoordinator.push(next: .myCertificateEdit)
             } label: {
                 Image(.iconArrowright36)
             }
@@ -185,32 +186,47 @@ extension ResumeView {
         }
     }
     
-    private var ResumeMyExtracurricularActivityView: some View {
-        VStack {
-            HStack {
-                Text("대내외 활동")
-                    .applyCertiFont(.sub_semibold_20)
-                    .foregroundStyle(.grayscale600)
-                    .frame(height: 26)
-                
-                Spacer()
-                
-                Button {
-                    //누르면 편집
-                } label: {
-                    Image(.iconArrowright36)
-                }
+    private var ResumeMyExtracurricularActivityTitleView: some View {
+        HStack{
+            Text("대내외 활동")
+                .applyCertiFont(.sub_semibold_20)
+                .foregroundStyle(.grayscale600)
+                .frame(height: 26)
+            
+            Spacer()
+            
+            Button {
+                //                resumeCoordinator.push(next: .myCertificateEdit)
+            } label: {
+                Image(.iconArrowright36)
             }
-            .padding(.horizontal, 20)
-            
-            Image(.imageEmpty)
-                .padding(.top, 60)
-            
-            Text("대내외 활동을 추가해보세요!")
-                .applyCertiFont(.caption_regular_14)
-                .foregroundStyle(.grayscale400)
-                .frame(height: 20)
-                .padding(.bottom, 60)
+        }
+        .frame(height: 36)
+        .padding(.horizontal, 20)
+    }
+    
+    private struct ResumeMyExtracurricularActivityView: View {
+        let columns = [GridItem(.fixed(335))]
+        let myExtracurricularActivityModelDummy: [MyExtracurricularActivityModel] = MyExtracurricularActivityModel.dummy()
+        
+        var body: some View {
+            VStack {
+//                대내외 활동 없을 때
+//                Image(.imageEmpty)
+//                    .padding(.top, 60)
+//                
+//                Text("대내외 활동을 추가해보세요!")
+//                    .applyCertiFont(.caption_regular_14)
+//                    .foregroundStyle(.grayscale400)
+//                    .frame(height: 20)
+//                    .padding(.bottom, 60)
+                LazyVGrid(columns: columns, spacing: 0) {
+                    ForEach(myExtracurricularActivityModelDummy) { dummy in
+                        ResumeLoadMapComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                    }
+                }
+                .padding(.bottom, 54)
+            }
         }
     }
 }
