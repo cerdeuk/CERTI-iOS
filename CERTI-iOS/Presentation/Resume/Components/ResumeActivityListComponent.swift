@@ -1,5 +1,5 @@
 //
-//  ResumeMyCareerItem.swift
+//  ResumeActivityListComponent.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 7/12/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ResumeLoadMapComponent: View {
+struct ResumeActivityListComponent: View {
     var startAt: String = "2021.11"
     var endAt: String = "2022.01"
     var name: String = "패션디자이너 인턴ㅇ"
@@ -16,11 +16,6 @@ struct ResumeLoadMapComponent: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
-            Image(.resumeList)
-                .frame(width: 24, height: 24)
-                .offset(x:0, y: 0)
-                .padding(.trailing, 24)
-            
             VStack(spacing: 0) {
                 Text("\(startAt) ~ \(endAt)")
                     .applyCertiFont(.caption_regular_12)
@@ -52,10 +47,9 @@ struct ResumeLoadMapComponent: View {
             }
             .frame(width: 137, height: 50)
         }
-        .frame(height: 74)
     }
 }
 
 #Preview {
-    ResumeLoadMapComponent()
+    ResumeActivityListComponent()
 }

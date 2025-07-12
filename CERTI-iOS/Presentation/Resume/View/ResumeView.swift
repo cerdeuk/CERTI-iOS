@@ -52,6 +52,7 @@ extension ResumeView {
             
             Spacer()
         }
+        .padding(.top, 12)
         .padding(.bottom, 36)
         .padding(.horizontal, 20)
     }
@@ -149,7 +150,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                //                resumeCoordinator.push(next: .myCertificateEdit)
+                resumeCoordinator.push(next: .myCareerEdit)
             } label: {
                 Image(.iconArrowright36)
             }
@@ -176,7 +177,14 @@ extension ResumeView {
                 
                 LazyVGrid(columns: columns, spacing: 0) {
                     ForEach(careerDummy) { dummy in
-                        ResumeLoadMapComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                        HStack(spacing: 0) {
+                            Image(.resumeList)
+                                .frame(width: 24, height: 24)
+                                .padding(.trailing, 24)
+                            
+                            ResumeActivityListComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                                .frame(height: 74)
+                        }
                     }
                 }
                 
@@ -222,7 +230,14 @@ extension ResumeView {
 //                    .padding(.bottom, 60)
                 LazyVGrid(columns: columns, spacing: 0) {
                     ForEach(myExtracurricularActivityModelDummy) { dummy in
-                        ResumeLoadMapComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                        HStack(spacing: 0) {
+                            Image(.resumeList)
+                                .frame(width: 24, height: 24)
+                                .padding(.trailing, 24)
+                            
+                            ResumeActivityListComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                                .frame(height: 74)
+                        }
                     }
                 }
                 .padding(.bottom, 54)
