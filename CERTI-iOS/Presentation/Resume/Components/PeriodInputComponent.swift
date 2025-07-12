@@ -14,92 +14,86 @@ struct PeriodInputComponent: View {
     @State private var isEndDateExpanded = false
     
     var body: some View {
-        ZStack {
+        VStack(spacing: 16) {
             HStack(spacing: 0) {
                 customDatePicker(
                     selectedDate: $startDate,
-                    isExpanded: isStartDateExpanded,
+                    isExpanded: $isStartDateExpanded,
                     placeholder: "시작일"
                 )
                 
                 Text("부터")
                     .applyCertiFont(.caption_semibold_14)
                     .foregroundStyle(.grayscale600)
-                    .frame(width: 25, height: 20)
+                    .frame(height: 20)
                     .padding(.leading, 8)
                     .padding(.trailing, 10)
-                
+
                 customDatePicker(
                     selectedDate: $endDate,
-                    isExpanded: isEndDateExpanded,
+                    isExpanded: $isEndDateExpanded,
                     placeholder: "종료일"
                 )
                 
                 Text("까지")
                     .applyCertiFont(.caption_semibold_14)
                     .foregroundStyle(.grayscale600)
-                    .frame(width: 25, height: 20)
+                    .frame(height: 20)
                     .padding(.leading, 8)
-            }
-            
-            if isStartDateExpanded || isEndDateExpanded {
-                Color.blackOpacity40
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        isStartDateExpanded = false
-                        isEndDateExpanded = false
-                    }
                 
-                VStack {
-                    Spacer()
-                    
-                    DatePicker("", selection: Binding(
-                        get: {
-                            if isStartDateExpanded {
-                                return startDate ?? Date()
-                            } else {
-                                return endDate ?? Date()
-                            }
-                        },
-                        set: { newDate in
-                            if isStartDateExpanded {
-                                startDate = newDate
-                                
-                                if let endDate = endDate, newDate > endDate {
-                                    self.endDate = newDate
-                                }
-                            } else {
-                                endDate = newDate
-                                
-                                if let startDate = startDate, newDate < startDate {
-                                    self.startDate = newDate
-                                }
+                Spacer()
+            }
+            if isStartDateExpanded {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    DatePicker("", selection: Binding<Date>(
+                        get: { startDate ?? Date() },
+                        set: {
+                            startDate = $0
+                            if let end = endDate, $0 > end {
+                                endDate = $0
                             }
                         }
                     ), displayedComponents: .date)
                     .datePickerStyle(.graphical)
                     .environment(\.locale, Locale(identifier: "ko_KR"))
                     .padding()
-                    .background(.white)
-                    .cornerRadius(16)
-                    .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
-                    .padding(.horizontal, 20)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .shadow(color: .black.opacity(0.05), radius: 20, x: 4, y: 4)
+                    .frame(maxWidth: .infinity)
                     .onChange(of: startDate) { _ in
-                        if isStartDateExpanded {
+                        withAnimation(.easeInOut(duration: 0.2)) {
                             isStartDateExpanded = false
                         }
                     }
+                }
+            } else if isEndDateExpanded {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    DatePicker("", selection: Binding<Date>(
+                        get: { endDate ?? Date() },
+                        set: {
+                            endDate = $0
+                            if let start = startDate, $0 < start {
+                                startDate = $0
+                            }
+                        }
+                    ), displayedComponents: .date)
+                    .datePickerStyle(.graphical)
+                    .environment(\.locale, Locale(identifier: "ko_KR"))
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .shadow(radius: 8)
+                    .frame(maxWidth: .infinity)
                     .onChange(of: endDate) { _ in
-                        if isEndDateExpanded {
+                        withAnimation(.easeInOut(duration: 0.2)) {
                             isEndDateExpanded = false
                         }
                     }
-                    
-                    Spacer()
                 }
-                .transition(.opacity.combined(with: .scale))
             }
         }
+        .padding()
     }
     
     private var dateFormatter: DateFormatter {
@@ -113,38 +107,42 @@ struct PeriodInputComponent: View {
 extension PeriodInputComponent {
     private func customDatePicker(
         selectedDate: Binding<Date?>,
-        isExpanded: Bool,
+        isExpanded: Binding<Bool>,
         placeholder: String
     ) -> some View {
-        Button {
-            if placeholder == "시작일" {
-                isEndDateExpanded = false
-                isStartDateExpanded.toggle()
-            } else {
-                isStartDateExpanded = false
-                isEndDateExpanded.toggle()
-            }
-        } label: {
-            HStack(spacing: 0) {
-                Text(selectedDate.wrappedValue != nil ? dateFormatter.string(from: selectedDate.wrappedValue!) : placeholder)
-                    .applyCertiFont(.caption_semibold_12)
-                    .frame(width:66, height: 18, alignment: .leading)
-                    .foregroundColor(selectedDate.wrappedValue != nil ? .grayscale600 : .grayscale300)
-                    .padding(.leading, 12)
+        VStack {
+            Button {
+                if placeholder == "시작일" {
+                    isEndDateExpanded = false
+                } else {
+                    isStartDateExpanded = false
+                }
                 
-                Spacer()
-                
-                Image(.iconArrowdown24)
-                    .frame(width: 24, height: 24)
-                    .padding(.trailing, 12)
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    isExpanded.wrappedValue.toggle()
+                }
+            } label: {
+                HStack {
+                    Text(selectedDate.wrappedValue != nil ? dateFormatter.string(from: selectedDate.wrappedValue!) : placeholder)
+                        .applyCertiFont(.caption_semibold_12)
+                        .frame(height: 18)
+                        .foregroundColor(selectedDate.wrappedValue != nil ? .grayscale600 : .grayscale300)
+                        .padding(.leading, 12)
+                    
+                    Spacer()
+                    
+                    Image(.iconArrowdown24)
+                        .foregroundColor(.secondary)
+                        .padding(.trailing, 12)
+                }
+                .frame(width: 121, height: 40)
+                .background(.white)
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(.grayscale100, lineWidth: 1)
+                )
             }
-            .frame(width: 121, height: 40)
-            .background(.white)
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(.grayscale100, lineWidth: 1)
-            )
         }
     }
 }
