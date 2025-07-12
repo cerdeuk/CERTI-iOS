@@ -15,19 +15,20 @@ enum AppRoute {
 }
 
 final class AppCoordinator: ObservableObject {
-    @Published var appState: AppRoute = .main
+    @Published var appState: AppRoute = .splash
     let tabCoordinator = CertiTabCoordinator()
+    let onboardingCoordinator = OnboardingCoordinator()
 
     init() {
-//        #if DEBUG
-//        TokenManager.shared.clearTokens()
-//        UserDefaults.standard.removeObject(forKey: "didOnboard")
-//        print("[DEBUG] Keychain cleared for login testing")
-//        #endif
-//        
-//        Task {
-//            await start()
-//        }
+        #if DEBUG
+        TokenManager.shared.clearTokens()
+        UserDefaults.standard.removeObject(forKey: "didOnboard")
+        print("[DEBUG] Keychain cleared for login testing")
+        #endif
+        
+        Task {
+            await start()
+        }
     }
 
     private func start() async {
@@ -56,6 +57,10 @@ final class AppCoordinator: ObservableObject {
     func completeOnboarding() {
         UserDefaults.standard.set(true, forKey: "didOnboard")
         appState = .main
+    }
+    
+    func cancelOnboarding() {
+        appState = .auth
     }
 
     /// 로그아웃 시

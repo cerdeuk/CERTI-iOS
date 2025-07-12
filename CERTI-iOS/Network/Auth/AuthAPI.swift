@@ -35,7 +35,7 @@ extension AuthAPI: BaseTargetType {
         case let .login(type, _):
             return type.loginPath
         case .refresh:
-            return "리프레쉬토큰 요청 주소"
+            return "auth/reissue"
         case .logout:
             return "로그아웃 주소"
         case .withDraw:
@@ -44,27 +44,26 @@ extension AuthAPI: BaseTargetType {
     }
     
     var method: Moya.Method {
-        return .post
+        switch self {
+        case .login(let type, let code):
+            return .post
+        case .logout:
+            return .post
+        case .refresh:
+            return .get
+        case .withDraw:
+            return .post
+        }
     }
     
     var task: Moya.Task {
         switch self {
         case let .login(type, code):
             let bodyParameters: [String: Any] = [
-                "socialType": type.rawValue,
-                "platform": type.platform
+                type.authorizationQueryKey: code,
+                "socialType": type.rawValue
             ]
-            
-            let queryParameters: [String: Any] = [
-                type.authorizationQueryKey: code
-            ]
-            
-            return .requestCompositeParameters(
-                bodyParameters: bodyParameters,
-                bodyEncoding: JSONEncoding.default,
-                urlParameters: queryParameters
-            )
-            
+            return .requestParameters(parameters: bodyParameters, encoding: JSONEncoding.default)
         case .refresh:
             return .requestPlain
         case .logout:
