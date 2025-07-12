@@ -46,7 +46,7 @@ struct RecommendInterestTagBar: View {
                         .clipShape(RoundedRectangle(cornerRadius: 24))
                 }
             }
-            .padding(.leading, 20)
+            .padding(.horizontal, 20)
             .padding(.vertical, 12)
         }
         .scrollIndicators(.hidden)
