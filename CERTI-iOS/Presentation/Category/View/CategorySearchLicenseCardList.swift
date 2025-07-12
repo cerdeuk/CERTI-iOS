@@ -1,5 +1,5 @@
 //
-//  CategoryLicenseCardList.swift
+//  CategorySearchLicenseCardList.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/8/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CategoryLicenseCardList: View {
+struct CategorySearchLicenseCardList: View {
     
     @ObservedObject var viewModel: CategoryViewModel
     
@@ -27,9 +27,7 @@ struct CategoryLicenseCardList: View {
                         )
                     }
                 }
-                .padding(.bottom, 63)
             }
-            .scrollIndicators(.hidden)
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  CategoryTabBarView.swift
+//  CategoryTabBar.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/8/25.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct CategoryTabBarView: View {
+struct CategoryTabBar: View {
     
-    @State private var selectedCategory: JobCategory = .business
+    @Binding var selectedCategory: JobCategory
     var onSearchTapped: () -> Void
     
     var body: some View {
@@ -34,7 +34,7 @@ struct CategoryTabBarView: View {
             .padding(.horizontal, 20)
             .padding(.top, 20)
             
-            JobCategorySegmentedView(selectedCategory: $selectedCategory)
+            JobCategorySegmentedControl(selectedCategory: $selectedCategory)
                 .padding(.top, 22)
             
             Rectangle()

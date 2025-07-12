@@ -1,5 +1,5 @@
 //
-//  JobCategorySegmentedView.swift
+//  JobCategorySegmentedControl.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/9/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct JobCategorySegmentedView: View {
+struct JobCategorySegmentedControl: View {
     
     @Binding var selectedCategory: JobCategory
     
