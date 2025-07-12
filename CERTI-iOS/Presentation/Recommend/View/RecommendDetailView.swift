@@ -11,47 +11,101 @@ struct RecommendDetailView: View {
     @EnvironmentObject var recommendCoordinator: RecommendCoordinator
     @EnvironmentObject var tabRouter: CertiTabCoordinator
     let model: RecommendDetailModel = RecommendDetailModel.dummy()
-
+    @State private var showSuccessAcquired = false
+    @State private var showFailAcquired = false
+    @State private var showFailToBeAcquired = false
+    @State private var opacity: Double = 1.0
+    
     var body: some View {
-       
-        VStack(spacing: 0) {
-            BackButton {
-                recommendCoordinator.pop()
+        
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                BackButton {
+                    recommendCoordinator.pop()
+                }
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(model.certificationName)
+                            .applyCertiFont(.sub_bold_20)
+                            .foregroundStyle(.grayscale600)
+                            .frame(height: 26)
+                            .padding(.top, 33)
+                            .padding(.horizontal, 20)
+                        
+                        TagChip(tags: model.tags, spacing: 8)
+                            .padding(.top, 12)
+                            .padding(.horizontal, 20)
+                        
+                        CertificationBox
+                        
+                        Text("자격증 설명")
+                            .applyCertiFont(.body_bold_18)
+                            .foregroundStyle(.grayscale600)
+                            .frame(height: 25)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 48)
+                        
+                        CertificationDescription
+                        
+                        ToBeAcquiredButton
+                            .padding(.top, 59)
+                        
+                        AcquiredButton
+                    }
+                }
+                .scrollIndicators(.hidden)
+            }
+            .navigationBarBackButtonHidden(true)
+            
+            if showSuccessAcquired {
+                RecommendSuccessToastMessage(title: "취득 예정 자격증이 추가되었어요!", subtitle: "(홈-취득 예정 자격증에서 확인 가능)")
+                    .opacity(opacity)
+                    .onAppear {
+                        withAnimation(.easeOut(duration: 2.0)) {
+                            opacity = 0
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            showSuccessAcquired = false
+                            opacity = 1
+                        }
+                    }
+                    .padding(.horizontal, 37)
+                    .padding(.bottom, 36)
             }
             
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(model.certificationName)
-                        .applyCertiFont(.sub_bold_20)
-                        .foregroundStyle(.grayscale600)
-                        .frame(height: 26)
-                        .padding(.top, 33)
-                        .padding(.horizontal, 20)
-                    
-                    TagChip(tags: model.tags, spacing: 8)
-                        .padding(.top, 12)
-                        .padding(.horizontal, 20)
-                    
-                    CertificationBox
-                    
-                    Text("자격증 설명")
-                        .applyCertiFont(.body_bold_18)
-                        .foregroundStyle(.grayscale600)
-                        .frame(height: 25)
-                        .padding(.horizontal, 20)
-                        .padding(.top, 48)
-                    
-                    CertificationDescription
-                    
-                    ToBeAcquiredButton
-                        .padding(.top, 59)
-                    
-                    AcquiredButton
-                }
+            if showFailToBeAcquired {
+                RecommendFailToastMessage(title: "이미 추가된 자격증입니다.", subtitle: "홈-취득 예정 자격증에서 확인 가능")
+                    .opacity(opacity)
+                    .onAppear {
+                        withAnimation(.easeOut(duration: 2.0)) {
+                            opacity = 0
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            showFailToBeAcquired = false
+                            opacity = 1
+                        }
+                    }
+                    .padding(.horizontal, 37)
+                    .padding(.bottom, 36)
             }
-            .scrollIndicators(.hidden)
+            
+            if showFailAcquired {
+                RecommendFailToastMessage(title: "이미 취득 완료된 자격증입니다.", subtitle: "이력서 탭에서 확인 가능")
+                    .opacity(opacity)
+                    .onAppear {
+                        withAnimation(.easeOut(duration: 2.0)) {
+                            opacity = 0
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            showFailAcquired = false
+                            opacity = 1
+                        }
+                    }
+                    .padding(.horizontal, 37)
+                    .padding(.bottom, 36)
+            }
         }
-        .navigationBarBackButtonHidden(true)
     }
     
     private var CertificationBox : some View {
@@ -106,13 +160,13 @@ struct RecommendDetailView: View {
             .padding(.horizontal, 22)
         }
         .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.bluewhite)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.lightblue, lineWidth: 1)
-                    )
-            )
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.bluewhite)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.lightblue, lineWidth: 1)
+                )
+        )
         .padding(.top, 36)
         .padding(.horizontal, 20)
     }
@@ -131,9 +185,9 @@ struct RecommendDetailView: View {
                     .padding(.all, 20)
                     .foregroundColor(.grayscale600)
                     .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color.grayscale100, lineWidth: 1)
-                        )
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.grayscale100, lineWidth: 1)
+                    )
                     .padding(.top, 12)
                 
                 Text("시험일자")
@@ -166,7 +220,7 @@ struct RecommendDetailView: View {
                         .padding(.leading, 6)
                     
                     Spacer()
-
+                    
                 }
                 .padding(.top, 12)
                 
@@ -183,7 +237,7 @@ struct RecommendDetailView: View {
                         .padding(.leading, 6)
                     
                     Spacer()
-
+                    
                 }
                 .padding(.top, 12)
                 
@@ -199,9 +253,9 @@ struct RecommendDetailView: View {
                     .padding(.vertical, 8)
                     .padding(.horizontal, 26)
                     .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(.purplewhite)
-                            )
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(.purplewhite)
+                    )
                 }
                 .padding(.top, 24)
             }
@@ -211,7 +265,7 @@ struct RecommendDetailView: View {
     
     private var ToBeAcquiredButton: some View {
         Button {
-            
+            showFailToBeAcquired = true
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
@@ -235,7 +289,7 @@ struct RecommendDetailView: View {
     
     private var AcquiredButton: some View {
         Button {
-            
+            showSuccessAcquired = true
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
@@ -252,8 +306,4 @@ struct RecommendDetailView: View {
         .padding(.bottom, 12)
         .background(.clear)
     }
-}
-
-#Preview {
-    RecommendDetailView()
 }
