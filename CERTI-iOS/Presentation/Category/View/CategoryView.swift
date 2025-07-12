@@ -10,21 +10,24 @@ import SwiftUI
 struct CategoryView: View {
     
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
-    @StateObject private var viewModel = CategoryViewModel()
-    @State private var isFilterToggle = false
+    
+    @ObservedObject var viewModel: CategoryViewModel
     
     var body: some View {
         VStack(alignment: .leading,spacing: 0) {
-            CategoryTabBarView{
-                categoryCoordinator.push(next: .detail)
-            }
+            CategoryTabBar(
+                        selectedCategory: $viewModel.selectedCategory,
+                        onSearchTapped: {
+                            categoryCoordinator.push(next: .detail)
+                        }
+                    )
             
-            FavoriteFilterToggleButton(isSelected: isFilterToggle) {
-                isFilterToggle.toggle()
+            FavoriteFilterToggleButton(isSelected: viewModel.isFilterToggle) {
+                viewModel.isFilterToggle.toggle()
                 print("즐겨찾기 버튼 눌림")
             }
             
-            LicenseCardList(viewModel: viewModel)
+            CategoryLicenseCardList(viewModel: viewModel)
         }
     }
 }

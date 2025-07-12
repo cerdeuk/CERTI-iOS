@@ -15,21 +15,17 @@ struct LicenseCardItem: View {
     var body: some View {
         ZStack(alignment: .topTrailing){
             RoundedRectangle(cornerRadius: 12)
-                .fill(.clear)
-                .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(.grayscale100, lineWidth: 1)
-                    )
+                .stroke(.grayscale100, lineWidth: 1)
             
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 0) {
-                    Text(model.title)
+                    Text(model.certificationName)
                         .applyCertiFont(.body_semibold_18)
                         .foregroundStyle(.black)
                         .frame(height: 25)
                         .padding(.trailing, 8)
                     
-                    Text(model.subtitle)
+                    Text(model.certificationType)
                         .applyCertiFont(.caption_regular_12)
                         .foregroundStyle(.black)
                         .frame(height: 18)
@@ -37,13 +33,13 @@ struct LicenseCardItem: View {
                 .padding(.top, 22)
                 
                 HStack(alignment: .bottom, spacing: 0) {
-                    TagChip(tags: model.tagList, spacing: 4)
+                    TagChip(tags: model.tags, spacing: 4)
                     
                     Spacer()
                     
                     HStack(alignment: .center, spacing: 4) {
                         Image(.iconPaper16)
-                        Text(model.type)
+                        Text(model.testType)
                             .applyCertiFont(.caption_regular_12)
                             .foregroundStyle(.grayscale500)
                             .frame(height: 18)
