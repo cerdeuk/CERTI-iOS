@@ -18,7 +18,8 @@ struct ResumeView: View {
                 ResumeProfileView
                 ResumeMyCertifivateTitleView
                 ResumeMyCertificateView(isPresented: $isPresented)
-                ResumeMyCareerView
+                ResumeMyCareerTitleView
+                ResumeMyCareerView()
                 ResumeMyExtracurricularActivityView
             }
         }
@@ -137,35 +138,50 @@ extension ResumeView {
         }
     }
     
-    private var ResumeMyCareerView: some View {
-        VStack {
-            HStack {
-                Text("경력사항")
-                    .applyCertiFont(.sub_semibold_20)
-                    .foregroundStyle(.grayscale600)
-                    .frame(height: 26)
-                
-                Spacer()
-                
-                Button {
-                    //누르면 편집 뷰
-                } label: {
-                    Image(.iconArrowright36)
-                }
+    private var ResumeMyCareerTitleView: some View {
+        HStack{
+            Text("경력사항")
+                .applyCertiFont(.sub_semibold_20)
+                .foregroundStyle(.grayscale600)
+                .frame(height: 26)
+            
+            Spacer()
+            
+            Button {
+//                resumeCoordinator.push(next: .myCertificateEdit)
+            } label: {
+                Image(.iconArrowright36)
             }
-            .padding(.horizontal, 20)
-            
-            Image(.imageEmpty)
-                .padding(.top, 60)
-            
-            Text("경력사항을 추가해보세요!")
-                .applyCertiFont(.caption_regular_14)
-                .foregroundStyle(.grayscale400)
-                .frame(height: 20)
-                .padding(.bottom, 60)
-            
-            Image(.resumeLine)
-                .padding(.bottom, 36)
+        }
+        .frame(height: 36)
+        .padding(.horizontal, 20)
+    }
+    
+    private struct ResumeMyCareerView: View {
+        let columns = [GridItem(.fixed(335))]
+        let careerDummy: [MyCareerModel] = MyCareerModel.dummy()
+        
+        var body: some View {
+            VStack {
+                //            경력사항 없을 때
+                //            Image(.imageEmpty)
+                //                .padding(.top, 60)
+                //
+                //            Text("경력사항을 추가해보세요!")
+                //                .applyCertiFont(.caption_regular_14)
+                //                .foregroundStyle(.grayscale400)
+                //                .frame(height: 20)
+                //                .padding(.bottom, 60)
+                
+                LazyVGrid(columns: columns, spacing: 0) {
+                    ForEach(careerDummy) { dummy in
+                        ResumeLoadMapComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                    }
+                }
+                
+                Image(.resumeLine)
+                    .padding(.bottom, 36)
+            }
         }
     }
     
