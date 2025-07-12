@@ -28,6 +28,7 @@ struct RecommendSuccessToastMessage: View {
             .padding(.leading, 16)
         }
         .padding(.vertical, 22)
+        .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(.blackOpacity85)
