@@ -16,7 +16,7 @@ struct RecommendView: View {
     var body: some View {
         
         VStack(spacing: 0) {
-            header
+            RecommendViewHeader
             
             RecommendInterestTagBar()
                 .padding(.top, 12)
@@ -25,7 +25,7 @@ struct RecommendView: View {
         }
     }
     
-    private var header: some View {
+    private var RecommendViewHeader: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 0) {
                 Group {

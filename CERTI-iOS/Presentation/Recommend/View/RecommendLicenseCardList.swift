@@ -24,6 +24,7 @@ struct RecommendLicenseCardList: View {
                             .padding(.top, 16)
                     }
                 }
+                .padding(.bottom, 63)
             }
             .scrollIndicators(.hidden)
         }
