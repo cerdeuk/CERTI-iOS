@@ -82,6 +82,6 @@ final class KakaoLoginAdapter: SocialLoginServiceProtocol {
     }
     
     func getServiceName() -> String {
-        return "Kakao"
+        return "kakao"
     }
 }

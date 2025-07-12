@@ -17,6 +17,7 @@ enum AppRoute {
 final class AppCoordinator: ObservableObject {
     @Published var appState: AppRoute = .main
     let tabCoordinator = CertiTabCoordinator()
+    let onboardingCoordinator = OnboardingCoordinator()
 
     init() {
 //        #if DEBUG
@@ -56,6 +57,10 @@ final class AppCoordinator: ObservableObject {
     func completeOnboarding() {
         UserDefaults.standard.set(true, forKey: "didOnboard")
         appState = .main
+    }
+    
+    func cancelOnboarding() {
+        appState = .auth
     }
 
     /// 로그아웃 시

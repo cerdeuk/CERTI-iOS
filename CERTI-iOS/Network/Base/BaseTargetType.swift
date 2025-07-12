@@ -46,7 +46,7 @@ extension BaseTargetType {
             
         case .refreshTokenHeader:
             if case .success(let token) = TokenManager.shared.getRefreshToken() {
-                headers["Cookie"] = "refreshToken=\(token)"
+                headers["Authorization"] = "refreshToken=\(token)"
             }
             return headers
         }

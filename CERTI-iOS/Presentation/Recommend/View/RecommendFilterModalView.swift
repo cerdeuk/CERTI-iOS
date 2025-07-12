@@ -11,14 +11,13 @@ struct RecommendFilterModalView: View {
     @State private var selectedCategories: [JobCategory] = []
     
     var body: some View {
-        
-        header
-        
-        RecoommendFilterButtonList
-        
-        ApplyButton
-        
-        Spacer()
+        VStack(spacing: 0) {
+            header
+            
+            RecoommendFilterButtonList
+            
+            ApplyButton
+        }
     }
     
     private var header: some View {

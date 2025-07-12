@@ -25,11 +25,10 @@ struct RecommendInterestTagBar: View {
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .foregroundColor(.mainblue)
-                        .overlay(
+                        .background(
                             RoundedRectangle(cornerRadius: 24)
                                 .stroke(Color.mainblue, lineWidth: 1)
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: 24))
                 }
                 
                 ForEach(interestTags, id: \.self) { tag in
@@ -46,7 +45,7 @@ struct RecommendInterestTagBar: View {
                         .clipShape(RoundedRectangle(cornerRadius: 24))
                 }
             }
-            .padding(.leading, 20)
+            .padding(.horizontal, 20)
             .padding(.vertical, 12)
         }
         .scrollIndicators(.hidden)
