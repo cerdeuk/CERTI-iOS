@@ -7,9 +7,7 @@
 
 import Foundation
 
-struct PreLicenseCardModel: Identifiable {
-    var id: UUID = UUID()
-
+struct PreLicenseCardModel {
     let imageIndex: Int
     let certificationId: Int
     let certificationName: String

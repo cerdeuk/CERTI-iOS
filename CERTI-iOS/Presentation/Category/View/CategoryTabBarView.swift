@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CategoryTabBarView: View {
     
-    @State private var selectedCategory: JobCategory = .business
+    @Binding var selectedCategory: JobCategory
     var onSearchTapped: () -> Void
     
     var body: some View {
