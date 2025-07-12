@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct ResumeLoadMapComponent: View {
-    var startAt: String = "2021.11"
-    var endAt: String = "2022.01"
-    var name: String = "패션디자이너 인턴ㅇ"
-    var place: String = "서티그룹ㅇㅇㅇㅇㅇㅇ"
-    var discription: String = "트렌드 리서치 및 소재 조사ㅇ"
+    let model: ResumeModel
     
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
@@ -22,12 +18,12 @@ struct ResumeLoadMapComponent: View {
                 .padding(.trailing, 24)
             
             VStack(spacing: 0) {
-                Text("\(startAt) ~ \(endAt)")
+                Text("\(model.startAt) ~ \(model.endAt)")
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
                     .frame(width: 104, height: 18)
                 
-                Text(place)
+                Text(model.place)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
                     .frame(width: 105, height: 18)
@@ -38,12 +34,12 @@ struct ResumeLoadMapComponent: View {
             Spacer()
             
             VStack(spacing: 0) {
-                Text(name)
+                Text(model.name)
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
                     .frame(width: 137, height: 22)
                 
-                Text(discription)
+                Text(model.discription)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale600)
                     .lineLimit(1)
@@ -57,5 +53,5 @@ struct ResumeLoadMapComponent: View {
 }
 
 #Preview {
-    ResumeLoadMapComponent()
+    ResumeLoadMapComponent(model: ResumeModel.myCareerDummy().first!)
 }

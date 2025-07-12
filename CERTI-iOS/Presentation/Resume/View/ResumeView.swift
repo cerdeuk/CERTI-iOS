@@ -160,7 +160,7 @@ extension ResumeView {
     
     private struct ResumeMyCareerView: View {
         let columns = [GridItem(.fixed(335))]
-        let careerDummy: [MyCareerModel] = MyCareerModel.dummy()
+        let careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
         
         var body: some View {
             VStack {
@@ -176,7 +176,7 @@ extension ResumeView {
                 
                 LazyVGrid(columns: columns, spacing: 0) {
                     ForEach(careerDummy) { dummy in
-                        ResumeLoadMapComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                        ResumeLoadMapComponent(model: dummy)
                     }
                 }
                 
@@ -207,7 +207,7 @@ extension ResumeView {
     
     private struct ResumeMyExtracurricularActivityView: View {
         let columns = [GridItem(.fixed(335))]
-        let myExtracurricularActivityModelDummy: [MyExtracurricularActivityModel] = MyExtracurricularActivityModel.dummy()
+        let myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
         
         var body: some View {
             VStack {
@@ -221,8 +221,8 @@ extension ResumeView {
 //                    .frame(height: 20)
 //                    .padding(.bottom, 60)
                 LazyVGrid(columns: columns, spacing: 0) {
-                    ForEach(myExtracurricularActivityModelDummy) { dummy in
-                        ResumeLoadMapComponent(startAt: dummy.startAt, endAt: dummy.endAt, name: dummy.name, place: dummy.place, discription: dummy.discription)
+                    ForEach(myExtracurricularActivityModelDummy) { model in
+                        ResumeLoadMapComponent(model: model)
                     }
                 }
                 .padding(.bottom, 54)
