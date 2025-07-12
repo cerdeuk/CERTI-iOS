@@ -52,6 +52,7 @@ extension ResumeView {
             
             Spacer()
         }
+        .padding(.top, 12)
         .padding(.bottom, 36)
         .padding(.horizontal, 20)
     }
@@ -132,6 +133,8 @@ extension ResumeView {
                 .padding(.top, 16)
                 
                 Image(.resumeLine)
+                    .resizable()
+                    .scaledToFit()
                     .padding(.top, 36)
                     .padding(.bottom, 36)
             }
@@ -149,13 +152,14 @@ extension ResumeView {
             Spacer()
             
             Button {
-                //                resumeCoordinator.push(next: .myCertificateEdit)
+                resumeCoordinator.push(next: .myCareerEdit)
             } label: {
                 Image(.iconArrowright36)
             }
         }
         .frame(height: 36)
         .padding(.horizontal, 20)
+        .padding(.bottom, 16)
     }
     
     private struct ResumeMyCareerView: View {
@@ -176,11 +180,22 @@ extension ResumeView {
                 
                 LazyVGrid(columns: columns, spacing: 24) {
                     ForEach(careerDummy) { dummy in
-                        ResumeLoadMapComponent(model: dummy)
+                        HStack(spacing: 0) {
+                            Image(.resumeList)
+                                .frame(width: 24, height: 24)
+                                .padding(.trailing, 24)
+                                .padding(.top, 20.5)
+                                .padding(.bottom, 29.5)
+                            
+                            ResumeActivityListComponent(model: dummy)
+                                .frame(height: 74)
+                        }
                     }
                 }
                 
                 Image(.resumeLine)
+                    .resizable()
+                    .scaledToFit()
                     .padding(.bottom, 36)
             }
         }
@@ -203,6 +218,7 @@ extension ResumeView {
         }
         .frame(height: 36)
         .padding(.horizontal, 20)
+        .padding(.bottom, 16)
     }
     
     private struct ResumeMyExtracurricularActivityView: View {
@@ -221,8 +237,18 @@ extension ResumeView {
 //                    .frame(height: 20)
 //                    .padding(.bottom, 60)
                 LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(myExtracurricularActivityModelDummy) { model in
-                        ResumeLoadMapComponent(model: model)
+                    ForEach(myExtracurricularActivityModelDummy) { dummy in
+                        HStack(spacing: 0) {
+                            Image(.resumeList)
+                                .frame(width: 24, height: 24)
+                                .padding(.trailing, 24)
+                                .padding(.top, 20.5)
+                                .padding(.bottom, 29.5)
+                            
+                            ResumeActivityListComponent(model: dummy)
+                                .frame(height: 74)
+
+                        }
                     }
                 }
                 .padding(.bottom, 54)

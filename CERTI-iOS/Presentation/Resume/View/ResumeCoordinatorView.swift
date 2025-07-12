@@ -19,6 +19,10 @@ struct ResumeCoordinatorView: View {
                     switch route {
                     case .myCertificateEdit:
                         MyCertificateEditView()
+                    case .myCareerEdit:
+                        MyCareerEditView()
+                    case .MyCareerWriteView:
+                        MyCareerWriteView()
                     }
                 }
         }
