@@ -34,8 +34,9 @@ struct ResumeLoadMapComponent: View {
                     .padding(.top, 12)
             }
             .frame(width: 104, height: 48)
-            .padding(.trailing, 46)
 
+            Spacer()
+            
             VStack(spacing: 0) {
                 Text(name)
                     .applyCertiFont(.body_semibold_16)
@@ -51,8 +52,7 @@ struct ResumeLoadMapComponent: View {
             }
             .frame(width: 137, height: 50)
         }
-        .frame(width: 335, height: 74)
-        .padding(.horizontal, 20)
+        .frame(height: 74)
     }
 }
 
