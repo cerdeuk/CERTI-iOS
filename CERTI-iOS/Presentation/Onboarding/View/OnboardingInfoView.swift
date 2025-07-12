@@ -37,6 +37,7 @@ struct OnboardingInfoView: View {
                 }
                 .applyCertiFont(.sub_bold_20)
                 .padding(.horizontal, 20)
+                .padding(.bottom, 12)
                 
                 Text("이제 서티와 함께 해요!")
                     .applyCertiFont(.sub_bold_20)
