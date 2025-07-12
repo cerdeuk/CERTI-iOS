@@ -25,6 +25,7 @@ struct RecommendInterestTagBar: View {
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .foregroundColor(.mainblue)
+                        .background(
                             RoundedRectangle(cornerRadius: 24)
                                 .stroke(Color.mainblue, lineWidth: 1)
                         )
