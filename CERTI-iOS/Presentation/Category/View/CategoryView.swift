@@ -15,7 +15,7 @@ struct CategoryView: View {
     
     var body: some View {
         VStack(alignment: .leading,spacing: 0) {
-            CategoryTabBarView(
+            CategoryTabBar(
                         selectedCategory: $viewModel.selectedCategory,
                         onSearchTapped: {
                             categoryCoordinator.push(next: .detail)
