@@ -18,8 +18,10 @@ struct ResumeView: View {
                 ResumeProfileView
                 ResumeMyCertifivateTitleView
                 ResumeMyCertificateView(isPresented: $isPresented)
-                ResumeMyCareerView
-                ResumeMyExtracurricularActivityView
+                ResumeMyCareerTitleView
+                ResumeMyCareerView()
+                ResumeMyExtracurricularActivityTitleView
+                ResumeMyExtracurricularActivityView()
             }
         }
         .scrollIndicators(.hidden)
@@ -96,7 +98,7 @@ extension ResumeView {
     
     private struct ResumeMyCertificateView: View {
         @Binding var isPresented: Bool
-
+        
         let rows = [
             GridItem(.fixed(100))
         ]
@@ -105,15 +107,15 @@ extension ResumeView {
         
         var body: some View {
             VStack(spacing: 0) {
-//                 취득한 자격증이 없을 때
-//                            Image(.imageEmpty)
-//                                .padding(.top, 60)
-//                
-//                            Text("취득한 자격증이 없습니다.")
-//                                .applyCertiFont(.caption_regular_14)
-//                                .foregroundStyle(.grayscale400)
-//                                .frame(height: 20)
-//                                .padding(.bottom, 60)
+                //                 취득한 자격증이 없을 때
+                //                            Image(.imageEmpty)
+                //                                .padding(.top, 60)
+                //
+                //                            Text("취득한 자격증이 없습니다.")
+                //                                .applyCertiFont(.caption_regular_14)
+                //                                .foregroundStyle(.grayscale400)
+                //                                .frame(height: 20)
+                //                                .padding(.bottom, 60)
                 
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: rows, spacing: 12) {
@@ -133,68 +135,98 @@ extension ResumeView {
                     .padding(.top, 36)
                     .padding(.bottom, 36)
             }
-
+            
         }
     }
     
-    private var ResumeMyCareerView: some View {
-        VStack {
-            HStack {
-                Text("경력사항")
-                    .applyCertiFont(.sub_semibold_20)
-                    .foregroundStyle(.grayscale600)
-                    .frame(height: 26)
-                
-                Spacer()
-                
-                Button {
-                    //누르면 편집 뷰
-                } label: {
-                    Image(.iconArrowright36)
-                }
+    private var ResumeMyCareerTitleView: some View {
+        HStack{
+            Text("경력사항")
+                .applyCertiFont(.sub_semibold_20)
+                .foregroundStyle(.grayscale600)
+                .frame(height: 26)
+            
+            Spacer()
+            
+            Button {
+                //                resumeCoordinator.push(next: .myCertificateEdit)
+            } label: {
+                Image(.iconArrowright36)
             }
-            .padding(.horizontal, 20)
-            
-            Image(.imageEmpty)
-                .padding(.top, 60)
-            
-            Text("경력사항을 추가해보세요!")
-                .applyCertiFont(.caption_regular_14)
-                .foregroundStyle(.grayscale400)
-                .frame(height: 20)
-                .padding(.bottom, 60)
-            
-            Image(.resumeLine)
-                .padding(.bottom, 36)
+        }
+        .frame(height: 36)
+        .padding(.horizontal, 20)
+    }
+    
+    private struct ResumeMyCareerView: View {
+        let columns = [GridItem(.fixed(335))]
+        let careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
+        
+        var body: some View {
+            VStack {
+                //            경력사항 없을 때
+                //            Image(.imageEmpty)
+                //                .padding(.top, 60)
+                //
+                //            Text("경력사항을 추가해보세요!")
+                //                .applyCertiFont(.caption_regular_14)
+                //                .foregroundStyle(.grayscale400)
+                //                .frame(height: 20)
+                //                .padding(.bottom, 60)
+                
+                LazyVGrid(columns: columns, spacing: 24) {
+                    ForEach(careerDummy) { dummy in
+                        ResumeLoadMapComponent(model: dummy)
+                    }
+                }
+                
+                Image(.resumeLine)
+                    .padding(.bottom, 36)
+            }
         }
     }
     
-    private var ResumeMyExtracurricularActivityView: some View {
-        VStack {
-            HStack {
-                Text("대내외 활동")
-                    .applyCertiFont(.sub_semibold_20)
-                    .foregroundStyle(.grayscale600)
-                    .frame(height: 26)
-                
-                Spacer()
-                
-                Button {
-                    //누르면 편집
-                } label: {
-                    Image(.iconArrowright36)
-                }
+    private var ResumeMyExtracurricularActivityTitleView: some View {
+        HStack{
+            Text("대내외 활동")
+                .applyCertiFont(.sub_semibold_20)
+                .foregroundStyle(.grayscale600)
+                .frame(height: 26)
+            
+            Spacer()
+            
+            Button {
+                //                resumeCoordinator.push(next: .myCertificateEdit)
+            } label: {
+                Image(.iconArrowright36)
             }
-            .padding(.horizontal, 20)
-            
-            Image(.imageEmpty)
-                .padding(.top, 60)
-            
-            Text("대내외 활동을 추가해보세요!")
-                .applyCertiFont(.caption_regular_14)
-                .foregroundStyle(.grayscale400)
-                .frame(height: 20)
-                .padding(.bottom, 60)
+        }
+        .frame(height: 36)
+        .padding(.horizontal, 20)
+    }
+    
+    private struct ResumeMyExtracurricularActivityView: View {
+        let columns = [GridItem(.fixed(335))]
+        let myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
+        
+        var body: some View {
+            VStack {
+//                대내외 활동 없을 때
+//                Image(.imageEmpty)
+//                    .padding(.top, 60)
+//                
+//                Text("대내외 활동을 추가해보세요!")
+//                    .applyCertiFont(.caption_regular_14)
+//                    .foregroundStyle(.grayscale400)
+//                    .frame(height: 20)
+//                    .padding(.bottom, 60)
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(myExtracurricularActivityModelDummy) { model in
+                        ResumeLoadMapComponent(model: model)
+                    }
+                }
+                .padding(.bottom, 54)
+            }
         }
     }
 }
