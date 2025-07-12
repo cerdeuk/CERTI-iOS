@@ -25,11 +25,9 @@ struct RecommendInterestTagBar: View {
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .foregroundColor(.mainblue)
-                        .overlay(
                             RoundedRectangle(cornerRadius: 24)
                                 .stroke(Color.mainblue, lineWidth: 1)
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: 24))
                 }
                 
                 ForEach(interestTags, id: \.self) { tag in
