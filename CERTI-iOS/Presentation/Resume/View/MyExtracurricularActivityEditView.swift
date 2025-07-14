@@ -1,19 +1,19 @@
 //
-//  MyCareerEditView.swift
+//  MyExtracurricularActivityEditView.swift
 //  CERTI-iOS
 //
-//  Created by 이상엽 on 7/12/25.
+//  Created by 이상엽 on 7/13/25.
 //
 
 import SwiftUI
 
-struct MyCareerEditView: View {
+struct MyExtracurricularActivityEditView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @State private var isDeleteAlertPresented = false
     
     let columns = [GridItem(.flexible())]
-    let careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
-
+    let extracurricularActivityDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
@@ -22,7 +22,7 @@ struct MyCareerEditView: View {
                 }
                 
                 Button {
-                    resumeCoordinator.push(next: .myCareerWriteView)
+                    resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
                 } label: {
                     HStack(alignment: .center, spacing: 0) {
                         Image(.iconPlus)
@@ -38,23 +38,24 @@ struct MyCareerEditView: View {
                     .background(.purplewhite)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
-                .padding(.top, 16)
+                .padding(.top, 44)
                 .padding(.leading, 20)
                 
-                Text("경력사항 수정")
+                
+                Text("대내외 활동 수정")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 26)
-                    .padding(.top, 56)
+                    .padding(.top, 32)
                     .padding(.leading, 20)
                 
                 LazyVGrid(columns: columns, spacing: 36) {
-                    ForEach(careerDummy) { dummy in
+                    ForEach(extracurricularActivityDummy) { dummy in
                         HStack(alignment: .center, spacing: 0) {
                             ResumeActivityListComponent(model: dummy)
                                 .frame(height: 50)
                                 .onTapGesture {
-                                    resumeCoordinator.push(next: .myCareerWriteView)
+                                    resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
                                 }
                             
                             Button {
@@ -84,8 +85,8 @@ struct MyCareerEditView: View {
         }
         .navigationBarBackButtonHidden()
     }
-    }
+}
 
 #Preview {
-    MyCareerEditView()
+    MyExtracurricularActivityEditView()
 }

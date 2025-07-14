@@ -1,5 +1,5 @@
 //
-//  MyCareerWriteView.swift
+//  MyExtracurricularActivityWriteView.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 7/13/25.
@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct MyCareerWriteView: View {
+struct MyExtracurricularActivityWriteView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
-
     @State private var isPeriodFilled: Bool = false
     @State private var resumeModel = ResumeModel(
         startAt: "",
@@ -26,30 +25,29 @@ struct MyCareerWriteView: View {
     var body: some View {
         ScrollView{
             VStack(alignment: .leading, spacing: 0) {
-                MyCareerWriteTitleView
-                workingPeriodView
+                MyExtracurricularActivityTitleView
+                activityPeriodView
                 PeriodInputComponent(isFilled: $isPeriodFilled)
-                workingCompany
-                dutyView
-                dutyDetailView
+                organizeView
+                activityView
+                activityDetailView
                 Spacer()
                 ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isWriteButtonEnabled))
-                    .padding(.top, 16)
             }
         }
         .navigationBarBackButtonHidden()
     }
 }
 
-extension MyCareerWriteView {
-    private var MyCareerWriteTitleView: some View {
-        Group {
+extension MyExtracurricularActivityWriteView {
+    private var MyExtracurricularActivityTitleView: some View {
+        Group{
             BackButton() {
                 resumeCoordinator.pop()
             }
             
             HStack(alignment: .center, spacing: 0) {
-                Text("경력사항 추가")
+                Text("대내외 활동 추가")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 26)
@@ -61,37 +59,40 @@ extension MyCareerWriteView {
         }
     }
     
-    private var workingPeriodView: some View {
-        Group {
+    private var activityPeriodView: some View {
+        Group{
             HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
-                Text("근무기간")
-                    .applyCertiFont(.body_semibold_18)
-                    .foregroundStyle(.grayscale600)
-
-                Spacer()
-            }
-            .padding(.leading, 20)
-            .padding(.bottom, 24)
-            .padding(.top, 24)
-        }
-    }
-    
-    private var workingCompany: some View {
-        Group {
-            HStack(alignment: .center, spacing: 0) {
-                Image(.iconCheck24)
-                    .padding(.trailing, 4)
-                
-                Text("근무회사")
+                Text("기간")
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
 
                 Spacer()
             }
+            .frame(height: 24)
+            .padding(.leading, 20)
+            .padding(.bottom, 24)
+            .padding(.top, 24)
+        }
+    }
+    
+    private var organizeView: some View {
+        Group{
+            HStack(alignment: .center, spacing: 0) {
+                Image(.iconCheck24)
+                    .padding(.trailing, 4)
+                
+                Text("소속")
+                    .applyCertiFont(.body_semibold_18)
+                    .foregroundStyle(.grayscale600)
+                    .frame(height: 22)
+
+                Spacer()
+            }
+            .frame(height: 24)
             .padding(.leading, 20)
             .padding(.bottom, 24)
             .padding(.top, 36)
@@ -101,19 +102,20 @@ extension MyCareerWriteView {
         }
     }
     
-    private var dutyView: some View {
-        Group {
+    private var activityView: some View {
+        Group{
             HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
-                Text("직무")
+                Text("활동")
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
 
                 Spacer()
             }
+            .frame(height: 24)
             .padding(.leading, 20)
             .padding(.bottom, 24)
             .padding(.top, 36)
@@ -123,25 +125,27 @@ extension MyCareerWriteView {
         }
     }
     
-    private var dutyDetailView: some View {
-        Group {
+    private var activityDetailView: some View {
+        Group{
             HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
-                Text("직무 관련 내용")
+                Text("활동 관련 내용")
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
 
                 Spacer()
             }
+            .frame(height: 24)
             .padding(.leading, 20)
             .padding(.bottom, 24)
             .padding(.top, 36)
             
             CharLimitTextField(text: $resumeModel.discription, maxLength: 16)
                 .padding(.horizontal, 20)
+                .padding(.bottom, 16)
         }
     }
     
@@ -151,5 +155,5 @@ extension MyCareerWriteView {
 }
 
 #Preview {
-    MyCareerWriteView()
+    MyExtracurricularActivityWriteView()
 }

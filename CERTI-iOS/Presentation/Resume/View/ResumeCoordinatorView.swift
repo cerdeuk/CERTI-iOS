@@ -21,8 +21,12 @@ struct ResumeCoordinatorView: View {
                         MyCertificateEditView()
                     case .myCareerEdit:
                         MyCareerEditView()
-                    case .MyCareerWriteView:
+                    case .myCareerWriteView:
                         MyCareerWriteView()
+                    case .myExtracurricularActivityEditView:
+                        MyExtracurricularActivityEditView()
+                    case .myExtracurricularActivityWriteView:
+                        MyExtracurricularActivityWriteView()
                     }
                 }
         }
