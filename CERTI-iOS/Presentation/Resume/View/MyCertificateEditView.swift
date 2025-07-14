@@ -12,7 +12,7 @@ struct MyCertificateEditView: View {
     @State private var isDeleteAlertPresented = false
     
     let columns = [
-        GridItem(.fixed(248))
+        GridItem(.flexible())
     ]
     let CertificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
     
@@ -33,7 +33,7 @@ struct MyCertificateEditView: View {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns, spacing: 24) {
                         ForEach(CertificatedDummy) { dummy in
-                            HStack {
+                            HStack(alignment: .center, spacing: 0) {
                                 CeritificateCardComponent(cardImage: dummy.cardFrontImageUrl, name: dummy.name, date: dummy.createdAt, certiTag: dummy.tag)
                                 
                                 Button {

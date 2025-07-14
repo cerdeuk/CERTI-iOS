@@ -9,14 +9,17 @@ import SwiftUI
 
 struct MyExtracurricularActivityWriteView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
-
-    @State private var company: String = ""
-    @State private var duty: String = ""
-    @State private var detail: String = ""
     @State private var isPeriodFilled: Bool = false
+    @State private var resumeModel = ResumeModel(
+        startAt: "",
+        endAt: "",
+        name: "",
+        place: "",
+        discription: ""
+    )
     
-    var isButtonEnabled: Bool {
-        !company.isEmpty && !duty.isEmpty && !detail.isEmpty && isPeriodFilled
+    var isWriteButtonEnabled: Bool {
+        !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
     }
     
     var body: some View {
@@ -29,7 +32,7 @@ struct MyExtracurricularActivityWriteView: View {
                 activityView
                 activityDetailView
                 Spacer()
-                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isButtonEnabled))
+                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isWriteButtonEnabled))
             }
         }
         .navigationBarBackButtonHidden()
@@ -94,7 +97,7 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
 
-            CharLimitTextField(text: $company, maxLength: 10)
+            CharLimitTextField(text: $resumeModel.name, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -117,7 +120,7 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $duty, maxLength: 10)
+            CharLimitTextField(text: $resumeModel.place, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -140,7 +143,7 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $detail, maxLength: 16)
+            CharLimitTextField(text: $resumeModel.discription, maxLength: 16)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 16)
         }

@@ -35,4 +35,8 @@ extension String {
     
         return price
     }
+    
+    var isBlank: Bool {
+        return self.trimmingCharacters(in: .whitespaces).isEmpty
+    }
 }

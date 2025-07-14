@@ -11,7 +11,7 @@ struct MyExtracurricularActivityEditView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @State private var isDeleteAlertPresented = false
     
-    let columns = [GridItem(.fixed(335))]
+    let columns = [GridItem(.flexible())]
     let extracurricularActivityDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
     
     var body: some View {
@@ -24,10 +24,10 @@ struct MyExtracurricularActivityEditView: View {
                 Button {
                     resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
                 } label: {
-                    HStack(spacing: 0) {
-                        Image(systemName: "plus")
-//                        Image(.iconPlus)
+                    HStack(alignment: .center, spacing: 0) {
+                        Image(.iconPlus)
                             .frame(width: 24, height: 24)
+                            .padding(.trailing, 2)
                         
                         Text("작성하기")
                             .applyCertiFont(.body_bold_16)
@@ -51,7 +51,7 @@ struct MyExtracurricularActivityEditView: View {
                 
                 LazyVGrid(columns: columns, spacing: 36) {
                     ForEach(extracurricularActivityDummy) { dummy in
-                        HStack(spacing: 0) {
+                        HStack(alignment: .center, spacing: 0) {
                             ResumeActivityListComponent(model: dummy)
                                 .frame(height: 50)
                                 .onTapGesture {

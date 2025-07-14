@@ -47,7 +47,7 @@ struct ResumeView: View {
 
 extension ResumeView {
     private var ResumeTopMainLogoView: some View {
-        HStack{
+        HStack(alignment: .center, spacing: 0){
             Image(.imageLogoBlack)
             
             Spacer()
@@ -58,7 +58,7 @@ extension ResumeView {
     }
     
     private var ResumeProfileView: some View {
-        HStack{
+        HStack(alignment: .center, spacing: 0){
             Image(.imageProfilePdf)
             
             VStack(alignment: .leading, spacing: 12){
@@ -67,7 +67,7 @@ extension ResumeView {
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
                 
-                Text("IT/인터넷·경영/사무  ·경영/사무")
+                Text("IT/인터넷 · 경영/사무  · 경영/사무")
                     .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.mainblue)
                     .frame(width: 118, height: 42)
@@ -79,7 +79,7 @@ extension ResumeView {
     }
     
     private var ResumeMyCertifivateTitleView: some View {
-        HStack{
+        HStack(alignment: .center, spacing: 0){
             Text("취득한 자격증")
                 .applyCertiFont(.sub_semibold_20)
                 .foregroundStyle(.grayscale600)
@@ -107,7 +107,7 @@ extension ResumeView {
         let CertificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
         
         var body: some View {
-            VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 //                 취득한 자격증이 없을 때
                 //                            Image(.imageEmpty)
                 //                                .padding(.top, 60)
@@ -143,7 +143,7 @@ extension ResumeView {
     }
     
     private var ResumeMyCareerTitleView: some View {
-        HStack{
+        HStack(alignment: .center, spacing: 0){
             Text("경력사항")
                 .applyCertiFont(.sub_semibold_20)
                 .foregroundStyle(.grayscale600)
@@ -167,7 +167,7 @@ extension ResumeView {
         let careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
         
         var body: some View {
-            VStack {
+            VStack(alignment: .leading, spacing: 0) {
                 //            경력사항 없을 때
                 //            Image(.imageEmpty)
                 //                .padding(.top, 60)
@@ -180,7 +180,7 @@ extension ResumeView {
                 
                 LazyVGrid(columns: columns, spacing: 24) {
                     ForEach(careerDummy) { dummy in
-                        HStack(spacing: 0) {
+                        HStack(alignment: .center, spacing: 0) {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
                                 .padding(.trailing, 24)
@@ -202,7 +202,7 @@ extension ResumeView {
     }
     
     private var ResumeMyExtracurricularActivityTitleView: some View {
-        HStack{
+        HStack(alignment: .center, spacing: 0){
             Text("대내외 활동")
                 .applyCertiFont(.sub_semibold_20)
                 .foregroundStyle(.grayscale600)
@@ -226,7 +226,7 @@ extension ResumeView {
         let myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
         
         var body: some View {
-            VStack {
+            VStack(alignment: .leading, spacing: 0) {
 //                대내외 활동 없을 때
 //                Image(.imageEmpty)
 //                    .padding(.top, 60)
@@ -238,7 +238,7 @@ extension ResumeView {
 //                    .padding(.bottom, 60)
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(myExtracurricularActivityModelDummy) { dummy in
-                        HStack(spacing: 0) {
+                        HStack(alignment: .center, spacing: 0) {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
                                 .padding(.trailing, 24)

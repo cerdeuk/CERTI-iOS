@@ -10,18 +10,22 @@ import SwiftUI
 struct MyCareerWriteView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
 
-    @State private var company: String = ""
-    @State private var duty: String = ""
-    @State private var detail: String = ""
     @State private var isPeriodFilled: Bool = false
+    @State private var resumeModel = ResumeModel(
+        startAt: "",
+        endAt: "",
+        name: "",
+        place: "",
+        discription: ""
+    )
     
-    var isButtonEnabled: Bool {
-        !company.isEmpty && !duty.isEmpty && !detail.isEmpty && isPeriodFilled
+    var isWriteButtonEnabled: Bool {
+        !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
     }
     
     var body: some View {
         ScrollView{
-            VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 MyCareerWriteTitleView
                 workingPeriodView
                 PeriodInputComponent(isFilled: $isPeriodFilled)
@@ -29,7 +33,7 @@ struct MyCareerWriteView: View {
                 dutyView
                 dutyDetailView
                 Spacer()
-                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isButtonEnabled))
+                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isWriteButtonEnabled))
                     .padding(.top, 16)
             }
         }
@@ -39,12 +43,12 @@ struct MyCareerWriteView: View {
 
 extension MyCareerWriteView {
     private var MyCareerWriteTitleView: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        Group {
             BackButton() {
                 resumeCoordinator.pop()
             }
             
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Text("경력사항 추가")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
@@ -58,8 +62,8 @@ extension MyCareerWriteView {
     }
     
     private var workingPeriodView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
@@ -70,14 +74,14 @@ extension MyCareerWriteView {
                 Spacer()
             }
             .padding(.leading, 20)
-            .padding(.bottom, 14)
+            .padding(.bottom, 24)
             .padding(.top, 24)
         }
     }
     
     private var workingCompany: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
@@ -90,16 +94,16 @@ extension MyCareerWriteView {
             }
             .padding(.leading, 20)
             .padding(.bottom, 24)
-            .padding(.top, 26)
+            .padding(.top, 36)
 
-            CharLimitTextField(text: $company, maxLength: 10)
+            CharLimitTextField(text: $resumeModel.name, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
     
     private var dutyView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
@@ -114,14 +118,14 @@ extension MyCareerWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $duty, maxLength: 10)
+            CharLimitTextField(text: $resumeModel.place, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
     
     private var dutyDetailView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
@@ -136,7 +140,7 @@ extension MyCareerWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $detail, maxLength: 16)
+            CharLimitTextField(text: $resumeModel.discription, maxLength: 16)
                 .padding(.horizontal, 20)
         }
     }
