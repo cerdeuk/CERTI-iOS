@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var appCoordinator: AppCoordinator
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
     @EnvironmentObject var homeCoordinator: HomeCoordinator
-    
-    @Binding var homeState: HomeStateModel
+    @ObservedObject var viewModel: HomeViewModel
     
     let columns = [GridItem(.flexible())]
     let rows = [GridItem(.fixed(200))]
@@ -69,6 +69,13 @@ extension HomeView {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 75, height: 25)
+                .onTapGesture {
+                    Task {
+                        await viewModel.withDraw()
+                        appCoordinator.withDraw()
+                    }
+                }
+            
             Spacer()
         }
         .frame(height: 49)
@@ -78,7 +85,7 @@ extension HomeView {
         Group {
             HStack(alignment: .center, spacing: 0) {
                 Text("안녕하세요, ")
-                Text.trimmedUsername(homeState.username)
+                Text.trimmedUsername(viewModel.homeStateModel.username)
                 Text("님!")
             }
             .frame(height: 26)
@@ -94,7 +101,7 @@ extension HomeView {
                     .frame(width: 80, height: 80)
                     .padding(.trailing, 12)
                 
-                Text.trimmedUsername(homeState.username)
+                Text.trimmedUsername(viewModel.homeStateModel.username)
                     .frame(height: 22)
                     .padding(.trailing, 8)
                 
@@ -104,10 +111,10 @@ extension HomeView {
                     .padding(.trailing, 8)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(homeState.userUniversity)
+                    Text(viewModel.homeStateModel.userUniversity)
                         .frame(height: 22)
                         .padding(.bottom, 4)
-                    Text(homeState.userDepartment)
+                    Text(viewModel.homeStateModel.userDepartment)
                         .frame(height: 22)
                 }
             }
@@ -119,14 +126,14 @@ extension HomeView {
     
     private var progressSection: some View {
         Group {
-            ProgressView(value: Double(homeState.progressValue) / 100.0)
+            ProgressView(value: Double(viewModel.homeStateModel.progressValue) / 100.0)
                 .frame(height: 12)
                 .scaleEffect(x: 1, y: 1.3)
                 .tint(.purpleblue)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding(.bottom, 8)
             
-            if homeState.progressValue == 0 {
+            if viewModel.homeStateModel.progressValue == 0 {
                 Text("회원님의 이력서를 채워보세요!")
                     .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.grayscale600)
@@ -138,7 +145,7 @@ extension HomeView {
                         Text("회원님의 이력서가 ")
                             .applyCertiFont(.caption_regular_14)
                             .foregroundStyle(.grayscale600)
-                        Text("\(homeState.progressValue)% ")
+                        Text("\(viewModel.homeStateModel.progressValue)% ")
                             .applyCertiFont(.caption_semibold_14)
                             .foregroundStyle(.mainblue)
                         Text("채워졌어요!")
@@ -154,7 +161,7 @@ extension HomeView {
     
     private var recommendLicenseTitle: some View {
         HStack(alignment: .center, spacing: 0) {
-            Text.trimmedUsername(homeState.username)
+            Text.trimmedUsername(viewModel.homeStateModel.username)
                 .frame(height: 26)
             
             Text("님에게 추천하는 자격증")
@@ -180,7 +187,7 @@ extension HomeView {
     
     private var recommendLicenseList: some View {
         LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(homeState.recommendLicenses) { dummy in
+            ForEach(viewModel.homeStateModel.recommendLicenses) { dummy in
                 if dummy.ranking < 4 {
                     RecommendLicenseCard(licenseCard: dummy)
                         .frame(maxWidth: .infinity)
@@ -217,7 +224,7 @@ extension HomeView {
     private var preLicenseList: some View {
         ScrollView(.horizontal){
             LazyHGrid(rows: rows, spacing: 12) {
-                ForEach(homeState.preLicenses, id: \.certificationId) { dummy in
+                ForEach(viewModel.homeStateModel.preLicenses, id: \.certificationId) { dummy in
                     PreLicenseCard(licenseCard: dummy)
                         .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
                 }
@@ -266,7 +273,7 @@ extension HomeView {
     private var favoriteLicenseList: some View {
         ScrollView(.horizontal){
             LazyHGrid(rows: rows, spacing: 12) {
-                ForEach(homeState.favoriteLicenses) { dummy in
+                ForEach(viewModel.homeStateModel.favoriteLicenses) { dummy in
                     FavoriteLicenseCard(licenseCard: dummy)
                 }
             }

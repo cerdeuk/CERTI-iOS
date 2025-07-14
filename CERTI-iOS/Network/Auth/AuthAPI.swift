@@ -40,7 +40,7 @@ extension AuthAPI: BaseTargetType {
         case .logout:
             return "로그아웃 주소"
         case .withDraw:
-            return "회원 탈퇴 주소"
+            return "auth/withdraw"
         case .signUp:
             return "auth/sign-up"
         }
@@ -55,7 +55,7 @@ extension AuthAPI: BaseTargetType {
         case .refresh:
             return .get
         case .withDraw:
-            return .post
+            return .delete
         case .signUp:
             return .post
         }
