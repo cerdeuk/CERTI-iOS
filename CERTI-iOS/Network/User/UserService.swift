@@ -6,3 +6,19 @@
 //
 
 import Foundation
+
+import Moya
+
+protocol UserServiceProtocol {
+    func getuserInfo() async -> Result<UserInfoResponseDTO, NetworkError>
+}
+
+final class UserService: BaseService, UserServiceProtocol {
+    
+    private let provider = MoyaProvider<UserAPI>.init(plugins: [MoyaPlugin()])
+
+    func getuserInfo() async -> Result<UserInfoResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getUserInfo)
+    }
+    
+}
