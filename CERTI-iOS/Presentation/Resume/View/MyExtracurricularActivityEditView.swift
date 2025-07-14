@@ -51,7 +51,7 @@ struct MyExtracurricularActivityEditView: View {
                 
                 LazyVGrid(columns: columns, spacing: 36) {
                     ForEach(extracurricularActivityDummy) { dummy in
-                        HStack(spacing: 0) {
+                        HStack(alignment: .center, spacing: 0) {
                             ResumeActivityListComponent(model: dummy)
                                 .frame(height: 50)
                                 .onTapGesture {

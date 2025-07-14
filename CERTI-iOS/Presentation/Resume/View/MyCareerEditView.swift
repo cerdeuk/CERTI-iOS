@@ -24,7 +24,7 @@ struct MyCareerEditView: View {
                 Button {
                     resumeCoordinator.push(next: .myCareerWriteView)
                 } label: {
-                    HStack(spacing: 0) {
+                    HStack(alignment: .center, spacing: 0) {
                         Image(.iconPlus)
                             .frame(width: 24, height: 24)
                             .padding(.trailing, 2)
@@ -50,7 +50,7 @@ struct MyCareerEditView: View {
                 
                 LazyVGrid(columns: columns, spacing: 36) {
                     ForEach(careerDummy) { dummy in
-                        HStack(spacing: 0) {
+                        HStack(alignment: .center, spacing: 0) {
                             ResumeActivityListComponent(model: dummy)
                                 .frame(height: 50)
                                 .onTapGesture {

@@ -33,7 +33,7 @@ struct MyCertificateEditView: View {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns, spacing: 24) {
                         ForEach(CertificatedDummy) { dummy in
-                            HStack {
+                            HStack(alignment: .center, spacing: 0) {
                                 CeritificateCardComponent(cardImage: dummy.cardFrontImageUrl, name: dummy.name, date: dummy.createdAt, certiTag: dummy.tag)
                                 
                                 Button {

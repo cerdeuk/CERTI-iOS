@@ -48,7 +48,7 @@ extension MyCareerWriteView {
                 resumeCoordinator.pop()
             }
             
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Text("경력사항 추가")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
@@ -81,7 +81,7 @@ extension MyCareerWriteView {
     
     private var workingCompany: some View {
         Group {
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 

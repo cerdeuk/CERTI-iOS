@@ -18,8 +18,8 @@ struct MyExtracurricularActivityWriteView: View {
         discription: ""
     )
     
-    var isButtonEnabled: Bool {
-        !resumeModel.name.isEmpty && !resumeModel.place.isEmpty && !resumeModel.discription.isEmpty && isPeriodFilled
+    var isWriteButtonEnabled: Bool {
+        !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
     }
     
     var body: some View {
@@ -32,7 +32,7 @@ struct MyExtracurricularActivityWriteView: View {
                 activityView
                 activityDetailView
                 Spacer()
-                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isButtonEnabled))
+                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isWriteButtonEnabled))
             }
         }
         .navigationBarBackButtonHidden()
