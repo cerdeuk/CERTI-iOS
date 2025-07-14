@@ -67,7 +67,7 @@ extension ResumeView {
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
                 
-                Text("IT/인터넷·경영/사무  ·경영/사무")
+                Text("IT/인터넷 · 경영/사무  · 경영/사무")
                     .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.mainblue)
                     .frame(width: 118, height: 42)

@@ -13,7 +13,7 @@ struct CharLimitTextField: View {
     var maxLength: Int
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             TextField(
                 "", text: $text,
                 prompt: Text("텍스트를 입력해주세요.")
@@ -28,7 +28,7 @@ struct CharLimitTextField: View {
                  .padding(.top, 8)
                  .padding(.bottom, 8)
 
-            HStack {
+            HStack(alignment: .center, spacing: 0) {
                 Spacer()
                 Text("\(text.count)/\(maxLength)")
                     .applyCertiFont(.caption_semibold_14)

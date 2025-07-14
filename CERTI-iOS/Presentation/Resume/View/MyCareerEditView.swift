@@ -11,7 +11,7 @@ struct MyCareerEditView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @State private var isDeleteAlertPresented = false
     
-    let columns = [GridItem(.fixed(335))]
+    let columns = [GridItem(.flexible())]
     let careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
 
     var body: some View {
@@ -25,9 +25,9 @@ struct MyCareerEditView: View {
                     resumeCoordinator.push(next: .myCareerWriteView)
                 } label: {
                     HStack(spacing: 0) {
-                        Image(systemName: "plus")
+                        Image(.iconPlus)
                             .frame(width: 24, height: 24)
-                            .tint(.purpleblue)
+                            .padding(.trailing, 2)
                         
                         Text("작성하기")
                             .applyCertiFont(.body_bold_16)
@@ -40,13 +40,12 @@ struct MyCareerEditView: View {
                 }
                 .padding(.top, 16)
                 .padding(.leading, 20)
-
                 
                 Text("경력사항 수정")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 26)
-                    .padding(.top, 24)
+                    .padding(.top, 56)
                     .padding(.leading, 20)
                 
                 LazyVGrid(columns: columns, spacing: 36) {
