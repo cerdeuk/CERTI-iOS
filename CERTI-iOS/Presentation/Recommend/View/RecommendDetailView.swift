@@ -65,8 +65,9 @@ struct RecommendDetailView: View {
                         withAnimation(.easeOut(duration: 2.0)) {
                             opacity = 0
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            showSuccessAcquired = false
+                        Task {
+                            try? await Task.sleep(nanoseconds: 2_000_000_000)
+                            showFailToBeAcquired = false
                             opacity = 1
                         }
                     }
@@ -81,7 +82,8 @@ struct RecommendDetailView: View {
                         withAnimation(.easeOut(duration: 2.0)) {
                             opacity = 0
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        Task {
+                            try? await Task.sleep(nanoseconds: 2_000_000_000)
                             showFailToBeAcquired = false
                             opacity = 1
                         }
@@ -97,8 +99,9 @@ struct RecommendDetailView: View {
                         withAnimation(.easeOut(duration: 2.0)) {
                             opacity = 0
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            showFailAcquired = false
+                        Task {
+                            try? await Task.sleep(nanoseconds: 2_000_000_000)
+                            showFailToBeAcquired = false
                             opacity = 1
                         }
                     }
