@@ -143,7 +143,6 @@ extension PeriodInputComponent {
                 }
                 .frame(width: 121, height: 40)
                 .background(.white)
-                .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 4)
                         .stroke(.grayscale100, lineWidth: 1)
