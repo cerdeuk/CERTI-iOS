@@ -41,6 +41,16 @@ extension BaseTargetType {
             }
         }
         
+        if let onboarding = self as? OnboardingAPI {
+            if case let .searchMajor(keyword, preSignUpToken) = onboarding {
+                headers["Authorization"] = "Bearer \(preSignUpToken)"
+                return headers
+            } else if case let .searchUniv(keyword, preSignUpToken) = onboarding {
+                headers["Authorization"] = "Bearer \(preSignUpToken)"
+                return headers
+            }
+        }
+        
         switch headerType {
         case .noneHeader:
             return nil
