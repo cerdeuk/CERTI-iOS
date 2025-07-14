@@ -11,7 +11,7 @@ struct MyExtracurricularActivityEditView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @State private var isDeleteAlertPresented = false
     
-    let columns = [GridItem(.fixed(335))]
+    let columns = [GridItem(.flexible())]
     let extracurricularActivityDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
     
     var body: some View {
