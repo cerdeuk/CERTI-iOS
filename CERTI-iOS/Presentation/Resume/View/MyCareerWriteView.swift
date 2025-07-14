@@ -15,13 +15,13 @@ struct MyCareerWriteView: View {
     @State private var detail: String = ""
     @State private var isPeriodFilled: Bool = false
     
-    var isButtonEnabled: Bool {
+    var isWriteButtonEnabled: Bool {
         !company.isEmpty && !duty.isEmpty && !detail.isEmpty && isPeriodFilled
     }
     
     var body: some View {
         ScrollView{
-            VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 MyCareerWriteTitleView
                 workingPeriodView
                 PeriodInputComponent(isFilled: $isPeriodFilled)
@@ -29,7 +29,7 @@ struct MyCareerWriteView: View {
                 dutyView
                 dutyDetailView
                 Spacer()
-                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isButtonEnabled))
+                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isWriteButtonEnabled))
                     .padding(.top, 16)
             }
         }
@@ -39,7 +39,7 @@ struct MyCareerWriteView: View {
 
 extension MyCareerWriteView {
     private var MyCareerWriteTitleView: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        Group {
             BackButton() {
                 resumeCoordinator.pop()
             }
@@ -58,8 +58,8 @@ extension MyCareerWriteView {
     }
     
     private var workingPeriodView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
@@ -70,13 +70,13 @@ extension MyCareerWriteView {
                 Spacer()
             }
             .padding(.leading, 20)
-            .padding(.bottom, 14)
+            .padding(.bottom, 24)
             .padding(.top, 24)
         }
     }
     
     private var workingCompany: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        Group {
             HStack(spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
@@ -90,7 +90,7 @@ extension MyCareerWriteView {
             }
             .padding(.leading, 20)
             .padding(.bottom, 24)
-            .padding(.top, 26)
+            .padding(.top, 36)
 
             CharLimitTextField(text: $company, maxLength: 10)
                 .padding(.horizontal, 20)
@@ -98,8 +98,8 @@ extension MyCareerWriteView {
     }
     
     private var dutyView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
@@ -120,8 +120,8 @@ extension MyCareerWriteView {
     }
     
     private var dutyDetailView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group {
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
