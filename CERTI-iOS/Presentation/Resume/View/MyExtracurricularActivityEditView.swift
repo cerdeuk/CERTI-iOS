@@ -24,10 +24,10 @@ struct MyExtracurricularActivityEditView: View {
                 Button {
                     resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
                 } label: {
-                    HStack(spacing: 0) {
-                        Image(systemName: "plus")
-//                        Image(.iconPlus)
+                    HStack(alignment: .center, spacing: 0) {
+                        Image(.iconPlus)
                             .frame(width: 24, height: 24)
+                            .padding(.trailing, 2)
                         
                         Text("작성하기")
                             .applyCertiFont(.body_bold_16)
