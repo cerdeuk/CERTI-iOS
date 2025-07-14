@@ -14,6 +14,12 @@ class RecommendViewModel: ObservableObject {
     @Published var licenseCards: [LicenseCardModel] = LicenseCardModel.dummy()
     @Published var recommendDetail: RecommendDetailModel = RecommendDetailModel.dummy()
     @Published var isFilterModalPresented = false
+    @Published var selectedCategories: [JobCategory] = [
+            .marketing, .sales, .rnd
+        ]
+    var interestTags: [String] {
+        selectedCategories.map(\.description)
+    }
     
     func toggleFavorite(id: UUID) {
         guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }

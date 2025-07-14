@@ -18,14 +18,15 @@ struct RecommendView: View {
         VStack(spacing: 0) {
             RecommendViewHeader
             
-            RecommendInterestTagBar(isModalPresented: $viewModel.isFilterModalPresented)
+            RecommendInterestTagBar(isModalPresented: $viewModel.isFilterModalPresented,
+                                    interestTags: viewModel.interestTags)
                 .padding(.top, 12)
             
             RecommendLicenseCardList(viewModel: viewModel)
                 .padding(.horizontal, 20)
         }
         .sheet(isPresented: $viewModel.isFilterModalPresented) {
-            RecommendFilterModalView()
+            RecommendFilterModalView(selectedCategories: $viewModel.selectedCategories)
                 .presentationDetents([.height(548)])
                 .presentationCornerRadius(40)
                 .presentationDragIndicator(.visible)
