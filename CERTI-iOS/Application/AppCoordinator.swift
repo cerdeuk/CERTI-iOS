@@ -20,11 +20,11 @@ final class AppCoordinator: ObservableObject {
     let onboardingCoordinator = OnboardingCoordinator()
 
     init() {
-        #if DEBUG
-        TokenManager.shared.clearTokens()
-        UserDefaults.standard.removeObject(forKey: "didOnboard")
-        print("[DEBUG] Keychain cleared for login testing")
-        #endif
+//        #if DEBUG
+//        TokenManager.shared.clearTokens()
+//        UserDefaults.standard.removeObject(forKey: "didOnboard")
+//        print("[DEBUG] Keychain cleared for login testing")
+//        #endif
         
         Task {
             await start()
