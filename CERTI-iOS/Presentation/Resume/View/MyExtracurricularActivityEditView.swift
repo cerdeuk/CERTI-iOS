@@ -13,7 +13,7 @@ struct MyExtracurricularActivityEditView: View {
     
     let columns = [GridItem(.fixed(335))]
     let extracurricularActivityDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
-
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
@@ -26,8 +26,8 @@ struct MyExtracurricularActivityEditView: View {
                 } label: {
                     HStack(spacing: 0) {
                         Image(systemName: "plus")
+//                        Image(.iconPlus)
                             .frame(width: 24, height: 24)
-                            .tint(.purpleblue)
                         
                         Text("작성하기")
                             .applyCertiFont(.body_bold_16)
@@ -38,15 +38,15 @@ struct MyExtracurricularActivityEditView: View {
                     .background(.purplewhite)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
-                .padding(.top, 16)
+                .padding(.top, 44)
                 .padding(.leading, 20)
-
+                
                 
                 Text("대내외 활동 수정")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 26)
-                    .padding(.top, 24)
+                    .padding(.top, 32)
                     .padding(.leading, 20)
                 
                 LazyVGrid(columns: columns, spacing: 36) {
@@ -85,7 +85,7 @@ struct MyExtracurricularActivityEditView: View {
         }
         .navigationBarBackButtonHidden()
     }
-    }
+}
 
 #Preview {
     MyExtracurricularActivityEditView()
