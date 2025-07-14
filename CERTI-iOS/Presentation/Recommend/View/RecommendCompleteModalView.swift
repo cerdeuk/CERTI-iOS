@@ -58,7 +58,3 @@ struct RecommendCompleteModalView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
-
-#Preview {
-    RecommendCompleteModalView(certificationName: "싱이싱이원싱이")
-}
