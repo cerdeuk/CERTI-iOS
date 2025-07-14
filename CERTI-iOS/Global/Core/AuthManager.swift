@@ -19,7 +19,7 @@ final class AuthManager {
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Auth")
 
-    private var nickname: String = ""
+    var nickname: String = ""
     private var email: String = ""
     private var profileImageUrl: String = ""
     private var preSignupToken: String = ""
@@ -46,6 +46,64 @@ final class AuthManager {
             logger.error("Social login failed: \(error)")
             return .failure(error)
         }
+    }
+    
+    @MainActor
+    func signUp() async -> Result<Void, AuthError> {
+        logger.debug("Starting signUp")
+
+        let signupRequest = SignupRequestDTO(
+            userInformation: .init(
+                email: email,
+                nickname: nickname,
+                profileImageUrl: profileImageUrl
+            ),
+            university: university,
+            grade: grade,
+            track: track,
+            major: major,
+            jobs: jobs
+        )
+
+        let result = await authService.signUp(
+            request: signupRequest,
+            preSignUpToken: preSignupToken
+        )
+        
+        switch result {
+        case .success(let dto):
+            guard let data = dto.data else {
+                logger.error("❌ 회원가입 응답 데이터 없음")
+                return .failure(.networkError)
+            }
+
+            logger.info("✅ 회원가입 성공, 유저 ID: \(data.userId)")
+
+            let accessToken = data.jwtResponse.accessToken
+            let refreshToken = data.jwtResponse.refreshToken
+
+            _ = TokenManager.shared.saveTokens(
+                accessToken: accessToken,
+                refreshToken: refreshToken
+            )
+            return .success(())
+        case .failure(let error):
+            logger.error("❌ 회원가입 실패: \(error.localizedDescription)")
+            return .failure(.networkError)
+        }
+    }
+    
+    @MainActor
+    func applyOnboardingData(from viewModel: OnboardingViewModel) {
+        self.university = viewModel.userUniversity
+        self.grade = viewModel.selectedGrade
+        self.track = viewModel.selectedTrack
+        self.major = viewModel.userMajor
+        self.jobs = viewModel.selectedJobCategory
+    }
+    
+    func getPreSignupToken() -> String {
+        preSignupToken
     }
     
     //MARK: - Private Func
