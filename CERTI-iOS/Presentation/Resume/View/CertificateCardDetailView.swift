@@ -133,14 +133,16 @@ extension CertificateCardDetailView {
                         .foregroundStyle(.white)
                         .padding(.top, 36)
                     
-                    HStack(spacing: 0) {
+                    Spacer()
+                    
+                    HStack(alignment: .center, spacing: 0) {
                         Image(.iconCheckWhite24)
                         Text("서티님의 취득일자")
                             .applyCertiFont(.caption_semibold_14)
                             .foregroundColor(.white)
                         Spacer()
                     }
-                    .padding(.top, 36)
+                    .padding(.bottom, 4)
                     
                     Text("2025년 7월 10일")
                         .applyCertiFont(.caption_semibold_14)
@@ -150,7 +152,7 @@ extension CertificateCardDetailView {
                         .padding(.horizontal, 12)
                         .background(.grayscale0)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .padding(.top, 4)
+                        .padding(.bottom, 31)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .padding(.top, 30)
