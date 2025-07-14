@@ -73,10 +73,10 @@ extension CertificateCardDetailView {
                     
                     Spacer()
                     
-                    HStack {
+                    HStack(alignment: .center, spacing: 0) {
                         Spacer()
                         
-                        VStack(spacing: 0) {
+                        VStack(alignment: .leading, spacing: 0) {
                             Text("터치해서 뒷면 보기")
                                 .applyCertiFont(.caption_regular_12)
                                 .foregroundStyle(.mainblue)
@@ -114,7 +114,7 @@ extension CertificateCardDetailView {
                     .scaledToFill()
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack {
+                    HStack(alignment: .center, spacing: 0) {
                         Text("GTQ 1급 (그래픽기술자격)")
                             .applyCertiFont(.body_bold_18)
                             .foregroundStyle(.white)
@@ -133,7 +133,7 @@ extension CertificateCardDetailView {
                         .foregroundStyle(.white)
                         .padding(.top, 36)
                     
-                    HStack(spacing: 0) {
+                    HStack(alignment: .center, spacing: 0) {
                         Image(.iconCheckWhite24)
                         Text("서티님의 취득일자")
                             .applyCertiFont(.caption_semibold_14)
