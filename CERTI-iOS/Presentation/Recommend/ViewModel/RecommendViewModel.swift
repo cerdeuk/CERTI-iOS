@@ -21,7 +21,7 @@ class RecommendViewModel: ObservableObject {
         selectedCategories.map(\.description)
     }
     
-    func toggleFavorite(id: UUID) {
+    func toggleFavorite(id: Int) {
         guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
         licenseCards[index].isFavorite.toggle()
     }
