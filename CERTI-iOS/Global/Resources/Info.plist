@@ -19,6 +19,8 @@
 	</array>
 	<key>KAKAO_APP_KEY</key>
 	<string>$(KAKAO_APP_KEY)</string>
+	<key>TEMPORARY_ACCESS_TOKEN</key>
+	<string>$(TEMPORARY_ACCESS_TOKEN)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaolink</string>

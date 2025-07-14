@@ -5,8 +5,9 @@
 //  Created by OneTen on 7/10/25.
 //
 
-import Moya
 import Foundation
+
+import Moya
 
 enum AuthResponse {
     case success(LoginSuccessResponseDTO)
@@ -15,10 +16,16 @@ enum AuthResponse {
 
 protocol AuthServiceProtocol {
     func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponse, NetworkError>
+    func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError>
 }
 
 final class AuthService: BaseService, AuthServiceProtocol {
+    
     private let provider = MoyaProvider<AuthAPI>.init(plugins: [MoyaPlugin()])
+    
+    func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .signUp(request: request, preSignUpToken: preSignUpToken))
+    }
     
     func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponse, NetworkError> {
         let target = AuthAPI.login(type: type, code: authorizationCode)

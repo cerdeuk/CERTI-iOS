@@ -16,7 +16,6 @@ struct OnboardingMajorView: View {
     
     @FocusState private var isSearchFieldFocused: Bool
     
-    let majorModel = OnboardingMajorModel.dummy()
     let columns = [GridItem(.flexible())]
     
     var body: some View {
@@ -41,6 +40,10 @@ struct OnboardingMajorView: View {
                     // 돋보기 누르면 대학 리스트 받아오기
                     majorListToggle = true
                     isSearchFieldFocused = false
+                    
+                    Task {
+                        await viewModel.getMajorList(keyword: viewModel.searchMajorText)
+                    }
                 }
                 .disabled(searchBarDisabled)
                 .focused($isSearchFieldFocused)
@@ -55,9 +58,9 @@ struct OnboardingMajorView: View {
                 if majorListToggle {
                     ScrollView(.vertical) {
                         LazyVGrid(columns: columns, alignment: .leading) {
-                            ForEach(majorModel, id: \.id) { major in
+                            ForEach(viewModel.majorList, id: \.self) { major in
                                 VStack(alignment: .leading, spacing: 0) {
-                                    Text(major.major)
+                                    Text(major)
                                         .applyCertiFont(.body_regular_16)
                                         .foregroundStyle(.black)
                                         .padding(.horizontal, 20)
@@ -67,8 +70,8 @@ struct OnboardingMajorView: View {
                                     Divider()
                                 }
                                 .onTapGesture {
-                                    viewModel.userMajor = major.major
-                                    viewModel.searchMajorText = major.major
+                                    viewModel.userMajor = major
+                                    viewModel.searchMajorText = major
                                     searchBarDisabled = true
                                     majorListToggle = false
                                 }
