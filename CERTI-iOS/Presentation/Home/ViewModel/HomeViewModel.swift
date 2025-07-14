@@ -21,6 +21,7 @@ struct HomeStateModel {
     var favoriteLicenses: [FavoriteLicenseCardModel] = FavoriteLicenseCardModel.dummy()
 }
 
+@MainActor
 final class HomeViewModel: ObservableObject {
     @Published var homeStateModel = HomeStateModel()
     
@@ -38,6 +39,22 @@ extension HomeViewModel {
         case .success:
             logger.info("✅ 탈퇴 성공")
             AuthManager.shared.cleanUserInfo()
+            
+        case .failure(let error):
+            logger.error("❌ 탈퇴 실패: \(error.localizedDescription)")
+        }
+    }
+    
+    func getUserInfo() async {
+        let result = await NetworkService.shared.userService.getuserInfo()
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ 유저 정보 조회 성공")
+            homeStateModel.username = response.data?.name ?? ""
+            homeStateModel.userUniversity = response.data?.university ?? ""
+            homeStateModel.userDepartment = response.data?.major ?? ""
+            homeStateModel.progressValue = response.data?.percentage ?? 0
             
         case .failure(let error):
             logger.error("❌ 탈퇴 실패: \(error.localizedDescription)")

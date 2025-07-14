@@ -58,7 +58,11 @@ struct HomeView: View {
             }
             .scrollIndicators(.hidden)
         }
-        
+        .onAppear {
+            Task {
+                await viewModel.getUserInfo()
+            }
+        }
     }
 }
 
