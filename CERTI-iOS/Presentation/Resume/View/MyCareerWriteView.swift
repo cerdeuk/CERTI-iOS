@@ -9,31 +9,19 @@ import SwiftUI
 
 struct MyCareerWriteView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
-
-    @State private var isPeriodFilled: Bool = false
-    @State private var resumeModel = ResumeModel(
-        startAt: "",
-        endAt: "",
-        name: "",
-        place: "",
-        discription: ""
-    )
-    
-    var isWriteButtonEnabled: Bool {
-        !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
-    }
+    @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
-        ScrollView{
+        ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 MyCareerWriteTitleView
                 workingPeriodView
-                PeriodInputComponent(isFilled: $isPeriodFilled)
+                PeriodInputComponent(isFilled: $viewModel.isPeriodFilled)
                 workingCompany
                 dutyView
                 dutyDetailView
                 Spacer()
-                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isWriteButtonEnabled))
+                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(viewModel.isWriteButtonEnabled))
                     .padding(.top, 16)
             }
         }
@@ -70,7 +58,7 @@ extension MyCareerWriteView {
                 Text("근무기간")
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
-
+                
                 Spacer()
             }
             .padding(.leading, 20)
@@ -89,14 +77,14 @@ extension MyCareerWriteView {
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
-
+                
                 Spacer()
             }
             .padding(.leading, 20)
             .padding(.bottom, 24)
             .padding(.top, 36)
-
-            CharLimitTextField(text: $resumeModel.name, maxLength: 10)
+            
+            CharLimitTextField(text: $viewModel.resumeModel.name, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -111,14 +99,14 @@ extension MyCareerWriteView {
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
-
+                
                 Spacer()
             }
             .padding(.leading, 20)
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $resumeModel.place, maxLength: 10)
+            CharLimitTextField(text: $viewModel.resumeModel.place, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -133,14 +121,14 @@ extension MyCareerWriteView {
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
-
+                
                 Spacer()
             }
             .padding(.leading, 20)
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $resumeModel.discription, maxLength: 16)
+            CharLimitTextField(text: $viewModel.resumeModel.discription, maxLength: 16)
                 .padding(.horizontal, 20)
         }
     }
@@ -148,8 +136,4 @@ extension MyCareerWriteView {
     private func testButtonClicked() {
         print("testButtonClicked")
     }
-}
-
-#Preview {
-    MyCareerWriteView()
 }
