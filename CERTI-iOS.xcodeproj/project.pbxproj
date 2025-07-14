@@ -10,7 +10,6 @@
 		3337004D2E1D328100E34950 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3337004C2E1D328100E34950 /* Config.xcconfig */; };
 		6CBA9DC02E1046CB0073696A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DBF2E1046CB0073696A /* Kingfisher */; };
 		6CBA9DC32E10472F0073696A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DC22E10472F0073696A /* Moya */; };
-		6CBA9DC62E1047780073696A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DC52E1047780073696A /* Lottie */; };
 		6CBA9DC92E1047EF0073696A /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 6CBA9DC82E1047EF0073696A /* KakaoSDK */; };
 /* End PBXBuildFile section */
 
@@ -49,7 +48,6 @@
 				6CBA9DC32E10472F0073696A /* Moya in Frameworks */,
 				6CBA9DC92E1047EF0073696A /* KakaoSDK in Frameworks */,
 				6CBA9DC02E1046CB0073696A /* Kingfisher in Frameworks */,
-				6CBA9DC62E1047780073696A /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +93,6 @@
 			packageProductDependencies = (
 				6CBA9DBF2E1046CB0073696A /* Kingfisher */,
 				6CBA9DC22E10472F0073696A /* Moya */,
-				6CBA9DC52E1047780073696A /* Lottie */,
 				6CBA9DC82E1047EF0073696A /* KakaoSDK */,
 			);
 			productName = "CERTI-iOS";
@@ -129,7 +126,6 @@
 			packageReferences = (
 				6CBA9DBE2E1046CB0073696A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				6CBA9DC12E10472F0073696A /* XCRemoteSwiftPackageReference "Moya" */,
-				6CBA9DC42E1047780073696A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				6CBA9DC72E1047EF0073696A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -391,14 +387,6 @@
 				minimumVersion = 15.0.3;
 			};
 		};
-		6CBA9DC42E1047780073696A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.5.2;
-			};
-		};
 		6CBA9DC72E1047EF0073696A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
@@ -419,11 +407,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6CBA9DC12E10472F0073696A /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
-		};
-		6CBA9DC52E1047780073696A /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6CBA9DC42E1047780073696A /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = Lottie;
 		};
 		6CBA9DC82E1047EF0073696A /* KakaoSDK */ = {
 			isa = XCSwiftPackageProductDependency;
