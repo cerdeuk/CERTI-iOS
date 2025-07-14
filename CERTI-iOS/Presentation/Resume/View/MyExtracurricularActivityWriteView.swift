@@ -21,7 +21,7 @@ struct MyExtracurricularActivityWriteView: View {
     
     var body: some View {
         ScrollView{
-            VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 MyExtracurricularActivityTitleView
                 activityPeriodView
                 PeriodInputComponent(isFilled: $isPeriodFilled)
@@ -30,7 +30,6 @@ struct MyExtracurricularActivityWriteView: View {
                 activityDetailView
                 Spacer()
                 ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isButtonEnabled))
-                    .padding(.top, 16)
             }
         }
         .navigationBarBackButtonHidden()
@@ -39,12 +38,12 @@ struct MyExtracurricularActivityWriteView: View {
 
 extension MyExtracurricularActivityWriteView {
     private var MyExtracurricularActivityTitleView: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        Group{
             BackButton() {
                 resumeCoordinator.pop()
             }
             
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Text("대내외 활동 추가")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
@@ -58,26 +57,28 @@ extension MyExtracurricularActivityWriteView {
     }
     
     private var activityPeriodView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group{
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
                 Text("기간")
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
+                    .frame(height: 22)
 
                 Spacer()
             }
+            .frame(height: 24)
             .padding(.leading, 20)
-            .padding(.bottom, 14)
+            .padding(.bottom, 24)
             .padding(.top, 24)
         }
     }
     
     private var organizeView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group{
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
@@ -88,9 +89,10 @@ extension MyExtracurricularActivityWriteView {
 
                 Spacer()
             }
+            .frame(height: 24)
             .padding(.leading, 20)
             .padding(.bottom, 24)
-            .padding(.top, 26)
+            .padding(.top, 36)
 
             CharLimitTextField(text: $company, maxLength: 10)
                 .padding(.horizontal, 20)
@@ -98,8 +100,8 @@ extension MyExtracurricularActivityWriteView {
     }
     
     private var activityView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group{
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
@@ -110,6 +112,7 @@ extension MyExtracurricularActivityWriteView {
 
                 Spacer()
             }
+            .frame(height: 24)
             .padding(.leading, 20)
             .padding(.bottom, 24)
             .padding(.top, 36)
@@ -120,8 +123,8 @@ extension MyExtracurricularActivityWriteView {
     }
     
     private var activityDetailView: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
+        Group{
+            HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
                 
@@ -132,12 +135,14 @@ extension MyExtracurricularActivityWriteView {
 
                 Spacer()
             }
+            .frame(height: 24)
             .padding(.leading, 20)
             .padding(.bottom, 24)
             .padding(.top, 36)
             
             CharLimitTextField(text: $detail, maxLength: 16)
                 .padding(.horizontal, 20)
+                .padding(.bottom, 16)
         }
     }
     
