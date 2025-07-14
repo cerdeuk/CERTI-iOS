@@ -52,8 +52,9 @@ struct LoginView: View {
             Spacer()
             
             Button {
-                // 카카오 로그인
-                viewModel.kakaoLogin()
+                Task {
+                    await viewModel.kakaoLogin()
+                }
             } label: {
                 Image(.imageSocialLoginKakao)
                     .resizable()

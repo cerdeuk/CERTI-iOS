@@ -11,6 +11,7 @@ import Moya
 
 enum AuthAPI {
     case login(type: SocialLoginType, code: String)
+    case signUp(request: SignupRequestDTO, preSignUpToken: String)
     case logout
     case refresh
     case withDraw
@@ -23,10 +24,10 @@ extension AuthAPI: BaseTargetType {
             return .noneHeader
         case .refresh:
             return .refreshTokenHeader
-        case .logout:
+        case .logout, .withDraw:
             return .accessTokenHeader
-        case .withDraw:
-            return .accessTokenHeader
+        case .signUp:
+            return .noneHeader
         }
     }
     
@@ -40,6 +41,8 @@ extension AuthAPI: BaseTargetType {
             return "로그아웃 주소"
         case .withDraw:
             return "회원 탈퇴 주소"
+        case .signUp:
+            return "auth/sign-up"
         }
     }
     
@@ -52,6 +55,8 @@ extension AuthAPI: BaseTargetType {
         case .refresh:
             return .get
         case .withDraw:
+            return .post
+        case .signUp:
             return .post
         }
     }
@@ -70,6 +75,9 @@ extension AuthAPI: BaseTargetType {
             return .requestPlain
         case .withDraw:
             return .requestPlain
+        case .signUp(let request, _):
+            return .requestJSONEncodable(request)
         }
     }
+    
 }

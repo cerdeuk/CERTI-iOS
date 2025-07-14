@@ -17,7 +17,6 @@ struct OnboardingUnivView: View {
     
     @FocusState private var isSearchFieldFocused: Bool
     
-    let univModel = OnboardingUnivModel.dummy()
     let columns = [GridItem(.flexible())]
     
     var body: some View {
@@ -42,6 +41,10 @@ struct OnboardingUnivView: View {
                     // 돋보기 누르면 대학 리스트 받아오기
                     univListToggle = true
                     isSearchFieldFocused = false
+                    
+                    Task {
+                        await viewModel.getUnivList(keyword: viewModel.searchUnivText)
+                    }
                 }
                 .disabled(searchBarDisabled)
                 .focused($isSearchFieldFocused)
@@ -56,9 +59,9 @@ struct OnboardingUnivView: View {
                 if univListToggle {
                     ScrollView(.vertical) {
                         LazyVGrid(columns: columns, alignment: .leading) {
-                            ForEach(univModel, id: \.id) { univ in
+                            ForEach(viewModel.universityList, id: \.self) { univ in
                                 VStack(alignment: .leading, spacing: 0) {
-                                    Text(univ.university)
+                                    Text(univ)
                                         .applyCertiFont(.body_regular_16)
                                         .foregroundStyle(.black)
                                         .padding(.horizontal, 20)
@@ -68,8 +71,8 @@ struct OnboardingUnivView: View {
                                     Divider()
                                 }
                                 .onTapGesture {
-                                    viewModel.userUniversity = univ.university
-                                    viewModel.searchUnivText = univ.university
+                                    viewModel.userUniversity = univ
+                                    viewModel.searchUnivText = univ
                                     searchBarDisabled = true
                                     univListToggle = false
                                 }
