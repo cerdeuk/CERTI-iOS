@@ -9,12 +9,10 @@ import SwiftUI
 
 struct MyCertificateEditView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
-    @State private var isDeleteAlertPresented = false
+    @ObservedObject var viewModel: ResumeViewModel
+    @State var isDeleteAlertPresented = false
     
-    let columns = [
-        GridItem(.flexible())
-    ]
-    let CertificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
+    let columns = [GridItem(.flexible())]
     
     var body: some View {
         ZStack {
@@ -32,9 +30,9 @@ struct MyCertificateEditView: View {
                 
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns, spacing: 24) {
-                        ForEach(CertificatedDummy) { dummy in
+                        ForEach($viewModel.certificatedDummy) { dummy in
                             HStack(alignment: .center, spacing: 0) {
-                                CeritificateCardComponent(cardImage: dummy.cardFrontImageUrl, name: dummy.name, date: dummy.createdAt, certiTag: dummy.tag)
+                                CeritificateCardComponent()
                                 
                                 Button {
                                     isDeleteAlertPresented.toggle()
@@ -66,9 +64,4 @@ struct MyCertificateEditView: View {
         }
         .navigationBarBackButtonHidden()
     }
-    
-}
-
-#Preview {
-    MyCertificateEditView()
 }
