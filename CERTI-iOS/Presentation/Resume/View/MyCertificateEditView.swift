@@ -12,7 +12,7 @@ struct MyCertificateEditView: View {
     @State private var isDeleteAlertPresented = false
     
     let columns = [
-        GridItem(.fixed(248))
+        GridItem(.flexible())
     ]
     let CertificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
     
