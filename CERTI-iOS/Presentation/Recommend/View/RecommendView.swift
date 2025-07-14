@@ -11,8 +11,6 @@ struct RecommendView: View {
     @EnvironmentObject var recommendCoordinator: RecommendCoordinator
     @ObservedObject var viewModel: RecommendViewModel
     
-//    let username = "김서티"
-    
     var body: some View {
         
         VStack(spacing: 0) {
