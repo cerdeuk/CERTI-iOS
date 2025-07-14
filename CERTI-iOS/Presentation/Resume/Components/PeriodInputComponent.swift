@@ -16,7 +16,7 @@ struct PeriodInputComponent: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 customDatePicker(
                     selectedDate: $startDate,
                     isExpanded: $isStartDateExpanded,
@@ -58,7 +58,7 @@ struct PeriodInputComponent: View {
                     ), displayedComponents: .date)
                     .datePickerStyle(.graphical)
                     .environment(\.locale, Locale(identifier: "ko_KR"))
-                    .padding()
+                    .padding(.horizontal, 26)
                     .background(Color.white)
                     .cornerRadius(10)
                     .shadow(color: .black.opacity(0.05), radius: 20, x: 4, y: 4)
@@ -70,7 +70,8 @@ struct PeriodInputComponent: View {
                         }
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.leading, 20)
+                .padding(.trailing, 55)
             } else if isEndDateExpanded {
                 withAnimation(.easeInOut(duration: 0.2)) {
                     DatePicker("", selection: Binding<Date>(
@@ -84,7 +85,7 @@ struct PeriodInputComponent: View {
                     ), displayedComponents: .date)
                     .datePickerStyle(.graphical)
                     .environment(\.locale, Locale(identifier: "ko_KR"))
-                    .padding()
+                    .padding(.horizontal, 26)
                     .background(Color.white)
                     .cornerRadius(10)
                     .shadow(color: .black.opacity(0.05), radius: 20, x: 4, y: 4)
@@ -96,7 +97,8 @@ struct PeriodInputComponent: View {
                         }
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.leading, 20)
+                .padding(.trailing, 55)
             }
         }
     }
@@ -115,7 +117,7 @@ extension PeriodInputComponent {
         isExpanded: Binding<Bool>,
         placeholder: String
     ) -> some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 0) {
             Button {
                 if placeholder == "시작일" {
                     isEndDateExpanded = false
@@ -127,17 +129,16 @@ extension PeriodInputComponent {
                     isExpanded.wrappedValue.toggle()
                 }
             } label: {
-                HStack {
+                HStack(alignment: .center, spacing: 0) {
                     Text(selectedDate.wrappedValue != nil ? dateFormatter.string(from: selectedDate.wrappedValue!) : placeholder)
                         .applyCertiFont(.caption_semibold_12)
-                        .frame(height: 18)
+                        .frame(width: 72,height: 18, alignment: .leading)
                         .foregroundColor(selectedDate.wrappedValue != nil ? .grayscale600 : .grayscale300)
                         .padding(.leading, 12)
                     
                     Spacer()
                     
                     Image(.iconArrowdown24)
-                        .foregroundColor(.secondary)
                         .padding(.trailing, 12)
                 }
                 .frame(width: 121, height: 40)
