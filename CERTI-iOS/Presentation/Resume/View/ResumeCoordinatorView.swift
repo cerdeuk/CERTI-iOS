@@ -10,23 +10,23 @@ import SwiftUI
 struct ResumeCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
     @ObservedObject var resumeCoordinator: ResumeCoordinator
-    @State var resumeViewModel = ResumeViewModel
+    @StateObject var resumeViewModel = ResumeViewModel()
     
     var body: some View {
         NavigationStack(path: $resumeCoordinator.path) {
-            ResumeView()
+            ResumeView(viewModel: resumeViewModel)
                 .navigationDestination(for: ResumeRoute.self) { route in
                     switch route {
                     case .myCertificateEdit:
-                        MyCertificateEditView()
+                        MyCertificateEditView(viewModel: resumeViewModel)
                     case .myCareerEdit:
-                        MyCareerEditView()
+                        MyCareerEditView(viewModel: resumeViewModel)
                     case .myCareerWriteView:
-                        MyCareerWriteView()
+                        MyCareerWriteView(viewModel: resumeViewModel)
                     case .myExtracurricularActivityEditView:
-                        MyExtracurricularActivityEditView()
+                        MyExtracurricularActivityEditView(viewModel: resumeViewModel)
                     case .myExtracurricularActivityWriteView:
-                        MyExtracurricularActivityWriteView()
+                        MyExtracurricularActivityWriteView(viewModel: resumeViewModel)
                     }
                 }
         }
