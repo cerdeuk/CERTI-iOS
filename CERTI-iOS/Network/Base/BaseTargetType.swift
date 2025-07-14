@@ -34,6 +34,13 @@ extension BaseTargetType {
             "Content-Type": "application/json"
         ]
         
+        if let auth = self as? AuthAPI {
+            if case let .signUp(_, preToken) = auth {
+                headers["Authorization"] = "Bearer \(preToken)"
+                return headers
+            }
+        }
+        
         switch headerType {
         case .noneHeader:
             return nil
@@ -43,11 +50,11 @@ extension BaseTargetType {
             //                fatalError("🚨TEMPORARY_ACCESS_TOKEN을 찾을 수 없습니다🚨")
             //            }
             //            headers["Authorization"] = "Bearer \(temporaryAccessToken)"
-
+            
             if case .success(let token) = TokenManager.shared.getAccessToken() {
                 headers["Authorization"] = "Bearer \(token)"
             }
-                        
+            
             return headers
             
         case .refreshTokenHeader:

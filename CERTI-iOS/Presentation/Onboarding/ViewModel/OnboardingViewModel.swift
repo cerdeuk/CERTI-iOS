@@ -10,14 +10,10 @@ import Foundation
 final class OnboardingViewModel: ObservableObject {
     @Published var searchUnivText: String = ""
     @Published var userUniversity: String = ""
-    
     @Published var selectedGrade: String = ""
-    
     @Published var selectedTrack: String = ""
-    
     @Published var searchMajorText: String = ""
     @Published var userMajor: String = ""
-    
     @Published var selectedJobCategory: [String] = []
     
     func searchUnivValidate() -> Bool {
