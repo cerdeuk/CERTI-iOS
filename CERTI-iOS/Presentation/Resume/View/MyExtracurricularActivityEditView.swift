@@ -9,10 +9,10 @@ import SwiftUI
 
 struct MyExtracurricularActivityEditView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
-    @State private var isDeleteAlertPresented = false
+    @ObservedObject var viewModel: ResumeViewModel
+    @State var isDeleteAlertPresented = false
     
     let columns = [GridItem(.flexible())]
-    let extracurricularActivityDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
     
     var body: some View {
         ZStack {
@@ -50,7 +50,7 @@ struct MyExtracurricularActivityEditView: View {
                     .padding(.leading, 20)
                 
                 LazyVGrid(columns: columns, spacing: 36) {
-                    ForEach(extracurricularActivityDummy) { dummy in
+                    ForEach(viewModel.myExtracurricularActivityModelDummy) { dummy in
                         HStack(alignment: .center, spacing: 0) {
                             ResumeActivityListComponent(model: dummy)
                                 .frame(height: 50)
@@ -85,8 +85,4 @@ struct MyExtracurricularActivityEditView: View {
         }
         .navigationBarBackButtonHidden()
     }
-}
-
-#Preview {
-    MyExtracurricularActivityEditView()
 }
