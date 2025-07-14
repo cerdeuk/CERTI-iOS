@@ -74,4 +74,23 @@ extension OnboardingViewModel {
             logger.error("getUnivList failed: \(error.localizedDescription)")
         }
     }
+    
+    func getMajorList(keyword: String) async {
+        let result = await onboardingService.getSearchMajor(keyword: keyword, preSignUpToken: AuthManager.shared.getPreSignupToken())
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ getMajorList: No data received")
+                return
+            }
+            
+            self.majorList = data.majorNameList
+            logger.debug("✅ getMajorList success: \(data.majorNameList)")
+            
+        case .failure(let error):
+            logger.error("getMajorList failed: \(error.localizedDescription)")
+        }
+    }
+
 }
