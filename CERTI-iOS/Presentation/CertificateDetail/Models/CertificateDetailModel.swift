@@ -1,5 +1,5 @@
 //
-//  RecommendDetailModel.swift
+//  CertificateDetailModel.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/12/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RecommendDetailModel: Identifiable {
+struct CertificateDetailModel: Identifiable {
     let id: UUID = UUID()
     
     let certificationName: String
@@ -23,8 +23,8 @@ struct RecommendDetailModel: Identifiable {
     let expirationPeriod: String
 }
 
-extension RecommendDetailModel {
-    static func dummy() -> RecommendDetailModel {
+extension CertificateDetailModel {
+    static func dummy() -> CertificateDetailModel {
         return .init(
             certificationName: "정보처리기사",
             tags: ["컴퓨터공학", "시각디자인", "경영"],

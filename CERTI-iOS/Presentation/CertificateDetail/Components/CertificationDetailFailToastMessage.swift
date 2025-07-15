@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RecommendFailToastMessage: View {
+struct CertificationDetailFailToastMessage: View {
         let title: String
         let subtitle: String
     

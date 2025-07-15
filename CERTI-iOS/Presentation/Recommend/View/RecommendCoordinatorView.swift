@@ -19,7 +19,7 @@ struct RecommendCoordinatorView: View {
                 .navigationDestination(for: RecommendRoute.self) { route in
                     switch route {
                     case .detail:
-                        RecommendDetailView(viewmodel: viewModel)
+                        CertificateDetailView(viewmodel: viewModel)
                     }
                 }
         }

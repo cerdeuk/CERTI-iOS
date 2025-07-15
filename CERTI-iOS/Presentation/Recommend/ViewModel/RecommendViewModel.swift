@@ -12,7 +12,7 @@ class RecommendViewModel: ObservableObject {
     var username: String = AuthManager.shared.nickname
     
     @Published var licenseCards: [LicenseCardModel] = LicenseCardModel.dummy()
-    @Published var recommendDetail: RecommendDetailModel = RecommendDetailModel.dummy()
+    @Published var recommendDetail: CertificateDetailModel = CertificateDetailModel.dummy()
     @Published var isFilterModalPresented = false
     @Published var selectedCategories: [JobCategory] = [
             .marketing, .sales, .rnd
