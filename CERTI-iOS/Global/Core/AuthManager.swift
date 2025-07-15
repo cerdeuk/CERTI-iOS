@@ -106,6 +106,18 @@ final class AuthManager {
         preSignupToken
     }
     
+    func cleanUserInfo() {
+        nickname = ""
+        email = ""
+        profileImageUrl = ""
+        preSignupToken = ""
+        university = ""
+        grade = ""
+        track = ""
+        major = ""
+        jobs.removeAll()
+    }
+    
     //MARK: - Private Func
     
     private func saveUserInfo(from dto: SignupRequiredResponseDTO) {

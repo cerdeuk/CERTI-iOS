@@ -17,11 +17,16 @@ enum AuthResponse {
 protocol AuthServiceProtocol {
     func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponse, NetworkError>
     func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError>
+    func withDraw() async -> Result<Void, NetworkError>
 }
 
 final class AuthService: BaseService, AuthServiceProtocol {
     
     private let provider = MoyaProvider<AuthAPI>.init(plugins: [MoyaPlugin()])
+    
+    func withDraw() async -> Result<Void, NetworkError> {
+        return await requestVoid(provider, .withDraw)
+    }
     
     func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError> {
         return await requestDecodable(provider, .signUp(request: request, preSignUpToken: preSignUpToken))

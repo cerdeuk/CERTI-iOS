@@ -10,8 +10,7 @@ import SwiftUI
 struct RecommendInterestTagBar: View {
     
     @Binding var isModalPresented: Bool
-    let interestTags: [String] = [JobCategory.marketing.description, JobCategory.sales.description,
-                                  JobCategory.rnd.description]
+    let interestTags: [String]
     
     var body: some View {
         ScrollView(.horizontal) {

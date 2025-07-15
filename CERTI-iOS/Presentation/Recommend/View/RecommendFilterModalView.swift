@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct RecommendFilterModalView: View {
-    @State private var selectedCategories: [JobCategory] = []
+    @Environment(\.dismiss) private var dismiss
+    @Binding var selectedCategories: [JobCategory]
+    @State private var tempSelectedCategories: [JobCategory] = []
     
     var body: some View {
         VStack(spacing: 0) {
@@ -17,6 +19,9 @@ struct RecommendFilterModalView: View {
             RecoommendFilterButtonList
             
             ApplyButton
+        }
+        .onAppear {
+            tempSelectedCategories = selectedCategories
         }
     }
     
@@ -54,11 +59,11 @@ struct RecommendFilterModalView: View {
     private var RecoommendFilterButtonList: some View {
         LazyVGrid(columns: Array(repeating: .init(spacing: 16), count: 3), spacing: 13) {
             ForEach(JobCategory.allCases) {category in
-                RecommendFilterButton(category: category, isSelected: selectedCategories.contains(category)) {
-                    if selectedCategories.contains(category) {
-                        selectedCategories.removeAll { $0 == category }
-                    } else if selectedCategories.count < 3 {
-                        selectedCategories.append(category)
+                RecommendFilterButton(category: category, isSelected: tempSelectedCategories.contains(category)) {
+                    if tempSelectedCategories.contains(category) {
+                        tempSelectedCategories.removeAll { $0 == category }
+                    } else if tempSelectedCategories.count < 3 {
+                        tempSelectedCategories.append(category)
                     }
                 }
             }
@@ -69,21 +74,22 @@ struct RecommendFilterModalView: View {
     
     private var ApplyButton: some View {
         Button {
-            
+            selectedCategories = tempSelectedCategories
+            dismiss()
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundStyle(.purpleblue)
+                    .foregroundStyle(tempSelectedCategories.isEmpty ? .grayscale100 : .purpleblue)
                     .frame(height: 56)
                 
                 Text("적용하기")
                     .applyCertiFont(.body_semibold_16)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(tempSelectedCategories.isEmpty ? .grayscale400 : .white)
                     .frame(height: 22)
             }
             .padding(.horizontal, 20)
             .padding(.top, 53)
         }
-        
+        .disabled(tempSelectedCategories.isEmpty)
     }
 }

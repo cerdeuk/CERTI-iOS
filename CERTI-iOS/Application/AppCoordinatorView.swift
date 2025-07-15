@@ -22,7 +22,7 @@ struct AppCoordinatorView: View {
                 .environmentObject(appCoordinator)
         case .main:
             CertiTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator)
-                .environmentObject(appCoordinator.tabCoordinator)
+                .environmentObject(appCoordinator)
         }
     }
 }
