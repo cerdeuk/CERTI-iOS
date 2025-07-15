@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct CertificationInfoResponseDTO: Decodable {
+    let certificationId: Int
+    let certificationName: String
+    let averagePeriod: String
+    let nearestTestDate: String
+    let agencyName: String
+    let iconIndex: Int
+}
