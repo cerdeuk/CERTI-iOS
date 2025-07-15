@@ -30,9 +30,9 @@ struct CeritificateCardComponent: View {
                     .frame(height: 18)
                     .padding(.top, 4)
                 
-                TagChip(tags: model.tags, spacing: 4)
-                    .padding(.top, 8)
+                TagChipMini(tags: model.tags, spacing: 4)
                     .frame(height: 23)
+                    .padding(.top, 8)
             }
         }
     }
