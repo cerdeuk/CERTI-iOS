@@ -1,5 +1,5 @@
 //
-//  RecommendSuccessToastMessage.swift
+//  CertificateDetailFailToastMessage.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 7/12/25.
@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct CertificationDetailSuccessToastMessage: View {
+struct CertificateDetailFailToastMessage: View {
         let title: String
         let subtitle: String
     
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
-            Image(.iconProgresscheck)
+            Image(.iconWarning24)
             VStack(alignment: .leading, spacing: 0) {
                 Text(title)
                     .applyCertiFont(.caption_semibold_14)
