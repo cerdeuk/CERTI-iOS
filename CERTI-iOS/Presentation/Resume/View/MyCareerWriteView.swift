@@ -22,7 +22,7 @@ struct MyCareerWriteView: View {
                 dutyDetailView
                 Spacer()
                 ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(viewModel.isWriteButtonEnabled))
-                    .padding(.top, 16)
+                    .padding(.bottom, 25)
             }
         }
         .navigationBarBackButtonHidden()

@@ -22,6 +22,7 @@ struct MyExtracurricularActivityWriteView: View {
                 activityDetailView
                 Spacer()
                 ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(viewModel.isWriteButtonEnabled))
+                    .padding(.bottom, 25)
             }
         }
         .navigationBarBackButtonHidden()
