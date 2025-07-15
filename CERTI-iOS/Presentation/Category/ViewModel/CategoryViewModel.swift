@@ -55,10 +55,10 @@ extension CategoryViewModel {
     }
     
     func postFavorite(certificationId: Int) async {
-        let result = await categoryService.toggleFavorite(certificationId: certificationId)
+        let result = await categoryService.fetchFavorite(certificationId: certificationId)
         
         switch result {
-        case .success(let response):
+        case .success(_):
             logger.debug("✅ toggleFavorite success")
             
         case .failure(let error):

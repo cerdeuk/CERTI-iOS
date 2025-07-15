@@ -13,7 +13,7 @@ protocol CertificationServiceProtocol {
     func getCategory(isFavorite: Bool, jobs: String)
         async -> Result<CategoryListResponseDTO, NetworkError>
     
-    func toggleFavorite(certificationId: Int)
+    func fetchFavorite(certificationId: Int)
         async -> Result<EmptyResponseDTO, NetworkError>
 }
 
@@ -26,8 +26,8 @@ final class CertificationService: BaseService, CertificationServiceProtocol {
         return await requestDecodable(provider, .viewCategoryList(isFavorite: isFavorite, jobs: jobs))
     }
     
-    func toggleFavorite(certificationId: Int)
+    func fetchFavorite(certificationId: Int)
         async -> Result<EmptyResponseDTO, NetworkError> {
-        return await requestDecodable(provider, .toggleFavorite(certificationId: certificationId))
+        return await requestDecodable(provider, .fetchFavorite(certificationId: certificationId))
     }
 }

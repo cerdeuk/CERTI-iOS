@@ -12,7 +12,7 @@ import Moya
 enum  CertificationAPI {
     case viewCategoryList(isFavorite: Bool, jobs: String)
     
-    case toggleFavorite(certificationId: Int)
+    case fetchFavorite(certificationId: Int)
 }
 
 extension CertificationAPI: BaseTargetType {
@@ -28,7 +28,7 @@ extension CertificationAPI: BaseTargetType {
         case .viewCategoryList:
             return "certification"
             
-        case .toggleFavorite(certificationId: let certificationId):
+        case .fetchFavorite(certificationId: let certificationId):
             return "certification/\(certificationId)/favorite"
         }
     }
@@ -38,7 +38,7 @@ extension CertificationAPI: BaseTargetType {
         case .viewCategoryList:
             return .get
             
-        case .toggleFavorite:
+        case .fetchFavorite:
             return .post
         }
     }
@@ -48,7 +48,7 @@ extension CertificationAPI: BaseTargetType {
         case .viewCategoryList(let isFavorite, let jobs):
             return .requestParameters(parameters: ["isFavorite":isFavorite, "jobs":jobs], encoding: URLEncoding.queryString)
             
-        case .toggleFavorite:
+        case .fetchFavorite:
             return .requestPlain
         }
     }

@@ -22,10 +22,10 @@ struct CategoryLicenseCardList: View {
                     ForEach(viewModel.licenseCards) { item in
                         LicenseCardItem(model: item,
                                                 onTapFavorite: {
-                            viewModel.toggleFavorite(id: item.id)
                             Task{
                                 await viewModel.postFavorite(certificationId: item.certificationId)
                             }
+                            viewModel.toggleFavorite(id: item.id)
                         }
                         )
                     }
