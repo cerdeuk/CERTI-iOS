@@ -23,11 +23,11 @@ final class CertificationService: BaseService, CertificationServiceProtocol {
     
     func getCategory(isFavorite: Bool, jobs: String)
         async -> Result<CategoryListResponseDTO, NetworkError> {
-        return await requestDecodable(provider, .viewCategoryList(isFavorite: isFavorite, jobs: jobs))
+        return await requestDecodable(provider, .fetchCategoryList(isFavorite: isFavorite, jobs: jobs))
     }
     
     func fetchFavorite(certificationId: Int)
         async -> Result<Void, NetworkError> {
-        return await requestVoid(provider, .fetchFavorite(certificationId: certificationId))
+        return await requestVoid(provider, .switchFavorite(certificationId: certificationId))
     }
 }

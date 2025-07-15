@@ -10,8 +10,8 @@ import Foundation
 import Moya
 
 enum  CertificationAPI {
-    case viewCategoryList(isFavorite: Bool, jobs: String)
-    case fetchFavorite(certificationId: Int)
+    case fetchCategoryList(isFavorite: Bool, jobs: String)
+    case switchFavorite(certificationId: Int)
 }
 
 extension CertificationAPI: BaseTargetType {
@@ -24,27 +24,27 @@ extension CertificationAPI: BaseTargetType {
     
     var path: String {
         switch self {
-        case .viewCategoryList:
+        case .fetchCategoryList:
             return "certification"
-        case .fetchFavorite(certificationId: let certificationId):
+        case .switchFavorite(certificationId: let certificationId):
             return "certification/\(certificationId)/favorite"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .viewCategoryList:
+        case .fetchCategoryList:
             return .get
-        case .fetchFavorite:
+        case .switchFavorite:
             return .post
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .viewCategoryList(let isFavorite, let jobs):
+        case .fetchCategoryList(let isFavorite, let jobs):
             return .requestParameters(parameters: ["isFavorite":isFavorite, "jobs":jobs], encoding: URLEncoding.queryString)
-        case .fetchFavorite:
+        case .switchFavorite:
             return .requestPlain
         }
     }
