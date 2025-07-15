@@ -14,7 +14,7 @@ protocol CertificationServiceProtocol {
         async -> Result<CategoryListResponseDTO, NetworkError>
     
     func fetchFavorite(certificationId: Int)
-        async -> Result<EmptyResponseDTO, NetworkError>
+        async -> Result<Void, NetworkError>
 }
 
 final class CertificationService: BaseService, CertificationServiceProtocol {
@@ -27,7 +27,7 @@ final class CertificationService: BaseService, CertificationServiceProtocol {
     }
     
     func fetchFavorite(certificationId: Int)
-        async -> Result<EmptyResponseDTO, NetworkError> {
-        return await requestDecodable(provider, .fetchFavorite(certificationId: certificationId))
+        async -> Result<Void, NetworkError> {
+        return await requestVoid(provider, .fetchFavorite(certificationId: certificationId))
     }
 }
