@@ -11,12 +11,15 @@ import Moya
 
 enum HomeAPI {
     case getPreCertification
+    case deletePreCertification(id: Int)
 }
 
 extension HomeAPI: BaseTargetType {
     var headerType: HeaderType {
         switch self {
         case .getPreCertification:
+            return .accessTokenHeader
+        case .deletePreCertification:
             return .accessTokenHeader
         }
     }
@@ -25,6 +28,8 @@ extension HomeAPI: BaseTargetType {
         switch self {
         case .getPreCertification:
             return "home/pre-certification"
+        case .deletePreCertification(let id):
+            return "home/pre-certification/\(id)"
         }
     }
     
@@ -32,12 +37,16 @@ extension HomeAPI: BaseTargetType {
         switch self {
         case .getPreCertification:
             return .get
+        case .deletePreCertification:
+            return .delete
         }
     }
     
     var task: Moya.Task {
         switch self {
         case .getPreCertification:
+            return .requestPlain
+        case .deletePreCertification:
             return .requestPlain
         }
     }
