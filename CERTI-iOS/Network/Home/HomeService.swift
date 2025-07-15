@@ -13,3 +13,12 @@ protocol HomeServiceProtocol {
     func getPreCertification() async -> Result<PreCertificationInfoResponseDTO, NetworkError>
 }
 
+final class HomeService: BaseService, HomeServiceProtocol {
+    
+    private let provider = MoyaProvider<HomeAPI>.init(plugins: [MoyaPlugin()])
+
+    func getPreCertification() async -> Result<PreCertificationInfoResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getPreCertification)
+    }
+    
+}
