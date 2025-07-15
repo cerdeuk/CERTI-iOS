@@ -25,7 +25,7 @@ struct JobCategorySegmentedControl: View {
                     }
                 }
             }
-            .padding(.leading, 20)
+            .padding(.horizontal, 20)
         }
         .scrollIndicators(.hidden)
     }

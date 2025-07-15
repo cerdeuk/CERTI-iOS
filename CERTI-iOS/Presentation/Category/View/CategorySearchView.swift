@@ -43,6 +43,8 @@ struct CategorySearchView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
                 
+                Spacer()
+                
                 if let result = viewModel.searchResult {
                     switch result {
                     case .empty:
@@ -53,8 +55,6 @@ struct CategorySearchView: View {
                         CategorySearchResultView
                     }
                 }
-                
-                Spacer()
                 
             }
         }
@@ -84,6 +84,7 @@ struct CategorySearchView: View {
                 
                 CategorySearchLicenseCardList(viewModel: viewModel)
                     .padding(.top, 16)
+                    .padding(.horizontal, 20)
             }
             .scrollIndicators(.hidden)
             .simultaneousGesture(TapGesture().onEnded {
