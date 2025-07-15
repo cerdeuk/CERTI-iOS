@@ -60,7 +60,7 @@ extension BaseTargetType {
                 fatalError("🚨TEMPORARY_ACCESS_TOKEN을 찾을 수 없습니다🚨")
             }
             headers["Authorization"] = "Bearer \(temporaryAccessToken)"
-            //            
+            
             //            if case .success(let token) = TokenManager.shared.getAccessToken() {
             //                headers["Authorization"] = "Bearer \(token)"
             //            }

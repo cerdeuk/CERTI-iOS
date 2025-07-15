@@ -9,7 +9,7 @@ import SwiftUI
 
 class RecommendViewModel: ObservableObject {
     
-    var username: String = "김서티22"
+    var username: String = AuthManager.shared.nickname
     
     @Published var licenseCards: [LicenseCardModel] = LicenseCardModel.dummy()
     @Published var recommendDetail: RecommendDetailModel = RecommendDetailModel.dummy()
@@ -21,7 +21,7 @@ class RecommendViewModel: ObservableObject {
         selectedCategories.map(\.description)
     }
     
-    func toggleFavorite(id: UUID) {
+    func toggleFavorite(id: Int) {
         guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
         licenseCards[index].isFavorite.toggle()
     }
