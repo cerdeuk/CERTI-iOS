@@ -53,4 +53,21 @@ extension CategoryViewModel {
             logger.error("getCategoryList failed: \(error.localizedDescription)")
         }
     }
+    
+    func postFavorite(certificationId: Int) async {
+        let result = await categoryService.toggleFavorite(certificationId: certificationId)
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ toggleFavorite: No data received")
+                return
+            }
+            
+            logger.debug("✅ toggleFavorite success")
+            
+        case .failure(let error):
+            logger.error("toggleFavorite failed: \(error.localizedDescription)")
+        }
+    }
 }

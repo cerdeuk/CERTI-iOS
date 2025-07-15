@@ -23,6 +23,9 @@ struct CategoryLicenseCardList: View {
                         LicenseCardItem(model: item,
                                                 onTapFavorite: {
                             viewModel.toggleFavorite(id: item.id)
+                            Task{
+                                await viewModel.postFavorite(certificationId: item.certificationId)
+                            }
                         }
                         )
                     }
