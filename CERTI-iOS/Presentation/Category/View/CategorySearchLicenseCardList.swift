@@ -25,7 +25,7 @@ struct CategorySearchLicenseCardList: View {
                             Task{
                                 await viewModel.postFavorite(certificationId: item.certificationId)
                             }
-                            viewModel.toggleFavorite(id: item.id)
+                            viewModel.toggleSearchFavorite(id: item.id)
                         }
                         )
                     }

@@ -32,15 +32,19 @@ struct CategorySearchView: View {
                 .padding(.bottom, 12)
                 
                 SearchBar(text: $viewModel.inputText) {
-                    Task{
+                    Task {
+                        if viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            viewModel.searchResult = .empty
+                            return
+                        }
+                        
                         await viewModel.searchCertifiedList(keyword: viewModel.inputText)
-                    }
-                    if viewModel.inputText.isEmpty {
-                        viewModel.searchResult = .empty
-                    } else if viewModel.searchLicenseCards.isEmpty {
-                        viewModel.searchResult = .noResult
-                    } else {
-                        viewModel.searchResult = .result
+                        
+                        if viewModel.searchLicenseCards.isEmpty {
+                            viewModel.searchResult = .noResult
+                        } else {
+                            viewModel.searchResult = .result
+                        }
                     }
                 }
                 .padding(.horizontal, 20)

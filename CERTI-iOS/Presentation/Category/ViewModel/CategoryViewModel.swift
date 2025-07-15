@@ -27,6 +27,11 @@ class CategoryViewModel: ObservableObject {
         licenseCards[index].isFavorite.toggle()
     }
     
+    func toggleSearchFavorite(id: Int) {
+        guard let index = searchLicenseCards.firstIndex(where: { $0.id == id }) else { return }
+        searchLicenseCards[index].isFavorite.toggle()
+    }
+    
     var trimmedInput: String {
         inputText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
