@@ -12,7 +12,7 @@ struct OnboardingInfoView: View {
     @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
     @ObservedObject var viewModel: OnboardingViewModel
 
-    @State private var username = "김서티22"
+    @State private var username = AuthManager.shared.nickname
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -97,7 +97,14 @@ struct OnboardingInfoView: View {
                 Spacer()
                 
                 Button {
-                    appCoordinator.completeOnboarding()
+                    Task {
+                        let success = await viewModel.completeSignUp()
+                        if success {
+                            appCoordinator.completeOnboarding()
+                        } else {
+                            print("회원가입 실패")
+                        }
+                    }
                 } label: {
                     Text("시작하기")
                         .applyCertiFont(.body_semibold_16)
