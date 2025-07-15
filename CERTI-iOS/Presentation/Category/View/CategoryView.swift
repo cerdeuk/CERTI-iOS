@@ -24,7 +24,9 @@ struct CategoryView: View {
             
             FavoriteFilterToggleButton(isSelected: viewModel.isFilterToggle) {
                 viewModel.isFilterToggle.toggle()
-                print("즐겨찾기 버튼 눌림")
+                Task {
+                    await viewModel.getCategoryList()
+                }
             }
             
             CategoryLicenseCardList(viewModel: viewModel)

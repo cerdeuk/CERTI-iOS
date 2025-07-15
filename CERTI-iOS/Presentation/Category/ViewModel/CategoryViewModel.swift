@@ -59,11 +59,6 @@ extension CategoryViewModel {
         
         switch result {
         case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ toggleFavorite: No data received")
-                return
-            }
-            
             logger.debug("✅ toggleFavorite success")
             
         case .failure(let error):
