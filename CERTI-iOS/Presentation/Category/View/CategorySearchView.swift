@@ -32,9 +32,12 @@ struct CategorySearchView: View {
                 .padding(.bottom, 12)
                 
                 SearchBar(text: $viewModel.inputText) {
+                    Task{
+                        await viewModel.searchCertifiedList(keyword: viewModel.inputText)
+                    }
                     if viewModel.inputText.isEmpty {
                         viewModel.searchResult = .empty
-                    } else if viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines) == "뿡" {
+                    } else if viewModel.searchLicenseCards.isEmpty {
                         viewModel.searchResult = .noResult
                     } else {
                         viewModel.searchResult = .result
@@ -66,16 +69,19 @@ struct CategorySearchView: View {
             ScrollView {
                 HStack(spacing: 0) {
                     Text("총 ")
-                        .foregroundStyle(.grayscale400)
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale600)
                         .frame(height: 20)
                         .padding(.leading, 20)
                     
-                    Text("\(viewModel.licenseCards.count)")
+                    Text("\(viewModel.searchLicenseCards.count)")
+                        .applyCertiFont(.caption_regular_14)
                         .foregroundStyle(.purpleblue)
                         .frame(height: 20)
                     
                     Text("개의 검색 결과")
-                        .foregroundStyle(.grayscale400)
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale600)
                         .frame(height: 20)
                     
                     Spacer()
@@ -97,16 +103,19 @@ struct CategorySearchView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 Text("총 ")
-                    .foregroundStyle(.grayscale400)
+                    .applyCertiFont(.caption_regular_14)
+                    .foregroundStyle(.grayscale600)
                     .frame(height: 20)
                     .padding(.leading, 20)
                 
                 Text("0")
+                    .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.purpleblue)
                     .frame(height: 20)
                 
                 Text("개의 검색 결과")
-                    .foregroundStyle(.grayscale400)
+                    .applyCertiFont(.caption_regular_14)
+                    .foregroundStyle(.grayscale600)
                     .frame(height: 20)
                 
                 Spacer()
@@ -118,16 +127,19 @@ struct CategorySearchView: View {
             
             HStack(spacing: 0) {
                 Text(viewModel.trimmedInput)
+                    .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.purpleblue)
                     .frame(height: 20)
                 
                 Text("에")
+                    .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.grayscale400)
                     .frame(height: 20)
             }
             .padding(.top, 20)
             
             Text("해당하는 결과가 없어요.")
+                .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale400)
                 .frame(height: 20)
             

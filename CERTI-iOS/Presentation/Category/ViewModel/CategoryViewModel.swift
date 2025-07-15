@@ -13,6 +13,7 @@ import os
 class CategoryViewModel: ObservableObject {
     
     @Published var licenseCards: [LicenseCardModel] = []
+    @Published var searchLicenseCards: [LicenseCardModel] = []
     @Published var isFilterToggle = false
     @Published var selectedCategory: JobCategory = .business
     @Published var inputText: String = ""
@@ -63,6 +64,25 @@ extension CategoryViewModel {
             
         case .failure(let error):
             logger.error("toggleFavorite failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func searchCertifiedList(keyword: String) async {
+        let result = await categoryService.searchCertification(keyword: keyword)
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ searchCertifiedList: No data received")
+                return
+            }
+            
+            self.searchLicenseCards.removeAll()
+            self.searchLicenseCards = data.certificationSimpleList
+            logger.debug("✅ getCategoryList success: \(data.certificationSimpleList)")
+            
+        case .failure(let error):
+            logger.error("getCategoryList failed: \(error.localizedDescription)")
         }
     }
 }
