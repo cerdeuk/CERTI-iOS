@@ -9,30 +9,20 @@ import SwiftUI
 
 struct MyExtracurricularActivityWriteView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
-    @State private var isPeriodFilled: Bool = false
-    @State private var resumeModel = ResumeModel(
-        startAt: "",
-        endAt: "",
-        name: "",
-        place: "",
-        discription: ""
-    )
-    
-    var isWriteButtonEnabled: Bool {
-        !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
-    }
+    @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
-        ScrollView{
+        ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 MyExtracurricularActivityTitleView
                 activityPeriodView
-                PeriodInputComponent(isFilled: $isPeriodFilled)
+                PeriodInputComponent(isFilled: $viewModel.isPeriodFilled)
                 organizeView
                 activityView
                 activityDetailView
                 Spacer()
-                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(isWriteButtonEnabled))
+                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(viewModel.isWriteButtonEnabled))
+                    .padding(.bottom, 25)
             }
         }
         .navigationBarBackButtonHidden()
@@ -41,7 +31,7 @@ struct MyExtracurricularActivityWriteView: View {
 
 extension MyExtracurricularActivityWriteView {
     private var MyExtracurricularActivityTitleView: some View {
-        Group{
+        Group {
             BackButton() {
                 resumeCoordinator.pop()
             }
@@ -60,7 +50,7 @@ extension MyExtracurricularActivityWriteView {
     }
     
     private var activityPeriodView: some View {
-        Group{
+        Group {
             HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
@@ -69,7 +59,7 @@ extension MyExtracurricularActivityWriteView {
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
-
+                
                 Spacer()
             }
             .frame(height: 24)
@@ -80,7 +70,7 @@ extension MyExtracurricularActivityWriteView {
     }
     
     private var organizeView: some View {
-        Group{
+        Group {
             HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
@@ -89,21 +79,21 @@ extension MyExtracurricularActivityWriteView {
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
-
+                
                 Spacer()
             }
             .frame(height: 24)
             .padding(.leading, 20)
             .padding(.bottom, 24)
             .padding(.top, 36)
-
-            CharLimitTextField(text: $resumeModel.name, maxLength: 10)
+            
+            CharLimitTextField(text: $viewModel.resumeModel.name, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
     
     private var activityView: some View {
-        Group{
+        Group {
             HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
@@ -112,7 +102,7 @@ extension MyExtracurricularActivityWriteView {
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
-
+                
                 Spacer()
             }
             .frame(height: 24)
@@ -120,13 +110,13 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $resumeModel.place, maxLength: 10)
+            CharLimitTextField(text: $viewModel.resumeModel.place, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
     
     private var activityDetailView: some View {
-        Group{
+        Group {
             HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .padding(.trailing, 4)
@@ -135,7 +125,7 @@ extension MyExtracurricularActivityWriteView {
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
-
+                
                 Spacer()
             }
             .frame(height: 24)
@@ -143,7 +133,7 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $resumeModel.discription, maxLength: 16)
+            CharLimitTextField(text: $viewModel.resumeModel.discription, maxLength: 16)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 16)
         }
@@ -152,8 +142,4 @@ extension MyExtracurricularActivityWriteView {
     private func testButtonClicked() {
         print("testButtonClicked")
     }
-}
-
-#Preview {
-    MyExtracurricularActivityWriteView()
 }

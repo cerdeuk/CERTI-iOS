@@ -39,4 +39,20 @@ extension String {
     var isBlank: Bool {
         return self.trimmingCharacters(in: .whitespaces).isEmpty
     }
+    
+    func toDisplayDateString() -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy.MM.dd"
+        inputFormatter.locale = Locale(identifier: "ko_KR")
+        
+        guard let date = inputFormatter.date(from: self) else {
+            return self
+        }
+
+        let outputFormatter = DateFormatter()
+        outputFormatter.locale = Locale(identifier: "ko_KR")
+        outputFormatter.dateFormat = "yyyy년 M월 d일"
+
+        return "\(outputFormatter.string(from: date))"
+    }
 }
