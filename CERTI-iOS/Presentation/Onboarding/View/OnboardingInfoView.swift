@@ -101,6 +101,7 @@ struct OnboardingInfoView: View {
                         let success = await viewModel.completeSignUp()
                         if success {
                             appCoordinator.completeOnboarding()
+                            onboardingCoordinator.reset()
                         } else {
                             print("회원가입 실패")
                         }

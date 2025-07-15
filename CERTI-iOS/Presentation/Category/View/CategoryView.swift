@@ -28,6 +28,7 @@ struct CategoryView: View {
             }
             
             CategoryLicenseCardList(viewModel: viewModel)
+                .padding(.horizontal, 20)
         }
     }
 }

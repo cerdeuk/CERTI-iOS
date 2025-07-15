@@ -9,12 +9,16 @@ import SwiftUI
 
 struct RecommendDetailView: View {
     @EnvironmentObject var recommendCoordinator: RecommendCoordinator
-    let model: RecommendDetailModel = RecommendDetailModel.dummy()
+    @ObservedObject var viewmodel: RecommendViewModel
     @State private var showSuccessAcquired = false
     @State private var showFailAcquired = false
     @State private var showFailToBeAcquired = false
     @State private var showCompleteModal = false
     @State private var opacity: Double = 1.0
+    
+    var model: RecommendDetailModel {
+        viewmodel.recommendDetail
+    }
     
     var body: some View {
         

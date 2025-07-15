@@ -68,4 +68,10 @@ final class AppCoordinator: ObservableObject {
         _ = TokenManager.shared.clearTokens()
         appState = .auth
     }
+    
+    func withDraw() {
+        _ = TokenManager.shared.clearTokens()
+        UserDefaults.standard.removeObject(forKey: "didOnboard")
+        appState = .auth
+    }
 }
