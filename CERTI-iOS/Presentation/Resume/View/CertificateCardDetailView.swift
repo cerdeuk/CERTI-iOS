@@ -55,15 +55,15 @@ extension CertificateCardDetailView {
                         .frame(height: 25)
                         .padding(.leading, 20)
                     
-                    Text(card.createdAt.toDisplayDateString())
+                    Text("\(card.createdAt.toDisplayDateString())에 획득했어요.")
                         .applyCertiFont(.caption_regular_14)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 20)
                         .padding(.leading, 20)
                     
                     TagChip(tags: card.tags, spacing: 4)
-                        .padding(.top, 8)
                         .frame(height: 23)
+                        .padding(.top, 8)
                         .padding(.leading, 20)
                     
                     Spacer()

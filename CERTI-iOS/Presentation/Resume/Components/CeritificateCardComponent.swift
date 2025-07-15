@@ -24,7 +24,7 @@ struct CeritificateCardComponent: View {
                     .frame(height: 20)
                     .padding(.top, 32)
                 
-                Text(model.createdAt.toDisplayDateString())
+                Text("\(model.createdAt.toDisplayDateString()) 획득")
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 18)
