@@ -11,6 +11,7 @@ struct ResumeView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     @State var isPresented = false
+    @State private var selectedCard: CertificatedModel? = nil
 
     let columns = [GridItem(.flexible())]
     let rows = [GridItem(.fixed(100))]
@@ -31,7 +32,7 @@ struct ResumeView: View {
         .scrollIndicators(.hidden)
         .overlay(
             Group {
-                if isPresented {
+                if isPresented, let selectedCard {
                     ZStack {
                         Color.black.opacity(0.4)
                             .ignoresSafeArea()
@@ -39,7 +40,7 @@ struct ResumeView: View {
                                 isPresented = false
                             }
                         
-                        CertificateCardDetailView(viewModel: viewModel)
+                        CertificateCardDetailView(card: selectedCard)
                             .shadow(radius: 10)
                     }
                     .zIndex(1)
@@ -175,9 +176,10 @@ extension ResumeView {
                 
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: rows, spacing: 12) {
-                        ForEach($viewModel.certificatedDummy) { dummy in
-                            CeritificateCardComponent()
+                        ForEach(viewModel.certificatedDummy) { cardItem in
+                            CeritificateCardComponent(model: cardItem)
                                 .onTapGesture {
+                                    selectedCard = cardItem
                                     isPresented.toggle()
                                 }
                         }
