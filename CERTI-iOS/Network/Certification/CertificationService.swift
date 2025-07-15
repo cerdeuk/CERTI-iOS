@@ -15,6 +15,7 @@ protocol CertificationServiceProtocol {
     
     func fetchFavorite(certificationId: Int)
         async -> Result<Void, NetworkError>
+//    func getRecommend() -> Result<>
 }
 
 final class CertificationService: BaseService, CertificationServiceProtocol {
