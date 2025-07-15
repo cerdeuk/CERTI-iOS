@@ -12,11 +12,11 @@ struct CategorySearchLicenseCardList: View {
     @ObservedObject var viewModel: CategoryViewModel
     
     let columns = [
-        GridItem(.fixed(335))
+        GridItem(.flexible())
     ]
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(viewModel.licenseCards) { item in
@@ -27,6 +27,7 @@ struct CategorySearchLicenseCardList: View {
                         )
                     }
                 }
+                .padding(.bottom, 1)
             }
         }
     }

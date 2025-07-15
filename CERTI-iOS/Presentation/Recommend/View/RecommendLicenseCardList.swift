@@ -12,7 +12,7 @@ struct RecommendLicenseCardList: View {
     @ObservedObject var viewModel: RecommendViewModel
     
     let columns = [
-        GridItem(.fixed(335))
+        GridItem(.flexible())
     ]
     
     var body: some View {
@@ -20,10 +20,12 @@ struct RecommendLicenseCardList: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(viewModel.licenseCards) { item in
-                        LicenseCardItem(model: item, onTapFavorite: {})
-                            .padding(.top, 16)
+                        LicenseCardItem(model: item) {
+                            viewModel.toggleFavorite(id: item.id)
+                        }
                     }
                 }
+                .padding(.top, 16)
                 .padding(.bottom, 63)
             }
             .scrollIndicators(.hidden)

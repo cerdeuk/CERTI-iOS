@@ -11,14 +11,15 @@ struct RecommendCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
 
     @ObservedObject var recommendCoordinator: RecommendCoordinator
-    
+    @StateObject var viewModel = RecommendViewModel()
+
     var body: some View {
         NavigationStack(path: $recommendCoordinator.path) {
-            RecommendView()
+            RecommendView(viewModel: viewModel)
                 .navigationDestination(for: RecommendRoute.self) { route in
                     switch route {
                     case .detail:
-                        RecommendDetailView()
+                        RecommendDetailView(viewmodel: viewModel)
                     }
                 }
         }
