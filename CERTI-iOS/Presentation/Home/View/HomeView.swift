@@ -278,7 +278,7 @@ extension HomeView {
         ScrollView(.horizontal){
             LazyHGrid(rows: rows, spacing: 12) {
                 ForEach(viewModel.homeStateModel.favoriteLicenses) { item in
-                    FavoriteLicenseCard(licenseCard: item)
+                    FavoriteLicenseCard(viewModel: viewModel, licenseCard: item)
                 }
             }
             .padding(.horizontal, 20)

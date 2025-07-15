@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct FavoriteLicenseCard: View {
+    @ObservedObject var viewModel: HomeViewModel
+
     let licenseCard: FavoriteLicenseCardModel
     
     var body: some View {
@@ -67,9 +69,12 @@ struct FavoriteLicenseCard: View {
                     Spacer()
                     
                     Button {
-                        // 즐겨찾기
+                        Task {
+                            await viewModel.toggleFavoriteCertification(certificationId: licenseCard.certificationId)
+                            viewModel.toggleFavorite(id: licenseCard.certificationId)
+                        }
                     } label: {
-                        Image(.iconStarYellow)
+                        Image(licenseCard.isFavorite ? .iconStarYellow : .iconStar)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 24, height: 24)

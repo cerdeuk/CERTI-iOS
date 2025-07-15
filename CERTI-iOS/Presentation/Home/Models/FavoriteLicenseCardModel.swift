@@ -15,5 +15,5 @@ struct FavoriteLicenseCardModel: Identifiable {
     let testType: String
     let agencyName: String
     let certificationType: String
-    let isFavorite: Bool
+    var isFavorite: Bool
 }

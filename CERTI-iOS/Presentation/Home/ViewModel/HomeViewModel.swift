@@ -25,6 +25,11 @@ struct HomeStateModel {
 final class HomeViewModel: ObservableObject {
     @Published var homeStateModel = HomeStateModel()
     
+    func toggleFavorite(id: Int) {
+        guard let index = homeStateModel.favoriteLicenses.firstIndex(where: { $0.certificationId == id }) else { return }
+        homeStateModel.favoriteLicenses[index].isFavorite.toggle()
+    }
+    
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "WithDraw")
 }
 
@@ -67,7 +72,7 @@ extension HomeViewModel {
         switch result {
         case .success(let response):
             logger.info("✅ 추천 자격증 조회 성공")
-
+            
             let list = response.data?.recommendationList.map { $0.toRecommendLicenseCardModel() } ?? []
             homeStateModel.recommendLicenses = list
             
@@ -82,7 +87,7 @@ extension HomeViewModel {
         switch result {
         case .success(let response):
             logger.info("✅ 취득 예정 자격증 조회 성공")
-
+            
             let list = response.data?.toPreLicenseCardModelList()
             
             homeStateModel.preLicenses = list ?? []
@@ -102,7 +107,7 @@ extension HomeViewModel {
             
         case .failure(let error):
             logger.error("❌ 취득 예정 자격증 삭제 실패: \(error.localizedDescription)")
-
+            
         }
     }
     
@@ -112,14 +117,28 @@ extension HomeViewModel {
         switch result {
         case .success(let response):
             logger.info("✅ 즐겨찾기 자격증 조회 성공")
-
+            
             let list = response.data?.data.map { $0.toFavoriteLicenseCardModel() } ?? []
-
+            
             homeStateModel.favoriteLicenses = list
-
+            
         case .failure(let error):
             logger.error("❌ 취득 예정 자격증 삭제 실패: \(error.localizedDescription)")
+            
+        }
+    }
+    
+    func toggleFavoriteCertification(certificationId: Int) async {
+        let result = await NetworkService.shared.certificationService.fetchFavorite(certificationId: certificationId)
+        
+        switch result {
+        case .success():
+            logger.debug("✅ toggleFavorite success")
+
+        case .failure(let error):
+            logger.error("toggleFavorite failed: \(error.localizedDescription)")
 
         }
     }
+    
 }
