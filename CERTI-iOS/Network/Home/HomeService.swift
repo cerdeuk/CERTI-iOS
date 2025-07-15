@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+import Moya
+
+protocol HomeServiceProtocol {
+    func getPreCertification() async -> Result<PreCertificationInfoResponseDTO, NetworkError>
+}
+
