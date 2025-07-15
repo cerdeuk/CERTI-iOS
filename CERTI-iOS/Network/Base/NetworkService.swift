@@ -22,5 +22,6 @@ final class NetworkService {
     let onboardingService: OnboardingServiceProtocol = OnboardingService()
     let certificationService: CertificationServiceProtocol = CertificationService()
     let userService: UserServiceProtocol = UserService()
+    let homeService: HomeServiceProtocol = HomeService()
 
 }
