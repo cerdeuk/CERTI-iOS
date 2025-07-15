@@ -14,10 +14,7 @@ final class ResumeViewModel: ObservableObject {
     @Published var careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
     @Published var myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
     @Published var certificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
-    @Published var myJobListDummy: [JobListModel] = JobListModel.myJobListDummy()
     @Published var jobList: [String] = []
-
-
     @Published var isPeriodFilled: Bool = false
     @Published var resumeModel = ResumeModel(
         startAt: "",
@@ -26,15 +23,11 @@ final class ResumeViewModel: ObservableObject {
         place: "",
         discription: ""
     )
-    
     var isWriteButtonEnabled: Bool {
         !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
     }
-    
     private let jobService = NetworkService.shared.jobService
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
-    
-    
 }
 
 // MARK: - Network
