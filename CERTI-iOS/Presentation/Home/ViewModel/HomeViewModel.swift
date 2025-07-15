@@ -105,4 +105,21 @@ extension HomeViewModel {
 
         }
     }
+    
+    func getFavoriteCertificationList() async {
+        let result = await NetworkService.shared.homeService.getFavoriteCertification()
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ 즐겨찾기 자격증 조회 성공")
+
+            let list = response.data?.data.map { $0.toFavoriteLicenseCardModel() } ?? []
+
+            homeStateModel.favoriteLicenses = list
+
+        case .failure(let error):
+            logger.error("❌ 취득 예정 자격증 삭제 실패: \(error.localizedDescription)")
+
+        }
+    }
 }

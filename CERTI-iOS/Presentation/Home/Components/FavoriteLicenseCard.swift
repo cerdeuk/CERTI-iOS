@@ -90,7 +90,3 @@ struct FavoriteLicenseCard: View {
         }
     }
 }
-
-#Preview {
-    FavoriteLicenseCard(licenseCard: FavoriteLicenseCardModel.dummy().first!)
-}
