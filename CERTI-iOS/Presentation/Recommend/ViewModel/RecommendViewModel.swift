@@ -9,7 +9,7 @@ import SwiftUI
 
 class RecommendViewModel: ObservableObject {
     
-    var username: String = "김서티22"
+    var username: String = AuthManager.shared.nickname
     
     @Published var licenseCards: [LicenseCardModel] = LicenseCardModel.dummy()
     @Published var recommendDetail: RecommendDetailModel = RecommendDetailModel.dummy()
