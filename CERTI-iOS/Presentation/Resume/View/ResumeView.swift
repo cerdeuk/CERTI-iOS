@@ -9,19 +9,23 @@ import SwiftUI
 
 struct ResumeView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
-    @State private var isPresented = false
-    
+    @ObservedObject var viewModel: ResumeViewModel
+    @State var isPresented = false
+
+    let columns = [GridItem(.flexible())]
+    let rows = [GridItem(.fixed(100))]
+
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 0) {
                 ResumeTopMainLogoView
                 ResumeProfileView
                 ResumeMyCertifivateTitleView
-                ResumeMyCertificateView(isPresented: $isPresented)
+                ResumeMyCertificateView
                 ResumeMyCareerTitleView
-                ResumeMyCareerView()
+                ResumeMyCareerView
                 ResumeMyExtracurricularActivityTitleView
-                ResumeMyExtracurricularActivityView()
+                ResumeMyExtracurricularActivityView
             }
         }
         .scrollIndicators(.hidden)
@@ -32,10 +36,10 @@ struct ResumeView: View {
                         Color.black.opacity(0.4)
                             .ignoresSafeArea()
                             .onTapGesture {
-                                    isPresented = false
+                                isPresented = false
                             }
                         
-                        CertificateCardDetailView()
+                        CertificateCardDetailView(viewModel: viewModel)
                             .shadow(radius: 10)
                     }
                     .zIndex(1)
@@ -67,11 +71,39 @@ extension ResumeView {
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
                 
-                Text("IT/인터넷 · 경영/사무  · 경영/사무")
-                    .applyCertiFont(.caption_regular_14)
-                    .foregroundStyle(.mainblue)
-                    .frame(width: 118, height: 42)
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(alignment: .center, spacing: 0) {
+                        Text(viewModel.myJobListDummy.first!.jobList[0])
+                            .applyCertiFont(.caption_regular_14)
+                            .foregroundStyle(.mainblue)
+                            .frame(height: 20)
+                        
+                        Image(systemName: "circle.fill")
+                            .resizable()
+                            .frame(width: 2, height: 2)
+                            .padding(.leading, 4)
+                            .padding(.trailing, 4)
+                        
+                        Text(viewModel.myJobListDummy.first!.jobList[1])
+                            .applyCertiFont(.caption_regular_14)
+                            .foregroundStyle(.mainblue)
+                            .frame(height: 20)
+                    }
+                    
+                    HStack(alignment: .center, spacing: 0) {
+                        Image(systemName: "circle.fill")
+                            .resizable()
+                            .frame(width: 2, height: 2)
+                            .padding(.trailing, 4)
+                        
+                        Text(viewModel.myJobListDummy.first!.jobList[2])
+                            .applyCertiFont(.caption_regular_14)
+                            .foregroundStyle(.mainblue)
+                            .frame(height: 20)
+                    }
+                }
             }
+            .padding(.leading, 12)
             Spacer()
         }
         .padding(.bottom, 36)
@@ -97,16 +129,7 @@ extension ResumeView {
         .padding(.horizontal, 20)
     }
     
-    private struct ResumeMyCertificateView: View {
-        @Binding var isPresented: Bool
-        
-        let rows = [
-            GridItem(.fixed(100))
-        ]
-        
-        let CertificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
-        
-        var body: some View {
+    private var ResumeMyCertificateView: some View {
             VStack(alignment: .leading, spacing: 0) {
                 //                 취득한 자격증이 없을 때
                 //                            Image(.imageEmpty)
@@ -120,8 +143,8 @@ extension ResumeView {
                 
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: rows, spacing: 12) {
-                        ForEach(CertificatedDummy) { dummy in
-                            CeritificateCardComponent(cardImage: dummy.cardFrontImageUrl, name: dummy.name, date: dummy.createdAt, certiTag: dummy.tag)
+                        ForEach($viewModel.certificatedDummy) { dummy in
+                            CeritificateCardComponent()
                                 .onTapGesture {
                                     isPresented.toggle()
                                 }
@@ -138,8 +161,6 @@ extension ResumeView {
                     .padding(.top, 36)
                     .padding(.bottom, 36)
             }
-            
-        }
     }
     
     private var ResumeMyCareerTitleView: some View {
@@ -162,42 +183,38 @@ extension ResumeView {
         .padding(.bottom, 16)
     }
     
-    private struct ResumeMyCareerView: View {
-        let columns = [GridItem(.fixed(335))]
-        let careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
-        
-        var body: some View {
-            VStack(alignment: .leading, spacing: 0) {
-                //            경력사항 없을 때
-                //            Image(.imageEmpty)
-                //                .padding(.top, 60)
-                //
-                //            Text("경력사항을 추가해보세요!")
-                //                .applyCertiFont(.caption_regular_14)
-                //                .foregroundStyle(.grayscale400)
-                //                .frame(height: 20)
-                //                .padding(.bottom, 60)
-                
-                LazyVGrid(columns: columns, spacing: 24) {
-                    ForEach(careerDummy) { dummy in
-                        HStack(alignment: .center, spacing: 0) {
-                            Image(.resumeList)
-                                .frame(width: 24, height: 24)
-                                .padding(.trailing, 24)
-                                .padding(.top, 20.5)
-                                .padding(.bottom, 29.5)
-                            
-                            ResumeActivityListComponent(model: dummy)
-                                .frame(height: 74)
-                        }
+    private var ResumeMyCareerView: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            //            경력사항 없을 때
+            //            Image(.imageEmpty)
+            //                .padding(.top, 60)
+            //
+            //            Text("경력사항을 추가해보세요!")
+            //                .applyCertiFont(.caption_regular_14)
+            //                .foregroundStyle(.grayscale400)
+            //                .frame(height: 20)
+            //                .padding(.bottom, 60)
+            
+            LazyVGrid(columns: columns, spacing: 24) {
+                ForEach(viewModel.careerDummy) { dummy in
+                    HStack(alignment: .center, spacing: 0) {
+                        Image(.resumeList)
+                            .frame(width: 24, height: 24)
+                            .padding(.trailing, 24)
+                            .padding(.top, 20.5)
+                            .padding(.bottom, 29.5)
+                        
+                        ResumeActivityListComponent(model: dummy)
+                            .frame(height: 74)
                     }
+                    .padding(.horizontal, 20)
                 }
-                
-                Image(.resumeLine)
-                    .resizable()
-                    .scaledToFit()
-                    .padding(.bottom, 36)
             }
+            
+            Image(.resumeLine)
+                .resizable()
+                .scaledToFit()
+                .padding(.bottom, 36)
         }
     }
     
@@ -221,41 +238,33 @@ extension ResumeView {
         .padding(.bottom, 16)
     }
     
-    private struct ResumeMyExtracurricularActivityView: View {
-        let columns = [GridItem(.fixed(335))]
-        let myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
-        
-        var body: some View {
-            VStack(alignment: .leading, spacing: 0) {
-//                대내외 활동 없을 때
-//                Image(.imageEmpty)
-//                    .padding(.top, 60)
-//                
-//                Text("대내외 활동을 추가해보세요!")
-//                    .applyCertiFont(.caption_regular_14)
-//                    .foregroundStyle(.grayscale400)
-//                    .frame(height: 20)
-//                    .padding(.bottom, 60)
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(myExtracurricularActivityModelDummy) { dummy in
-                        HStack(alignment: .center, spacing: 0) {
-                            Image(.resumeList)
-                                .frame(width: 24, height: 24)
-                                .padding(.trailing, 24)
-                                .padding(.top, 20.5)
-                                .padding(.bottom, 29.5)
-                            
-                            ResumeActivityListComponent(model: dummy)
-                                .frame(height: 74)
-
-                        }
+    private var ResumeMyExtracurricularActivityView: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            //                대내외 활동 없을 때
+            //                Image(.imageEmpty)
+            //                    .padding(.top, 60)
+            //
+            //                Text("대내외 활동을 추가해보세요!")
+            //                    .applyCertiFont(.caption_regular_14)
+            //                    .foregroundStyle(.grayscale400)
+            //                    .frame(height: 20)
+            //                    .padding(.bottom, 60)
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(viewModel.myExtracurricularActivityModelDummy) { dummy in
+                    HStack(alignment: .center, spacing: 0) {
+                        Image(.resumeList)
+                            .frame(width: 24, height: 24)
+                            .padding(.trailing, 24)
+                            .padding(.top, 20.5)
+                            .padding(.bottom, 29.5)
+                        
+                        ResumeActivityListComponent(model: dummy)
+                            .frame(height: 74)
                     }
+                    .padding(.horizontal, 20)
                 }
-                .padding(.bottom, 54)
             }
+            .padding(.bottom, 54)
         }
     }
-}
-#Preview {
-    ResumeView()
 }
