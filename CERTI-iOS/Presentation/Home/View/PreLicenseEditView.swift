@@ -10,9 +10,10 @@ import SwiftUI
 struct PreLicenseEditView: View {
     @EnvironmentObject var homeCoordinator: HomeCoordinator
 
-    @Binding var preLicenses: [PreLicenseCardModel]
+    @ObservedObject var viewModel: HomeViewModel
 
     @State private var isDeleteAlertPresented = false
+    @State private var selectedIndex: Int? = nil
         
     let columns = [GridItem(.fixed(132))]
     
@@ -39,14 +40,15 @@ struct PreLicenseEditView: View {
                 
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns, alignment:.leading, spacing: 0) {
-                        ForEach(preLicenses, id: \.certificationId) { dummy in
+                        ForEach(viewModel.homeStateModel.preLicenses) { item in
                             HStack(alignment: .center, spacing: 12) {
-                                PreLicenseCard(licenseCard: dummy)
+                                PreLicenseCard(licenseCard: item)
                                     .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
                                 
                                 Button {
                                     // 취득 예정 자격증 삭제
                                     isDeleteAlertPresented = true
+                                    selectedIndex = item.certificationId
                                 } label: {
                                     Image(.iconClose36)
                                 }
@@ -62,8 +64,11 @@ struct PreLicenseEditView: View {
             
             if isDeleteAlertPresented {
                 CertiDeleteAlertView {
+                    Task {
+                        guard let deleteIndex = selectedIndex else { return }
+                        await viewModel.deletePreCertification(id: deleteIndex)
+                    }
                     isDeleteAlertPresented = false
-                    preLicenses.removeLast()
                     print("확인 버튼 클릭")
                 } onCancel: {
                     isDeleteAlertPresented = false
