@@ -15,3 +15,16 @@ struct CertificationInfoResponseDTO: Decodable {
     let agencyName: String
     let iconIndex: Int
 }
+
+extension CertificationInfoResponseDTO {
+    func toPreLicenseCardModel() -> PreLicenseCardModel {
+        return PreLicenseCardModel(
+            imageIndex: iconIndex,
+            certificationId: certificationId,
+            certificationName: certificationName,
+            averagePeriod: averagePeriod,
+            testDate: nearestTestDate,
+            agencyName: agencyName
+        )
+    }
+}

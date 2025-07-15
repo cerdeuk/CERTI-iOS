@@ -76,4 +76,19 @@ extension HomeViewModel {
         }
     }
     
+    func getPreCertificationList() async {
+        let result = await NetworkService.shared.homeService.getPreCertification()
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ 취득 예정 자격증 조회 성공")
+
+            let list = response.data?.toPreLicenseCardModelList()
+            
+            homeStateModel.preLicenses = list ?? []
+            
+        case .failure(let error):
+            logger.error("❌ 취득 예정 자격증 조회 실패: \(error.localizedDescription)")
+        }
+    }
 }

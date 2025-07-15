@@ -7,4 +7,14 @@
 
 import Foundation
 
-typealias PreCertificationInfoResponseDTO = BaseResponseDTO<CertificationInfoResponseDTO>
+typealias PreCertificationInfoResponseDTO = BaseResponseDTO<PreCertificationData>
+
+struct PreCertificationData: Decodable {
+    let data: [CertificationInfoResponseDTO]
+}
+
+extension PreCertificationData {
+    func toPreLicenseCardModelList() -> [PreLicenseCardModel] {
+        return data.map { $0.toPreLicenseCardModel() }
+    }
+}
