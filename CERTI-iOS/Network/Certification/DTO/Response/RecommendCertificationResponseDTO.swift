@@ -13,19 +13,6 @@ struct RecommendCertificationData: Decodable {
     let recommendationList: [RecommendCertification]
 }
 
-//struct RecommendCertification: Decodable, Identifiable {
-//    let certificationId: Int
-//    let certificationName: String
-//    let certificationType: String
-//    let testType: String
-//    let tags: [String]
-//    let recommendationScore: Int
-//    let isFavorite: Bool
-//
-//    var id: Int { certificationId }
-//}
-
-// Identifiable 이 필요할까?
 struct RecommendCertification: Decodable {
     let certificationId: Int
     let certificationName: String
@@ -34,4 +21,15 @@ struct RecommendCertification: Decodable {
     let tags: [String]
     let recommendationScore: Int
     let isFavorite: Bool
+}
+
+extension RecommendCertification {
+    func toRecommendLicenseCardModel() -> RecommendLicenseCardModel {
+        return RecommendLicenseCardModel(
+            id: certificationId,
+            licenseName: certificationName,
+            recommendScore: recommendationScore,
+            tagChip: tags
+        )
+    }
 }

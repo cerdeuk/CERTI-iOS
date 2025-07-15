@@ -30,7 +30,7 @@ extension CertificationAPI: BaseTargetType {
         case .switchFavorite(certificationId: let certificationId):
             return "certification/\(certificationId)/favorite"
         case .getRecommendCertification:
-            return "certification/recommand"
+            return "certification/recommend"
         }
     }
     
