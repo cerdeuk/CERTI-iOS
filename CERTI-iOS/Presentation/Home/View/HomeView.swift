@@ -191,9 +191,9 @@ extension HomeView {
     
     private var recommendLicenseList: some View {
         LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(viewModel.homeStateModel.recommendLicenses) { dummy in
-                if dummy.ranking < 4 {
-                    RecommendLicenseCard(licenseCard: dummy)
+            ForEach(viewModel.homeStateModel.recommendLicenses) { item in
+                if item.ranking < 4 {
+                    RecommendLicenseCard(licenseCard: item)
                         .frame(maxWidth: .infinity)
                 } else {
                     EmptyView()
@@ -228,8 +228,8 @@ extension HomeView {
     private var preLicenseList: some View {
         ScrollView(.horizontal){
             LazyHGrid(rows: rows, spacing: 12) {
-                ForEach(viewModel.homeStateModel.preLicenses, id: \.certificationId) { dummy in
-                    PreLicenseCard(licenseCard: dummy)
+                ForEach(viewModel.homeStateModel.preLicenses, id: \.certificationId) { item in
+                    PreLicenseCard(licenseCard: item)
                         .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
                 }
             }
@@ -277,8 +277,8 @@ extension HomeView {
     private var favoriteLicenseList: some View {
         ScrollView(.horizontal){
             LazyHGrid(rows: rows, spacing: 12) {
-                ForEach(viewModel.homeStateModel.favoriteLicenses) { dummy in
-                    FavoriteLicenseCard(licenseCard: dummy)
+                ForEach(viewModel.homeStateModel.favoriteLicenses) { item in
+                    FavoriteLicenseCard(licenseCard: item)
                 }
             }
             .padding(.horizontal, 20)
