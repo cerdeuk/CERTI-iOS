@@ -21,7 +21,7 @@ struct RecommendLicenseCardList: View {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(viewModel.licenseCards) { item in
                         LicenseCardItem(model: item) {
-                            viewModel.toggleFavorite(id: item.id)
+                            viewModel.toggleFavorite(id: item.certificationId)
                         }
                     }
                 }

@@ -16,10 +16,6 @@ struct RecommendDetailView: View {
     @State private var showCompleteModal = false
     @State private var opacity: Double = 1.0
     
-    var model: RecommendDetailModel {
-        viewmodel.recommendDetail
-    }
-    
     var body: some View {
         
         ZStack(alignment: .bottom) {
@@ -30,14 +26,14 @@ struct RecommendDetailView: View {
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(model.certificationName)
+                        Text(viewmodel.recommendDetail.certificationName)
                             .applyCertiFont(.sub_bold_20)
                             .foregroundStyle(.grayscale600)
                             .frame(height: 26)
                             .padding(.top, 33)
                             .padding(.horizontal, 20)
                         
-                        TagChip(tags: model.tags, spacing: 8)
+                        TagChip(tags: viewmodel.recommendDetail.tags, spacing: 8)
                             .padding(.top, 12)
                             .padding(.horizontal, 20)
                         
@@ -114,7 +110,7 @@ struct RecommendDetailView: View {
             }
             
             if showCompleteModal {
-                RecommendCompleteModalView(certificationName: model.certificationName)
+                RecommendCompleteModalView(certificationName: viewmodel.recommendDetail.certificationName)
             }
         }
     }
@@ -130,7 +126,7 @@ struct RecommendDetailView: View {
                     
                     Spacer()
                     
-                    Text(model.averagePeriod)
+                    Text(viewmodel.recommendDetail.averagePeriod)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -145,7 +141,7 @@ struct RecommendDetailView: View {
                     
                     Spacer()
                     
-                    Text("\((String(model.charge)).convertPrice(maxPrice: model.charge))원")
+                    Text("\((String(viewmodel.recommendDetail.charge)).convertPrice(maxPrice: viewmodel.recommendDetail.charge))원")
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -160,7 +156,7 @@ struct RecommendDetailView: View {
                     
                     Spacer()
                     
-                    Text(model.agency)
+                    Text(viewmodel.recommendDetail.agency)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -185,13 +181,13 @@ struct RecommendDetailView: View {
     private var CertificationDescription : some View {
         VStack(alignment: .leading, spacing: 0) {
             Group {
-                Text(model.testType)
+                Text(viewmodel.recommendDetail.testType)
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
                     .padding(.top, 36)
                 
-                Text(model.description.antiAppleBySangyup)
+                Text(viewmodel.recommendDetail.description.antiAppleBySangyup)
                     .applyCertiFont(.caption_regular_14)
                     .padding(.all, 20)
                     .foregroundColor(.grayscale600)
@@ -211,7 +207,7 @@ struct RecommendDetailView: View {
                 HStack(spacing: 0) {
                     Image(.iconDate16)
                     
-                    Text(model.testDateInformation)
+                    Text(viewmodel.recommendDetail.testDateInformation)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -231,7 +227,7 @@ struct RecommendDetailView: View {
                 HStack(spacing: 0) {
                     Image(.iconCertification16)
                     
-                    Text(model.applicationMethod)
+                    Text(viewmodel.recommendDetail.applicationMethod)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -251,7 +247,7 @@ struct RecommendDetailView: View {
                 HStack(spacing: 0) {
                     Image(.iconClock16)
                     
-                    Text(model.expirationPeriod)
+                    Text(viewmodel.recommendDetail.expirationPeriod)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -262,7 +258,7 @@ struct RecommendDetailView: View {
                 }
                 .padding(.top, 12)
                 
-                Link(destination: URL(string: model.applicationUrl)!) {
+                Link(destination: URL(string: viewmodel.recommendDetail.applicationUrl)!) {
                     HStack(spacing: 0) {
                         Image(.iconLink16)
                         Text("사이트로 이동하기")

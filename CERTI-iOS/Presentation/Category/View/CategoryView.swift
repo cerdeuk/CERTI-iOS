@@ -24,11 +24,23 @@ struct CategoryView: View {
             
             FavoriteFilterToggleButton(isSelected: viewModel.isFilterToggle) {
                 viewModel.isFilterToggle.toggle()
-                print("즐겨찾기 버튼 눌림")
+                Task {
+                    await viewModel.getCategoryList()
+                }
             }
             
             CategoryLicenseCardList(viewModel: viewModel)
                 .padding(.horizontal, 20)
+        }
+        .onAppear {
+            Task {
+                await viewModel.getCategoryList()
+            }
+        }
+        .onChange(of: viewModel.selectedCategory) { _ in
+            Task{
+                await viewModel.getCategoryList()
+            }
         }
     }
 }
