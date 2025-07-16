@@ -50,9 +50,9 @@ struct MyExtracurricularActivityEditView: View {
                     .padding(.leading, 20)
                 
                 LazyVGrid(columns: columns, spacing: 36) {
-                    ForEach(viewModel.myExtracurricularActivityModelDummy) { dummy in
+                    ForEach(viewModel.activityList) { item in
                         HStack(alignment: .center, spacing: 0) {
-                            ResumeActivityListComponent(model: dummy)
+                            ResumeActivityListComponent(model: item)
                                 .frame(height: 50)
                                 .onTapGesture {
                                     resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
@@ -81,6 +81,11 @@ struct MyExtracurricularActivityEditView: View {
                     isDeleteAlertPresented = false
                     print("취소버튼 클릭")
                 }
+            }
+        }
+        .onAppear {
+            Task {
+                await viewModel.getActivityList()
             }
         }
         .navigationBarBackButtonHidden()
