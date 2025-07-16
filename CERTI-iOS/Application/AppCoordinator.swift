@@ -15,7 +15,7 @@ enum AppRoute {
 }
 
 final class AppCoordinator: ObservableObject {
-    @Published var appState: AppRoute = .onboarding
+    @Published var appState: AppRoute = .splash
     let tabCoordinator = CertiTabCoordinator()
     let onboardingCoordinator = OnboardingCoordinator()
 
@@ -26,9 +26,9 @@ final class AppCoordinator: ObservableObject {
 //        print("[DEBUG] Keychain cleared for login testing")
 //        #endif
         
-//        Task {
-//            await start()
-//        }
+        Task {
+            await start()
+        }
     }
 
     private func start() async {
