@@ -24,7 +24,7 @@ struct RecommendLicenseCardList: View {
                         LicenseCardItem(model: item,
                                                 onTapFavorite: {
                             Task{
-                                viewModel.toggleFavorite(id: item.id)
+                                await viewModel.postFavorite(certificationId: item.certificationId)
                             }
                             viewModel.toggleFavorite(id: item.id)
                         },

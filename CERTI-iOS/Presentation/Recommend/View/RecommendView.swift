@@ -29,6 +29,11 @@ struct RecommendView: View {
                 .presentationCornerRadius(40)
                 .presentationDragIndicator(.visible)
         }
+        .onAppear {
+            Task {
+                await viewModel.getRecommendCertificationList()
+            }
+        }
     }
     
     private var RecommendViewHeader: some View {
