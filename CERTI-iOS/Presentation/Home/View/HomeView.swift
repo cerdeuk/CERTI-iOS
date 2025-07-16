@@ -39,21 +39,22 @@ struct HomeView: View {
                         .padding(.horizontal, 20)
                     
                     // 값이 없으면 나타내는 뷰
-                    if false {
+                    if viewModel.homeStateModel.preLicenses.isEmpty {
                         preLicenseEmptyView
+                    } else {
+                        preLicenseList
                     }
-
-                    preLicenseList
                     
                     favoriteLicenseTitle
                         .padding(.horizontal, 20)
 
                     // 값이 없으면 나타내는 뷰
-                    if false {
+                    if viewModel.homeStateModel.favoriteLicenses.isEmpty {
                         favoriteLicenseEmptyView
+                    } else {
+                        favoriteLicenseList
                     }
                     
-                    favoriteLicenseList
                 }
             }
             .scrollIndicators(.hidden)
@@ -61,6 +62,7 @@ struct HomeView: View {
         .onAppear {
             Task {
                 await viewModel.getUserInfo()
+                await viewModel.getRecommendCertificationList()
             }
         }
     }
@@ -191,13 +193,9 @@ extension HomeView {
     
     private var recommendLicenseList: some View {
         LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(viewModel.homeStateModel.recommendLicenses) { item in
-                if item.ranking < 4 {
-                    RecommendLicenseCard(licenseCard: item)
-                        .frame(maxWidth: .infinity)
-                } else {
-                    EmptyView()
-                }
+            ForEach(viewModel.homeStateModel.recommendLicenses.prefix(3)) { item in
+                RecommendLicenseCard(licenseCard: item)
+                    .frame(maxWidth: .infinity)
             }
         }
         .padding(.bottom, 36)
