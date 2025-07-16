@@ -19,10 +19,13 @@ struct CategorySearchLicenseCardList: View {
         VStack(alignment: .center, spacing: 0) {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(viewModel.licenseCards) { item in
+                    ForEach(viewModel.searchLicenseCards) { item in
                         LicenseCardItem(model: item,
-                                                onTapFavorite: {
-                            viewModel.toggleFavorite(id: item.id)
+                                        onTapFavorite: {
+                            Task{
+                                await viewModel.postFavorite(certificationId: item.certificationId)
+                            }
+                            viewModel.toggleSearchFavorite(id: item.id)
                         }
                         )
                     }
