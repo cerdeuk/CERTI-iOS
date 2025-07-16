@@ -15,10 +15,6 @@ struct CeritificateCardComponent: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
                 KFImage(URL(string: model.cardFrontImageUrl))
-                    .placeholder {
-                        Rectangle()
-                            .fill(.grayscale100)
-                    }
                     .retry(maxCount: 3, interval: .seconds(5))
                     .onFailure { error in
                         print("Image Failure: \(error.localizedDescription)")
