@@ -7,13 +7,15 @@
 
 import Foundation
 
-struct PreLicenseCardModel {
+struct PreLicenseCardModel: Identifiable {
     let imageIndex: Int
     let certificationId: Int
     let certificationName: String
     let averagePeriod: String
     let testDate: String
     let agencyName: String
+    
+    var id: Int { certificationId }
 }
 
 extension PreLicenseCardModel {

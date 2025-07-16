@@ -66,7 +66,7 @@ extension CategoryViewModel {
     }
     
     func postFavorite(certificationId: Int) async {
-        let result = await categoryService.fetchFavorite(certificationId: certificationId)
+        let result = await categoryService.switchFavorite(certificationId: certificationId)
         
         switch result {
         case .success(_):
@@ -89,10 +89,10 @@ extension CategoryViewModel {
             
             self.searchLicenseCards.removeAll()
             self.searchLicenseCards = data.certificationSimpleList
-            logger.debug("✅ getCategoryList success: \(data.certificationSimpleList)")
+            logger.debug("✅ searchCertifiedList success: \(data.certificationSimpleList)")
             
         case .failure(let error):
-            logger.error("getCategoryList failed: \(error.localizedDescription)")
+            logger.error("searchCertifiedList failed: \(error.localizedDescription)")
         }
     }
 }

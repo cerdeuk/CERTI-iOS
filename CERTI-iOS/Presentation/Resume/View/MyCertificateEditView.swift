@@ -30,9 +30,9 @@ struct MyCertificateEditView: View {
                 
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns, spacing: 24) {
-                        ForEach($viewModel.certificatedDummy) { dummy in
+                        ForEach(viewModel.certificatedDummy) { cardItem in
                             HStack(alignment: .center, spacing: 0) {
-                                CeritificateCardComponent()
+                                CeritificateCardComponent(model: cardItem)
                                 
                                 Button {
                                     isDeleteAlertPresented.toggle()

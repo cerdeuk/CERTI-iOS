@@ -9,11 +9,12 @@ import Foundation
 
 import Moya
 
-enum  CertificationAPI {
+enum CertificationAPI {
     case fetchCategoryList(isFavorite: Bool, jobs: String)
     case switchFavorite(certificationId: Int)
     case searchCertification(keyword: String)
     case fetchCertificationDetail(certificationId: Int)
+    case getRecommendCertification
 }
 
 extension CertificationAPI: BaseTargetType {
@@ -34,6 +35,8 @@ extension CertificationAPI: BaseTargetType {
             return "certification/search"
         case .fetchCertificationDetail(certificationId: let certificationId):
             return "certification/\(certificationId)"
+        case .getRecommendCertification:
+            return "certification/recommend"
         }
     }
     
@@ -47,6 +50,8 @@ extension CertificationAPI: BaseTargetType {
             return .get
         case .fetchCertificationDetail:
             return .get
+        case .getRecommendCertification:
+            return .get
         }
     }
     
@@ -59,6 +64,8 @@ extension CertificationAPI: BaseTargetType {
         case .searchCertification(let keyword):
             return .requestParameters(parameters: ["keyword":keyword], encoding: URLEncoding.queryString)
         case .fetchCertificationDetail:
+            return .requestPlain
+        case .getRecommendCertification:
             return .requestPlain
         }
     }

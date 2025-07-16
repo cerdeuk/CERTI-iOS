@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CertificateCardDetailView: View {
-    @ObservedObject var viewModel : ResumeViewModel
+    let card: CertificatedModel
     @State private var rotation: Double = 0
     @State var isFlipped = false
 
@@ -44,26 +44,26 @@ struct CertificateCardDetailView: View {
 extension CertificateCardDetailView {
     private var CertificateCardDetailViewFront: some View {
             ZStack {
-                Image(.imageCertificationCardLarge1)
+                Image("\(card.cardFrontImageUrl)")
                     .resizable()
                     .scaledToFill()
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(viewModel.certificatedDummy.first!.name)
+                    Text(card.name)
                         .applyCertiFont(.body_bold_18)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 25)
                         .padding(.leading, 20)
                     
-                    Text(viewModel.certificatedDummy.first!.displayCreatedAt)
+                    Text("\(card.createdAt.toDisplayDateString())에 획득했어요.")
                         .applyCertiFont(.caption_regular_14)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 20)
                         .padding(.leading, 20)
                     
-                    TagChip(tags: viewModel.certificatedDummy.first!.tags, spacing: 4)
-                        .padding(.top, 8)
+                    TagChip(tags: card.tags, spacing: 4)
                         .frame(height: 23)
+                        .padding(.top, 8)
                         .padding(.leading, 20)
                     
                     Spacer()
@@ -96,13 +96,13 @@ extension CertificateCardDetailView {
     
     private var CertificateCardDetailViewBack: some View {
             ZStack{
-                Image(.imageCertificationCardLarge1Back)
+                Image("\(card.cardBackImageUrl)")
                     .resizable()
                     .scaledToFill()
                 
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .center, spacing: 0) {
-                        Text(viewModel.certificatedDummy.first!.name)
+                        Text(card.name)
                             .applyCertiFont(.body_bold_18)
                             .foregroundStyle(.white)
                             .fixedSize(horizontal: true, vertical: false)
@@ -111,11 +111,11 @@ extension CertificateCardDetailView {
                         Spacer()
                     }
                     
-                    TagChip(tags: viewModel.certificatedDummy.first!.tags, spacing: 8)
+                    TagChip(tags: card.tags, spacing: 8)
                         .frame(height: 23)
                         .padding(.top, 8)
                     
-                    Text("\(viewModel.certificatedDummy.first!.description)".antiAppleBySangyup)
+                    Text("\(card.description)".antiAppleBySangyup)
                         .applyCertiFont(.caption_regular_12)
                         .foregroundStyle(.white)
                         .padding(.top, 36)
@@ -131,7 +131,7 @@ extension CertificateCardDetailView {
                     }
                     .padding(.bottom, 4)
                     
-                    Text(viewModel.certificatedDummy.first!.displayCreatedAt)
+                    Text(card.createdAt)
                         .applyCertiFont(.caption_semibold_14)
                         .foregroundStyle(.purpleblue)
                         .frame(height: 20)
