@@ -61,7 +61,7 @@ extension CategoryViewModel {
     }
     
     func postFavorite(certificationId: Int) async {
-        let result = await categoryService.fetchFavorite(certificationId: certificationId)
+        let result = await categoryService.switchFavorite(certificationId: certificationId)
         
         switch result {
         case .success(_):
