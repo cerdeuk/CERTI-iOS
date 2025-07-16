@@ -32,6 +32,7 @@ final class ResumeViewModel: ObservableObject {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
 }
 
+
 // MARK: - Network
 
 extension ResumeViewModel {
@@ -41,12 +42,12 @@ extension ResumeViewModel {
         switch result {
         case .success(let response):
             guard let data = response.data else {
-                logger.error("❌ getFetchJob: No data received")
+                logger.error("❌ getJobList: No data received")
                 return
             }
             
             self.jobList = data.jobList
-            logger.debug("✅ getUnivList success: \(data.jobList)")
+            logger.debug("✅ getJobList success: \(data.jobList)")
             
         case .failure(let error):
             logger.error("getJobList failed: \(error.localizedDescription)")
