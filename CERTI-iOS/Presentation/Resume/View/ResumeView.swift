@@ -148,35 +148,40 @@ extension ResumeView {
     
     private var ResumeMyCertificateView: some View {
             VStack(alignment: .leading, spacing: 0) {
-                //                 취득한 자격증이 없을 때
-                //                            Image(.imageEmpty)
-                //                                .padding(.top, 60)
-                //
-                //                            Text("취득한 자격증이 없습니다.")
-                //                                .applyCertiFont(.caption_regular_14)
-                //                                .foregroundStyle(.grayscale400)
-                //                                .frame(height: 20)
-                //                                .padding(.bottom, 60)
-                
-                ScrollView(.horizontal) {
-                    LazyHGrid(rows: rows, spacing: 12) {
-                        ForEach(viewModel.acquisitionList) { cardItem in
-                            CeritificateCardComponent(model: cardItem)
-                                .onTapGesture {
-                                    selectedCard = cardItem
-                                    isPresented.toggle()
-                                }
-                        }
+                if viewModel.acquisitionList.isEmpty {
+                    VStack(alignment: .center, spacing: 0) {
+                        Image(.imageEmpty)
+                            .padding(.top, 60)
+                        
+                        Text("취득한 자격증이 없습니다.")
+                            .applyCertiFont(.caption_regular_14)
+                            .foregroundStyle(.grayscale400)
+                            .frame(height: 20)
+                            .padding(.bottom, 60)
+                            .padding(.top, 20)
                     }
-                    .padding(.leading, 20)
+                    .frame(maxWidth: .infinity)
+                } else {
+                    ScrollView(.horizontal) {
+                        LazyHGrid(rows: rows, spacing: 12) {
+                            ForEach(viewModel.acquisitionList) { cardItem in
+                                CeritificateCardComponent(model: cardItem)
+                                    .onTapGesture {
+                                        selectedCard = cardItem
+                                        isPresented.toggle()
+                                    }
+                            }
+                        }
+                        .padding(.leading, 20)
+                    }
+                    .scrollIndicators(.hidden)
+                    .padding(.top, 16)
+                    .padding(.bottom, 36)
                 }
-                .scrollIndicators(.hidden)
-                .padding(.top, 16)
                 
                 Image(.resumeLine)
                     .resizable()
                     .scaledToFit()
-                    .padding(.top, 36)
                     .padding(.bottom, 36)
             }
     }
@@ -203,30 +208,36 @@ extension ResumeView {
     
     private var ResumeMyCareerView: some View {
         VStack(alignment: .leading, spacing: 0) {
-            //            경력사항 없을 때
-            //            Image(.imageEmpty)
-            //                .padding(.top, 60)
-            //
-            //            Text("경력사항을 추가해보세요!")
-            //                .applyCertiFont(.caption_regular_14)
-            //                .foregroundStyle(.grayscale400)
-            //                .frame(height: 20)
-            //                .padding(.bottom, 60)
-            
-            LazyVGrid(columns: columns, spacing: 24) {
-                ForEach(viewModel.careerDummy) { dummy in
-                    HStack(alignment: .center, spacing: 0) {
-                        Image(.resumeList)
-                            .frame(width: 24, height: 24)
-                            .padding(.trailing, 24)
-                            .padding(.top, 20.5)
-                            .padding(.bottom, 29.5)
-                        
-                        ResumeActivityListComponent(model: dummy)
-                            .frame(height: 74)
-                    }
-                    .padding(.horizontal, 20)
+            if viewModel.careerDummy.isEmpty {
+                VStack(alignment: .center, spacing: 0) {
+                    Image(.imageEmpty)
+                        .padding(.top, 60)
+                    
+                    Text("경력사항을 추가해보세요!")
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale400)
+                        .frame(height: 20)
+                        .padding(.bottom, 60)
+                        .padding(.top, 20)
                 }
+                .frame(maxWidth: .infinity)
+            } else {
+                LazyVGrid(columns: columns, spacing: 24) {
+                    ForEach(viewModel.careerDummy) { dummy in
+                        HStack(alignment: .center, spacing: 0) {
+                            Image(.resumeList)
+                                .frame(width: 24, height: 24)
+                                .padding(.trailing, 24)
+                                .padding(.top, 20.5)
+                                .padding(.bottom, 29.5)
+                            
+                            ResumeActivityListComponent(model: dummy)
+                                .frame(height: 74)
+                        }
+                        .padding(.horizontal, 20)
+                    }
+                }
+                .padding(.bottom, 8)
             }
             
             Image(.resumeLine)
@@ -258,31 +269,36 @@ extension ResumeView {
     
     private var ResumeMyExtracurricularActivityView: some View {
         VStack(alignment: .leading, spacing: 0) {
-            //                대내외 활동 없을 때
-            //                Image(.imageEmpty)
-            //                    .padding(.top, 60)
-            //
-            //                Text("대내외 활동을 추가해보세요!")
-            //                    .applyCertiFont(.caption_regular_14)
-            //                    .foregroundStyle(.grayscale400)
-            //                    .frame(height: 20)
-            //                    .padding(.bottom, 60)
-            LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(viewModel.myExtracurricularActivityModelDummy) { dummy in
-                    HStack(alignment: .center, spacing: 0) {
-                        Image(.resumeList)
-                            .frame(width: 24, height: 24)
-                            .padding(.trailing, 24)
-                            .padding(.top, 20.5)
-                            .padding(.bottom, 29.5)
-                        
-                        ResumeActivityListComponent(model: dummy)
-                            .frame(height: 74)
-                    }
-                    .padding(.horizontal, 20)
+            if viewModel.myExtracurricularActivityModelDummy.isEmpty {
+                VStack(alignment: .center, spacing: 0) {
+                    Image(.imageEmpty)
+                        .padding(.top, 60)
+                    
+                    Text("대내외 활동을 추가해보세요!")
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale400)
+                        .frame(height: 20)
+                        .padding(.bottom, 82)
                 }
+                .frame(maxWidth: .infinity)
+            } else {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(viewModel.myExtracurricularActivityModelDummy) { dummy in
+                        HStack(alignment: .center, spacing: 0) {
+                            Image(.resumeList)
+                                .frame(width: 24, height: 24)
+                                .padding(.trailing, 24)
+                                .padding(.top, 20.5)
+                                .padding(.bottom, 29.5)
+                            
+                            ResumeActivityListComponent(model: dummy)
+                                .frame(height: 74)
+                        }
+                        .padding(.horizontal, 20)
+                    }
+                }
+                .padding(.bottom, 79)
             }
-            .padding(.bottom, 54)
         }
     }
 }
