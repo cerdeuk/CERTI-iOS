@@ -32,12 +32,19 @@ struct CategorySearchView: View {
                 .padding(.bottom, 12)
                 
                 SearchBar(text: $viewModel.inputText) {
-                    if viewModel.inputText.isEmpty {
-                        viewModel.searchResult = .empty
-                    } else if viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines) == "뿡" {
-                        viewModel.searchResult = .noResult
-                    } else {
-                        viewModel.searchResult = .result
+                    Task {
+                        if viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            viewModel.searchResult = .empty
+                            return
+                        }
+                        
+                        await viewModel.searchCertifiedList(keyword: viewModel.inputText)
+                        
+                        if viewModel.searchLicenseCards.isEmpty {
+                            viewModel.searchResult = .noResult
+                        } else {
+                            viewModel.searchResult = .result
+                        }
                     }
                 }
                 .padding(.horizontal, 20)
@@ -64,18 +71,21 @@ struct CategorySearchView: View {
     private var CategorySearchResultView: some View {
         VStack(spacing: 0) {
             ScrollView {
-                HStack(spacing: 0) {
+                HStack(alignment: .center, spacing: 0) {
                     Text("총 ")
-                        .foregroundStyle(.grayscale400)
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale600)
                         .frame(height: 20)
                         .padding(.leading, 20)
                     
-                    Text("\(viewModel.licenseCards.count)")
+                    Text("\(viewModel.searchLicenseCards.count)")
+                        .applyCertiFont(.caption_regular_14)
                         .foregroundStyle(.purpleblue)
                         .frame(height: 20)
                     
                     Text("개의 검색 결과")
-                        .foregroundStyle(.grayscale400)
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale600)
                         .frame(height: 20)
                     
                     Spacer()
@@ -94,19 +104,22 @@ struct CategorySearchView: View {
     }
     
     private var CategoryEmptySearchResultView: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 0) {
+        VStack(alignment: .center, spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Text("총 ")
-                    .foregroundStyle(.grayscale400)
+                    .applyCertiFont(.caption_regular_14)
+                    .foregroundStyle(.grayscale600)
                     .frame(height: 20)
                     .padding(.leading, 20)
                 
                 Text("0")
+                    .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.purpleblue)
                     .frame(height: 20)
                 
                 Text("개의 검색 결과")
-                    .foregroundStyle(.grayscale400)
+                    .applyCertiFont(.caption_regular_14)
+                    .foregroundStyle(.grayscale600)
                     .frame(height: 20)
                 
                 Spacer()
@@ -116,18 +129,21 @@ struct CategorySearchView: View {
             Image(.imageEmpty)
                 .padding(.top, 103.5)
             
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Text(viewModel.trimmedInput)
+                    .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.purpleblue)
                     .frame(height: 20)
                 
                 Text("에")
+                    .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.grayscale400)
                     .frame(height: 20)
             }
             .padding(.top, 20)
             
             Text("해당하는 결과가 없어요.")
+                .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale400)
                 .frame(height: 20)
             

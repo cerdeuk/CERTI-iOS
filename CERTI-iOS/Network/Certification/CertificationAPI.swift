@@ -12,6 +12,7 @@ import Moya
 enum CertificationAPI {
     case fetchCategoryList(isFavorite: Bool, jobs: String)
     case switchFavorite(certificationId: Int)
+    case searchCertification(keyword: String)
     case getRecommendCertification
 }
 
@@ -29,6 +30,8 @@ extension CertificationAPI: BaseTargetType {
             return "certification"
         case .switchFavorite(certificationId: let certificationId):
             return "certification/\(certificationId)/favorite"
+        case .searchCertification(keyword: let keyword):
+            return "certification/search"
         case .getRecommendCertification:
             return "certification/recommend"
         }
@@ -40,6 +43,8 @@ extension CertificationAPI: BaseTargetType {
             return .get
         case .switchFavorite:
             return .post
+        case .searchCertification:
+            return .get
         case .getRecommendCertification:
             return .get
         }
@@ -51,6 +56,8 @@ extension CertificationAPI: BaseTargetType {
             return .requestParameters(parameters: ["isFavorite":isFavorite, "jobs":jobs], encoding: URLEncoding.queryString)
         case .switchFavorite:
             return .requestPlain
+        case .searchCertification(let keyword):
+            return .requestParameters(parameters: ["keyword":keyword], encoding: URLEncoding.queryString)
         case .getRecommendCertification:
             return .requestPlain
         }
