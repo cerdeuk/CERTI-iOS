@@ -11,7 +11,7 @@ import Moya
 
 protocol CertificationServiceProtocol {
     func getCategory(isFavorite: Bool, jobs: String) async -> Result<CategoryListResponseDTO, NetworkError>
-    func fetchFavorite(certificationId: Int) async -> Result<Void, NetworkError>
+    func switchFavorite(certificationId: Int) async -> Result<Void, NetworkError>
     func searchCertification(keyword: String) async -> Result<SearchCertificationResponseDTO, NetworkError>
     func getRecommend() async -> Result<RecommendCertificationResponseDTO, NetworkError>
 }
