@@ -30,7 +30,7 @@ final class HomeViewModel: ObservableObject {
         homeStateModel.favoriteLicenses[index].isFavorite.toggle()
     }
     
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "WithDraw")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "HOME")
 }
 
 

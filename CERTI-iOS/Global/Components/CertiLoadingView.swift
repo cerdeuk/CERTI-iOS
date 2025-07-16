@@ -7,9 +7,23 @@
 
 import SwiftUI
 
+import Lottie
+
 struct CertiLoadingView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                
+                Image()
+                
+                Spacer()
+            }
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.white)
     }
 }
 
