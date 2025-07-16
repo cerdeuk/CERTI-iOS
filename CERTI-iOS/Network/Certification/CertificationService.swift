@@ -36,8 +36,9 @@ final class CertificationService: BaseService, CertificationServiceProtocol {
     }
     
     func fetchCertificationDetail(certificationId: Int)
-        async -> Result<CertificationDetailResponseDTO, NetworkError> {
+    async -> Result<CertificationDetailResponseDTO, NetworkError> {
         return await requestDecodable(provider, .fetchCertificationDetail(certificationId: certificationId))
+    }
 
     func getRecommend() async -> Result<RecommendCertificationResponseDTO, NetworkError> {
         return await requestDecodable(provider, .getRecommendCertification)
