@@ -12,6 +12,7 @@ import Moya
 enum HomeAPI {
     case getPreCertification
     case deletePreCertification(id: Int)
+    case getFavoriteCertification
 }
 
 extension HomeAPI: BaseTargetType {
@@ -20,6 +21,8 @@ extension HomeAPI: BaseTargetType {
         case .getPreCertification:
             return .accessTokenHeader
         case .deletePreCertification:
+            return .accessTokenHeader
+        case .getFavoriteCertification:
             return .accessTokenHeader
         }
     }
@@ -30,6 +33,8 @@ extension HomeAPI: BaseTargetType {
             return "home/pre-certification"
         case .deletePreCertification(let id):
             return "home/pre-certification/\(id)"
+        case .getFavoriteCertification:
+            return "home/favorite"
         }
     }
     
@@ -39,6 +44,8 @@ extension HomeAPI: BaseTargetType {
             return .get
         case .deletePreCertification:
             return .delete
+        case .getFavoriteCertification:
+            return .get
         }
     }
     
@@ -47,6 +54,8 @@ extension HomeAPI: BaseTargetType {
         case .getPreCertification:
             return .requestPlain
         case .deletePreCertification:
+            return .requestPlain
+        case .getFavoriteCertification:
             return .requestPlain
         }
     }
