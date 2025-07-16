@@ -10,5 +10,16 @@ import Foundation
 typealias CertificationDetailResponseDTO = BaseResponseDTO<SearchCertificationData>
 
 struct CertificationDetailData: Decodable {
-    let certificationSimpleList: [LicenseCardModel]
+    let certificationId: Int
+    let certificationName: String
+    let tags: [String]
+    let averagePeriod: String
+    let charge: Int
+    let agencyName: String
+    let testType: String
+    let description: String
+    let testDateInformation: String
+    let applicationMethod: String
+    let applicationUrl: String
+    let expirationPeriod: String
 }

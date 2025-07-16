@@ -13,6 +13,7 @@ enum  CertificationAPI {
     case fetchCategoryList(isFavorite: Bool, jobs: String)
     case switchFavorite(certificationId: Int)
     case searchCertification(keyword: String)
+    case fetchCertificationDetail(certificationId: Int)
 }
 
 extension CertificationAPI: BaseTargetType {
@@ -31,6 +32,8 @@ extension CertificationAPI: BaseTargetType {
             return "certification/\(certificationId)/favorite"
         case .searchCertification(keyword: let keyword):
             return "certification/search"
+        case .fetchCertificationDetail(certificationId: let certificationId):
+            return "certification/\(certificationId)"
         }
     }
     
@@ -41,6 +44,8 @@ extension CertificationAPI: BaseTargetType {
         case .switchFavorite:
             return .post
         case .searchCertification:
+            return .get
+        case .fetchCertificationDetail:
             return .get
         }
     }
@@ -53,6 +58,8 @@ extension CertificationAPI: BaseTargetType {
             return .requestPlain
         case .searchCertification(let keyword):
             return .requestParameters(parameters: ["keyword":keyword], encoding: URLEncoding.queryString)
+        case .fetchCertificationDetail:
+            return .requestPlain
         }
     }
 }
