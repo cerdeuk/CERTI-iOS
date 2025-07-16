@@ -7,26 +7,47 @@
 
 import SwiftUI
 
-import Lottie
-
 struct CertiLoadingView: View {
+    @State private var offset: CGFloat = 0
+
     var body: some View {
-        VStack {
-            Spacer()
-            HStack {
+        GeometryReader { geometry in
+            VStack {
                 Spacer()
-                
-                Image(.loading)
-                
+                HStack {
+                    Spacer()
+                    
+                    ZStack {
+                        HStack(spacing: 23) {
+                            Image(.loadingBackground)
+                            Image(.loadingBackground)
+                            Image(.loadingBackground)
+                            Image(.loadingBackground)
+                        }
+                        .offset(x: offset)
+                        .onAppear {
+                            let totalWidth = geometry.size.width/2
+                            withAnimation(
+                                Animation.linear(duration: 3).repeatForever(autoreverses: false)
+                            ) {
+                                offset = -totalWidth
+                            }
+                        }
+                        .frame(width: 170)
+                        .clipped()
+
+                        Image(.loading)
+                    }
+                    
+                    Spacer()
+                }
                 Spacer()
             }
-            Spacer()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.white)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.white)
     }
 }
-
 #Preview {
     CertiLoadingView()
 }
