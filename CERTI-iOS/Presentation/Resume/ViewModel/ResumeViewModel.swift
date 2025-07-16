@@ -17,6 +17,7 @@ final class ResumeViewModel: ObservableObject {
     @Published var jobList: [String] = []
     @Published var acquisitionList: [CertificatedModel] = []
     @Published var careersList: [ResumeModel] = []
+    @Published var activityList: [ResumeModel] = []
     @Published var isPeriodFilled: Bool = false
     @Published var resumeModel = ResumeModel(
         startAt: "",
@@ -31,6 +32,8 @@ final class ResumeViewModel: ObservableObject {
     private let jobService = NetworkService.shared.jobService
     private let acquisitionService = NetworkService.shared.acquisitionService
     private let careersService = NetworkService.shared.careersService
+    private let activityService = NetworkService.shared.activityService
+
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
 }
 
@@ -89,6 +92,24 @@ extension ResumeViewModel {
             
         case .failure(let error):
             logger.error("getCareersList failed: \(error.localizedDescription)")
+        }
+    }
+
+    func getActivityList() async {
+        let result = await activityService.fetchActivityList()
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ getActivityList: No data received")
+                return
+            }
+            
+            self.activityList = data.activityDetailResponses.map { $0.toResumeModel() }
+            logger.debug("✅ getActivityList success: \(data.activityDetailResponses)")
+            
+        case .failure(let error):
+            logger.error("getActivityList failed: \(error.localizedDescription)")
         }
     }
 
