@@ -46,6 +46,11 @@ struct ResumeView: View {
                 }
             }
         )
+        .onAppear{
+            Task {
+                await viewModel.getJobList()
+            }
+        }
     }
 }
 
@@ -62,46 +67,56 @@ extension ResumeView {
     }
     
     private var ResumeProfileView: some View {
-        HStack(alignment: .center, spacing: 0){
+        HStack(alignment: .top, spacing: 0){
             Image(.imageProfilePdf)
             
-            VStack(alignment: .leading, spacing: 12){
+            VStack(alignment: .leading, spacing: 0) {
                 Text("희망직무")
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
+                    .padding(.top, 4)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack(alignment: .center, spacing: 0) {
-                        Text(viewModel.myJobListDummy.first!.jobList[0])
-                            .applyCertiFont(.caption_regular_14)
-                            .foregroundStyle(.mainblue)
-                            .frame(height: 20)
-                        
-                        Image(systemName: "circle.fill")
-                            .resizable()
-                            .frame(width: 2, height: 2)
-                            .padding(.leading, 4)
-                            .padding(.trailing, 4)
-                        
-                        Text(viewModel.myJobListDummy.first!.jobList[1])
-                            .applyCertiFont(.caption_regular_14)
-                            .foregroundStyle(.mainblue)
-                            .frame(height: 20)
+                        HStack(alignment: .center, spacing: 0) {
+                            if viewModel.jobList.count >= 1 {
+                                Text(viewModel.jobList[0])
+                                    .applyCertiFont(.caption_regular_14)
+                                    .foregroundStyle(.mainblue)
+                                    .frame(height: 20)
+                            }
+                            
+                            if viewModel.jobList.count >= 2 {
+                                Image(systemName: "circle.fill")
+                                    .resizable()
+                                    .frame(width: 2, height: 2)
+                                    .padding(.leading, 4)
+                                    .padding(.trailing, 4)
+                                
+                                Text(viewModel.jobList[1])
+                                    .applyCertiFont(.caption_regular_14)
+                                    .foregroundStyle(.mainblue)
+                                    .frame(height: 20)
+                            }
+                        }
+                    
+                    if viewModel.jobList.count >= 3 {
+                        HStack(alignment: .center, spacing: 0) {
+                            Image(systemName: "circle.fill")
+                                .resizable()
+                                .frame(width: 2, height: 2)
+                                .padding(.trailing, 4)
+                            
+                            Text(viewModel.jobList[2])
+                                .applyCertiFont(.caption_regular_14)
+                                .foregroundStyle(.mainblue)
+                                .frame(height: 20)
+                        }
                     }
                     
-                    HStack(alignment: .center, spacing: 0) {
-                        Image(systemName: "circle.fill")
-                            .resizable()
-                            .frame(width: 2, height: 2)
-                            .padding(.trailing, 4)
-                        
-                        Text(viewModel.myJobListDummy.first!.jobList[2])
-                            .applyCertiFont(.caption_regular_14)
-                            .foregroundStyle(.mainblue)
-                            .frame(height: 20)
-                    }
+                    Spacer()
                 }
+                .padding(.top, 8)
             }
             .padding(.leading, 12)
             Spacer()
