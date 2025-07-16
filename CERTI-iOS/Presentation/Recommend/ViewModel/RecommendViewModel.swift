@@ -16,13 +16,14 @@ class RecommendViewModel: ObservableObject {
     
     @Published var licenseCards: [LicenseCardModel] = []
     @Published var isFilterModalPresented = false
-    @Published var selectedCategories: [JobCategory] = [
-            .marketing, .sales, .rnd
-        ]
+    @Published var selectedCategories: [String] = []
     @Published var selectedCertificateId: Int = 0
     
     private let recommendService = NetworkService.shared.certificationService
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
+    
+    private let jobService = NetworkService.shared.jobService
+    private let jobLogger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
 
     var interestTags: [String] {
         selectedCategories.map(\.description)
@@ -66,6 +67,24 @@ extension RecommendViewModel {
             
         case .failure(let error):
             logger.error("toggleFavorite failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func getJobList() async {
+        let result = await jobService.getFetchJob()
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                jobLogger.error("❌ getJobList: No data received")
+                return
+            }
+            
+            self.selectedCategories = data.jobList
+            jobLogger.debug("✅ getJobList success: \(data.jobList)")
+            
+        case .failure(let error):
+            jobLogger.error("getJobList failed: \(error.localizedDescription)")
         }
     }
 }

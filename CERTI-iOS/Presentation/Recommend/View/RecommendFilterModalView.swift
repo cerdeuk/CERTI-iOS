@@ -9,8 +9,8 @@ import SwiftUI
 
 struct RecommendFilterModalView: View {
     @Environment(\.dismiss) private var dismiss
-    @Binding var selectedCategories: [JobCategory]
-    @State private var tempSelectedCategories: [JobCategory] = []
+    @Binding var selectedCategories: [String]
+    @State private var tempSelectedCategories: [String] = []
     
     var body: some View {
         VStack(spacing: 0) {
@@ -59,11 +59,11 @@ struct RecommendFilterModalView: View {
     private var RecoommendFilterButtonList: some View {
         LazyVGrid(columns: Array(repeating: .init(spacing: 16), count: 3), spacing: 13) {
             ForEach(JobCategory.allCases) {category in
-                RecommendFilterButton(category: category, isSelected: tempSelectedCategories.contains(category)) {
-                    if tempSelectedCategories.contains(category) {
-                        tempSelectedCategories.removeAll { $0 == category }
+                RecommendFilterButton(category: category, isSelected: tempSelectedCategories.contains(category.description)) {
+                    if tempSelectedCategories.contains(category.description) {
+                        tempSelectedCategories.removeAll { $0 == category.description }
                     } else if tempSelectedCategories.count < 3 {
-                        tempSelectedCategories.append(category)
+                        tempSelectedCategories.append(category.description)
                     }
                 }
             }

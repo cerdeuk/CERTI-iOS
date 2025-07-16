@@ -32,6 +32,7 @@ struct RecommendView: View {
         .onAppear {
             Task {
                 await viewModel.getRecommendCertificationList()
+                await viewModel.getJobList()
             }
         }
     }
