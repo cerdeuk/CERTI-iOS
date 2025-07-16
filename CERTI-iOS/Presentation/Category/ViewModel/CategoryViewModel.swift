@@ -84,10 +84,10 @@ extension CategoryViewModel {
             
             self.searchLicenseCards.removeAll()
             self.searchLicenseCards = data.certificationSimpleList
-            logger.debug("✅ getCategoryList success: \(data.certificationSimpleList)")
+            logger.debug("✅ searchCertifiedList success: \(data.certificationSimpleList)")
             
         case .failure(let error):
-            logger.error("getCategoryList failed: \(error.localizedDescription)")
+            logger.error("searchCertifiedList failed: \(error.localizedDescription)")
         }
     }
 }

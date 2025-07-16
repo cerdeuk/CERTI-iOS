@@ -71,7 +71,7 @@ struct CategorySearchView: View {
     private var CategorySearchResultView: some View {
         VStack(spacing: 0) {
             ScrollView {
-                HStack(spacing: 0) {
+                HStack(alignment: .center, spacing: 0) {
                     Text("총 ")
                         .applyCertiFont(.caption_regular_14)
                         .foregroundStyle(.grayscale600)
@@ -104,8 +104,8 @@ struct CategorySearchView: View {
     }
     
     private var CategoryEmptySearchResultView: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 0) {
+        VStack(alignment: .center, spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Text("총 ")
                     .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.grayscale600)
@@ -129,7 +129,7 @@ struct CategorySearchView: View {
             Image(.imageEmpty)
                 .padding(.top, 103.5)
             
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 Text(viewModel.trimmedInput)
                     .applyCertiFont(.caption_regular_14)
                     .foregroundStyle(.purpleblue)
