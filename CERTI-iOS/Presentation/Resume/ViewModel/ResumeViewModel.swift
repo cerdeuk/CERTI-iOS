@@ -44,7 +44,7 @@ extension ResumeViewModel {
             }
             
             self.jobList = data.jobList
-            logger.debug("✅ getUnivList success: \(data.jobList)")
+            logger.debug("✅ getJobList success: \(data.jobList)")
             
         case .failure(let error):
             logger.error("getJobList failed: \(error.localizedDescription)")
