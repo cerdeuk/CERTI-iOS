@@ -30,6 +30,7 @@ final class ResumeViewModel: ObservableObject {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
 }
 
+
 // MARK: - Network
 
 extension ResumeViewModel {
