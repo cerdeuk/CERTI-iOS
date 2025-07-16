@@ -63,6 +63,7 @@ struct HomeView: View {
             Task {
                 await viewModel.getUserInfo()
                 await viewModel.getRecommendCertificationList()
+                await viewModel.getPreCertificationList()
             }
         }
     }
