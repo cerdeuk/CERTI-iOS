@@ -19,7 +19,7 @@ struct HomeCoordinatorView: View {
                 .navigationDestination(for: HomeRoute.self) { route in
                     switch route {
                     case .preLicenseEdit:
-                        PreLicenseEditView(preLicenses: $homeViewModel.homeStateModel.preLicenses)
+                        PreLicenseEditView(viewModel: homeViewModel)
                             .navigationBarBackButtonHidden()
                     }
                 }

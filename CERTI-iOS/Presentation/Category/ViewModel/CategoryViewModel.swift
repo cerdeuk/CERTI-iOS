@@ -13,6 +13,7 @@ import os
 class CategoryViewModel: ObservableObject {
     
     @Published var licenseCards: [LicenseCardModel] = []
+    @Published var searchLicenseCards: [LicenseCardModel] = []
     @Published var isFilterToggle = false
     @Published var selectedCategory: JobCategory = .business
     @Published var inputText: String = ""
@@ -24,6 +25,11 @@ class CategoryViewModel: ObservableObject {
     func toggleFavorite(id: Int) {
         guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
         licenseCards[index].isFavorite.toggle()
+    }
+    
+    func toggleSearchFavorite(id: Int) {
+        guard let index = searchLicenseCards.firstIndex(where: { $0.id == id }) else { return }
+        searchLicenseCards[index].isFavorite.toggle()
     }
     
     var trimmedInput: String {
@@ -63,6 +69,25 @@ extension CategoryViewModel {
             
         case .failure(let error):
             logger.error("toggleFavorite failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func searchCertifiedList(keyword: String) async {
+        let result = await categoryService.searchCertification(keyword: keyword)
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ searchCertifiedList: No data received")
+                return
+            }
+            
+            self.searchLicenseCards.removeAll()
+            self.searchLicenseCards = data.certificationSimpleList
+            logger.debug("✅ searchCertifiedList success: \(data.certificationSimpleList)")
+            
+        case .failure(let error):
+            logger.error("searchCertifiedList failed: \(error.localizedDescription)")
         }
     }
 }
