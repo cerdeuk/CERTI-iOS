@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoriteLicenseCardModel: Identifiable {
-    var id: UUID = UUID()
+    var id: Int { certificationId }
     
     let certificationId: Int
     let certificationName: String

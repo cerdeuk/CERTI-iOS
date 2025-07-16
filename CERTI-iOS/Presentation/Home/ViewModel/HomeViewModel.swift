@@ -129,7 +129,7 @@ extension HomeViewModel {
     }
     
     func toggleFavoriteCertification(certificationId: Int) async {
-        let result = await NetworkService.shared.certificationService.fetchFavorite(certificationId: certificationId)
+        let result = await NetworkService.shared.certificationService.switchFavorite(certificationId: certificationId)
         
         switch result {
         case .success():
