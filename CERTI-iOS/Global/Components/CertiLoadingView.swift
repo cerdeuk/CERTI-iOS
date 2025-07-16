@@ -26,7 +26,7 @@ struct CertiLoadingView: View {
                         }
                         .offset(x: offset)
                         .onAppear {
-                            let totalWidth = geometry.size.width/2
+                            let totalWidth = CGFloat(integerLiteral: 185)
                             withAnimation(
                                 Animation.linear(duration: 3).repeatForever(autoreverses: false)
                             ) {
