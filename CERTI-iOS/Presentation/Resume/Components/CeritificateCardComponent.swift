@@ -37,7 +37,3 @@ struct CeritificateCardComponent: View {
         }
     }
 }
-
-//#Preview {
-//    CeritificateCardComponent()
-//}
