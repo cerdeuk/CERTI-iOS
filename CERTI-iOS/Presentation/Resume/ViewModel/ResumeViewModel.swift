@@ -39,7 +39,7 @@ extension ResumeViewModel {
         switch result {
         case .success(let response):
             guard let data = response.data else {
-                logger.error("❌ getFetchJob: No data received")
+                logger.error("❌ getJobList: No data received")
                 return
             }
             
