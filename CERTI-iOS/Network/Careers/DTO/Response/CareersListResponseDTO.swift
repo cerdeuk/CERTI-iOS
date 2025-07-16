@@ -23,3 +23,15 @@ struct CareerDetailResponseDTO: Decodable, Identifiable {
     let description: String
     let place: String
 }
+
+extension CareerDetailResponseDTO {
+    func toResumeModel() -> ResumeModel {
+        ResumeModel(
+            startAt: startAt,
+            endAt: endAt,
+            name: name,
+            place: place,
+            discription: description
+        )
+    }
+}

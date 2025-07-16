@@ -49,9 +49,9 @@ struct MyCareerEditView: View {
                     .padding(.leading, 20)
                 
                 LazyVGrid(columns: columns, spacing: 36) {
-                    ForEach(viewModel.careerDummy) { dummy in
+                    ForEach(viewModel.careersList) { item in
                         HStack(alignment: .center, spacing: 0) {
-                            ResumeActivityListComponent(model: dummy)
+                            ResumeActivityListComponent(model: item)
                                 .frame(height: 50)
                                 .onTapGesture {
                                     resumeCoordinator.push(next: .myCareerWriteView)
@@ -80,6 +80,11 @@ struct MyCareerEditView: View {
                     isDeleteAlertPresented = false
                     print("취소버튼 클릭")
                 }
+            }
+        }
+        .onAppear{
+            Task {
+                await viewModel.getCareersList()
             }
         }
         .navigationBarBackButtonHidden()
