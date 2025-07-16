@@ -50,6 +50,7 @@ struct ResumeView: View {
         .onAppear{
             Task {
                 await viewModel.getJobList()
+                await viewModel.getAcquisitionList()
             }
         }
     }
@@ -176,7 +177,7 @@ extension ResumeView {
                 
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: rows, spacing: 12) {
-                        ForEach(viewModel.certificatedDummy) { cardItem in
+                        ForEach(viewModel.acquisitionList) { cardItem in
                             CeritificateCardComponent(model: cardItem)
                                 .onTapGesture {
                                     selectedCard = cardItem
