@@ -20,6 +20,7 @@ final class AuthManager {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Auth")
 
     var nickname: String = ""
+    var needSignup: Bool = false
     private var email: String = ""
     private var profileImageUrl: String = ""
     private var preSignupToken: String = ""
@@ -221,6 +222,7 @@ extension AuthManager {
             Task {
                 saveTokens(from: loginDTO)
             }
+            needSignup = loginDTO.needSignUp
             return .success(())
             
         case .needSignUp(let signupDTO):
