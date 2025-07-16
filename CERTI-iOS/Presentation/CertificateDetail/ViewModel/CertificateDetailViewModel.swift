@@ -11,7 +11,20 @@ import os
 
 @MainActor
 class CertificateDetailViewModel: ObservableObject {
-    @Published var certificateDetailModel = CertificateDetailModel()
+    @Published var certificateDetailModel = CertificateDetailModel(
+        certificationId: 0,
+        certificationName: "",
+        tags: [],
+        averagePeriod: "",
+        charge: "0",
+        agencyName: "",
+        testType: "",
+        description: "",
+        testDateInformation: "",
+        applicationMethod: "",
+        applicationUrl: "www.google.com",
+        expirationPeriod: ""
+    )
     
     private let certificateDetailService = NetworkService.shared.certificationService
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
@@ -30,8 +43,11 @@ extension CertificateDetailViewModel {
                 logger.error("❌ getCertificationDetailList: No data received")
                 return
             }
+            self.certificateDetailModel = data.toDomain()
+            logger.debug("✅ CertificationDetail success: \(String(describing: self.certificateDetailModel))")
             
-            self.certificateDetailModel = data.
+        case .failure(let error):
+            logger.error("CertificationDetail failed: \(error.localizedDescription)")
         }
     }
 }

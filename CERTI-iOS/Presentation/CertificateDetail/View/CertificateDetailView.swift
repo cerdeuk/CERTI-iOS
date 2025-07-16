@@ -40,14 +40,14 @@ struct CertificateDetailView: View {
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(viewmodel.certificateDetail.certificationName)
+                        Text(viewmodel.certificateDetailModel.certificationName)
                             .applyCertiFont(.sub_bold_20)
                             .foregroundStyle(.grayscale600)
                             .frame(height: 26)
                             .padding(.top, 33)
                             .padding(.horizontal, 20)
                         
-                        TagChip(tags: viewmodel.certificateDetail.tags, spacing: 8)
+                        TagChip(tags: viewmodel.certificateDetailModel.tags, spacing: 8)
                             .padding(.top, 12)
                             .padding(.horizontal, 20)
                         
@@ -124,7 +124,12 @@ struct CertificateDetailView: View {
             }
             
             if showCompleteModal {
-                RecommendCompleteModalView(certificationName: viewmodel.certificateDetail.certificationName)
+                RecommendCompleteModalView(certificationName: viewmodel.certificateDetailModel.certificationName)
+            }
+        }
+        .onAppear {
+            Task {
+                await viewmodel.fetchCertificateDetail(certificationId: certificationId)
             }
         }
     }
@@ -140,7 +145,7 @@ struct CertificateDetailView: View {
                     
                     Spacer()
                     
-                    Text(viewmodel.certificateDetail.averagePeriod)
+                    Text(viewmodel.certificateDetailModel.averagePeriod)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -155,7 +160,7 @@ struct CertificateDetailView: View {
                     
                     Spacer()
                     
-                    Text("\((String(viewmodel.certificateDetail.charge)).convertPrice(maxPrice: viewmodel.certificateDetail.charge))원")
+                    Text("\((viewmodel.certificateDetailModel.charge).convertPrice(maxPrice: Int(viewmodel.certificateDetailModel.charge) ?? 0))원")
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -170,7 +175,7 @@ struct CertificateDetailView: View {
                     
                     Spacer()
                     
-                    Text(viewmodel.certificateDetail.agencyName)
+                    Text(viewmodel.certificateDetailModel.agencyName)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -195,13 +200,13 @@ struct CertificateDetailView: View {
     private var CertificationDescription : some View {
         VStack(alignment: .leading, spacing: 0) {
             Group {
-                Text(viewmodel.certificateDetail.testType)
+                Text(viewmodel.certificateDetailModel.testType)
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
                     .padding(.top, 36)
                 
-                Text(viewmodel.certificateDetail.description.antiAppleBySangyup)
+                Text(viewmodel.certificateDetailModel.description.antiAppleBySangyup)
                     .applyCertiFont(.caption_regular_14)
                     .padding(.all, 20)
                     .foregroundColor(.grayscale600)
@@ -221,7 +226,7 @@ struct CertificateDetailView: View {
                 HStack(spacing: 0) {
                     Image(.iconDate16)
                     
-                    Text(viewmodel.certificateDetail.testDateInformation)
+                    Text(viewmodel.certificateDetailModel.testDateInformation)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -241,7 +246,7 @@ struct CertificateDetailView: View {
                 HStack(spacing: 0) {
                     Image(.iconCertification16)
                     
-                    Text(viewmodel.certificateDetail.applicationMethod)
+                    Text(viewmodel.certificateDetailModel.applicationMethod)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -261,7 +266,7 @@ struct CertificateDetailView: View {
                 HStack(spacing: 0) {
                     Image(.iconClock16)
                     
-                    Text(viewmodel.certificateDetail.expirationPeriod)
+                    Text(viewmodel.certificateDetailModel.expirationPeriod)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -272,7 +277,7 @@ struct CertificateDetailView: View {
                 }
                 .padding(.top, 12)
                 
-                Link(destination: URL(string: viewmodel.certificateDetail.applicationUrl)!) {
+                Link(destination: URL(string: viewmodel.certificateDetailModel.applicationUrl)!) {
                     HStack(spacing: 0) {
                         Image(.iconLink16)
                         Text("사이트로 이동하기")
