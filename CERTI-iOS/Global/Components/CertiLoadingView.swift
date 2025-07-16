@@ -16,7 +16,7 @@ struct CertiLoadingView: View {
             HStack {
                 Spacer()
                 
-                Image()
+                Image(.loading)
                 
                 Spacer()
             }
