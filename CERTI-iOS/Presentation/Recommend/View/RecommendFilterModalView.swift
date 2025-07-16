@@ -11,6 +11,7 @@ struct RecommendFilterModalView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var selectedCategories: [String]
     @State private var tempSelectedCategories: [String] = []
+    @ObservedObject var viewModel: RecommendViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -75,6 +76,9 @@ struct RecommendFilterModalView: View {
     private var ApplyButton: some View {
         Button {
             selectedCategories = tempSelectedCategories
+            Task{
+                await viewModel.postJobList(jobNameList: selectedCategories)
+            }
             dismiss()
         } label: {
             ZStack {

@@ -87,4 +87,16 @@ extension RecommendViewModel {
             jobLogger.error("getJobList failed: \(error.localizedDescription)")
         }
     }
+    
+    func postJobList(jobNameList: [String]) async {
+        let result = await jobService.editJob(jobNameList: selectedCategories)
+        
+        switch result {
+        case .success(_):
+            jobLogger.debug("✅ editJob: No data success")
+            
+        case .failure(let error):
+            jobLogger.error("editJob failed: \(error.localizedDescription)")
+        }
+    }
 }

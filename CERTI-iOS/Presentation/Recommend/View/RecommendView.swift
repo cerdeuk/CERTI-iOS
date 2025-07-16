@@ -24,7 +24,7 @@ struct RecommendView: View {
                 .padding(.horizontal, 20)
         }
         .sheet(isPresented: $viewModel.isFilterModalPresented) {
-            RecommendFilterModalView(selectedCategories: $viewModel.selectedCategories)
+            RecommendFilterModalView(selectedCategories: $viewModel.selectedCategories, viewModel: viewModel)
                 .presentationDetents([.height(548)])
                 .presentationCornerRadius(40)
                 .presentationDragIndicator(.visible)
