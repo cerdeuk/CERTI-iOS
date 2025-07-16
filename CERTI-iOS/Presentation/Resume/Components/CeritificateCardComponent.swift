@@ -7,15 +7,25 @@
 
 import SwiftUI
 
+import Kingfisher
+
 struct CeritificateCardComponent: View {
     let model: CertificatedModel
     
     var body: some View {
-        ZStack(alignment: .top) {
-            Image("\(model.cardFrontImageUrl)")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 200, height: 300)
+        ZStack(alignment: .topLeading) {
+                KFImage(URL(string: model.cardFrontImageUrl))
+                    .placeholder {
+                        Rectangle()
+                            .fill(.grayscale100)
+                    }
+                    .retry(maxCount: 3, interval: .seconds(5))
+                    .onFailure { error in
+                        print("Image Failure: \(error.localizedDescription)")
+                    }
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 300)
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(model.name)
@@ -34,6 +44,8 @@ struct CeritificateCardComponent: View {
                     .frame(height: 23)
                     .padding(.top, 8)
             }
+            .padding(.leading, 12)
+            .padding(.trailing, 36)
         }
     }
 }
