@@ -169,8 +169,12 @@ extension ResumeView {
                             ForEach(viewModel.acquisitionList) { cardItem in
                                 CeritificateCardComponent(model: cardItem)
                                     .onTapGesture {
-                                        selectedCard = cardItem
-                                        isPresented.toggle()
+                                        Task {
+                                            await viewModel.getAcquisitionDetail(id: cardItem.acquisitionId)
+                                            selectedCard = viewModel.acquisitionDetail
+                                            
+                                            isPresented.toggle()
+                                        }
                                     }
                             }
                         }
