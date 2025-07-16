@@ -16,6 +16,8 @@ class RecommendViewModel: ObservableObject {
     @Published var selectedCategories: [JobCategory] = [
             .marketing, .sales, .rnd
         ]
+    @Published var selectedCertificateId: Int = 0
+
     var interestTags: [String] {
         selectedCategories.map(\.description)
     }
@@ -23,5 +25,9 @@ class RecommendViewModel: ObservableObject {
     func toggleFavorite(id: Int) {
         guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
         licenseCards[index].isFavorite.toggle()
+    }
+    
+    func selectCertificate(id: Int) {
+        selectedCertificateId = id
     }
 }

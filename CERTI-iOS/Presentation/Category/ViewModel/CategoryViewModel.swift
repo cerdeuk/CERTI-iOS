@@ -18,6 +18,7 @@ class CategoryViewModel: ObservableObject {
     @Published var selectedCategory: JobCategory = .business
     @Published var inputText: String = ""
     @Published var searchResult: SearchResultType? = nil
+    @Published var selectedCertificateId: Int = 0
     
     private let categoryService = NetworkService.shared.certificationService
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
@@ -34,6 +35,10 @@ class CategoryViewModel: ObservableObject {
     
     var trimmedInput: String {
         inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    func selectCertificate(id: Int) {
+        selectedCertificateId = id
     }
 }
 

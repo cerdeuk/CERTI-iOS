@@ -7,21 +7,35 @@
 
 import SwiftUI
 
+enum BeforeViewType {
+    case home
+    case category
+    case recommend
+}
+
 struct CertificateDetailView: View {
     @EnvironmentObject var recommendCoordinator: RecommendCoordinator
-    @ObservedObject var viewmodel: CertificateDetailViewModel
+    @EnvironmentObject var homeCoordinator: HomeCoordinator
+    @EnvironmentObject var categoryCoordinator: CategoryCoordinator
+    
+    @StateObject var viewmodel = CertificateDetailViewModel()
+
+    @Binding var certificationId: Int
+    let beforeViewType: BeforeViewType
+    
     @State private var showSuccessAcquired = false
     @State private var showFailAcquired = false
     @State private var showFailToBeAcquired = false
     @State private var showCompleteModal = false
     @State private var opacity: Double = 1.0
     
+    
     var body: some View {
         
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
                 BackButton {
-                    recommendCoordinator.pop()
+                    handleBack()
                 }
                 
                 ScrollView {
@@ -156,7 +170,7 @@ struct CertificateDetailView: View {
                     
                     Spacer()
                     
-                    Text(viewmodel.certificateDetail.agency)
+                    Text(viewmodel.certificateDetail.agencyName)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
@@ -320,5 +334,16 @@ struct CertificateDetailView: View {
             .padding(.horizontal, 20)
         }
         .padding(.bottom, 12)
+    }
+    
+    private func handleBack() {
+        switch beforeViewType {
+        case .home:
+            homeCoordinator.pop()
+        case .category:
+            categoryCoordinator.pop()
+        case .recommend:
+            recommendCoordinator.pop()
+        }
     }
 }

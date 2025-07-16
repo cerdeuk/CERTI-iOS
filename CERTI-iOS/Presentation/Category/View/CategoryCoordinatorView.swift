@@ -20,6 +20,8 @@ struct CategoryCoordinatorView: View {
                     switch route {
                     case .search:
                         CategorySearchView(viewModel: categoryViewModel)
+                    case .detail:
+                        CertificateDetailView(certificationId: $categoryViewModel.selectedCertificateId, beforeViewType: .category)
                     }
                 }
         }

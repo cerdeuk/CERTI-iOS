@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecommendLicenseCardList: View {
     
+    @EnvironmentObject var recommendCoordinator: RecommendCoordinator
     @ObservedObject var viewModel: RecommendViewModel
     
     let columns = [
@@ -20,9 +21,20 @@ struct RecommendLicenseCardList: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(viewModel.licenseCards) { item in
-                        LicenseCardItem(model: item) {
-                            viewModel.toggleFavorite(id: item.certificationId)
+                        LicenseCardItem(model: item,
+                                                onTapFavorite: {
+                            Task{
+                                viewModel.toggleFavorite(id: item.id)
+                            }
+                            viewModel.toggleFavorite(id: item.id)
+                        },
+                                        onTapCard: {
+                            viewModel.selectCertificate(id: item.id)
+                            DispatchQueue.main.async {
+                                recommendCoordinator.push(next: .detail(id: item.id, beforeViewType: .recommend))
+                            }
                         }
+                        )
                     }
                 }
                 .padding(.top, 16)
