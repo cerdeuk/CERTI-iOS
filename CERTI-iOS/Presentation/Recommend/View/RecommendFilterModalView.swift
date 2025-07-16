@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RecommendFilterModalView: View {
     @Environment(\.dismiss) private var dismiss
-    @Binding var selectedCategories: [JobCategory]
+//    @Binding var selectedCategories: [JobCategory]
+    @ObservedObject var viewModel: RecommendViewModel
     @State private var tempSelectedCategories: [JobCategory] = []
     
     var body: some View {
@@ -21,7 +22,7 @@ struct RecommendFilterModalView: View {
             ApplyButton
         }
         .onAppear {
-            tempSelectedCategories = selectedCategories
+            tempSelectedCategories = viewModel.selectedCategories
         }
     }
     
@@ -74,7 +75,12 @@ struct RecommendFilterModalView: View {
     
     private var ApplyButton: some View {
         Button {
-            selectedCategories = tempSelectedCategories
+            viewModel.toggleLoadingState()
+            Task {
+                try await Task.sleep(for: .seconds(2))
+                viewModel.selectedCategories = tempSelectedCategories
+                viewModel.toggleLoadingState()
+            }
             dismiss()
         } label: {
             ZStack {

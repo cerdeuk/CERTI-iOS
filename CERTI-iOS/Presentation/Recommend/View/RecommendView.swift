@@ -24,10 +24,15 @@ struct RecommendView: View {
                 .padding(.horizontal, 20)
         }
         .sheet(isPresented: $viewModel.isFilterModalPresented) {
-            RecommendFilterModalView(selectedCategories: $viewModel.selectedCategories)
+            RecommendFilterModalView(viewModel: viewModel)
                 .presentationDetents([.height(548)])
                 .presentationCornerRadius(40)
                 .presentationDragIndicator(.visible)
+        }
+        .overlay {
+            if viewModel.isShowLoading {
+                CertiLoadingView()
+            }
         }
     }
     
