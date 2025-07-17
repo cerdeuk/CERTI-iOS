@@ -18,8 +18,10 @@ struct CategoryCoordinatorView: View {
             CategoryView(viewModel: categoryViewModel)
                 .navigationDestination(for: CategoryRoute.self) { route in
                     switch route {
-                    case .detail:
+                    case .search:
                         CategorySearchView(viewModel: categoryViewModel)
+                    case .detail:
+                        CertificateDetailView(certificationId: $categoryViewModel.selectedCertificateId, beforeViewType: .category)
                     }
                 }
         }

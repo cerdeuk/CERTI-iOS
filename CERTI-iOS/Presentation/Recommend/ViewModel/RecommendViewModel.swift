@@ -12,11 +12,12 @@ class RecommendViewModel: ObservableObject {
     var username: String = AuthManager.shared.nickname
     
     @Published var licenseCards: [LicenseCardModel] = LicenseCardModel.dummy()
-    @Published var recommendDetail: RecommendDetailModel = RecommendDetailModel.dummy()
     @Published var isFilterModalPresented = false
     @Published var selectedCategories: [JobCategory] = [
             .marketing, .sales, .rnd
         ]
+    @Published var selectedCertificateId: Int = 0
+
     @Published var isShowLoading: Bool = false
     
     var interestTags: [String] {
@@ -28,6 +29,8 @@ class RecommendViewModel: ObservableObject {
         licenseCards[index].isFavorite.toggle()
     }
     
+    func selectCertificate(id: Int) {
+        selectedCertificateId = id
     func toggleLoadingState() {
         isShowLoading.toggle()
     }
