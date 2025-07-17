@@ -10,7 +10,7 @@ import SwiftUI
 import Kingfisher
 
 struct CeritificateCardComponent: View {
-    let model: CertificatedModel
+    let model: CertificatedListModel
     
     var body: some View {
         ZStack(alignment: .topLeading) {

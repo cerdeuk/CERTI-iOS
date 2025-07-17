@@ -24,23 +24,25 @@ struct ResumeActivityListComponent: View {
                     .frame(height: 18)
                     .padding(.top, 12)
             }
-            .frame(height: 48)
-
-            Spacer()
+            .frame(width: 104, height: 48)
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(model.name)
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
-                    .frame(height: 22)
+                    .frame(width: 137, height: 22, alignment: .leading)
                 
                 Text(model.discription)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale600)
                     .lineLimit(1)
-                    .frame(height: 18)
+                    .frame(width: 137, height: 18, alignment: .leading)
                     .padding(.top, 10)
             }
+            .frame(width: 137)
+            .padding(.leading, 29)
+            
+            Spacer()
         }
     }
 }

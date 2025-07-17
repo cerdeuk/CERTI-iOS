@@ -10,7 +10,7 @@ import SwiftUI
 import Kingfisher
 
 struct CertificateCardDetailView: View {
-    let card: CertificatedModel
+    let card: CertificatedDetailModel
     @State private var rotation: Double = 0
     @State var isFlipped = false
 

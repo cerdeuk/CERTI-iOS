@@ -7,8 +7,8 @@
 
 import Foundation
 
-typealias AcquisitionDetailResponseDTO = BaseResponseDTO<CertificatedModel>
+typealias AcquisitionDetailResponseDTO = BaseResponseDTO<CertificatedDetailModel>
 
 struct AcquisitionDetailData: Decodable {
-    let getAcquisitionResponses: CertificatedModel
+    let getAcquisitionDetailResponses: CertificatedDetailModel
 }

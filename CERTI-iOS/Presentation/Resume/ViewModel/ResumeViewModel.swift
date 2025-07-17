@@ -13,10 +13,10 @@ import os
 final class ResumeViewModel: ObservableObject {
     @Published var careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
     @Published var myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
-    @Published var certificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
+    @Published var certificatedDummy: [CertificatedListModel] = CertificatedListModel.dummy()
     @Published var jobList: [String] = []
-    @Published var acquisitionList: [CertificatedModel] = []
-    @Published var acquisitionDetail: CertificatedModel = CertificatedModel(acquisitionId: 0, index: 0, name: "", createdAt: "", cardFrontImageUrl: "", cardBackImageUrl: "", tags: [], description: "")
+    @Published var acquisitionList: [CertificatedListModel] = []
+    @Published var acquisitionDetail: CertificatedDetailModel = CertificatedDetailModel(acquisitionId: 0, cardFrontImageUrl: "", cardBackImageUrl: "", index: 0, name: "", tags: [], description: "", createdAt: "")
     @Published var careersList: [ResumeModel] = []
     @Published var activityList: [ResumeModel] = []
     @Published var isPeriodFilled: Bool = false
@@ -82,8 +82,8 @@ extension ResumeViewModel {
                 return
             }
             
-            self.acquisitionList = data.getAcquisitionResponses
-            logger.debug("✅ getAcquisitionList success: \(data.getAcquisitionResponses)")
+            self.acquisitionList = data.acquisitionListDetailResponses
+            logger.debug("✅ getAcquisitionList success: \(data.acquisitionListDetailResponses)")
             
         case .failure(let error):
             logger.error("getAcquisitionList failed: \(error.localizedDescription)")
