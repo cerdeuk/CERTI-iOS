@@ -166,11 +166,11 @@ extension ResumeViewModel {
         
         switch result {
         case .success(_):
-            logger.info("✅ 취득한 자격증 삭제 성공")
+            logger.info("✅ 대내외 활동 삭제 성공")
             activityList.removeAll { $0.activityId == id }
 
         case .failure(let error):
-            logger.error("취득한 자격증 삭제 failed: \(error.localizedDescription)")
+            logger.error("대내외 활동 삭제 failed: \(error.localizedDescription)")
         }
     }
 
