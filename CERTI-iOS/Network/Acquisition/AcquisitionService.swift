@@ -11,6 +11,7 @@ import Moya
 
 protocol AcquisitionServiceProtocol {
     func fetchAcquisitionList() async -> Result<AcquisitionListResponseDTO, NetworkError>
+    func fetchAcquisitionDetail(id: Int) async -> Result<AcquisitionDetailResponseDTO, NetworkError>
 }
 
 final class AcquisitionService: BaseService, AcquisitionServiceProtocol {
@@ -18,5 +19,9 @@ final class AcquisitionService: BaseService, AcquisitionServiceProtocol {
     
     func fetchAcquisitionList() async -> Result<AcquisitionListResponseDTO, NetworkError> {
         return await requestDecodable(provider, .fetchAcquisitionList)
+    }
+    
+    func fetchAcquisitionDetail(id: Int) async -> Result<AcquisitionDetailResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .fetchAcquisitionDetail(id: id))
     }
 }

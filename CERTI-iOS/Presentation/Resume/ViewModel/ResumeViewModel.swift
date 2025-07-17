@@ -16,6 +16,7 @@ final class ResumeViewModel: ObservableObject {
     @Published var certificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
     @Published var jobList: [String] = []
     @Published var acquisitionList: [CertificatedModel] = []
+    @Published var acquisitionDetail: CertificatedModel = CertificatedModel(acquisitionId: 0, index: 0, name: "", createdAt: "", cardFrontImageUrl: "", cardBackImageUrl: "", tags: [], description: "")
     @Published var careersList: [ResumeModel] = []
     @Published var activityList: [ResumeModel] = []
     @Published var isPeriodFilled: Bool = false
@@ -76,6 +77,23 @@ extension ResumeViewModel {
             
         case .failure(let error):
             logger.error("getAcquisitionList failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func getAcquisitionDetail(id: Int) async {
+        let result = await acquisitionService.fetchAcquisitionDetail(id: id)
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ getAcquisitionDetail: No data received")
+                return
+            }
+            
+            self.acquisitionDetail = data
+            
+        case .failure(let error):
+            logger.error("getAcquisitionDetail failed: \(error.localizedDescription)")
         }
     }
     

@@ -30,7 +30,7 @@ struct MyCertificateEditView: View {
                 
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns, spacing: 24) {
-                        ForEach(viewModel.certificatedDummy) { cardItem in
+                        ForEach(viewModel.acquisitionList) { cardItem in
                             HStack(alignment: .center, spacing: 0) {
                                 CeritificateCardComponent(model: cardItem)
                                 
@@ -60,6 +60,11 @@ struct MyCertificateEditView: View {
                     isDeleteAlertPresented = false
                     print("취소버튼 클릭")
                 }
+            }
+        }
+        .onAppear{
+            Task {
+                await viewModel.getAcquisitionList()
             }
         }
         .navigationBarBackButtonHidden()
