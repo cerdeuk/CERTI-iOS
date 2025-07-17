@@ -91,7 +91,6 @@ extension ResumeViewModel {
             }
             
             self.acquisitionDetail = data
-//            logger.debug("✅ getAcquisitionDetail success: \(data)")
             
         case .failure(let error):
             logger.error("getAcquisitionDetail failed: \(error.localizedDescription)")
