@@ -40,7 +40,6 @@ final class AppCoordinator: ObservableObject {
         await MainActor.run {
             switch tokenResult {
             case .success:
-//                appState = didOnboard ? .main : .onboarding
                 appState = .main
             case .failure:
                 appState = .auth
