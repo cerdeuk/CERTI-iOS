@@ -189,7 +189,7 @@ struct CertificateDetailView: View {
                         .frame(height: 22)
                 }
                 .padding(.top, 40)
-                .padding(.bottom, 11)
+                .padding(.bottom, 20)
             }
             .padding(.horizontal, 22)
         }
