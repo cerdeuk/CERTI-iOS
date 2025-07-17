@@ -33,7 +33,7 @@ struct ResumeView: View {
             Group {
                 if viewModel.isCardDetailPresented, let selectedCard {
                     ZStack {
-                        Color.black.opacity(0.4)
+                        Color.blackOpacity40
                             .ignoresSafeArea()
                             .onTapGesture {
                                 viewModel.isCardDetailPresented = false
