@@ -1,16 +1,16 @@
 //
-//  TagChipMini.swift
+//  TagChipColor.swift
 //  CERTI-iOS
 //
-//  Created by 이상엽 on 7/16/25.
+//  Created by 이상엽 on 7/18/25.
 //
 
 import SwiftUI
 
-struct TagChipMini: View {
+struct TagChipColor: View {
     let tags: [String]
     let spacing: CGFloat
-    let backgroundColor: Color
+    let backgroundColor: Color 
     let textColor: Color
 
     var body: some View {
@@ -23,8 +23,8 @@ struct TagChipMini: View {
 
     private func tagItem(for text: String) -> some View {
         Text(text)
-            .applyCertiFont(.caption_semibold_10)
-            .frame(height: 15)
+            .applyCertiFont(.caption_semibold_12)
+            .frame(height: 18)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .background(backgroundColor)
