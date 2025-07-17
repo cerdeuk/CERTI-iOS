@@ -13,16 +13,13 @@ enum HomeAPI {
     case getPreCertification
     case deletePreCertification(id: Int)
     case getFavoriteCertification
+    case addPreCertification(certificationId: Int)
 }
 
 extension HomeAPI: BaseTargetType {
     var headerType: HeaderType {
         switch self {
-        case .getPreCertification:
-            return .accessTokenHeader
-        case .deletePreCertification:
-            return .accessTokenHeader
-        case .getFavoriteCertification:
+        default:
             return .accessTokenHeader
         }
     }
@@ -35,6 +32,8 @@ extension HomeAPI: BaseTargetType {
             return "home/pre-certification/\(id)"
         case .getFavoriteCertification:
             return "home/favorite"
+        case .addPreCertification(let certificationId):
+            return "home/pre-certification/\(certificationId)"
         }
     }
     
@@ -46,6 +45,8 @@ extension HomeAPI: BaseTargetType {
             return .delete
         case .getFavoriteCertification:
             return .get
+        case .addPreCertification:
+            return .post
         }
     }
     
@@ -56,6 +57,8 @@ extension HomeAPI: BaseTargetType {
         case .deletePreCertification:
             return .requestPlain
         case .getFavoriteCertification:
+            return .requestPlain
+        case .addPreCertification:
             return .requestPlain
         }
     }
