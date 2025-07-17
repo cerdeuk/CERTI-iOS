@@ -133,7 +133,7 @@ struct CertificateDetailView: View {
             }
             
             if viewModel.showCompleteModal {
-                RecommendCompleteModalView(certificationName: viewModel.certificateDetailModel.certificationName)
+                CertificationDetailCompleteModalView(certificationName: viewModel.certificateDetailModel.certificationName)
             }
         }
         .onAppear {

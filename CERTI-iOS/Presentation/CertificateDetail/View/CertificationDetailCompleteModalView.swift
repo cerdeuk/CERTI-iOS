@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RecommendCompleteModalView: View {
+struct CertificationDetailCompleteModalView: View {
     @EnvironmentObject var tabRouter: CertiTabCoordinator
     let certificationName: String
     
@@ -46,6 +46,7 @@ struct RecommendCompleteModalView: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 8)
+                    .padding(.bottom, 26)
                 }
             }
             .frame(maxWidth: .infinity)
