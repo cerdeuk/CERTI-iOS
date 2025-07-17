@@ -28,12 +28,17 @@ class CertificateDetailViewModel: ObservableObject {
     @Published var showSuccessToBeAcquired: Bool = false
     @Published var showFailAcquired: Bool = false
     @Published var showFailToBeAcquired: Bool = false
+    @Published var showCompleteModal = false
+
     
     private let certificateDetailService = NetworkService.shared.certificationService
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
     
     private let homeService = NetworkService.shared.homeService
     private let homeLogger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Home")
+    
+    private let acquisitionService = NetworkService.shared.acquisitionService
+    private let acquisitionLogger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Acquisition")
 }
 
 
@@ -63,7 +68,7 @@ extension CertificateDetailViewModel {
         switch result {
         case .success(let response):
             guard let data = response.data else {
-                logger.error("❌ appendPreCertification: No data received")
+                homeLogger.error("❌ appendPreCertification: No data received")
                 return
             }
             
@@ -76,6 +81,28 @@ extension CertificateDetailViewModel {
             
         case .failure(let error):
             homeLogger.error("appendPreCertification failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func appendAcquisition(certification: Int) async {
+        let result = await acquisitionService.addAcquisition(certificationId: certification)
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                acquisitionLogger.error("❌ appendAcquisition: No data received")
+                return
+            }
+            
+            if data {
+                showCompleteModal = true
+            } else {
+                showFailAcquired = true
+            }
+            acquisitionLogger.debug("✅ appendAcquisition success: \(data)")
+            
+        case .failure(let error):
+            acquisitionLogger.error("appendAcquisition failed: \(error.localizedDescription)")
         }
     }
 }

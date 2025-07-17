@@ -24,5 +24,6 @@ final class NetworkService {
     let jobService: JobsServiceProtocol = JobService()
     let userService: UserServiceProtocol = UserService()
     let homeService: HomeServiceProtocol = HomeService()
+    let acquisitionService: Acquisition2ServiceProtocol = Acquisition2Service()
 
 }
