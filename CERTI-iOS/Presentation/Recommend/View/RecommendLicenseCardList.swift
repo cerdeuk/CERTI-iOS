@@ -24,14 +24,12 @@ struct RecommendLicenseCardList: View {
                         LicenseCardItem(model: item,
                                                 onTapFavorite: {
                             Task{
-                                viewModel.toggleFavorite(id: item.id)
+                                await viewModel.postFavorite(certificationId: item.certificationId)
                             }
+                            viewModel.toggleFavorite(id: item.id)
                         },
                                         onTapCard: {
                             viewModel.selectCertificate(id: item.id)
-                            DispatchQueue.main.async {
-                                recommendCoordinator.push(next: .detail(id: item.id, beforeViewType: .recommend))
-                            }
                             Task { @MainActor in
                                 recommendCoordinator.push(next: .detail(id: item.id, beforeViewType: .recommend))
                             }
