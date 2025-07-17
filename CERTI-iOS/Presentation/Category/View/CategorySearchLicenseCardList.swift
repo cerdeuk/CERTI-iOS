@@ -30,7 +30,7 @@ struct CategorySearchLicenseCardList: View {
                         },
                                         onTapCard: {
                             viewModel.selectCertificate(id: item.id)
-                            DispatchQueue.main.async {
+                            Task { @MainActor in
                                 categoryCoordinator.push(next: .detail(id: item.id, beforeViewType: .category))
                             }
                         }

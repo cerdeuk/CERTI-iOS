@@ -10,7 +10,7 @@ import SwiftUI
 import os
 
 @MainActor
-class CertificateDetailViewModel: ObservableObject {
+final class CertificateDetailViewModel: ObservableObject {
     @Published var certificateDetailModel = CertificateDetailModel(
         certificationId: 0,
         certificationName: "",
