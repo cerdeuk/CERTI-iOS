@@ -15,6 +15,7 @@ struct MyExtracurricularActivityWriteView: View {
         BackButton() {
             resumeCoordinator.pop()
         }
+        
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 MyExtracurricularActivityTitleView
@@ -27,24 +28,25 @@ struct MyExtracurricularActivityWriteView: View {
                 organizeView
                 activityView
                 activityDetailView
-                Spacer()
-                ResumeWriteButton(
-                    action: {
-                        Task {
-                            await viewModel.addActivity(resumeModel: viewModel.resumeModel)
-                            viewModel.clearResumeModel()
-                            resumeCoordinator.pop()
-                        }
-                    },
-                    textEmpty: .constant(viewModel.isWriteButtonEnabled)
-                )
-                .padding(.bottom, 25)
             }
         }
         .onAppear{
             viewModel.clearResumeModel()
         }
         .navigationBarBackButtonHidden()
+        .scrollIndicators(.hidden)
+        
+        ResumeWriteButton(
+            action: {
+                Task {
+                    await viewModel.addActivity(resumeModel: viewModel.resumeModel)
+                    viewModel.clearResumeModel()
+                    resumeCoordinator.pop()
+                }
+            },
+            textEmpty: .constant(viewModel.isWriteButtonEnabled)
+        )
+        .padding(.bottom, 16)
     }
 }
 

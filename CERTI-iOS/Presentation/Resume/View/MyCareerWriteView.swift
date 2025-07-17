@@ -15,6 +15,7 @@ struct MyCareerWriteView: View {
         BackButton() {
             resumeCoordinator.pop()
         }
+        
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 MyCareerWriteTitleView
@@ -27,23 +28,24 @@ struct MyCareerWriteView: View {
                 workingCompany
                 dutyView
                 dutyDetailView
-                Spacer()
-                ResumeWriteButton(
-                    action: {
-                        Task {
-                            await viewModel.addCareer(resumeModel: viewModel.resumeModel)
-                            resumeCoordinator.pop()
-                        }
-                    },
-                    textEmpty: .constant(viewModel.isWriteButtonEnabled)
-                )
-                .padding(.bottom, 25)
             }
         }
         .onAppear{
             viewModel.clearResumeModel()
         }
+        .scrollIndicators(.hidden)
         .navigationBarBackButtonHidden()
+        
+        ResumeWriteButton(
+            action: {
+                Task {
+                    await viewModel.addCareer(resumeModel: viewModel.resumeModel)
+                    resumeCoordinator.pop()
+                }
+            },
+            textEmpty: .constant(viewModel.isWriteButtonEnabled)
+        )
+        .padding(.bottom, 16)
     }
 }
 
