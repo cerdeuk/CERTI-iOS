@@ -74,6 +74,14 @@ class BaseService {
                             continuation.resume(returning: .failure(.unauthorized))
                         case 404:
                             continuation.resume(returning: .failure(.notFound))
+                        case 409:
+                            do {
+                                let decodedData = try JSONDecoder().decode(T.self, from: response.data)
+                                continuation.resume(returning: .success(decodedData))
+                            } catch {
+                                Self.logger.error("Decoding error: \(error.localizedDescription)")
+                                continuation.resume(returning: .failure(.decodingError))
+                            }
                         case 500...599:
                             continuation.resume(returning: .failure(.internalServerError))
                         default:
