@@ -155,7 +155,7 @@ extension CertificateCardDetailView {
                     }
                     .padding(.bottom, 4)
                     
-                    Text(card.createdAt)
+                    Text(card.createdAt.toDisplayDateString())
                         .applyCertiFont(.caption_semibold_14)
                         .foregroundStyle(.purpleblue)
                         .frame(height: 20)
