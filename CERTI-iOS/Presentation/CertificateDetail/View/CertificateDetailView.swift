@@ -23,7 +23,6 @@ struct CertificateDetailView: View {
     @Binding var certificationId: Int
     let beforeViewType: BeforeViewType
     
-//    @State private var showCompleteModal = false
     @State private var opacity: Double = 1.0
     
     

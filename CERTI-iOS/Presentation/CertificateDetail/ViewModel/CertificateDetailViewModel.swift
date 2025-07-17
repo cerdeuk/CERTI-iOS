@@ -32,13 +32,11 @@ final class CertificateDetailViewModel: ObservableObject {
 
     
     private let certificateDetailService = NetworkService.shared.certificationService
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
     private let homeService = NetworkService.shared.homeService
-    private let homeLogger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Home")
     
     private let acquisitionService = NetworkService.shared.acquisitionService
-    private let acquisitionLogger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Acquisition")
 }
 
 
@@ -68,7 +66,7 @@ extension CertificateDetailViewModel {
         switch result {
         case .success(let response):
             guard let data = response.data else {
-                homeLogger.error("❌ appendPreCertification: No data received")
+                logger.error("❌ appendPreCertification: No data received")
                 return
             }
             
@@ -77,10 +75,10 @@ extension CertificateDetailViewModel {
             } else {
                 showFailToBeAcquired = true
             }
-            homeLogger.debug("✅ appendPreCertification success: \(data)")
+            logger.debug("✅ appendPreCertification success: \(data)")
             
         case .failure(let error):
-            homeLogger.error("appendPreCertification failed: \(error.localizedDescription)")
+            logger.error("appendPreCertification failed: \(error.localizedDescription)")
         }
     }
     
@@ -90,7 +88,7 @@ extension CertificateDetailViewModel {
         switch result {
         case .success(let response):
             guard let data = response.data else {
-                acquisitionLogger.error("❌ appendAcquisition: No data received")
+                logger.error("❌ appendAcquisition: No data received")
                 return
             }
             
@@ -99,10 +97,10 @@ extension CertificateDetailViewModel {
             } else {
                 showFailAcquired = true
             }
-            acquisitionLogger.debug("✅ appendAcquisition success: \(data)")
+            logger.debug("✅ appendAcquisition success: \(data)")
             
         case .failure(let error):
-            acquisitionLogger.error("appendAcquisition failed: \(error.localizedDescription)")
+            logger.error("appendAcquisition failed: \(error.localizedDescription)")
         }
     }
 }
