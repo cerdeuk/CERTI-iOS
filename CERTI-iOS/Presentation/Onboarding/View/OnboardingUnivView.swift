@@ -85,19 +85,24 @@ struct OnboardingUnivView: View {
                 Spacer()
             }
             
-            Button {
-                onboardingCoordinator.push(next: .grade)
-            } label: {
-                Text("다음")
-                    .applyCertiFont(.body_semibold_16)
-                    .foregroundStyle(viewModel.searchUnivValidate() ? .white : .grayscale400)
-                    .frame(maxWidth: .infinity, minHeight: 56)
+            ZStack(alignment: .center) {
+                Color.white
+                    .frame(height: 88)
+                    .ignoresSafeArea(edges: .bottom)
+                
+                Button {
+                    onboardingCoordinator.push(next: .grade)
+                } label: {
+                    Text("다음")
+                        .applyCertiFont(.body_semibold_16)
+                        .foregroundStyle(viewModel.searchUnivValidate() ? .white : .grayscale400)
+                        .frame(maxWidth: .infinity, minHeight: 56)
+                }
+                .disabled(!viewModel.searchUnivValidate())
+                .background(viewModel.searchUnivValidate() ? .purpleblue : .grayscale100)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(.horizontal, 20)
             }
-            .disabled(!viewModel.searchUnivValidate())
-            .background(viewModel.searchUnivValidate() ? .purpleblue : .grayscale100)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding(.horizontal, 20)
-            .padding(.bottom, 22)
         }
         .ignoresSafeArea(.keyboard)
     }

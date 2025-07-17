@@ -7,7 +7,6 @@
 
 import Foundation
 
-//typealias AcquisitionDetailResponseDTO = BaseResponseDTO<AcquisitionDetailData>
 typealias AcquisitionDetailResponseDTO = BaseResponseDTO<CertificatedModel>
 
 struct AcquisitionDetailData: Decodable {
