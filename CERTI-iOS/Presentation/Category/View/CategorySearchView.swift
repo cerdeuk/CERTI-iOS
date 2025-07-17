@@ -18,7 +18,7 @@ struct CategorySearchView: View {
     @ObservedObject var viewModel: CategoryViewModel
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture {
@@ -50,8 +50,6 @@ struct CategorySearchView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
                 
-                Spacer()
-                
                 if let result = viewModel.searchResult {
                     switch result {
                     case .empty:
@@ -69,8 +67,8 @@ struct CategorySearchView: View {
     }
     
     private var CategorySearchResultView: some View {
-        VStack(spacing: 0) {
-            ScrollView {
+        ScrollView {
+            VStack(spacing: 0) {
                 HStack(alignment: .center, spacing: 0) {
                     Text("총 ")
                         .applyCertiFont(.caption_regular_14)
@@ -96,11 +94,11 @@ struct CategorySearchView: View {
                     .padding(.top, 16)
                     .padding(.horizontal, 20)
             }
-            .scrollIndicators(.hidden)
-            .simultaneousGesture(TapGesture().onEnded {
-                hideKeyboard()
-            })
         }
+        .scrollIndicators(.hidden)
+        .simultaneousGesture(TapGesture().onEnded {
+            hideKeyboard()
+        })
     }
     
     private var CategoryEmptySearchResultView: some View {

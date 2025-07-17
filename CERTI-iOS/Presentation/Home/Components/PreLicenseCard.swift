@@ -39,6 +39,7 @@ struct PreLicenseCard: View {
                             .applyCertiFont(.caption_regular_12)
                             .foregroundStyle(.grayscale500)
                     }
+                    .padding(.bottom, 6)
                     
                     HStack(alignment: .center, spacing: 0) {
                         Image(.iconCertification16)

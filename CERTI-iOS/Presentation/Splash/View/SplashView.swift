@@ -23,6 +23,6 @@ struct SplashView: View {
             Spacer()
         }
         .ignoresSafeArea()
-        .background(.mainblue)
+        .background(.purpleblue)
     }
 }
