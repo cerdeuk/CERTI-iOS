@@ -10,7 +10,7 @@ import SwiftUI
 import Kingfisher
 
 struct CeritificateCardComponent: View {
-    let model: CertificatedModel
+    let model: CertificatedListModel
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -25,14 +25,14 @@ struct CeritificateCardComponent: View {
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(model.name)
-                    .foregroundStyle(.grayscale600)
+                    .foregroundStyle(model.index == 2 ?  .white : .grayscale600)
                     .applyCertiFont(.caption_bold_14)
                     .frame(height: 20)
                     .padding(.top, 32)
                 
                 Text("\(model.createdAt.toDisplayDateString()) 획득")
                     .applyCertiFont(.caption_regular_12)
-                    .foregroundStyle(.grayscale600)
+                    .foregroundStyle(model.index == 2 ?  .white : .grayscale600)
                     .frame(height: 18)
                     .padding(.top, 4)
                 

@@ -12,19 +12,35 @@ struct MyCareerWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                MyCareerWriteTitleView
-                workingPeriodView
-                PeriodInputComponent(
-                        isFilled: $viewModel.isPeriodFilled,
-                        startAt: $viewModel.resumeModel.startAt,
-                        endAt: $viewModel.resumeModel.endAt
-                    )
-                workingCompany
-                dutyView
-                dutyDetailView
-                Spacer()
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+
+            VStack (alignment: .leading, spacing: 0) {
+                BackButton() {
+                    resumeCoordinator.pop()
+                }
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        MyCareerWriteTitleView
+                        workingPeriodView
+                        PeriodInputComponent(
+                            isFilled: $viewModel.isPeriodFilled,
+                            startAt: $viewModel.resumeModel.startAt,
+                            endAt: $viewModel.resumeModel.endAt
+                        )
+                        workingCompany
+                        dutyView
+                        dutyDetailView
+                    }
+                }
+                .onAppear{
+                    viewModel.clearResumeModel()
+                }
+                .scrollIndicators(.hidden)
+                .navigationBarBackButtonHidden()
+                
                 ResumeWriteButton(
                     action: {
                         Task {
@@ -34,23 +50,18 @@ struct MyCareerWriteView: View {
                     },
                     textEmpty: .constant(viewModel.isWriteButtonEnabled)
                 )
-                .padding(.bottom, 25)
+                .padding(.bottom, 16)
             }
         }
-        .onAppear{
-            viewModel.clearResumeModel()
+        .onTapGesture {
+            hideKeyboard()
         }
-        .navigationBarBackButtonHidden()
     }
 }
 
 extension MyCareerWriteView {
     private var MyCareerWriteTitleView: some View {
         Group {
-            BackButton() {
-                resumeCoordinator.pop()
-            }
-            
             HStack(alignment: .center, spacing: 0) {
                 Text("경력사항 추가")
                     .applyCertiFont(.sub_semibold_20)

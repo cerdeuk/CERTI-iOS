@@ -12,19 +12,35 @@ struct MyExtracurricularActivityWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                MyExtracurricularActivityTitleView
-                activityPeriodView
-                PeriodInputComponent(
-                        isFilled: $viewModel.isPeriodFilled,
-                        startAt: $viewModel.resumeModel.startAt,
-                        endAt: $viewModel.resumeModel.endAt
-                    )
-                organizeView
-                activityView
-                activityDetailView
-                Spacer()
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+            
+            VStack (alignment: .leading, spacing: 0) {
+                BackButton() {
+                    resumeCoordinator.pop()
+                }
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        MyExtracurricularActivityTitleView
+                        activityPeriodView
+                        PeriodInputComponent(
+                            isFilled: $viewModel.isPeriodFilled,
+                            startAt: $viewModel.resumeModel.startAt,
+                            endAt: $viewModel.resumeModel.endAt
+                        )
+                        organizeView
+                        activityView
+                        activityDetailView
+                    }
+                }
+                .onAppear{
+                    viewModel.clearResumeModel()
+                }
+                .navigationBarBackButtonHidden()
+                .scrollIndicators(.hidden)
+                
                 ResumeWriteButton(
                     action: {
                         Task {
@@ -35,23 +51,18 @@ struct MyExtracurricularActivityWriteView: View {
                     },
                     textEmpty: .constant(viewModel.isWriteButtonEnabled)
                 )
-                .padding(.bottom, 25)
+                .padding(.bottom, 16)
             }
         }
-        .onAppear{
-            viewModel.clearResumeModel()
+        .onTapGesture {
+            hideKeyboard()
         }
-        .navigationBarBackButtonHidden()
     }
 }
 
 extension MyExtracurricularActivityWriteView {
     private var MyExtracurricularActivityTitleView: some View {
         Group {
-            BackButton() {
-                resumeCoordinator.pop()
-            }
-            
             HStack(alignment: .center, spacing: 0) {
                 Text("대내외 활동 추가")
                     .applyCertiFont(.sub_semibold_20)

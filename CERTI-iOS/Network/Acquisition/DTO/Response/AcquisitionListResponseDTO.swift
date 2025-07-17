@@ -10,5 +10,5 @@ import Foundation
 typealias AcquisitionListResponseDTO = BaseResponseDTO<AcquisitionListData>
 
 struct AcquisitionListData: Decodable {
-    let getAcquisitionResponses: [CertificatedModel]
+    let acquisitionListDetailResponses: [CertificatedListModel]
 }
