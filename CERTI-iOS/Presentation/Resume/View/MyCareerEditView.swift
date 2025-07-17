@@ -54,9 +54,6 @@ struct MyCareerEditView: View {
                         HStack(alignment: .center, spacing: 0) {
                             ResumeActivityListComponent(model: item)
                                 .frame(height: 50)
-                                .onTapGesture {
-//                                    resumeCoordinator.push(next: .myCareerWriteView)
-                                }
                             
                             Button {
                                 isDeleteAlertPresented.toggle()
