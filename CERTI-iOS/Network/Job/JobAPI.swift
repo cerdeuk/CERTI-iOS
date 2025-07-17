@@ -11,6 +11,7 @@ import Moya
 
 enum JobAPI {
     case fetchJob
+    case editJob(request: EditJobRequestDTO)
 }
 
 extension JobAPI: BaseTargetType {
@@ -25,6 +26,8 @@ extension JobAPI: BaseTargetType {
         switch self {
         case .fetchJob:
             return "user/job"
+        case .editJob:
+            return "user/job"
         }
     }
     
@@ -32,6 +35,8 @@ extension JobAPI: BaseTargetType {
         switch self {
         case .fetchJob:
             return .get
+        case .editJob:
+            return .post
         }
     }
     
@@ -39,6 +44,8 @@ extension JobAPI: BaseTargetType {
         switch self {
         case .fetchJob:
             return .requestPlain
+        case .editJob(let request):
+            return .requestJSONEncodable(request)
         }
     }
 }
