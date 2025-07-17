@@ -42,10 +42,10 @@ extension BaseTargetType {
         }
         
         if let onboarding = self as? OnboardingAPI {
-            if case let .searchMajor(keyword, preSignUpToken) = onboarding {
+            if case let .searchMajor(_, preSignUpToken) = onboarding {
                 headers["Authorization"] = "Bearer \(preSignUpToken)"
                 return headers
-            } else if case let .searchUniv(keyword, preSignUpToken) = onboarding {
+            } else if case let .searchUniv(_, preSignUpToken) = onboarding {
                 headers["Authorization"] = "Bearer \(preSignUpToken)"
                 return headers
             }
@@ -56,14 +56,14 @@ extension BaseTargetType {
             return nil
             
         case .accessTokenHeader:
-                        guard let temporaryAccessToken = Bundle.main.infoDictionary?["TEMPORARY_ACCESS_TOKEN"] as? String else {
-                            fatalError("🚨TEMPORARY_ACCESS_TOKEN을 찾을 수 없습니다🚨")
-                        }
-                        headers["Authorization"] = "Bearer \(temporaryAccessToken)"
+//                        guard let temporaryAccessToken = Bundle.main.infoDictionary?["TEMPORARY_ACCESS_TOKEN"] as? String else {
+//                            fatalError("🚨TEMPORARY_ACCESS_TOKEN을 찾을 수 없습니다🚨")
+//                        }
+//                        headers["Authorization"] = "Bearer \(temporaryAccessToken)"
             
-//            if case .success(let token) = TokenManager.shared.getAccessToken() {
-//                headers["Authorization"] = "Bearer \(token)"
-//            }
+            if case .success(let token) = TokenManager.shared.getAccessToken() {
+                headers["Authorization"] = "Bearer \(token)"
+            }
             
             return headers
             

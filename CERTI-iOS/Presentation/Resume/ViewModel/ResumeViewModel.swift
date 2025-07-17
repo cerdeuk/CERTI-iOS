@@ -215,8 +215,8 @@ extension ResumeViewModel {
         let result = await activityService.addActivity(request: request)
 
         switch result {
-        case .success(let result):
-            logger.info("✅ 활동 추가 성공: \(result)")
+        case .success:
+            logger.info("✅ 활동 추가 성공")
         case .failure(let error):
             logger.error("❌ 활동 추가 실패: \(error.localizedDescription)")
         }

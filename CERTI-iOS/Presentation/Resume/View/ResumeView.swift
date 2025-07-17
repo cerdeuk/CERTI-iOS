@@ -213,7 +213,7 @@ extension ResumeView {
     
     private var ResumeMyCareerView: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if viewModel.careerDummy.isEmpty {
+            if viewModel.careersList.isEmpty {
                 VStack(alignment: .center, spacing: 0) {
                     Image(.imageEmpty)
                         .padding(.top, 60)
@@ -274,7 +274,7 @@ extension ResumeView {
     
     private var ResumeMyExtracurricularActivityView: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if viewModel.myExtracurricularActivityModelDummy.isEmpty {
+            if viewModel.activityList.isEmpty {
                 VStack(alignment: .center, spacing: 0) {
                     Image(.imageEmpty)
                         .padding(.top, 60)

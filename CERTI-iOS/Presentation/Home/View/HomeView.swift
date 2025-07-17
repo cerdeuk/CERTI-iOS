@@ -198,6 +198,11 @@ extension HomeView {
             ForEach(viewModel.homeStateModel.recommendLicenses.prefix(3)) { item in
                 RecommendLicenseCard(licenseCard: item)
                     .frame(maxWidth: .infinity)
+                    .onTapGesture {
+                        viewModel.selectedLicenseId = item.id
+                        homeCoordinator.push(next: .certificateDetail(id: viewModel.selectedLicenseId, beforeViewType: .home))
+                    }
+                
             }
         }
         .padding(.bottom, 36)
@@ -231,6 +236,10 @@ extension HomeView {
                 ForEach(viewModel.homeStateModel.preLicenses, id: \.certificationId) { item in
                     PreLicenseCard(licenseCard: item)
                         .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
+                        .onTapGesture {
+                            viewModel.selectedLicenseId = item.id
+                            homeCoordinator.push(next: .certificateDetail(id: viewModel.selectedLicenseId, beforeViewType: .home))
+                        }
                 }
             }
             .padding(.horizontal, 20)
@@ -279,6 +288,10 @@ extension HomeView {
             LazyHGrid(rows: rows, spacing: 12) {
                 ForEach(viewModel.homeStateModel.favoriteLicenses) { item in
                     FavoriteLicenseCard(viewModel: viewModel, licenseCard: item)
+                        .onTapGesture {
+                            viewModel.selectedLicenseId = item.id
+                            homeCoordinator.push(next: .certificateDetail(id: viewModel.selectedLicenseId, beforeViewType: .home))
+                        }
                 }
             }
             .padding(.horizontal, 20)
