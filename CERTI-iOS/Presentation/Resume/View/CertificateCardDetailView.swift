@@ -57,13 +57,13 @@ extension CertificateCardDetailView {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(card.name)
                         .applyCertiFont(.body_bold_18)
-                        .foregroundStyle(.grayscale600)
+                        .foregroundStyle(card.index == 2 ?  .lightblue : .grayscale600)
                         .frame(height: 25)
                         .padding(.leading, 20)
                     
                     Text("\(card.createdAt.toDisplayDateString())에 획득했어요.")
                         .applyCertiFont(.caption_regular_14)
-                        .foregroundStyle(.grayscale600)
+                        .foregroundStyle(card.index == 2 ?  .lightblue : .grayscale600)
                         .frame(height: 20)
                         .padding(.leading, 20)
                     
@@ -77,17 +77,18 @@ extension CertificateCardDetailView {
                     HStack(alignment: .center, spacing: 0) {
                         Spacer()
                         
-                        VStack(alignment: .leading, spacing: 0) {
+                        VStack(alignment: .center, spacing: 0) {
                             Text("터치해서 뒷면 보기")
                                 .applyCertiFont(.caption_regular_12)
-                                .foregroundStyle(.mainblue)
-                                .frame(height: 18)
+                                .foregroundStyle(card.index == 2 ?  .lightblue : .mainblue)
+                                .padding(.top, 4)
                             
                             Rectangle()
-                                .frame(width: 90, height: 1)
-                                .foregroundStyle(.mainblue)
+                                .frame(width: 85, height: 1)
+                                .foregroundStyle(card.index == 2 ?  .lightblue : .mainblue)
                                 .padding(.top, 4)
                         }
+                        .frame(height: 26)
                         .padding(.trailing, 15)
                         .padding(.bottom, 12)
                     }
