@@ -38,5 +38,12 @@ struct ResumeCoordinatorView: View {
                 tabCoordinator.isTabBarHidden = true
             }
         }
+        .onChange(of: resumeViewModel.isCardDetailPresented) { state in
+            if state {
+                tabCoordinator.isTabBarHidden = true
+            } else {
+                tabCoordinator.isTabBarHidden = false
+            }
+        }
     }
 }

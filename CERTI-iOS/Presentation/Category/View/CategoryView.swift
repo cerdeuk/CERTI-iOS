@@ -18,7 +18,7 @@ struct CategoryView: View {
             CategoryTabBar(
                         selectedCategory: $viewModel.selectedCategory,
                         onSearchTapped: {
-                            categoryCoordinator.push(next: .detail)
+                            categoryCoordinator.push(next: .search)
                         }
                     )
             

@@ -11,15 +11,15 @@ struct RecommendCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
 
     @ObservedObject var recommendCoordinator: RecommendCoordinator
-    @StateObject var viewModel = RecommendViewModel()
+    @StateObject var recommendViewModel = RecommendViewModel()
 
     var body: some View {
         NavigationStack(path: $recommendCoordinator.path) {
-            RecommendView(viewModel: viewModel)
+            RecommendView(viewModel: recommendViewModel)
                 .navigationDestination(for: RecommendRoute.self) { route in
                     switch route {
                     case .detail:
-                        RecommendDetailView(viewmodel: viewModel)
+                        CertificateDetailView(certificationId: $recommendViewModel.selectedCertificateId, beforeViewType: .recommend)
                     }
                 }
         }
@@ -29,6 +29,13 @@ struct RecommendCoordinatorView: View {
                 tabCoordinator.isTabBarHidden = false
             } else {
                 tabCoordinator.isTabBarHidden = true
+            }
+        }
+        .onChange(of: recommendViewModel.isShowLoading) { loadingState in
+            if loadingState {
+                tabCoordinator.isTabBarHidden = true
+            } else {
+                tabCoordinator.isTabBarHidden = false
             }
         }
     }

@@ -27,6 +27,8 @@ final class ResumeViewModel: ObservableObject {
         place: "",
         discription: ""
     )
+    @Published var isCardDetailPresented = false
+    
     var isWriteButtonEnabled: Bool {
         !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
     }
@@ -35,8 +37,6 @@ final class ResumeViewModel: ObservableObject {
     private let careersService = NetworkService.shared.careersService
     private let activityService = NetworkService.shared.activityService
 
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
-    
     func clearResumeModel() {
         resumeModel = ResumeModel(
             startAt: "",
@@ -47,6 +47,7 @@ final class ResumeViewModel: ObservableObject {
         )
         isPeriodFilled = false
     }
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "resume")
 }
 
 
@@ -100,7 +101,6 @@ extension ResumeViewModel {
             }
             
             self.acquisitionDetail = data
-//            logger.debug("✅ getAcquisitionDetail success: \(data)")
             
         case .failure(let error):
             logger.error("getAcquisitionDetail failed: \(error.localizedDescription)")
@@ -153,8 +153,8 @@ extension ResumeViewModel {
         switch result {
         case .success(let result):
             logger.info("✅ 경력 추가 성공: \(result)")
-        case .failure(_): break
-//            logger.error("❌ 경력 추가 실패: \(error.localizedDescription)")
+        case .failure(let error):
+            logger.error("❌ 경력 추가 실패: \(error.localizedDescription)")
         }
     }
     
@@ -187,6 +187,19 @@ extension ResumeViewModel {
             
         case .failure(let error):
             logger.error("getActivityList failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteActivity(id: Int) async {
+        let result = await activityService.deleteActivity(id: id)
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 대내외 활동 삭제 성공")
+            activityList.removeAll { $0.activityId == id }
+
+        case .failure(let error):
+            logger.error("대내외 활동 삭제 failed: \(error.localizedDescription)")
         }
     }
 
