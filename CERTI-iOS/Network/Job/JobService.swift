@@ -11,6 +11,7 @@ import Moya
 
 protocol JobsServiceProtocol {
     func getFetchJob() async -> Result<JobListResponseDTO, NetworkError>
+    func editJob(jobNameList: [String]) async -> Result<Void, NetworkError>
 }
 
 final class JobService: BaseService, JobsServiceProtocol {
@@ -18,5 +19,9 @@ final class JobService: BaseService, JobsServiceProtocol {
 
     func getFetchJob() async -> Result<JobListResponseDTO, NetworkError> {
         return await requestDecodable(provider, .fetchJob)
+    }
+    func editJob(jobNameList: [String]) async -> Result<Void, NetworkError> {
+        let requestDTO = EditJobRequestDTO(jobNameList: jobNameList)
+        return await requestVoid(provider, .editJob(request: requestDTO))
     }
 }
