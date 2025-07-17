@@ -24,6 +24,7 @@ struct HomeStateModel {
 @MainActor
 final class HomeViewModel: ObservableObject {
     @Published var homeStateModel = HomeStateModel()
+    @Published var selectedLicenseId: Int = 0
     
     func toggleFavorite(id: Int) {
         guard let index = homeStateModel.favoriteLicenses.firstIndex(where: { $0.certificationId == id }) else { return }
