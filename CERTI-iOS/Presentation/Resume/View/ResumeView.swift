@@ -171,8 +171,10 @@ extension ResumeView {
                                         Task {
                                             await viewModel.getAcquisitionDetail(id: cardItem.acquisitionId)
                                             selectedCard = viewModel.acquisitionDetail
-                                            
-                                            viewModel.isCardDetailPresented.toggle()
+
+                                            if selectedCard != nil {
+                                                viewModel.isCardDetailPresented = true
+                                            }
                                         }
                                     }
                             }
