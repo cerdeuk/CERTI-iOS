@@ -25,14 +25,19 @@ struct RecommendView: View {
         }
         .sheet(isPresented: $viewModel.isFilterModalPresented) {
             RecommendFilterModalView(selectedCategories: $viewModel.selectedCategories, viewModel: viewModel)
-                .presentationDetents([.height(548)])
+                .presentationDetents([.height(523)])
                 .presentationCornerRadius(40)
-                .presentationDragIndicator(.visible)
+                .presentationDragIndicator(.hidden)
         }
         .onAppear {
             Task {
                 await viewModel.getRecommendCertificationList()
                 await viewModel.getJobList()
+            }
+        }
+        .overlay {
+            if viewModel.isShowLoading {
+                CertiLoadingView(name: AuthManager.shared.nickname)
             }
         }
     }

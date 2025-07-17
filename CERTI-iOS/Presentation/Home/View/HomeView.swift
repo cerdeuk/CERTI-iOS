@@ -205,6 +205,7 @@ extension HomeView {
                 
             }
         }
+        .frame(height: 264)
         .padding(.bottom, 36)
     }
     

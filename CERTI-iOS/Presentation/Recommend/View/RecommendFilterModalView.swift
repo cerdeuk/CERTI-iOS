@@ -33,7 +33,7 @@ struct RecommendFilterModalView: View {
                 .foregroundStyle(.grayscale600)
                 .frame(height: 24)
                 .padding(.leading, 20)
-                .padding(.top, 73)
+                .padding(.top, 48)
             
             Text("희망직무/분야 재설정하기")
                 .applyCertiFont(.caption_semibold_14)
@@ -75,9 +75,13 @@ struct RecommendFilterModalView: View {
     
     private var ApplyButton: some View {
         Button {
+            viewModel.toggleLoadingState()
             selectedCategories = tempSelectedCategories
             Task{
                 await viewModel.postJobList(jobNameList: selectedCategories)
+                try await Task.sleep(for: .seconds(2))
+                viewModel.selectedCategories = tempSelectedCategories
+                viewModel.toggleLoadingState()
             }
             dismiss()
         } label: {
