@@ -37,7 +37,7 @@ struct SearchBar: View {
                     Image(.iconSearch24)
                 }
             }
-            .padding(.vertical, 16)
+            .padding(.vertical, 17)
             .padding(.horizontal,12)
         }
         .frame(height: 56)
