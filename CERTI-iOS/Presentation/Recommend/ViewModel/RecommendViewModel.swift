@@ -24,6 +24,8 @@ class RecommendViewModel: ObservableObject {
     
     private let jobService = NetworkService.shared.jobService
 
+    @Published var isShowLoading: Bool = false
+    
     var interestTags: [String] {
         selectedCategories.map(\.description)
     }
@@ -35,6 +37,10 @@ class RecommendViewModel: ObservableObject {
     
     func selectCertificate(id: Int) {
         selectedCertificateId = id
+    }
+    
+    func toggleLoadingState() {
+        isShowLoading.toggle()
     }
 }
 

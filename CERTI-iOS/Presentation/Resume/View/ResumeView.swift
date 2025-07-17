@@ -10,7 +10,6 @@ import SwiftUI
 struct ResumeView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
-    @State var isPresented = false
     @State private var selectedCard: CertificatedModel? = nil
 
     let columns = [GridItem(.flexible())]
@@ -32,12 +31,12 @@ struct ResumeView: View {
         .scrollIndicators(.hidden)
         .overlay(
             Group {
-                if isPresented, let selectedCard {
+                if viewModel.isCardDetailPresented, let selectedCard {
                     ZStack {
                         Color.black.opacity(0.4)
                             .ignoresSafeArea()
                             .onTapGesture {
-                                isPresented = false
+                                viewModel.isCardDetailPresented = false
                             }
                         
                         CertificateCardDetailView(card: selectedCard)
@@ -170,7 +169,7 @@ extension ResumeView {
                                 CeritificateCardComponent(model: cardItem)
                                     .onTapGesture {
                                         selectedCard = cardItem
-                                        isPresented.toggle()
+                                        viewModel.isCardDetailPresented.toggle()
                                     }
                             }
                         }

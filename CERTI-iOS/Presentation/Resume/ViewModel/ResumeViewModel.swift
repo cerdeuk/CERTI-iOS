@@ -26,6 +26,8 @@ final class ResumeViewModel: ObservableObject {
         place: "",
         discription: ""
     )
+    @Published var isCardDetailPresented = false
+    
     var isWriteButtonEnabled: Bool {
         !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
     }

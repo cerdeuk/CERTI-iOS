@@ -31,5 +31,12 @@ struct RecommendCoordinatorView: View {
                 tabCoordinator.isTabBarHidden = true
             }
         }
+        .onChange(of: recommendViewModel.isShowLoading) { loadingState in
+            if loadingState {
+                tabCoordinator.isTabBarHidden = true
+            } else {
+                tabCoordinator.isTabBarHidden = false
+            }
+        }
     }
 }
