@@ -140,8 +140,8 @@ extension ResumeViewModel {
         let result = await careersService.addCareer(request: request)
 
         switch result {
-        case .success(let response):
-            logger.info("✅ 경력 추가 성공: \(response)")
+        case .success(let result):
+            logger.info("✅ 경력 추가 성공: \(result)")
         case .failure(let error):
             logger.error("❌ 경력 추가 실패: \(error.localizedDescription)")
         }

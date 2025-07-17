@@ -29,6 +29,7 @@ struct MyCareerWriteView: View {
                     action: {
                         Task {
                             await viewModel.addCareer(resumeModel: viewModel.resumeModel)
+                            resumeCoordinator.pop()
                         }
                     },
                     textEmpty: .constant(viewModel.isWriteButtonEnabled)
