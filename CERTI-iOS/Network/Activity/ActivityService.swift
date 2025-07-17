@@ -11,6 +11,7 @@ import Moya
 
 protocol ActivityServiceProtocol {
     func fetchActivityList() async -> Result<ActivityListResponseDTO, NetworkError>
+    func addActivity(request: AddActivityRequestDTO) async -> Result<Bool, NetworkError>
 }
 
 final class ActivityService: BaseService, ActivityServiceProtocol {
@@ -18,5 +19,9 @@ final class ActivityService: BaseService, ActivityServiceProtocol {
     
     func fetchActivityList() async -> Result<ActivityListResponseDTO, NetworkError> {
         return await requestDecodable(provider, .fetchActivityList)
+    }
+    
+    func addActivity(request: AddActivityRequestDTO) async -> Result<Bool, NetworkError> {
+        return await requestDecodable(provider, .addActivity(request: request))
     }
 }

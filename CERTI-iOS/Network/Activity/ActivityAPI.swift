@@ -11,6 +11,8 @@ import Moya
 
 enum ActivityAPI {
     case fetchActivityList
+    case addActivity(request: AddActivityRequestDTO)
+
 }
 
 extension ActivityAPI: BaseTargetType {
@@ -25,6 +27,8 @@ extension ActivityAPI: BaseTargetType {
         switch self {
         case .fetchActivityList:
             return "activity"
+        case .addActivity:
+            return "activity"
         }
     }
     
@@ -32,6 +36,8 @@ extension ActivityAPI: BaseTargetType {
         switch self {
         case .fetchActivityList:
             return .get
+        case .addActivity:
+            return .post
         }
     }
     
@@ -39,6 +45,8 @@ extension ActivityAPI: BaseTargetType {
         switch self {
         case .fetchActivityList:
             return .requestPlain
+        case .addActivity(let request):
+            return .requestJSONEncodable(request)
         }
     }
     
