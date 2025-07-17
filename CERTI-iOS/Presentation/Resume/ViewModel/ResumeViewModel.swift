@@ -144,7 +144,7 @@ extension ResumeViewModel {
         case .success(let result):
             logger.info("✅ 경력 추가 성공: \(result)")
         case .failure(let error):
-//            logger.error("❌ 경력 추가 실패: \(error.localizedDescription)")
+            logger.error("❌ 경력 추가 실패: \(error.localizedDescription)")
         }
     }
     
