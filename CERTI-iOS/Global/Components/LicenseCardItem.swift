@@ -38,7 +38,7 @@ struct LicenseCardItem: View {
                     
                     Spacer()
                     
-                    HStack(alignment: .center, spacing: 4) {
+                    HStack(alignment: .center, spacing: 0) {
                         Image(.iconPaper16)
                         Text(model.testType)
                             .applyCertiFont(.caption_regular_12)
