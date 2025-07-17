@@ -27,6 +27,8 @@ final class ResumeViewModel: ObservableObject {
         place: "",
         discription: ""
     )
+    @Published var isCardDetailPresented = false
+    
     var isWriteButtonEnabled: Bool {
         !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
     }
@@ -35,7 +37,7 @@ final class ResumeViewModel: ObservableObject {
     private let careersService = NetworkService.shared.careersService
     private let activityService = NetworkService.shared.activityService
 
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "resume")
 }
 
 
@@ -89,7 +91,6 @@ extension ResumeViewModel {
             }
             
             self.acquisitionDetail = data
-//            logger.debug("✅ getAcquisitionDetail success: \(data)")
             
         case .failure(let error):
             logger.error("getAcquisitionDetail failed: \(error.localizedDescription)")

@@ -24,32 +24,26 @@ struct RecommendView: View {
                 .padding(.horizontal, 20)
         }
         .sheet(isPresented: $viewModel.isFilterModalPresented) {
-            RecommendFilterModalView(selectedCategories: $viewModel.selectedCategories)
+            RecommendFilterModalView(selectedCategories: $viewModel.selectedCategories, viewModel: viewModel)
                 .presentationDetents([.height(548)])
                 .presentationCornerRadius(40)
                 .presentationDragIndicator(.visible)
+        }
+        .onAppear {
+            Task {
+                await viewModel.getRecommendCertificationList()
+                await viewModel.getJobList()
+            }
         }
     }
     
     private var RecommendViewHeader: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 0) {
-                Button {
-                    recommendCoordinator.push(next: .detail)
-                } label: {
+                Group {
                     Text.trimmedUsername(viewModel.username)
-                        .applyCertiFont(.sub_bold_20)
-                        .foregroundStyle(.grayscale600)
-                        .frame(height: 26)
+                    Text("님에게 추천하는 자격증")
                 }
-                Text("님에게 추천하는 자격증")
-                    .foregroundStyle(.grayscale600)
-                    .frame(height: 26)
-
-//                Group {
-//                    Text.trimmedUsername(username)
-//                    Text("님에게 추천하는 자격증")
-//                }
                 .applyCertiFont(.sub_bold_20)
                 .foregroundStyle(.grayscale600)
                 .frame(height: 26)

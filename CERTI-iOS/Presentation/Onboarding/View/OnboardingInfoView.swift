@@ -13,6 +13,7 @@ struct OnboardingInfoView: View {
     @ObservedObject var viewModel: OnboardingViewModel
 
     @State private var username = AuthManager.shared.nickname
+    @State private var isShowLoadingView = false
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -97,11 +98,14 @@ struct OnboardingInfoView: View {
                 Spacer()
                 
                 Button {
+                    isShowLoadingView = true
                     Task {
                         let success = await viewModel.completeSignUp()
                         if success {
+                            try await Task.sleep(for: .seconds(2))
                             appCoordinator.completeOnboarding()
                             onboardingCoordinator.reset()
+                            isShowLoadingView = false
                         } else {
                             print("회원가입 실패")
                         }
@@ -119,6 +123,11 @@ struct OnboardingInfoView: View {
 
             }
 
+        }
+        .overlay {
+            if isShowLoadingView {
+                CertiLoadingView()
+            }
         }
     }
 }
