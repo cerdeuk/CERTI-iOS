@@ -10,12 +10,14 @@ import SwiftUI
 struct CertiLoadingView: View {
     @State private var offset: CGFloat = 0
     @State var isAnimating: Bool = false
-
+    
+    let name: String
+    
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            VStack(alignment: .center, spacing: 0) {
                 Spacer()
-                HStack {
+                HStack(alignment: .center, spacing: 0) {
                     Spacer()
                     
                     ZStack(alignment: .center) {
@@ -40,11 +42,16 @@ struct CertiLoadingView: View {
                         Image(.loading)
                             .offset(y: isAnimating ? 0 : -10)
                             .animation(.easeInOut.repeatForever().speed(0.3), value: isAnimating)
-
                     }
                     
                     Spacer()
                 }
+                .padding(.bottom, 20)
+                
+                Text("\(Text.trimmedUsername(name))님에게 딱 맞는\n자격증을 고르고 있어요.")
+                    .applyCertiFont(.body_semibold_16)
+                    .multilineTextAlignment(.center)
+                
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -56,5 +63,5 @@ struct CertiLoadingView: View {
     }
 }
 #Preview {
-    CertiLoadingView()
+    CertiLoadingView(name: "김서티222")
 }
