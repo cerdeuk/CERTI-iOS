@@ -172,7 +172,7 @@ extension ResumeView {
                                             await viewModel.getAcquisitionDetail(id: cardItem.acquisitionId)
                                             selectedCard = viewModel.acquisitionDetail
                                             
-                                            isPresented.toggle()
+                                            viewModel.isCardDetailPresented.toggle()
                                         }
                                     }
                             }
