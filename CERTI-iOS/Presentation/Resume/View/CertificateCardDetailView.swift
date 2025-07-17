@@ -125,7 +125,7 @@ extension CertificateCardDetailView {
                         .frame(height: 23)
                         .padding(.top, 8)
                     
-                    Text("\(card.description)".antiAppleBySangyup)
+                    Text("\(card.description ?? "")".antiAppleBySangyup)
                         .applyCertiFont(.caption_regular_12)
                         .foregroundStyle(.white)
                         .padding(.top, 36)
