@@ -12,7 +12,7 @@ import Moya
 protocol ActivityServiceProtocol {
     func fetchActivityList() async -> Result<ActivityListResponseDTO, NetworkError>
     func deleteActivity(id: Int) async -> Result<Void, NetworkError>
-    func addActivity(request: AddActivityRequestDTO) async -> Result<Bool, NetworkError>
+    func addActivity(request: AddActivityRequestDTO) async -> Result<Void, NetworkError>
 }
 
 final class ActivityService: BaseService, ActivityServiceProtocol {
@@ -26,7 +26,7 @@ final class ActivityService: BaseService, ActivityServiceProtocol {
         return await requestVoid(provider, .deleteActivity(id: id))
     }
     
-    func addActivity(request: AddActivityRequestDTO) async -> Result<Bool, NetworkError> {
-        return await requestDecodable(provider, .addActivity(request: request))
+    func addActivity(request: AddActivityRequestDTO) async -> Result<Void, NetworkError> {
+        return await requestVoid(provider, .addActivity(request: request))
     }
 }

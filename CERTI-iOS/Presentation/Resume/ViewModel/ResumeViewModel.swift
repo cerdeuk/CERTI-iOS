@@ -217,8 +217,8 @@ extension ResumeViewModel {
         switch result {
         case .success(let result):
             logger.info("✅ 활동 추가 성공: \(result)")
-        case .failure(_): break
-//            logger.error("❌ 활동 추가 실패: \(error.localizedDescription)")
+        case .failure(let error):
+            logger.error("❌ 활동 추가 실패: \(error.localizedDescription)")
         }
     }
 }
