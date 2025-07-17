@@ -34,7 +34,7 @@ final class ResumeViewModel: ObservableObject {
     private let careersService = NetworkService.shared.careersService
     private let activityService = NetworkService.shared.activityService
 
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "resume")
 }
 
 
