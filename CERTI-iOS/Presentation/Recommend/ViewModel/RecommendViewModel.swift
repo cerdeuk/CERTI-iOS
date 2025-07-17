@@ -37,6 +37,8 @@ class RecommendViewModel: ObservableObject {
     
     func selectCertificate(id: Int) {
         selectedCertificateId = id
+    }
+    
     func toggleLoadingState() {
         isShowLoading.toggle()
     }

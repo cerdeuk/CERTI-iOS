@@ -12,7 +12,6 @@ struct RecommendFilterModalView: View {
     @Binding var selectedCategories: [String]
     @State private var tempSelectedCategories: [String] = []
     @ObservedObject var viewModel: RecommendViewModel
-    @State private var tempSelectedCategories: [JobCategory] = []
     
     var body: some View {
         VStack(spacing: 0) {
