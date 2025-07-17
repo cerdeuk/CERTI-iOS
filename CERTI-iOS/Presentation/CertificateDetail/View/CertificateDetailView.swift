@@ -74,11 +74,15 @@ struct CertificateDetailView: View {
                     .opacity(opacity)
                     .onAppear {
                         withAnimation(.easeOut(duration: 2.0)) {
-                            opacity = 0
+                            opacity = 1
                         }
                         Task {
-                            try? await Task.sleep(nanoseconds: 2_000_000_000)
-                            viewmodel.showFailToBeAcquired = false
+                            try? await Task.sleep(nanoseconds: 1_000_000_000)
+                            withAnimation(.easeOut(duration: 1.0)) {
+                                opacity = 0
+                            }
+                            try? await Task.sleep(nanoseconds: 1_000_000_000)
+                            viewmodel.showSuccessToBeAcquired = false
                             opacity = 1
                         }
                     }
@@ -91,10 +95,14 @@ struct CertificateDetailView: View {
                     .opacity(opacity)
                     .onAppear {
                         withAnimation(.easeOut(duration: 2.0)) {
-                            opacity = 0
+                            opacity = 1
                         }
                         Task {
-                            try? await Task.sleep(nanoseconds: 2_000_000_000)
+                            try? await Task.sleep(nanoseconds: 1_000_000_000)
+                            withAnimation(.easeOut(duration: 1.0)) {
+                                opacity = 0
+                            }
+                            try? await Task.sleep(nanoseconds: 1_000_000_000)
                             viewmodel.showFailToBeAcquired = false
                             opacity = 1
                         }
@@ -108,11 +116,15 @@ struct CertificateDetailView: View {
                     .opacity(opacity)
                     .onAppear {
                         withAnimation(.easeOut(duration: 2.0)) {
-                            opacity = 0
+                            opacity = 1
                         }
                         Task {
-                            try? await Task.sleep(nanoseconds: 2_000_000_000)
-                            viewmodel.showFailToBeAcquired = false
+                            try? await Task.sleep(nanoseconds: 1_000_000_000)
+                            withAnimation(.easeOut(duration: 1.0)) {
+                                opacity = 0
+                            }
+                            try? await Task.sleep(nanoseconds: 1_000_000_000)
+                            viewmodel.showFailAcquired = false
                             opacity = 1
                         }
                     }
@@ -298,7 +310,9 @@ struct CertificateDetailView: View {
     
     private var ToBeAcquiredButton: some View {
         Button {
-            viewmodel.showFailToBeAcquired = true
+            Task {
+                await viewmodel.appendPreCertification(certification: certificationId)
+            }
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)

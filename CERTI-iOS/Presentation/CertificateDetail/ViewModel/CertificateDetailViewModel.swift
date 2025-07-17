@@ -61,11 +61,21 @@ extension CertificateDetailViewModel {
         let result = await homeService.addPreCertification(certificationId: certification)
         
         switch result {
-        case .success(_):
-            logger.debug("✅ appendPreCertification success")
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ appendPreCertification: No data received")
+                return
+            }
+            
+            if data {
+                showSuccessToBeAcquired = true
+            } else {
+                showFailToBeAcquired = true
+            }
+            homeLogger.debug("✅ appendPreCertification success: \(data)")
             
         case .failure(let error):
-            logger.error("appendPreCertification failed: \(error.localizedDescription)")
+            homeLogger.error("appendPreCertification failed: \(error.localizedDescription)")
         }
     }
 }
