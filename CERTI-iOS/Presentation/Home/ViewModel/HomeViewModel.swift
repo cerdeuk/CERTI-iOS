@@ -61,6 +61,7 @@ extension HomeViewModel {
             homeStateModel.userUniversity = response.data?.university ?? ""
             homeStateModel.userDepartment = response.data?.major ?? ""
             homeStateModel.progressValue = response.data?.percentage ?? 0
+            AuthManager.shared.nickname = response.data?.name ?? ""
             
         case .failure(let error):
             logger.error("❌ 탈퇴 실패: \(error.localizedDescription)")

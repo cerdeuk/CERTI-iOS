@@ -75,9 +75,13 @@ struct RecommendFilterModalView: View {
     
     private var ApplyButton: some View {
         Button {
+            viewModel.toggleLoadingState()
             selectedCategories = tempSelectedCategories
             Task{
                 await viewModel.postJobList(jobNameList: selectedCategories)
+                try await Task.sleep(for: .seconds(2))
+                viewModel.selectedCategories = tempSelectedCategories
+                viewModel.toggleLoadingState()
             }
             dismiss()
         } label: {
