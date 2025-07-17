@@ -27,6 +27,7 @@ struct ActivityDetailResponseDTO: Decodable, Identifiable {
 extension ActivityDetailResponseDTO {
     func toResumeModel() -> ResumeModel {
         ResumeModel(
+            activityId: activityId,
             startAt: startAt,
             endAt: endAt,
             name: name,

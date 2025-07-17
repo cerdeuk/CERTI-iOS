@@ -16,6 +16,7 @@ final class ResumeViewModel: ObservableObject {
     @Published var certificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
     @Published var jobList: [String] = []
     @Published var acquisitionList: [CertificatedModel] = []
+    @Published var acquisitionDetail: CertificatedModel = CertificatedModel(acquisitionId: 0, index: 0, name: "", createdAt: "", cardFrontImageUrl: "", cardBackImageUrl: "", tags: [], description: "")
     @Published var careersList: [ResumeModel] = []
     @Published var activityList: [ResumeModel] = []
     @Published var isPeriodFilled: Bool = false
@@ -79,6 +80,37 @@ extension ResumeViewModel {
         }
     }
     
+    func getAcquisitionDetail(id: Int) async {
+        let result = await acquisitionService.fetchAcquisitionDetail(id: id)
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ getAcquisitionDetail: No data received")
+                return
+            }
+            
+            self.acquisitionDetail = data
+            
+        case .failure(let error):
+            logger.error("getAcquisitionDetail failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteAcquisition(id: Int) async {
+        let result = await acquisitionService.deleteAcquisition(id: id)
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 취득한 자격증 삭제 성공")
+            acquisitionList.removeAll { $0.acquisitionId == id }
+
+        case .failure(let error):
+            logger.error("취득한 자격증 삭제 failed: \(error.localizedDescription)")
+        }
+    }
+
+    
     func getCareersList() async {
         let result = await careersService.fetchCareersList()
         
@@ -96,6 +128,20 @@ extension ResumeViewModel {
             logger.error("getCareersList failed: \(error.localizedDescription)")
         }
     }
+    
+    func deleteCareers(id: Int) async {
+        let result = await careersService.deledteCareers(id: id)
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 취득한 자격증 삭제 성공")
+            careersList.removeAll { $0.careerId == id }
+
+        case .failure(let error):
+            logger.error("취득한 자격증 삭제 failed: \(error.localizedDescription)")
+        }
+    }
+
 
     func getActivityList() async {
         let result = await activityService.fetchActivityList()
@@ -112,6 +158,19 @@ extension ResumeViewModel {
             
         case .failure(let error):
             logger.error("getActivityList failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteActivity(id: Int) async {
+        let result = await activityService.deleteActivity(id: id)
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 대내외 활동 삭제 성공")
+            activityList.removeAll { $0.activityId == id }
+
+        case .failure(let error):
+            logger.error("대내외 활동 삭제 failed: \(error.localizedDescription)")
         }
     }
 

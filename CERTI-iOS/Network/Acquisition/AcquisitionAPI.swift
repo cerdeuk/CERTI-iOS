@@ -12,6 +12,8 @@ import Moya
 enum AcquisitionAPI {
     case fetchAcquisitionList
     case addAcquisition(certificationId: Int)
+    case fetchAcquisitionDetail(id: Int)
+    case deleteAcquisition(id: Int)
 }
 
 extension AcquisitionAPI: BaseTargetType {
@@ -28,6 +30,10 @@ extension AcquisitionAPI: BaseTargetType {
             return "acquisition"
         case .addAcquisition(let certificationId):
             return "acquisition/\(certificationId)"
+        case .fetchAcquisitionDetail(let id):
+            return "acquisition/\(id)"
+        case .deleteAcquisition(let id):
+            return "acquisition/\(id)"
         }
     }
     
@@ -37,6 +43,10 @@ extension AcquisitionAPI: BaseTargetType {
             return .get
         case .addAcquisition:
             return .post
+        case .fetchAcquisitionDetail:
+            return .get
+        case .deleteAcquisition:
+            return .delete
         }
     }
     
@@ -45,6 +55,10 @@ extension AcquisitionAPI: BaseTargetType {
         case .fetchAcquisitionList:
             return .requestPlain
         case .addAcquisition:
+            return .requestPlain
+        case .fetchAcquisitionDetail:
+            return .requestPlain
+        case .deleteAcquisition:
             return .requestPlain
         }
     }

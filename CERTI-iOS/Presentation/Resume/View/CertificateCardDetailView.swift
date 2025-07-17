@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Kingfisher
+
 struct CertificateCardDetailView: View {
     let card: CertificatedModel
     @State private var rotation: Double = 0
@@ -44,7 +46,11 @@ struct CertificateCardDetailView: View {
 extension CertificateCardDetailView {
     private var CertificateCardDetailViewFront: some View {
             ZStack {
-                Image("\(card.cardFrontImageUrl)")
+                KFImage(URL(string: card.cardFrontImageUrl))
+                    .retry(maxCount: 3, interval: .seconds(5))
+                    .onFailure { error in
+                        print("Image Failure: \(error.localizedDescription)")
+                    }
                     .resizable()
                     .scaledToFill()
                 
@@ -96,7 +102,11 @@ extension CertificateCardDetailView {
     
     private var CertificateCardDetailViewBack: some View {
             ZStack{
-                Image("\(card.cardBackImageUrl)")
+                KFImage(URL(string: card.cardBackImageUrl))
+                    .retry(maxCount: 3, interval: .seconds(5))
+                    .onFailure { error in
+                        print("Image Failure: \(error.localizedDescription)")
+                    }
                     .resizable()
                     .scaledToFill()
                 
