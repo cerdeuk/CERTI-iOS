@@ -20,10 +20,9 @@ class RecommendViewModel: ObservableObject {
     @Published var selectedCertificateId: Int = 0
     
     private let recommendService = NetworkService.shared.certificationService
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Recommend")
     
     private let jobService = NetworkService.shared.jobService
-    private let jobLogger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
 
     var interestTags: [String] {
         selectedCategories.map(\.description)
@@ -76,15 +75,15 @@ extension RecommendViewModel {
         switch result {
         case .success(let response):
             guard let data = response.data else {
-                jobLogger.error("❌ getJobList: No data received")
+                logger.error("❌ getJobList: No data received")
                 return
             }
             
             self.selectedCategories = data.jobList
-            jobLogger.debug("✅ getJobList success: \(data.jobList)")
+            logger.debug("✅ getJobList success: \(data.jobList)")
             
         case .failure(let error):
-            jobLogger.error("getJobList failed: \(error.localizedDescription)")
+            logger.error("getJobList failed: \(error.localizedDescription)")
         }
     }
     
@@ -93,10 +92,10 @@ extension RecommendViewModel {
         
         switch result {
         case .success(_):
-            jobLogger.debug("✅ editJob: No data success")
+            logger.debug("✅ editJob: No data success")
             
         case .failure(let error):
-            jobLogger.error("editJob failed: \(error.localizedDescription)")
+            logger.error("editJob failed: \(error.localizedDescription)")
         }
     }
 }
