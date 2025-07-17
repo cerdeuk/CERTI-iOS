@@ -11,6 +11,7 @@ struct MyCareerEditView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     @State var isDeleteAlertPresented = false
+    @State var selectedCareersIndex : Int? = nil
     
     let columns = [GridItem(.flexible())]
     
@@ -54,11 +55,12 @@ struct MyCareerEditView: View {
                             ResumeActivityListComponent(model: item)
                                 .frame(height: 50)
                                 .onTapGesture {
-                                    resumeCoordinator.push(next: .myCareerWriteView)
+//                                    resumeCoordinator.push(next: .myCareerWriteView)
                                 }
                             
                             Button {
                                 isDeleteAlertPresented.toggle()
+                                selectedCareersIndex = item.careerId
                             } label: {
                                 Image(.iconClose36)
                             }
@@ -74,6 +76,10 @@ struct MyCareerEditView: View {
             
             if isDeleteAlertPresented {
                 CertiDeleteAlertView {
+                    Task {
+                        guard let deleteIndex = selectedCareersIndex else { return }
+                        await viewModel.deleteCareers(id: deleteIndex)
+                    }
                     isDeleteAlertPresented = false
                     print("확인 버튼 클릭")
                 } onCancel: {
