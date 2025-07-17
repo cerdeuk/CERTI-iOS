@@ -22,14 +22,14 @@ struct MyCertificateEditView: View {
                     resumeCoordinator.pop()
                 }
                 
-                Text("취득한 자격증")
-                    .applyCertiFont(.sub_semibold_20)
-                    .foregroundStyle(.grayscale600)
-                    .frame(height: 26)
-                    .padding(.top, 24)
-                    .padding(.leading, 20)
-                
                 ScrollView(.vertical) {
+                    VStack(alignment: .leading, spacing: 0) {
+                    Text("취득한 자격증")
+                        .applyCertiFont(.sub_semibold_20)
+                        .foregroundStyle(.grayscale600)
+                        .frame(height: 26)
+                        .padding(.bottom, 36)
+                    
                     LazyVGrid(columns: columns, spacing: 24) {
                         ForEach(viewModel.acquisitionList) { cardItem in
                             HStack(alignment: .center, spacing: 0) {
@@ -49,8 +49,9 @@ struct MyCertificateEditView: View {
                     }
                     .frame(width: 264)
                 }
+                    .padding(.top, 24)
+                }
                 .scrollIndicators(.hidden)
-                .padding(.top, 36)
                 .padding(.leading, 20)
                 
             }

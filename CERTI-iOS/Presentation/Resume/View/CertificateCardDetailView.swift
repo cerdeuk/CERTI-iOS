@@ -10,9 +10,10 @@ import SwiftUI
 import Kingfisher
 
 struct CertificateCardDetailView: View {
-    let card: CertificatedModel
+    let card: CertificatedDetailModel
     @State private var rotation: Double = 0
     @State var isFlipped = false
+    @State private var textWidth: CGFloat = 0
 
     var body: some View {
         ZStack {
@@ -57,13 +58,13 @@ extension CertificateCardDetailView {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(card.name)
                         .applyCertiFont(.body_bold_18)
-                        .foregroundStyle(.grayscale600)
+                        .foregroundStyle(card.index == 2 ?  .lightblue : .grayscale600)
                         .frame(height: 25)
                         .padding(.leading, 20)
                     
                     Text("\(card.createdAt.toDisplayDateString())에 획득했어요.")
                         .applyCertiFont(.caption_regular_14)
-                        .foregroundStyle(.grayscale600)
+                        .foregroundStyle(card.index == 2 ?  .lightblue : .grayscale600)
                         .frame(height: 20)
                         .padding(.leading, 20)
                     
@@ -80,14 +81,27 @@ extension CertificateCardDetailView {
                         VStack(alignment: .leading, spacing: 0) {
                             Text("터치해서 뒷면 보기")
                                 .applyCertiFont(.caption_regular_12)
-                                .foregroundStyle(.mainblue)
-                                .frame(height: 18)
+                                .foregroundStyle(card.index == 2 ?  .lightblue : .mainblue)
+                                .padding(.top, 4)
+                                .background(
+                                    GeometryReader { geometry in
+                                        Color.clear
+                                            .onAppear {
+                                                textWidth = geometry.size.width
+                                            }
+                                            .onChange(of: geometry.size.width) { newWidth in
+                                                textWidth = newWidth
+                                            }
+                                    }
+                                )
                             
                             Rectangle()
-                                .frame(width: 90, height: 1)
-                                .foregroundStyle(.mainblue)
+                                .frame(width: textWidth, height: 1)
+                                .foregroundStyle(card.index == 2 ?  .lightblue : .mainblue)
                                 .padding(.top, 4)
                         }
+                        .frame(width: 90, height: 26)
+                        .clipped()
                         .padding(.trailing, 15)
                         .padding(.bottom, 12)
                     }
@@ -125,10 +139,17 @@ extension CertificateCardDetailView {
                         .frame(height: 23)
                         .padding(.top, 8)
                     
-                    Text("\(card.description ?? "")".antiAppleBySangyup)
-                        .applyCertiFont(.caption_regular_12)
-                        .foregroundStyle(.white)
-                        .padding(.top, 36)
+                    Spacer()
+                    
+                    ScrollView {
+                        Text("\(card.description)".antiAppleBySangyup)
+                            .applyCertiFont(.caption_regular_12)
+                            .foregroundStyle(.white)
+                    }
+                    .scrollIndicators(.hidden)
+                    .frame(minHeight: 126)
+                    .padding(.top, 36)
+                    .padding(.bottom, 36)
                     
                     Spacer()
                     
@@ -139,9 +160,10 @@ extension CertificateCardDetailView {
                             .foregroundColor(.white)
                         Spacer()
                     }
+                    .frame(height: 24)
                     .padding(.bottom, 4)
                     
-                    Text(card.createdAt)
+                    Text(card.createdAt.toDisplayDateString())
                         .applyCertiFont(.caption_semibold_14)
                         .foregroundStyle(.purpleblue)
                         .frame(height: 20)

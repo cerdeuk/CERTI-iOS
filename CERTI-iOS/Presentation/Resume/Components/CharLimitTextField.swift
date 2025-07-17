@@ -21,6 +21,7 @@ struct CharLimitTextField: View {
             ).maxLength(maxLength, text: $text)
                 .applyCertiFont(.caption_semibold_14)
                 .foregroundStyle(.grayscale600)
+                .frame(height: 28)
             
             Rectangle()
                  .frame(height: 1)
