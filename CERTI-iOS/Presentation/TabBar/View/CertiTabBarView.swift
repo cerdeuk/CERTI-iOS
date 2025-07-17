@@ -26,7 +26,7 @@ struct CertiTabBarView: View {
                         Text(tab.title)
                             .applyCertiFont(.caption_semibold_10)
                     }
-                    .foregroundStyle(selectedTab == tab ? .mainblue : .grayscale600)
+                    .foregroundStyle(selectedTab == tab ? .mainblue : .grayscale400)
                     .frame(maxWidth: .infinity)
                 }
             }
