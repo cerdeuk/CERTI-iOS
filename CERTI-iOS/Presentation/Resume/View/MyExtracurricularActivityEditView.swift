@@ -56,9 +56,6 @@ struct MyExtracurricularActivityEditView: View {
                         HStack(alignment: .center, spacing: 0) {
                             ResumeActivityListComponent(model: item)
                                 .frame(height: 50)
-                                .onTapGesture {
-//                                    resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
-                                }
                             
                             Button {
                                 isDeleteAlertPresented.toggle()
