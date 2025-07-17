@@ -30,7 +30,7 @@ struct FavoriteFilterToggleButton: View {
                                         )
                 }
             }
-            .padding(.leading, 23)
+            .padding(.leading, 20)
             .padding(.vertical, 12)
         }
     }
