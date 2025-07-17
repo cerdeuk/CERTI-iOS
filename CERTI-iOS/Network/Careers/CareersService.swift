@@ -12,6 +12,7 @@ import Moya
 protocol CareersServiceProtocol {
     func fetchCareersList() async -> Result<CareersListResponseDTO, NetworkError>
     func deledteCareers(id: Int) async -> Result<Void, NetworkError>
+    func addCareer(request: AddCareerRequestDTO) async -> Result<Bool, NetworkError>
 }
 
 final class CareersService: BaseService, CareersServiceProtocol {
@@ -23,5 +24,9 @@ final class CareersService: BaseService, CareersServiceProtocol {
     
     func deledteCareers(id: Int) async -> Result<Void, NetworkError> {
         return await requestVoid(provider, .deleteCareers(id: id))
+    }
+    
+    func addCareer(request: AddCareerRequestDTO) async -> Result<Bool, NetworkError> {
+        return await requestDecodable(provider, .addCareer(request: request))
     }
 }

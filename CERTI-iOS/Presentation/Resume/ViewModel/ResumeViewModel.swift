@@ -128,6 +128,25 @@ extension ResumeViewModel {
         }
     }
     
+    func addCareer(resumeModel: ResumeModel) async {
+        let request = AddCareerRequestDTO(
+            startAt: resumeModel.startAt,
+            endAt: resumeModel.endAt,
+            place: resumeModel.place,
+            name: resumeModel.name,
+            description: resumeModel.discription
+        )
+
+        let result = await careersService.addCareer(request: request)
+
+        switch result {
+        case .success(let response):
+            logger.info("✅ 경력 추가 성공: \(response)")
+        case .failure(let error):
+            logger.error("❌ 경력 추가 실패: \(error.localizedDescription)")
+        }
+    }
+    
     func deleteCareers(id: Int) async {
         let result = await careersService.deledteCareers(id: id)
         

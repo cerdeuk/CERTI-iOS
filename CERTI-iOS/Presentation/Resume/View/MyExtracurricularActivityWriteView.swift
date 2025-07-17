@@ -16,13 +16,24 @@ struct MyExtracurricularActivityWriteView: View {
             VStack(alignment: .leading, spacing: 0) {
                 MyExtracurricularActivityTitleView
                 activityPeriodView
-                PeriodInputComponent(isFilled: $viewModel.isPeriodFilled)
+                PeriodInputComponent(
+                        isFilled: $viewModel.isPeriodFilled,
+                        startAt: $viewModel.resumeModel.startAt,
+                        endAt: $viewModel.resumeModel.endAt
+                    )
                 organizeView
                 activityView
                 activityDetailView
                 Spacer()
-                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(viewModel.isWriteButtonEnabled))
-                    .padding(.bottom, 25)
+                ResumeWriteButton(
+                    action: {
+                        Task {
+                            await viewModel.addCareer(resumeModel: viewModel.resumeModel)
+                        }
+                    },
+                    textEmpty: .constant(viewModel.isWriteButtonEnabled)
+                )
+                .padding(.bottom, 25)
             }
         }
         .navigationBarBackButtonHidden()
