@@ -55,4 +55,12 @@ extension String {
 
         return "\(outputFormatter.string(from: date))"
     }
+    
+    func trimmedUsername() -> String {
+        if self.count == 3 {
+            return self
+        } else {
+            return "\(self.prefix(3))..."
+        }
+    }
 }
