@@ -11,6 +11,7 @@ struct LicenseCardItem: View {
     
     let model: LicenseCardModel
     let onTapFavorite: () -> Void
+    let onTapCard: () -> Void
 
     var body: some View {
         ZStack(alignment: .topTrailing){
@@ -59,6 +60,9 @@ struct LicenseCardItem: View {
             }
             .padding(.top, 12)
             .padding(.trailing, 12)
+        }
+        .onTapGesture {
+            onTapCard()
         }
     }
 }

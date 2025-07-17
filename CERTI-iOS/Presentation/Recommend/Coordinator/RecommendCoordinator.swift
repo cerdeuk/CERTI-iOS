@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum RecommendRoute: Hashable {
-    case detail
+    case detail(id: Int, beforeViewType: BeforeViewType)
 }
 
 final class RecommendCoordinator: ObservableObject {
