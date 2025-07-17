@@ -25,7 +25,7 @@ final class AcquisitionService: BaseService, AcquisitionServiceProtocol {
 
     func addAcquisition(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
         return await requestDecodable(provider, .addAcquisition(certificationId: certificationId))
-        }
+    }
 
     func fetchAcquisitionDetail(id: Int) async -> Result<AcquisitionDetailResponseDTO, NetworkError> {
         return await requestDecodable(provider, .fetchAcquisitionDetail(id: id))
