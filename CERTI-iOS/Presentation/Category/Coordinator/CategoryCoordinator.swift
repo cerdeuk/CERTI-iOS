@@ -8,7 +8,8 @@
 import SwiftUI
 
 enum CategoryRoute: Hashable {
-    case detail
+    case search
+    case detail(id: Int, beforeViewType: BeforeViewType)
 }
 
 final class CategoryCoordinator: ObservableObject {
