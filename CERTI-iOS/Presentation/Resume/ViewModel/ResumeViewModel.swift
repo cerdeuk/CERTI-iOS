@@ -159,5 +159,18 @@ extension ResumeViewModel {
             logger.error("getActivityList failed: \(error.localizedDescription)")
         }
     }
+    
+    func deleteActivity(id: Int) async {
+        let result = await activityService.deleteActivity(id: id)
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 취득한 자격증 삭제 성공")
+            activityList.removeAll { $0.activityId == id }
+
+        case .failure(let error):
+            logger.error("취득한 자격증 삭제 failed: \(error.localizedDescription)")
+        }
+    }
 
 }
