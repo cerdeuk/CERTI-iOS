@@ -66,8 +66,13 @@ extension CertificateDetailViewModel {
         switch result {
         case .success(let response):
             guard let data = response.data else {
-                logger.error("❌ appendPreCertification: No data received")
-                return
+                if response.status == 409  {
+                    showFailAcquired = true
+                    return
+                } else {
+                    logger.error("❌ appendPreCertification: No data received")
+                    return
+                }
             }
             
             if data {
