@@ -32,4 +32,15 @@ extension RecommendCertification {
             tagChip: tags
         )
     }
+    
+    func toLicenseCardModel() -> LicenseCardModel {
+        return LicenseCardModel(
+            certificationId: certificationId,
+            certificationName: certificationName,
+            certificationType: certificationType,
+            tags: tags,
+            testType: testType,
+            isFavorite: isFavorite
+        )
+    }
 }
