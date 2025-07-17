@@ -10,6 +10,8 @@ import SwiftUI
 struct ResumeModel: Identifiable {
     var id: UUID = UUID()
     
+    var activityId: Int?
+    var careerId: Int?
     var startAt: String
     var endAt: String
     var name: String

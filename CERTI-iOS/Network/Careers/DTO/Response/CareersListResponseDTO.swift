@@ -27,6 +27,7 @@ struct CareerDetailResponseDTO: Decodable, Identifiable {
 extension CareerDetailResponseDTO {
     func toResumeModel() -> ResumeModel {
         ResumeModel(
+            careerId: careerId,
             startAt: startAt,
             endAt: endAt,
             name: name,
