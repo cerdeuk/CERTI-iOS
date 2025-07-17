@@ -13,6 +13,7 @@ struct CertificateCardDetailView: View {
     let card: CertificatedDetailModel
     @State private var rotation: Double = 0
     @State var isFlipped = false
+    @State private var textWidth: CGFloat = 0
 
     var body: some View {
         ZStack {
@@ -77,18 +78,30 @@ extension CertificateCardDetailView {
                     HStack(alignment: .center, spacing: 0) {
                         Spacer()
                         
-                        VStack(alignment: .center, spacing: 0) {
+                        VStack(alignment: .leading, spacing: 0) {
                             Text("터치해서 뒷면 보기")
                                 .applyCertiFont(.caption_regular_12)
                                 .foregroundStyle(card.index == 2 ?  .lightblue : .mainblue)
                                 .padding(.top, 4)
+                                .background(
+                                    GeometryReader { geometry in
+                                        Color.clear
+                                            .onAppear {
+                                                textWidth = geometry.size.width
+                                            }
+                                            .onChange(of: geometry.size.width) { newWidth in
+                                                textWidth = newWidth
+                                            }
+                                    }
+                                )
                             
                             Rectangle()
-                                .frame(width: 85, height: 1)
+                                .frame(width: textWidth, height: 1)
                                 .foregroundStyle(card.index == 2 ?  .lightblue : .mainblue)
                                 .padding(.top, 4)
                         }
-                        .frame(height: 26)
+                        .frame(width: 90, height: 26)
+                        .clipped()
                         .padding(.trailing, 15)
                         .padding(.bottom, 12)
                     }
@@ -126,7 +139,7 @@ extension CertificateCardDetailView {
                         .frame(height: 23)
                         .padding(.top, 8)
                     
-                    Text("\(card.description ?? "")".antiAppleBySangyup)
+                    Text("\(card.description)".antiAppleBySangyup)
                         .applyCertiFont(.caption_regular_12)
                         .foregroundStyle(.white)
                         .padding(.top, 36)
