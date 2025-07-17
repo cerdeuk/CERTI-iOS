@@ -126,7 +126,7 @@ struct OnboardingInfoView: View {
         }
         .overlay {
             if isShowLoadingView {
-                CertiLoadingView(name: username)
+                CertiLoadingView(name: username.trimmedUsername())
             }
         }
     }

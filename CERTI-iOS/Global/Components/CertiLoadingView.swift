@@ -48,7 +48,7 @@ struct CertiLoadingView: View {
                 }
                 .padding(.bottom, 20)
                 
-                Text("\(Text.trimmedUsername(name))님에게 딱 맞는\n자격증을 고르고 있어요.")
+                Text("\(name.trimmedUsername())님에게 딱 맞는\n자격증을 고르고 있어요.")
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
                     .multilineTextAlignment(.center)
