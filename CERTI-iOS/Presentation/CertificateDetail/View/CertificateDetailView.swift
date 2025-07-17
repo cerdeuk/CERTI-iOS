@@ -132,7 +132,15 @@ struct CertificateDetailView: View {
             }
             
             if viewModel.showCompleteModal {
-                CertificationDetailCompleteModalView(certificationName: viewModel.certificateDetailModel.certificationName)
+                ZStack {
+                    Color.blackOpacity40
+                        .onTapGesture {
+                            viewModel.showCompleteModal = false
+                        }
+                    CertificationDetailCompleteModalView(certificationName: viewModel.certificateDetailModel.certificationName)
+                }
+                .ignoresSafeArea()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .onAppear {
