@@ -11,6 +11,7 @@ import Moya
 
 enum CareersAPI {
     case fetchCareersList
+    case deleteCareers(id: Int)
 }
 
 extension CareersAPI: BaseTargetType {
@@ -25,6 +26,8 @@ extension CareersAPI: BaseTargetType {
         switch self {
         case .fetchCareersList:
             return "careers"
+        case .deleteCareers(let id):
+            return "careers/\(id)"
         }
     }
     
@@ -32,12 +35,16 @@ extension CareersAPI: BaseTargetType {
         switch self {
         case .fetchCareersList:
             return .get
+        case .deleteCareers:
+            return .delete
         }
     }
     
     var task: Moya.Task {
         switch self {
         case .fetchCareersList:
+            return .requestPlain
+        case .deleteCareers:
             return .requestPlain
         }
     }
