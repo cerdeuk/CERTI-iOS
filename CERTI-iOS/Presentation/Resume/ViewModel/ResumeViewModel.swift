@@ -37,6 +37,16 @@ final class ResumeViewModel: ObservableObject {
     private let careersService = NetworkService.shared.careersService
     private let activityService = NetworkService.shared.activityService
 
+    func clearResumeModel() {
+        resumeModel = ResumeModel(
+            startAt: "",
+            endAt: "",
+            name: "",
+            place: "",
+            discription: ""
+        )
+        isPeriodFilled = false
+    }
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "resume")
 }
 
@@ -193,4 +203,22 @@ extension ResumeViewModel {
         }
     }
 
+    func addActivity(resumeModel: ResumeModel) async {
+        let request = AddActivityRequestDTO(
+            startAt: resumeModel.startAt,
+            endAt: resumeModel.endAt,
+            place: resumeModel.place,
+            name: resumeModel.name,
+            description: resumeModel.discription
+        )
+
+        let result = await activityService.addActivity(request: request)
+
+        switch result {
+        case .success(let result):
+            logger.info("✅ 활동 추가 성공: \(result)")
+        case .failure(let error):
+            logger.error("❌ 활동 추가 실패: \(error.localizedDescription)")
+        }
+    }
 }

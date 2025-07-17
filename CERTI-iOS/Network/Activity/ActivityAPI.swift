@@ -11,6 +11,7 @@ import Moya
 
 enum ActivityAPI {
     case fetchActivityList
+    case addActivity(request: AddActivityRequestDTO)
     case deleteActivity(id: Int)
 }
 
@@ -26,6 +27,8 @@ extension ActivityAPI: BaseTargetType {
         switch self {
         case .fetchActivityList:
             return "activity"
+        case .addActivity:
+            return "activity"
         case .deleteActivity(let id):
             return "activity/\(id)"
         }
@@ -35,6 +38,8 @@ extension ActivityAPI: BaseTargetType {
         switch self {
         case .fetchActivityList:
             return .get
+        case .addActivity:
+            return .post
         case .deleteActivity:
             return .delete
         }
@@ -44,6 +49,8 @@ extension ActivityAPI: BaseTargetType {
         switch self {
         case .fetchActivityList:
             return .requestPlain
+        case .addActivity(let request):
+            return .requestJSONEncodable(request)
         case .deleteActivity:
             return .requestPlain
         }
