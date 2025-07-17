@@ -23,9 +23,6 @@ struct CertificateDetailView: View {
     @Binding var certificationId: Int
     let beforeViewType: BeforeViewType
     
-    @State private var showSuccessAcquired = false
-    @State private var showFailAcquired = false
-    @State private var showFailToBeAcquired = false
     @State private var showCompleteModal = false
     @State private var opacity: Double = 1.0
     
@@ -72,7 +69,7 @@ struct CertificateDetailView: View {
             }
             .navigationBarBackButtonHidden(true)
             
-            if showSuccessAcquired {
+            if viewmodel.showSuccessAcquired {
                 CertificateDetailSuccessToastMessage(title: "취득 예정 자격증이 추가되었어요!", subtitle: "(홈-취득 예정 자격증에서 확인 가능)")
                     .opacity(opacity)
                     .onAppear {
@@ -81,7 +78,7 @@ struct CertificateDetailView: View {
                         }
                         Task {
                             try? await Task.sleep(nanoseconds: 2_000_000_000)
-                            showFailToBeAcquired = false
+                            viewmodel.showFailToBeAcquired = false
                             opacity = 1
                         }
                     }
@@ -89,7 +86,7 @@ struct CertificateDetailView: View {
                     .padding(.bottom, 36)
             }
             
-            if showFailToBeAcquired {
+            if viewmodel.showFailToBeAcquired {
                 CertificateDetailFailToastMessage(title: "이미 추가된 자격증입니다.", subtitle: "홈-취득 예정 자격증에서 확인 가능")
                     .opacity(opacity)
                     .onAppear {
@@ -98,7 +95,7 @@ struct CertificateDetailView: View {
                         }
                         Task {
                             try? await Task.sleep(nanoseconds: 2_000_000_000)
-                            showFailToBeAcquired = false
+                            viewmodel.showFailToBeAcquired = false
                             opacity = 1
                         }
                     }
@@ -106,7 +103,7 @@ struct CertificateDetailView: View {
                     .padding(.bottom, 36)
             }
             
-            if showFailAcquired {
+            if viewmodel.showFailAcquired {
                 CertificateDetailFailToastMessage(title: "이미 취득 완료된 자격증입니다.", subtitle: "이력서 탭에서 확인 가능")
                     .opacity(opacity)
                     .onAppear {
@@ -115,7 +112,7 @@ struct CertificateDetailView: View {
                         }
                         Task {
                             try? await Task.sleep(nanoseconds: 2_000_000_000)
-                            showFailToBeAcquired = false
+                            viewmodel.showFailToBeAcquired = false
                             opacity = 1
                         }
                     }
@@ -301,7 +298,7 @@ struct CertificateDetailView: View {
     
     private var ToBeAcquiredButton: some View {
         Button {
-            showFailToBeAcquired = true
+            viewmodel.showFailToBeAcquired = true
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)

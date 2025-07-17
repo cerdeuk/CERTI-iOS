@@ -25,9 +25,15 @@ class CertificateDetailViewModel: ObservableObject {
         applicationUrl: "www.google.com",
         expirationPeriod: ""
     )
+    @Published var showSuccessAcquired: Bool = false
+    @Published var showFailAcquired: Bool = false
+    @Published var showFailToBeAcquired: Bool = false
     
     private let certificateDetailService = NetworkService.shared.certificationService
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
+    
+    private let homeService = NetworkService.shared.homeService
+    private let homeLogger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Home")
 }
 
 
@@ -48,6 +54,18 @@ extension CertificateDetailViewModel {
             
         case .failure(let error):
             logger.error("CertificationDetail failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func appendPreCertification(certification: Int) async {
+        let result = await homeService.addPreCertification(certificationId: certification)
+        
+        switch result {
+        case .success(_):
+            logger.debug("✅ appendPreCertification success")
+            
+        case .failure(let error):
+            logger.error("appendPreCertification failed: \(error.localizedDescription)")
         }
     }
 }
