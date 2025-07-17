@@ -16,6 +16,9 @@ final class ResumeViewModel: ObservableObject {
     @Published var certificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
     @Published var jobList: [String] = []
     @Published var acquisitionList: [CertificatedModel] = []
+    @Published var acquisitionDetail: CertificatedModel = CertificatedModel(acquisitionId: 0, index: 0, name: "", createdAt: "", cardFrontImageUrl: "", cardBackImageUrl: "", tags: [], description: "")
+    @Published var careersList: [ResumeModel] = []
+    @Published var activityList: [ResumeModel] = []
     @Published var isPeriodFilled: Bool = false
     @Published var resumeModel = ResumeModel(
         startAt: "",
@@ -31,7 +34,20 @@ final class ResumeViewModel: ObservableObject {
     }
     private let jobService = NetworkService.shared.jobService
     private let acquisitionService = NetworkService.shared.acquisitionService
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Job")
+    private let careersService = NetworkService.shared.careersService
+    private let activityService = NetworkService.shared.activityService
+
+    func clearResumeModel() {
+        resumeModel = ResumeModel(
+            startAt: "",
+            endAt: "",
+            name: "",
+            place: "",
+            discription: ""
+        )
+        isPeriodFilled = false
+    }
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "resume")
 }
 
 
@@ -71,6 +87,138 @@ extension ResumeViewModel {
             
         case .failure(let error):
             logger.error("getAcquisitionList failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func getAcquisitionDetail(id: Int) async {
+        let result = await acquisitionService.fetchAcquisitionDetail(id: id)
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ getAcquisitionDetail: No data received")
+                return
+            }
+            
+            self.acquisitionDetail = data
+            
+        case .failure(let error):
+            logger.error("getAcquisitionDetail failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteAcquisition(id: Int) async {
+        let result = await acquisitionService.deleteAcquisition(id: id)
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 취득한 자격증 삭제 성공")
+            acquisitionList.removeAll { $0.acquisitionId == id }
+
+        case .failure(let error):
+            logger.error("취득한 자격증 삭제 failed: \(error.localizedDescription)")
+        }
+    }
+
+    
+    func getCareersList() async {
+        let result = await careersService.fetchCareersList()
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ getCareersList: No data received")
+                return
+            }
+            
+            self.careersList = data.careerDetailResponseList.map { $0.toResumeModel() }
+            logger.debug("✅ getCareersList success: \(data.careerDetailResponseList)")
+            
+        case .failure(let error):
+            logger.error("getCareersList failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func addCareer(resumeModel: ResumeModel) async {
+        let request = AddCareerRequestDTO(
+            startAt: resumeModel.startAt,
+            endAt: resumeModel.endAt,
+            place: resumeModel.place,
+            name: resumeModel.name,
+            description: resumeModel.discription
+        )
+
+        let result = await careersService.addCareer(request: request)
+
+        switch result {
+        case .success(let result):
+            logger.info("✅ 경력 추가 성공: \(result)")
+        case .failure(let error):
+            logger.error("❌ 경력 추가 실패: \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteCareers(id: Int) async {
+        let result = await careersService.deledteCareers(id: id)
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 취득한 자격증 삭제 성공")
+            careersList.removeAll { $0.careerId == id }
+
+        case .failure(let error):
+            logger.error("취득한 자격증 삭제 failed: \(error.localizedDescription)")
+        }
+    }
+
+
+    func getActivityList() async {
+        let result = await activityService.fetchActivityList()
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                logger.error("❌ getActivityList: No data received")
+                return
+            }
+            
+            self.activityList = data.activityDetailResponses.map { $0.toResumeModel() }
+            logger.debug("✅ getActivityList success: \(data.activityDetailResponses)")
+            
+        case .failure(let error):
+            logger.error("getActivityList failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteActivity(id: Int) async {
+        let result = await activityService.deleteActivity(id: id)
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 대내외 활동 삭제 성공")
+            activityList.removeAll { $0.activityId == id }
+
+        case .failure(let error):
+            logger.error("대내외 활동 삭제 failed: \(error.localizedDescription)")
+        }
+    }
+
+    func addActivity(resumeModel: ResumeModel) async {
+        let request = AddActivityRequestDTO(
+            startAt: resumeModel.startAt,
+            endAt: resumeModel.endAt,
+            place: resumeModel.place,
+            name: resumeModel.name,
+            description: resumeModel.discription
+        )
+
+        let result = await activityService.addActivity(request: request)
+
+        switch result {
+        case .success(let result):
+            logger.info("✅ 활동 추가 성공: \(result)")
+        case .failure(let error):
+            logger.error("❌ 활동 추가 실패: \(error.localizedDescription)")
         }
     }
 }

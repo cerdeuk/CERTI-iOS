@@ -50,6 +50,8 @@ struct ResumeView: View {
             Task {
                 await viewModel.getJobList()
                 await viewModel.getAcquisitionList()
+                await viewModel.getCareersList()
+                await viewModel.getActivityList()
             }
         }
     }
@@ -166,8 +168,12 @@ extension ResumeView {
                             ForEach(viewModel.acquisitionList) { cardItem in
                                 CeritificateCardComponent(model: cardItem)
                                     .onTapGesture {
-                                        selectedCard = cardItem
-                                        viewModel.isCardDetailPresented.toggle()
+                                        Task {
+                                            await viewModel.getAcquisitionDetail(id: cardItem.acquisitionId)
+                                            selectedCard = viewModel.acquisitionDetail
+                                            
+                                            viewModel.isCardDetailPresented.toggle()
+                                        }
                                     }
                             }
                         }
@@ -222,7 +228,7 @@ extension ResumeView {
                 .frame(maxWidth: .infinity)
             } else {
                 LazyVGrid(columns: columns, spacing: 24) {
-                    ForEach(viewModel.careerDummy) { dummy in
+                    ForEach(viewModel.careersList) { item in
                         HStack(alignment: .center, spacing: 0) {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
@@ -230,7 +236,7 @@ extension ResumeView {
                                 .padding(.top, 20.5)
                                 .padding(.bottom, 29.5)
                             
-                            ResumeActivityListComponent(model: dummy)
+                            ResumeActivityListComponent(model: item)
                                 .frame(height: 74)
                         }
                         .padding(.horizontal, 20)
@@ -282,7 +288,7 @@ extension ResumeView {
                 .frame(maxWidth: .infinity)
             } else {
                 LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(viewModel.myExtracurricularActivityModelDummy) { dummy in
+                    ForEach(viewModel.activityList) { item in
                         HStack(alignment: .center, spacing: 0) {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
@@ -290,7 +296,7 @@ extension ResumeView {
                                 .padding(.top, 20.5)
                                 .padding(.bottom, 29.5)
                             
-                            ResumeActivityListComponent(model: dummy)
+                            ResumeActivityListComponent(model: item)
                                 .frame(height: 74)
                         }
                         .padding(.horizontal, 20)

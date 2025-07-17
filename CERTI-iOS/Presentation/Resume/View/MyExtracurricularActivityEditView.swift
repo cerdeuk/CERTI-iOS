@@ -11,6 +11,8 @@ struct MyExtracurricularActivityEditView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     @State var isDeleteAlertPresented = false
+    @State var selectedActivityIndex : Int? = nil
+
     
     let columns = [GridItem(.flexible())]
     
@@ -50,16 +52,14 @@ struct MyExtracurricularActivityEditView: View {
                     .padding(.leading, 20)
                 
                 LazyVGrid(columns: columns, spacing: 36) {
-                    ForEach(viewModel.myExtracurricularActivityModelDummy) { dummy in
+                    ForEach(viewModel.activityList) { item in
                         HStack(alignment: .center, spacing: 0) {
-                            ResumeActivityListComponent(model: dummy)
+                            ResumeActivityListComponent(model: item)
                                 .frame(height: 50)
-                                .onTapGesture {
-                                    resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
-                                }
                             
                             Button {
                                 isDeleteAlertPresented.toggle()
+                                selectedActivityIndex = item.activityId
                             } label: {
                                 Image(.iconClose36)
                             }
@@ -75,12 +75,21 @@ struct MyExtracurricularActivityEditView: View {
             
             if isDeleteAlertPresented {
                 CertiDeleteAlertView {
+                    Task {
+                        guard let deleteIndex = selectedActivityIndex else { return }
+                        await viewModel.deleteActivity(id: deleteIndex)
+                    }
                     isDeleteAlertPresented = false
                     print("확인 버튼 클릭")
                 } onCancel: {
                     isDeleteAlertPresented = false
                     print("취소버튼 클릭")
                 }
+            }
+        }
+        .onAppear {
+            Task {
+                await viewModel.getActivityList()
             }
         }
         .navigationBarBackButtonHidden()

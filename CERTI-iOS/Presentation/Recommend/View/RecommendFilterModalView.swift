@@ -9,9 +9,9 @@ import SwiftUI
 
 struct RecommendFilterModalView: View {
     @Environment(\.dismiss) private var dismiss
-//    @Binding var selectedCategories: [JobCategory]
+    @Binding var selectedCategories: [String]
+    @State private var tempSelectedCategories: [String] = []
     @ObservedObject var viewModel: RecommendViewModel
-    @State private var tempSelectedCategories: [JobCategory] = []
     
     var body: some View {
         VStack(spacing: 0) {
@@ -60,11 +60,11 @@ struct RecommendFilterModalView: View {
     private var RecoommendFilterButtonList: some View {
         LazyVGrid(columns: Array(repeating: .init(spacing: 16), count: 3), spacing: 13) {
             ForEach(JobCategory.allCases) {category in
-                RecommendFilterButton(category: category, isSelected: tempSelectedCategories.contains(category)) {
-                    if tempSelectedCategories.contains(category) {
-                        tempSelectedCategories.removeAll { $0 == category }
+                RecommendFilterButton(category: category, isSelected: tempSelectedCategories.contains(category.description)) {
+                    if tempSelectedCategories.contains(category.description) {
+                        tempSelectedCategories.removeAll { $0 == category.description }
                     } else if tempSelectedCategories.count < 3 {
-                        tempSelectedCategories.append(category)
+                        tempSelectedCategories.append(category.description)
                     }
                 }
             }
@@ -75,11 +75,9 @@ struct RecommendFilterModalView: View {
     
     private var ApplyButton: some View {
         Button {
-            viewModel.toggleLoadingState()
-            Task {
-                try await Task.sleep(for: .seconds(2))
-                viewModel.selectedCategories = tempSelectedCategories
-                viewModel.toggleLoadingState()
+            selectedCategories = tempSelectedCategories
+            Task{
+                await viewModel.postJobList(jobNameList: selectedCategories)
             }
             dismiss()
         } label: {

@@ -13,6 +13,8 @@ struct PeriodInputComponent: View {
     @State private var isStartDateExpanded = false
     @State private var isEndDateExpanded = false
     @Binding var isFilled: Bool
+    @Binding var startAt: String
+    @Binding var endAt: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -63,10 +65,13 @@ struct PeriodInputComponent: View {
                     .cornerRadius(10)
                     .shadow(color: .black.opacity(0.05), radius: 20, x: 4, y: 4)
                     .frame(maxWidth: .infinity)
-                    .onChange(of: startDate) { _ in
+                    .onChange(of: startDate) { newValue in
                         withAnimation(.easeInOut(duration: 0.2)) {
                             isStartDateExpanded = false
                             isFilled = startDate != nil && endDate != nil
+                            if let selected = newValue {
+                                startAt = formatDateToString(selected)
+                            }
                         }
                     }
                 }
@@ -90,10 +95,13 @@ struct PeriodInputComponent: View {
                     .cornerRadius(10)
                     .shadow(color: .black.opacity(0.05), radius: 20, x: 4, y: 4)
                     .frame(maxWidth: .infinity)
-                    .onChange(of: endDate) { _ in
+                    .onChange(of: endDate) { newValue in
                         withAnimation(.easeInOut(duration: 0.2)) {
                             isEndDateExpanded = false
                             isFilled = startDate != nil && endDate != nil
+                            if let selected = newValue {
+                                endAt = formatDateToString(selected)
+                            }
                         }
                     }
                 }
@@ -105,9 +113,16 @@ struct PeriodInputComponent: View {
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
+        formatter.dateFormat = "yyyy.MM.dd"
         formatter.locale = Locale(identifier: "ko_KR")
         return formatter
+    }
+    
+    private func formatDateToString(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter.string(from: date)
     }
 }
 
@@ -151,4 +166,3 @@ extension PeriodInputComponent {
         }
     }
 }
-
