@@ -22,7 +22,7 @@ struct RecommendFilterModalView: View {
             ApplyButton
         }
         .onAppear {
-            tempSelectedCategories = selectedCategories
+            tempSelectedCategories = viewModel.selectedCategories
         }
     }
     

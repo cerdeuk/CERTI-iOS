@@ -30,7 +30,7 @@ struct RecommendLicenseCardList: View {
                         },
                                         onTapCard: {
                             viewModel.selectCertificate(id: item.id)
-                            DispatchQueue.main.async {
+                            Task { @MainActor in
                                 recommendCoordinator.push(next: .detail(id: item.id, beforeViewType: .recommend))
                             }
                         }

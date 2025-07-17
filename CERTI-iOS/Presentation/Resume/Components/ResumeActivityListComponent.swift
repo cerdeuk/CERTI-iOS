@@ -18,7 +18,7 @@ struct ResumeActivityListComponent: View {
                     .foregroundStyle(.grayscale500)
                     .frame(height: 18)
                 
-                Text.trimmedResumeInfo(model.place, 10)
+                Text(model.place)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
                     .frame(height: 18)
@@ -29,12 +29,12 @@ struct ResumeActivityListComponent: View {
             Spacer()
             
             VStack(alignment: .leading, spacing: 0) {
-                Text.trimmedResumeInfo(model.name, 9)
+                Text(model.name)
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
                 
-                Text.trimmedResumeInfo(model.discription, 15)
+                Text(model.discription)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale600)
                     .lineLimit(1)
