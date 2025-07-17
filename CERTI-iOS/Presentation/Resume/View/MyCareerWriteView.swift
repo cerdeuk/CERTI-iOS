@@ -12,40 +12,50 @@ struct MyCareerWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
-        BackButton() {
-            resumeCoordinator.pop()
-        }
-        
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                MyCareerWriteTitleView
-                workingPeriodView
-                PeriodInputComponent(
-                        isFilled: $viewModel.isPeriodFilled,
-                        startAt: $viewModel.resumeModel.startAt,
-                        endAt: $viewModel.resumeModel.endAt
-                    )
-                workingCompany
-                dutyView
-                dutyDetailView
-            }
-        }
-        .onAppear{
-            viewModel.clearResumeModel()
-        }
-        .scrollIndicators(.hidden)
-        .navigationBarBackButtonHidden()
-        
-        ResumeWriteButton(
-            action: {
-                Task {
-                    await viewModel.addCareer(resumeModel: viewModel.resumeModel)
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+
+            VStack (alignment: .leading, spacing: 0) {
+                BackButton() {
                     resumeCoordinator.pop()
                 }
-            },
-            textEmpty: .constant(viewModel.isWriteButtonEnabled)
-        )
-        .padding(.bottom, 16)
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        MyCareerWriteTitleView
+                        workingPeriodView
+                        PeriodInputComponent(
+                            isFilled: $viewModel.isPeriodFilled,
+                            startAt: $viewModel.resumeModel.startAt,
+                            endAt: $viewModel.resumeModel.endAt
+                        )
+                        workingCompany
+                        dutyView
+                        dutyDetailView
+                    }
+                }
+                .onAppear{
+                    viewModel.clearResumeModel()
+                }
+                .scrollIndicators(.hidden)
+                .navigationBarBackButtonHidden()
+                
+                ResumeWriteButton(
+                    action: {
+                        Task {
+                            await viewModel.addCareer(resumeModel: viewModel.resumeModel)
+                            resumeCoordinator.pop()
+                        }
+                    },
+                    textEmpty: .constant(viewModel.isWriteButtonEnabled)
+                )
+                .padding(.bottom, 16)
+            }
+        }
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
 }
 

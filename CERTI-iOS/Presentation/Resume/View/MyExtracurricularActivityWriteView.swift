@@ -12,41 +12,51 @@ struct MyExtracurricularActivityWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
-        BackButton() {
-            resumeCoordinator.pop()
-        }
-        
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                MyExtracurricularActivityTitleView
-                activityPeriodView
-                PeriodInputComponent(
-                        isFilled: $viewModel.isPeriodFilled,
-                        startAt: $viewModel.resumeModel.startAt,
-                        endAt: $viewModel.resumeModel.endAt
-                    )
-                organizeView
-                activityView
-                activityDetailView
-            }
-        }
-        .onAppear{
-            viewModel.clearResumeModel()
-        }
-        .navigationBarBackButtonHidden()
-        .scrollIndicators(.hidden)
-        
-        ResumeWriteButton(
-            action: {
-                Task {
-                    await viewModel.addActivity(resumeModel: viewModel.resumeModel)
-                    viewModel.clearResumeModel()
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+            
+            VStack (alignment: .leading, spacing: 0) {
+                BackButton() {
                     resumeCoordinator.pop()
                 }
-            },
-            textEmpty: .constant(viewModel.isWriteButtonEnabled)
-        )
-        .padding(.bottom, 16)
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        MyExtracurricularActivityTitleView
+                        activityPeriodView
+                        PeriodInputComponent(
+                            isFilled: $viewModel.isPeriodFilled,
+                            startAt: $viewModel.resumeModel.startAt,
+                            endAt: $viewModel.resumeModel.endAt
+                        )
+                        organizeView
+                        activityView
+                        activityDetailView
+                    }
+                }
+                .onAppear{
+                    viewModel.clearResumeModel()
+                }
+                .navigationBarBackButtonHidden()
+                .scrollIndicators(.hidden)
+                
+                ResumeWriteButton(
+                    action: {
+                        Task {
+                            await viewModel.addActivity(resumeModel: viewModel.resumeModel)
+                            viewModel.clearResumeModel()
+                            resumeCoordinator.pop()
+                        }
+                    },
+                    textEmpty: .constant(viewModel.isWriteButtonEnabled)
+                )
+                .padding(.bottom, 16)
+            }
+        }
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
 }
 

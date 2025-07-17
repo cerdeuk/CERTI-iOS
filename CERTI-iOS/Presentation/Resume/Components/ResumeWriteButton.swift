@@ -24,6 +24,7 @@ struct ResumeWriteButton: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding(.horizontal, 20)
         }
+        .disabled(!textEmpty)
     }
 }
 
