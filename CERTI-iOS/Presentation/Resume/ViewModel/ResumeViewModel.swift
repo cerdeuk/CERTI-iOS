@@ -100,7 +100,7 @@ extension ResumeViewModel {
         let result = await acquisitionService.deleteAcquisition(id: id)
         
         switch result {
-        case .success(let response):
+        case .success(_):
             logger.info("✅ 취득한 자격증 삭제 성공")
             acquisitionList.removeAll { $0.acquisitionId == id }
 
@@ -127,6 +127,20 @@ extension ResumeViewModel {
             logger.error("getCareersList failed: \(error.localizedDescription)")
         }
     }
+    
+    func deleteCareers(id: Int) async {
+        let result = await careersService.deledteCareers(id: id)
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 취득한 자격증 삭제 성공")
+            careersList.removeAll { $0.careerId == id }
+
+        case .failure(let error):
+            logger.error("취득한 자격증 삭제 failed: \(error.localizedDescription)")
+        }
+    }
+
 
     func getActivityList() async {
         let result = await activityService.fetchActivityList()
