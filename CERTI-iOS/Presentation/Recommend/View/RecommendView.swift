@@ -35,6 +35,11 @@ struct RecommendView: View {
                 await viewModel.getJobList()
             }
         }
+        .overlay {
+            if viewModel.isShowLoading {
+                CertiLoadingView(name: AuthManager.shared.nickname)
+            }
+        }
     }
     
     private var RecommendViewHeader: some View {
