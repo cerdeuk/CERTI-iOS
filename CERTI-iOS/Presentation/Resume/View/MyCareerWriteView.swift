@@ -16,13 +16,25 @@ struct MyCareerWriteView: View {
             VStack(alignment: .leading, spacing: 0) {
                 MyCareerWriteTitleView
                 workingPeriodView
-                PeriodInputComponent(isFilled: $viewModel.isPeriodFilled)
+                PeriodInputComponent(
+                        isFilled: $viewModel.isPeriodFilled,
+                        startAt: $viewModel.resumeModel.startAt,
+                        endAt: $viewModel.resumeModel.endAt
+                    )
                 workingCompany
                 dutyView
                 dutyDetailView
                 Spacer()
-                ResumeWriteButton(action: testButtonClicked, textEmpty: .constant(viewModel.isWriteButtonEnabled))
-                    .padding(.bottom, 25)
+                ResumeWriteButton(
+                    action: {
+                        Task {
+                            await viewModel.addCareer(resumeModel: viewModel.resumeModel)
+                            resumeCoordinator.pop()
+                        }
+                    },
+                    textEmpty: .constant(viewModel.isWriteButtonEnabled)
+                )
+                .padding(.bottom, 25)
             }
         }
         .navigationBarBackButtonHidden()

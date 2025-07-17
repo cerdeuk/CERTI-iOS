@@ -12,6 +12,7 @@ import Moya
 enum CareersAPI {
     case fetchCareersList
     case deleteCareers(id: Int)
+    case addCareer(request: AddCareerRequestDTO)
 }
 
 extension CareersAPI: BaseTargetType {
@@ -28,6 +29,8 @@ extension CareersAPI: BaseTargetType {
             return "careers"
         case .deleteCareers(let id):
             return "careers/\(id)"
+        case .addCareer:
+            return "careers"
         }
     }
     
@@ -37,6 +40,8 @@ extension CareersAPI: BaseTargetType {
             return .get
         case .deleteCareers:
             return .delete
+        case .addCareer:
+            return .post
         }
     }
     
@@ -46,6 +51,8 @@ extension CareersAPI: BaseTargetType {
             return .requestPlain
         case .deleteCareers:
             return .requestPlain
+        case .addCareer(let request):
+            return .requestJSONEncodable(request)
         }
     }
     
