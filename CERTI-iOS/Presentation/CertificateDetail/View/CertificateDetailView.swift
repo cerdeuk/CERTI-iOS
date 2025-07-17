@@ -69,7 +69,7 @@ struct CertificateDetailView: View {
             }
             .navigationBarBackButtonHidden(true)
             
-            if viewmodel.showSuccessAcquired {
+            if viewmodel.showSuccessToBeAcquired {
                 CertificateDetailSuccessToastMessage(title: "취득 예정 자격증이 추가되었어요!", subtitle: "(홈-취득 예정 자격증에서 확인 가능)")
                     .opacity(opacity)
                     .onAppear {

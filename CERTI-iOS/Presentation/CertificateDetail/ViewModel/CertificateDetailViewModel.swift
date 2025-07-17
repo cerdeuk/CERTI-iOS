@@ -25,7 +25,7 @@ class CertificateDetailViewModel: ObservableObject {
         applicationUrl: "www.google.com",
         expirationPeriod: ""
     )
-    @Published var showSuccessAcquired: Bool = false
+    @Published var showSuccessToBeAcquired: Bool = false
     @Published var showFailAcquired: Bool = false
     @Published var showFailToBeAcquired: Bool = false
     
