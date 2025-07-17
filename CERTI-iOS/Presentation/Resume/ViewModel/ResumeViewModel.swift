@@ -97,6 +97,20 @@ extension ResumeViewModel {
         }
     }
     
+    func deleteAcquisition(id: Int) async {
+        let result = await acquisitionService.deleteAcquisition(id: id)
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ 취득한 자격증 삭제 성공")
+            acquisitionList.removeAll { $0.acquisitionId == id }
+
+        case .failure(let error):
+            logger.error("취득한 자격증 삭제 failed: \(error.localizedDescription)")
+        }
+    }
+
+    
     func getCareersList() async {
         let result = await careersService.fetchCareersList()
         
