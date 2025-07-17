@@ -61,6 +61,7 @@ struct LicenseCardItem: View {
             .padding(.top, 12)
             .padding(.trailing, 12)
         }
+        .contentShape(Rectangle())
         .onTapGesture {
             onTapCard()
         }
