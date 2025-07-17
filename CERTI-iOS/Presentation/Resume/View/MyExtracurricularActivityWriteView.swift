@@ -28,13 +28,18 @@ struct MyExtracurricularActivityWriteView: View {
                 ResumeWriteButton(
                     action: {
                         Task {
-                            await viewModel.addCareer(resumeModel: viewModel.resumeModel)
+                            await viewModel.addActivity(resumeModel: viewModel.resumeModel)
+                            viewModel.clearResumeModel()
+                            resumeCoordinator.pop()
                         }
                     },
                     textEmpty: .constant(viewModel.isWriteButtonEnabled)
                 )
                 .padding(.bottom, 25)
             }
+        }
+        .onAppear{
+            viewModel.clearResumeModel()
         }
         .navigationBarBackButtonHidden()
     }

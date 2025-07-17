@@ -37,6 +37,9 @@ struct MyCareerWriteView: View {
                 .padding(.bottom, 25)
             }
         }
+        .onAppear{
+            viewModel.clearResumeModel()
+        }
         .navigationBarBackButtonHidden()
     }
 }
