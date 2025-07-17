@@ -11,6 +11,7 @@ import Moya
 
 enum AcquisitionAPI {
     case fetchAcquisitionList
+    case addAcquisition(certificationId: Int)
 }
 
 extension AcquisitionAPI: BaseTargetType {
@@ -25,6 +26,8 @@ extension AcquisitionAPI: BaseTargetType {
         switch self {
         case .fetchAcquisitionList:
             return "acquisition"
+        case .addAcquisition(let certificationId):
+            return "acquisition/\(certificationId)"
         }
     }
     
@@ -32,12 +35,16 @@ extension AcquisitionAPI: BaseTargetType {
         switch self {
         case .fetchAcquisitionList:
             return .get
+        case .addAcquisition:
+            return .post
         }
     }
     
     var task: Moya.Task {
         switch self {
         case .fetchAcquisitionList:
+            return .requestPlain
+        case .addAcquisition:
             return .requestPlain
         }
     }
