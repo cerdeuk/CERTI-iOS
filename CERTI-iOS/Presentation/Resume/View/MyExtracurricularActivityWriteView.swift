@@ -12,6 +12,9 @@ struct MyExtracurricularActivityWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
+        BackButton() {
+            resumeCoordinator.pop()
+        }
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 MyExtracurricularActivityTitleView
@@ -48,10 +51,6 @@ struct MyExtracurricularActivityWriteView: View {
 extension MyExtracurricularActivityWriteView {
     private var MyExtracurricularActivityTitleView: some View {
         Group {
-            BackButton() {
-                resumeCoordinator.pop()
-            }
-            
             HStack(alignment: .center, spacing: 0) {
                 Text("대내외 활동 추가")
                     .applyCertiFont(.sub_semibold_20)

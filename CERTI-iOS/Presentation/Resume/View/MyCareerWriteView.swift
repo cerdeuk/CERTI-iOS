@@ -12,6 +12,9 @@ struct MyCareerWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
+        BackButton() {
+            resumeCoordinator.pop()
+        }
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 MyCareerWriteTitleView
@@ -47,10 +50,6 @@ struct MyCareerWriteView: View {
 extension MyCareerWriteView {
     private var MyCareerWriteTitleView: some View {
         Group {
-            BackButton() {
-                resumeCoordinator.pop()
-            }
-            
             HStack(alignment: .center, spacing: 0) {
                 Text("경력사항 추가")
                     .applyCertiFont(.sub_semibold_20)
