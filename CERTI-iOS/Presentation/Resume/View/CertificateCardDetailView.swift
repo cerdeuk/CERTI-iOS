@@ -139,14 +139,19 @@ extension CertificateCardDetailView {
                         .frame(height: 23)
                         .padding(.top, 8)
                     
+                    Spacer()
+                    
                     ScrollView {
                         Text("\(card.description)".antiAppleBySangyup)
                             .applyCertiFont(.caption_regular_12)
                             .foregroundStyle(.white)
                     }
-                    .frame(height: 126)
+                    .scrollIndicators(.hidden)
+                    .frame(minHeight: 126)
                     .padding(.top, 36)
                     .padding(.bottom, 36)
+                    
+                    Spacer()
                     
                     HStack(alignment: .center, spacing: 0) {
                         Image(.iconCheckWhite24)
@@ -155,6 +160,7 @@ extension CertificateCardDetailView {
                             .foregroundColor(.white)
                         Spacer()
                     }
+                    .frame(height: 24)
                     .padding(.bottom, 4)
                     
                     Text(card.createdAt.toDisplayDateString())
