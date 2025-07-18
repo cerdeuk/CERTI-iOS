@@ -73,6 +73,8 @@ struct MyCareerEditView: View {
                         Spacer()
                     }
                 }
+                .scrollIndicators(.hidden)
+
             }
             
             if isDeleteAlertPresented {
