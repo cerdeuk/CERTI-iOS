@@ -14,9 +14,10 @@ struct CertificateCardDetailView: View {
     @State private var rotation: Double = 0
     @State var isFlipped = false
     @State private var textWidth: CGFloat = 0
+    @State private var isImageLoaded = false
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .center) {
             CertificateCardDetailViewFront
                 .opacity(rotation > 90 ? 0 : 1)
                 .rotation3DEffect(
@@ -46,14 +47,22 @@ struct CertificateCardDetailView: View {
 
 extension CertificateCardDetailView {
     private var CertificateCardDetailViewFront: some View {
-            ZStack {
+            ZStack(alignment: .center) {
                 KFImage(URL(string: card.cardFrontImageUrl))
+                    .onSuccess { _ in
+                        isImageLoaded = true
+                    }
+                    .placeholder {
+                        Color.blackOpacity40
+                            .frame(width: 250, height: 375)
+                    }
                     .retry(maxCount: 3, interval: .seconds(5))
                     .onFailure { error in
                         print("Image Failure: \(error.localizedDescription)")
                     }
                     .resizable()
-                    .scaledToFill()
+                    .scaledToFit()
+//                    .frame(width: 250, height: 375)
                 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(card.name)
@@ -106,16 +115,17 @@ extension CertificateCardDetailView {
                         .padding(.bottom, 12)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: 250, maxHeight: 375)
                 .padding(.top, 39)
             }
+//            .frame(maxWidth: 250, maxHeight: 375)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.vertical, 219)
             .padding(.horizontal, 62)
     }
     
     private var CertificateCardDetailViewBack: some View {
-            ZStack{
+            ZStack(alignment: .center) {
                 KFImage(URL(string: card.cardBackImageUrl))
                     .retry(maxCount: 3, interval: .seconds(5))
                     .onFailure { error in

@@ -29,9 +29,10 @@ struct ResumeView: View {
             }
         }
         .scrollIndicators(.hidden)
-        .overlay(
+        .overlay(alignment: .center){
             Group {
-                if viewModel.isCardDetailPresented, let selectedCard {
+                if viewModel.isCardDetailPresented,
+                   let selectedCard = viewModel.acquisitionDetail {
                     ZStack {
                         Color.blackOpacity40
                             .ignoresSafeArea()
@@ -45,7 +46,7 @@ struct ResumeView: View {
                     .zIndex(1)
                 }
             }
-        )
+        }
         .onAppear{
             Task {
                 await viewModel.getJobList()
@@ -170,16 +171,16 @@ extension ResumeView {
                                     .onTapGesture {
                                         Task {
                                             await viewModel.getAcquisitionDetail(id: cardItem.acquisitionId)
-                                            selectedCard = viewModel.acquisitionDetail
-
-                                            if selectedCard != nil {
+                                            if let detail = viewModel.acquisitionDetail,
+                                               !detail.name.isEmpty {
+                                                selectedCard = detail
                                                 viewModel.isCardDetailPresented = true
                                             }
                                         }
                                     }
                             }
                         }
-                        .padding(.leading, 20)
+                        .padding(.horizontal, 20)
                     }
                     .scrollIndicators(.hidden)
                     .padding(.top, 16)
@@ -230,7 +231,7 @@ extension ResumeView {
                 .frame(maxWidth: .infinity)
             } else {
                 LazyVGrid(columns: columns, spacing: 24) {
-                    ForEach(viewModel.careersList) { item in
+                    ForEach(viewModel.careersList.prefix(4)) { item in
                         HStack(alignment: .center, spacing: 0) {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
@@ -291,7 +292,7 @@ extension ResumeView {
                 .frame(maxWidth: .infinity)
             } else {
                 LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(viewModel.activityList) { item in
+                    ForEach(viewModel.activityList.prefix(4)) { item in
                         HStack(alignment: .center, spacing: 0) {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
