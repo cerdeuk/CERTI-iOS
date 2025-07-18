@@ -57,10 +57,19 @@ extension String {
     }
     
     func trimmedUsername() -> String {
-        if self.count == 3 {
+        if self.count <= 3 {
             return self
         } else {
             return "\(self.prefix(3))..."
         }
     }
+    
+    func trimmedString(count: Int) -> String {
+        if self.count <= count {
+            return self
+        } else {
+            return "\(self.prefix(count))..."
+        }
+    }
+
 }

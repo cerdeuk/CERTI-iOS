@@ -176,7 +176,7 @@ struct CertificateDetailView: View {
                     
                     Spacer()
                     
-                    Text("\((viewModel.certificateDetailModel.charge).convertPrice(maxPrice: Int(viewModel.certificateDetailModel.charge) ?? 0))원")
+                    Text(viewModel.certificateDetailModel.charge)
                         .applyCertiFont(.body_regular_16)
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
