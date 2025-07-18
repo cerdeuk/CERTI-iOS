@@ -44,12 +44,26 @@
 | --- | --- | --- | --- |
 | **IDE & SDK** | **Xcode & SPM** | Apple의 공식 IDE, Swift 기반 의존성 관리 도구 | 16.4 |
 | **UI 프레임워크** | **SwiftUI** | 코드의 간결성과 직관성을 통해 빠르고 쉽게 사용자 인터페이스를 설계하고 유지보수가 가능 | - |
-| **상태 관리 / 아키텍처** | **MVVM-C** | 단방향 데이터 흐름을 통한 구조적 상태 관리 및 사용자 이벤트 반영<br>직관적인 상태 흐름과 빠른 UI 구성에 적합 | — |
 | **네트워크 계층** | **Moya** | 간결한 네트워크 요청과 구조화된 관리 방식으로 코드 가독성과 유지보수성 향상 | 15.0.3 |
 | **이미지 처리** | **Kingfisher** | 효율적인 이미지 다운로드 및 캐싱을 통해 네트워크 이미지 로딩 성능 향상 | 8.4.0 |
 | **비동기 처리** | **Swift Concurrency** | 명확하고 안전한 비동기 흐름 관리를 통해 복잡한 비동기 로직의 가동성과 유지보수성 향상 | 3.22.0 |
 | **로그 관리** | **Logger** | 구조화된 로깅을 지원하여 성능 저하 없이 효율적으로 로그 수집 및 분석 가능 | — |
 | **로그인** | **KakaoOpenSDK** | 카카오 소셜 로그인을 위해 사용 | 2.24.4 |
+
+
+## <img width="40" src="https://github.com/user-attachments/assets/5d175b67-83b4-4b2d-bda6-dbe20552fad4" /> Architecture
+
+<img width="16384" height="3616" alt="image 3" src="https://github.com/user-attachments/assets/fd7acaf5-31e9-4176-ba91-b7c5025f4902" />
+
+### MVVM 패턴
+
+SwiftUI의 선언형 UI 특성과 자연스럽게 맞물리는 MVVM(Model-View-ViewModel) 아키텍처를 채택하여 뷰와 비즈니스 로직을 명확히 분리했습니다.
+
+이로 인해 코드의 재사용성과 테스트 용이성이 높아졌고, 뷰 상태 관리를 더욱 체계적으로 수행할 수 있었습니다.
+
+또한, ViewModel을 통해 데이터 흐름을 일관되게 유지함으로써 유지보수성과 확장성을 고려한 구조를 구현하였습니다.
+
+
 
 ## <img width="40" src="https://github.com/user-attachments/assets/ff7c3543-d9cc-495f-a439-79a4d15664fb" /> Foldering
 
@@ -57,13 +71,16 @@
 📁 CERTI-iOS
 ├── 📁 CERTI-iOS
 │   ├── 📁 Application
+│   │   └── 📃 AppCoordinator.swift
+│   │   └── 📃 AppCoordinatorView.swift
+│   │   └── 📃 CERTI_iOSApp.swift
+│   │   └── 📃 RootView
 │   ├── 📁 Global
 │   │   ├── 📁 Components
 │   │   ├── 📁 Core
 │   │   │   └── 📁 Auth
 │   │   │       ├── 📁 Error
 │   │   │       └── 📁 SocialLogin
-│   │   │           └── 📁 Adapters
 │   │   ├── 📁 Enums
 │   │   ├── 📁 Extensions
 │   │   ├── 📁 Literals
@@ -79,9 +96,6 @@
 │   │       │   │   ├── 📁 Main
 │   │       │   │   └── 📁 Sub
 │   │       │   ├── 📁 Image
-│   │       │   │   ├── 📁 Card
-│   │       │   │   ├── 📁 Logo
-│   │       │   │   └── 📁 Onboarding
 │   │       │   ├── 📁 Loading
 │   │       │   ├── 📁 Login
 │   │       │   └── 📁 TabBar
@@ -89,86 +103,54 @@
 │   ├── 📁 Network
 │   │   ├── 📁 Acquisition
 │   │   │   └── 📁 DTO
-│   │   │       └── 📁 Response
+│   │   │       ├── 📁 Response
+│   │   │       │   └── 📃 AcquisitionDetailResponseDTO.swift
+│   │   │       ├── 📃 AcquisitionAPI.swift
+│   │   │       └── 📃 AcquisitionService.swift
 │   │   ├── 📁 Activity
-│   │   │   └── 📁 DTO
-│   │   │       ├── 📁 Request
-│   │   │       └── 📁 Response
-│   │   ├── 📁 Auth
-│   │   │   └── 📁 DTO
-│   │   │       ├── 📁 Request
-│   │   │       └── 📁 Response
-│   │   ├── 📁 Base
-│   │   ├── 📁 Careers
-│   │   │   └── 📁 DTO
-│   │   │       ├── 📁 Request
-│   │   │       └── 📁 Response
-│   │   ├── 📁 Certification
-│   │   │   └── 📁 DTO
-│   │   │       └── 📁 Response
-│   │   ├── 📁 Home
-│   │   │   └── 📁 DTO
-│   │   │       └── 📁 Response
-│   │   ├── 📁 Job
-│   │   │   └── 📁 DTO
-│   │   │       ├── 📁 Request
-│   │   │       └── 📁 Response
-│   │   ├── 📁 Onboarding
-│   │   │   └── 📁 DTO
-│   │   │       └── 📁 Response
-│   │   └── 📁 User
-│   │       └── 📁 DTO
-│   │           └── 📁 Response
-│   └── 📁 Presentation
-│       ├── 📁 Category
-│       │   ├── 📁 Components
-│       │   ├── 📁 Coordinator
-│       │   ├── 📁 View
-│       │   └── 📁 ViewModel
-│       ├── 📁 CertificateDetail
-│       │   ├── 📁 Components
-│       │   ├── 📁 Models
-│       │   ├── 📁 View
-│       │   └── 📁 ViewModel
-│       ├── 📁 Home
-│       │   ├── 📁 Components
-│       │   ├── 📁 Coordinator
-│       │   ├── 📁 Models
-│       │   ├── 📁 View
-│       │   └── 📁 ViewModel
-│       ├── 📁 Onboarding
-│       │   ├── 📁 Coordinator
-│       │   ├── 📁 Models
-│       │   ├── 📁 View
-│       │   └── 📁 ViewModel
-│       ├── 📁 Recommend
-│       │   ├── 📁 Components
-│       │   ├── 📁 Coordinator
-│       │   ├── 📁 View
-│       │   └── 📁 ViewModel
-│       ├── 📁 Resume
-│       │   ├── 📁 Components
-│       │   ├── 📁 Coordinator
-│       │   ├── 📁 Models
-│       │   ├── 📁 View
-│       │   └── 📁 ViewModel
-│       ├── 📁 Splash
-│       │   ├── 📁 View
-│       │   └── 📁 ViewModel
-│       └── 📁 TabBar
-│           ├── 📁 Coordinator
-│           └── 📁 View
-└── 📁 CERTI-iOS.xcodeproj
-    ├── 📁 project.xcworkspace
-    │   ├── 📁 xcshareddata
-    │   │   └── 📁 swiftpm
-    │   │       └── 📁 configuration
-    │   └── 📁 xcuserdata
-    │       └── 📁 sangyup.xcuserdatad
-    ├── 📁 xcshareddata
-    │   └── 📁 xcschemes
-    └── 📁 xcuserdata
-        └── 📁 sangyup.xcuserdatad
-            ├── 📁 xcdebugger
-            └── 📁 xcschemes
+└── └── 📁 Presentation
+        ├── 📁 CertificateDetail
+        │   ├── 📁 Components
+        │   │   └── 📃 CertificateDetailFailToastMessage.swift
+        │   │   └── 📃 CertificateDetailSuccessToastMessage.swift
+        │   ├── 📁 Models
+        │   │   └── 📃 CertificateDetailModel.swift
+        │   ├── 📁 View
+        │   │   └── 📃 CertificateDetailView.swift
+        │   │   └── 📃 CertificationDetailCompleteModalView.swift
+        │   ├── 📁 ViewModel
+        │   │   └── 📃 CertificateDetailViewModel.swift
+        ├── 📁 Home
+        │   ├── 📁 Components
+        │   ├── 📁 Coordinator
+        │   ├── 📁 Models
+        │   ├── 📁 View
+        │   └── 📁 ViewModel
+        └── 📁 TabBar
+            ├── 📁 Coordinator
+            └── 📁 View
 ```
+
+## <img width="40" src="https://github.com/user-attachments/assets/1f25f830-8e45-4c42-8602-eb7129c41757" /> Convention
+
+### Coding
+
+[Swift 스타일쉐어 가이드](https://github.com/StyleShare/swift-style-guide)를 기반으로
+
+기반으로 팀원의 기존 스타일을 반영하였습니다.
+
+### Commit
+
+```markdown
+[Feat] : 새로운 기능 구현
+[Fix] : 버그, 오류 해결
+[Chore] : 코드 수정, 내부 파일 수정, 애매한 것들이나 잡일은 이걸로!
+[Add] : 라이브러리 추가, 에셋 추가
+[Del] : 쓸모없는 코드 삭제
+[Docs] : README나 WIKI 등의 문서 개정
+[Refactor] : 전면 수정이 있을 때 사용합니다.
+[Setting] : 프로젝트 설정관련이 있을 때 사용합니다.
+[Merge] : Pull Develop
+```
+
+예시 [Feat] #1 - 메인 UI 구현
