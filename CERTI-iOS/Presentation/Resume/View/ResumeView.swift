@@ -13,7 +13,7 @@ struct ResumeView: View {
     @State private var selectedCard: CertificatedDetailModel? = nil
 
     let columns = [GridItem(.flexible())]
-    let rows = [GridItem(.fixed(100))]
+    let rows = [GridItem(.flexible())]
 
     var body: some View {
         ScrollView {
