@@ -48,7 +48,7 @@ struct PreLicenseCard: View {
                             .frame(width: 16, height: 16)
                             .padding(.trailing, 4)
                         
-                        Text(licenseCard.agencyName)
+                        Text(licenseCard.agencyName.trimmedString(count: 6))
                             .applyCertiFont(.caption_regular_12)
                             .foregroundStyle(.grayscale500)
                     }

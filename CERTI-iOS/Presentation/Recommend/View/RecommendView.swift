@@ -35,6 +35,12 @@ struct RecommendView: View {
                 await viewModel.getJobList()
             }
         }
+        .onChange(of: viewModel.selectedCategories, perform: { _ in
+            Task {
+                await viewModel.getRecommendCertificationList()
+                await viewModel.getJobList()
+            }
+        })
         .overlay {
             if viewModel.isShowLoading {
                 CertiLoadingView(name: AuthManager.shared.nickname)
