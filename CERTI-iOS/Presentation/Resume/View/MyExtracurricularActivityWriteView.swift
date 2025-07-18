@@ -12,10 +12,6 @@ struct MyExtracurricularActivityWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
-        ZStack {
-            Color.clear
-                .contentShape(Rectangle())
-            
             VStack (alignment: .leading, spacing: 0) {
                 BackButton() {
                     resumeCoordinator.pop()
@@ -33,6 +29,17 @@ struct MyExtracurricularActivityWriteView: View {
                         organizeView
                         activityView
                         activityDetailView
+                        ResumeWriteButton(
+                            action: {
+                                Task {
+                                    await viewModel.addActivity(resumeModel: viewModel.resumeModel)
+                                    viewModel.clearResumeModel()
+                                    resumeCoordinator.pop()
+                                }
+                            },
+                            textEmpty: .constant(viewModel.isWriteButtonEnabled)
+                        )
+                        .padding(.top, 40)
                     }
                 }
                 .onAppear{
@@ -40,23 +47,8 @@ struct MyExtracurricularActivityWriteView: View {
                 }
                 .navigationBarBackButtonHidden()
                 .scrollIndicators(.hidden)
-                
-                ResumeWriteButton(
-                    action: {
-                        Task {
-                            await viewModel.addActivity(resumeModel: viewModel.resumeModel)
-                            viewModel.clearResumeModel()
-                            resumeCoordinator.pop()
-                        }
-                    },
-                    textEmpty: .constant(viewModel.isWriteButtonEnabled)
-                )
-                .padding(.bottom, 16)
+                .scrollDismissesKeyboard(.immediately)
             }
-        }
-        .onTapGesture {
-            hideKeyboard()
-        }
     }
 }
 
