@@ -77,10 +77,13 @@ struct RecommendFilterModalView: View {
         Button {
             viewModel.toggleLoadingState()
             selectedCategories = tempSelectedCategories
+            viewModel.licenseCards.removeAll()
             Task{
                 await viewModel.postJobList(jobNameList: selectedCategories)
                 try await Task.sleep(for: .seconds(2))
                 viewModel.selectedCategories = tempSelectedCategories
+                await viewModel.getRecommendCertificationList()
+
                 viewModel.toggleLoadingState()
             }
             dismiss()
