@@ -68,7 +68,7 @@ extension CertificateCardDetailView {
                         .frame(height: 20)
                         .padding(.leading, 20)
                     
-                    TagChip(tags: card.tags, spacing: 4)
+                    TagChipColor(tags: card.tags, spacing: 4, backgroundColor: card.index == 3 ? .skyblue : .lightpurple, textColor: card.index == 3 ? .purplewhite : .mainblue)
                         .frame(height: 23)
                         .padding(.top, 8)
                         .padding(.leading, 20)
@@ -155,7 +155,7 @@ extension CertificateCardDetailView {
                     
                     HStack(alignment: .center, spacing: 0) {
                         Image(.iconCheckWhite24)
-                        Text("서티님의 취득일자")
+                        Text("\(AuthManager.shared.nickname.trimmedUsername())님의 취득일자")
                             .applyCertiFont(.caption_semibold_14)
                             .foregroundColor(.white)
                         Spacer()

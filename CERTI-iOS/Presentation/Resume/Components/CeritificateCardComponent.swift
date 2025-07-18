@@ -36,7 +36,7 @@ struct CeritificateCardComponent: View {
                     .frame(height: 18)
                     .padding(.top, 4)
                 
-                TagChipMini(tags: model.tags, spacing: 4)
+                TagChipMini(tags: model.tags, spacing: 4, backgroundColor: model.index == 3 ? .skyblue : .lightpurple, textColor: model.index == 3 ? .purplewhite : .mainblue)
                     .frame(height: 23)
                     .padding(.top, 8)
             }
