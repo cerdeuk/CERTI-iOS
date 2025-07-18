@@ -179,7 +179,7 @@ extension ResumeView {
                                     }
                             }
                         }
-                        .padding(.leading, 20)
+                        .padding(.horizontal, 20)
                     }
                     .scrollIndicators(.hidden)
                     .padding(.top, 16)
