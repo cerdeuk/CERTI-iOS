@@ -40,8 +40,7 @@ struct CeritificateCardComponent: View {
                     .frame(height: 23)
                     .padding(.top, 8)
             }
-            .padding(.leading, 12)
-            .padding(.trailing, 36)
+            .padding(.leading, 16)
         }
     }
 }
