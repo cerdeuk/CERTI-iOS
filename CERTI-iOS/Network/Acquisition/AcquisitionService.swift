@@ -9,14 +9,9 @@ import Foundation
 
 import Moya
 
-protocol AcquisitionServiceProtocol {
-    func fetchAcquisitionList() async -> Result<AcquisitionListResponseDTO, NetworkError>
-    func addAcquisition(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError>
-    func fetchAcquisitionDetail(id: Int) async -> Result<AcquisitionDetailResponseDTO, NetworkError>
-    func deleteAcquisition(id: Int) async -> Result<Void, NetworkError>
-}
 
-final class AcquisitionService: BaseService, AcquisitionServiceProtocol {
+
+final class AcquisitionService: BaseService, AcquisitionRepository {
     private let provider = MoyaProvider<AcquisitionAPI>.init(plugins: [MoyaPlugin()])
     
     func fetchAcquisitionList() async -> Result<AcquisitionListResponseDTO, NetworkError> {

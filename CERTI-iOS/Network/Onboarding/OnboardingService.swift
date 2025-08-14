@@ -9,12 +9,9 @@ import Foundation
 
 import Moya
 
-protocol OnboardingServiceProtocol {
-    func getSearchUniv(keyword: String, preSignUpToken: String) async -> Result<UnivListResponseDTO, NetworkError>
-    func getSearchMajor(keyword: String, preSignUpToken: String) async -> Result<MajorListResponseDTO, NetworkError>
-}
 
-final class OnboardingService: BaseService, OnboardingServiceProtocol {
+
+final class OnboardingService: BaseService, OnboardingRepository {
     
     private let provider = MoyaProvider<OnboardingAPI>.init(plugins: [MoyaPlugin()])
 

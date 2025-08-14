@@ -9,12 +9,9 @@ import Foundation
 
 import Moya
 
-protocol JobsServiceProtocol {
-    func getFetchJob() async -> Result<JobListResponseDTO, NetworkError>
-    func editJob(jobNameList: [String]) async -> Result<Void, NetworkError>
-}
 
-final class JobService: BaseService, JobsServiceProtocol {
+
+final class JobService: BaseService, JobRepository {
     private let provider = MoyaProvider<JobAPI>.init(plugins: [MoyaPlugin()])
 
     func getFetchJob() async -> Result<JobListResponseDTO, NetworkError> {

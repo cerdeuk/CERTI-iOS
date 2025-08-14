@@ -9,15 +9,9 @@ import Foundation
 
 import Moya
 
-protocol CertificationServiceProtocol {
-    func getCategory(isFavorite: Bool, jobs: String) async -> Result<CategoryListResponseDTO, NetworkError>
-    func switchFavorite(certificationId: Int) async -> Result<Void, NetworkError>
-    func searchCertification(keyword: String) async -> Result<SearchCertificationResponseDTO, NetworkError>
-    func fetchCertificationDetail(certificationId: Int) async -> Result<CertificationDetailResponseDTO, NetworkError>
-    func getRecommend() async -> Result<RecommendCertificationResponseDTO, NetworkError>
-}
 
-final class CertificationService: BaseService, CertificationServiceProtocol {
+
+final class CertificationService: BaseService, CertificationRepository {
     
     private let provider = MoyaProvider<CertificationAPI>.init(plugins: [MoyaPlugin()])
     

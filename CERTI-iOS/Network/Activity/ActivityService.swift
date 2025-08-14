@@ -9,13 +9,9 @@ import Foundation
 
 import Moya
 
-protocol ActivityServiceProtocol {
-    func fetchActivityList() async -> Result<ActivityListResponseDTO, NetworkError>
-    func deleteActivity(id: Int) async -> Result<Void, NetworkError>
-    func addActivity(request: AddActivityRequestDTO) async -> Result<Void, NetworkError>
-}
 
-final class ActivityService: BaseService, ActivityServiceProtocol {
+
+final class ActivityService: BaseService, ActivityRepository {
     private let provider = MoyaProvider<ActivityAPI>.init(plugins: [MoyaPlugin()])
     
     func fetchActivityList() async -> Result<ActivityListResponseDTO, NetworkError> {

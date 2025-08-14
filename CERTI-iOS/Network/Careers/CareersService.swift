@@ -9,13 +9,9 @@ import Foundation
 
 import Moya
 
-protocol CareersServiceProtocol {
-    func fetchCareersList() async -> Result<CareersListResponseDTO, NetworkError>
-    func deledteCareers(id: Int) async -> Result<Void, NetworkError>
-    func addCareer(request: AddCareerRequestDTO) async -> Result<Bool, NetworkError>
-}
 
-final class CareersService: BaseService, CareersServiceProtocol {
+
+final class CareersService: BaseService, CareersRepository {
     private let provider = MoyaProvider<CareersAPI>.init(plugins: [MoyaPlugin()])
     
     func fetchCareersList() async -> Result<CareersListResponseDTO, NetworkError> {

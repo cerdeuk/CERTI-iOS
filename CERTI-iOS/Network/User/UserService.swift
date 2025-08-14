@@ -9,11 +9,9 @@ import Foundation
 
 import Moya
 
-protocol UserServiceProtocol {
-    func getuserInfo() async -> Result<UserInfoResponseDTO, NetworkError>
-}
 
-final class UserService: BaseService, UserServiceProtocol {
+
+final class UserService: BaseService, UserRepository {
     
     private let provider = MoyaProvider<UserAPI>.init(plugins: [MoyaPlugin()])
 

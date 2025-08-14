@@ -9,15 +9,7 @@ import Foundation
 
 import Moya
 
-protocol HomeServiceProtocol {
-    func getPreCertification() async -> Result<PreCertificationInfoResponseDTO, NetworkError>
-    func deletePreCertification(id: Int) async -> Result<Void, NetworkError>
-    func getFavoriteCertification() async -> Result<FavoriteCertificationResponseDTO, NetworkError>
-    func addPreCertification(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError>
-    
-}
-
-final class HomeService: BaseService, HomeServiceProtocol {
+final class HomeService: BaseService, HomeRepository {
             
     private let provider = MoyaProvider<HomeAPI>.init(plugins: [MoyaPlugin()])
 
