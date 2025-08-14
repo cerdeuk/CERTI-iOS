@@ -22,7 +22,6 @@
 		6CBA9DBD2E1046670073696A /* Exceptions for "CERTI-iOS" folder in "CERTI-iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Global/Literals/.gitkeep,
 				Global/Resources/Info.plist,
 			);
 			target = 6CA0421E2E0AD0F5006125AD /* CERTI-iOS */;

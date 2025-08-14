@@ -14,13 +14,7 @@ enum AuthResponse {
     case needSignUp(SignupRequiredResponseDTO)
 }
 
-protocol AuthServiceProtocol {
-    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponse, NetworkError>
-    func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError>
-    func withDraw() async -> Result<Void, NetworkError>
-}
-
-final class AuthService: BaseService, AuthServiceProtocol {
+final class AuthService: BaseService, AuthRepository {
     
     private let provider = MoyaProvider<AuthAPI>.init(plugins: [MoyaPlugin()])
     

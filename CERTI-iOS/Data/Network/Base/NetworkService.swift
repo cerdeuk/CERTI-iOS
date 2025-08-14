@@ -18,7 +18,7 @@ final class NetworkService {
     /// let authService: AuthServiceProtocol = AuthService()
 
     let tokenRefreshService: TokenRefreshServiceProtocol = TokenRefreshService()
-    let authService: AuthServiceProtocol = AuthService()
+    let authService: AuthRepository = AuthService()
     let onboardingService: OnboardingServiceProtocol = OnboardingService()
     let certificationService: CertificationServiceProtocol = CertificationService()
     let jobService: JobsServiceProtocol = JobService()
