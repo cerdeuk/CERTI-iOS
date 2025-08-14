@@ -1,5 +1,5 @@
 //
-//  HomeService.swift
+//  DefaultHomeRepository.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 7/16/25.
@@ -9,23 +9,21 @@ import Foundation
 
 import Moya
 
-final class HomeService: BaseService, HomeRepository {
+final class DefaultHomeRepository: BaseService<HomeAPI>, HomeRepository {
             
-    private let provider = MoyaProvider<HomeAPI>.init(plugins: [MoyaPlugin()])
-
     func getPreCertification() async -> Result<PreCertificationInfoResponseDTO, NetworkError> {
-        return await requestDecodable(provider, .getPreCertification)
+        return await requestDecodable(.getPreCertification)
     }
     
     func deletePreCertification(id: Int) async -> Result<Void, NetworkError> {
-        return await requestVoid(provider, .deletePreCertification(id: id))
+        return await requestVoid(.deletePreCertification(id: id))
     }
     
     func getFavoriteCertification() async -> Result<FavoriteCertificationResponseDTO, NetworkError> {
-        return await requestDecodable(provider, .getFavoriteCertification)
+        return await requestDecodable(.getFavoriteCertification)
     }
 
     func addPreCertification(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
-        return await requestDecodable(provider, .addPreCertification(certificationId: certificationId))
+        return await requestDecodable(.addPreCertification(certificationId: certificationId))
     }
 }

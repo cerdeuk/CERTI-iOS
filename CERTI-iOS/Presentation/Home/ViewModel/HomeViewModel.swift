@@ -32,6 +32,11 @@ final class HomeViewModel: ObservableObject {
     }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "HOME")
+    
+    private let authRepository = AppDIContainer.shared.makeAuthRepository()
+    private let userRepository = AppDIContainer.shared.makeUserRepository()
+    private let certificationRepository = AppDIContainer.shared.makeCertificationRepository()
+    private let homeRepository = AppDIContainer.shared.makeHomeRepository()
 }
 
 
@@ -39,7 +44,7 @@ final class HomeViewModel: ObservableObject {
 
 extension HomeViewModel {
     func withDraw() async {
-        let result = await NetworkService.shared.authService.withDraw()
+        let result = await authRepository.withDraw()
         
         switch result {
         case .success:
@@ -52,7 +57,7 @@ extension HomeViewModel {
     }
     
     func getUserInfo() async {
-        let result = await NetworkService.shared.userService.getuserInfo()
+        let result = await userRepository.getuserInfo()
         
         switch result {
         case .success(let response):
@@ -69,7 +74,7 @@ extension HomeViewModel {
     }
     
     func getRecommendCertificationList() async {
-        let result = await NetworkService.shared.certificationService.getRecommend()
+        let result = await certificationRepository.getRecommend()
         
         switch result {
         case .success(let response):
@@ -84,7 +89,7 @@ extension HomeViewModel {
     }
     
     func getPreCertificationList() async {
-        let result = await NetworkService.shared.homeService.getPreCertification()
+        let result = await homeRepository.getPreCertification()
         
         switch result {
         case .success(let response):
@@ -100,7 +105,7 @@ extension HomeViewModel {
     }
     
     func deletePreCertification(id: Int) async {
-        let result = await NetworkService.shared.homeService.deletePreCertification(id: id)
+        let result = await homeRepository.deletePreCertification(id: id)
         
         switch result {
         case .success:
@@ -114,7 +119,7 @@ extension HomeViewModel {
     }
     
     func getFavoriteCertificationList() async {
-        let result = await NetworkService.shared.homeService.getFavoriteCertification()
+        let result = await homeRepository.getFavoriteCertification()
         
         switch result {
         case .success(let response):
@@ -131,7 +136,7 @@ extension HomeViewModel {
     }
     
     func toggleFavoriteCertification(certificationId: Int) async {
-        let result = await NetworkService.shared.certificationService.switchFavorite(certificationId: certificationId)
+        let result = await certificationRepository.switchFavorite(certificationId: certificationId)
         
         switch result {
         case .success():

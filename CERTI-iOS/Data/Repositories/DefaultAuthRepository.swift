@@ -1,5 +1,5 @@
 //
-//  AuthService.swift
+//  DefaultAuthRepository.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 7/10/25.
@@ -14,16 +14,14 @@ enum AuthResponse {
     case needSignUp(SignupRequiredResponseDTO)
 }
 
-final class AuthService: BaseService, AuthRepository {
-    
-    private let provider = MoyaProvider<AuthAPI>.init(plugins: [MoyaPlugin()])
-    
+final class DefaultAuthRepository: BaseService<AuthAPI>, AuthRepository {
+        
     func withDraw() async -> Result<Void, NetworkError> {
-        return await requestVoid(provider, .withDraw)
+        return await requestVoid(.withDraw)
     }
     
     func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError> {
-        return await requestDecodable(provider, .signUp(request: request, preSignUpToken: preSignUpToken))
+        return await requestDecodable(.signUp(request: request, preSignUpToken: preSignUpToken))
     }
     
     func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponse, NetworkError> {

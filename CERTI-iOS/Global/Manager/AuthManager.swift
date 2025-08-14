@@ -15,7 +15,7 @@ final class AuthManager {
     static let shared = AuthManager()
     private init() {}
     
-    private let authService = NetworkService.shared.authService
+    private let authService = AppDIContainer.shared.makeAuthRepository()
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Auth")
 

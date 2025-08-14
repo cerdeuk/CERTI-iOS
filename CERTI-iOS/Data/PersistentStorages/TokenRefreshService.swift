@@ -13,10 +13,8 @@ protocol TokenRefreshServiceProtocol {
     func refresh() async -> Result<TokenResponseDTO, NetworkError>
 }
 
-final class TokenRefreshService: BaseService, TokenRefreshServiceProtocol {
-    private let provider = MoyaProvider<AuthAPI>(plugins: [MoyaPlugin()])
-
+final class TokenRefreshService: BaseService<AuthAPI>, TokenRefreshServiceProtocol {
     func refresh() async -> Result<TokenResponseDTO, NetworkError> {
-        return await requestDecodable(provider, .refresh)
+        return await requestDecodable(.refresh)
     }
 }

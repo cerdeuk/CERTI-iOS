@@ -1,5 +1,5 @@
 //
-//  JobService.swift
+//  DefaultJobRepository.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 7/15/25.
@@ -9,14 +9,14 @@ import Foundation
 
 import Moya
 
-final class JobService: BaseService, JobRepository {
-    private let provider = MoyaProvider<JobAPI>.init(plugins: [MoyaPlugin()])
+final class DefaultJobRepository: BaseService<JobAPI>, JobRepository {
 
     func getFetchJob() async -> Result<JobListResponseDTO, NetworkError> {
-        return await requestDecodable(provider, .fetchJob)
+        return await requestDecodable(.fetchJob)
     }
+    
     func editJob(jobNameList: [String]) async -> Result<Void, NetworkError> {
         let requestDTO = EditJobRequestDTO(jobNameList: jobNameList)
-        return await requestVoid(provider, .editJob(request: requestDTO))
+        return await requestVoid(.editJob(request: requestDTO))
     }
 }
