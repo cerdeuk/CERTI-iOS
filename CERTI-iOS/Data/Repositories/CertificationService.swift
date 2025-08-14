@@ -9,8 +9,6 @@ import Foundation
 
 import Moya
 
-
-
 final class CertificationService: BaseService, CertificationRepository {
     
     private let provider = MoyaProvider<CertificationAPI>.init(plugins: [MoyaPlugin()])

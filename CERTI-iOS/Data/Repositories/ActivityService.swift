@@ -9,8 +9,6 @@ import Foundation
 
 import Moya
 
-
-
 final class ActivityService: BaseService, ActivityRepository {
     private let provider = MoyaProvider<ActivityAPI>.init(plugins: [MoyaPlugin()])
     

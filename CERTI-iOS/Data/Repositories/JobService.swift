@@ -9,8 +9,6 @@ import Foundation
 
 import Moya
 
-
-
 final class JobService: BaseService, JobRepository {
     private let provider = MoyaProvider<JobAPI>.init(plugins: [MoyaPlugin()])
 

@@ -9,8 +9,6 @@ import Foundation
 
 import Moya
 
-
-
 final class OnboardingService: BaseService, OnboardingRepository {
     
     private let provider = MoyaProvider<OnboardingAPI>.init(plugins: [MoyaPlugin()])

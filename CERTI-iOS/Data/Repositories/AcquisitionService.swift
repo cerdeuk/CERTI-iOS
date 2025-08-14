@@ -9,8 +9,6 @@ import Foundation
 
 import Moya
 
-
-
 final class AcquisitionService: BaseService, AcquisitionRepository {
     private let provider = MoyaProvider<AcquisitionAPI>.init(plugins: [MoyaPlugin()])
     
