@@ -13,6 +13,14 @@ struct FavoriteCertificationData: Decodable {
     let data: [FavoriteCertificationInfo]
 }
 
+extension FavoriteCertificationData {
+    func toEntity() -> FavoriteCertificationEntity {
+        return FavoriteCertificationEntity(
+            certifications: data.map { $0.toEntity() }
+        )
+    }
+}
+
 struct FavoriteCertificationInfo: Decodable {
     let certificationId: Int
     let certificationName: String
@@ -23,7 +31,14 @@ struct FavoriteCertificationInfo: Decodable {
 }
 
 extension FavoriteCertificationInfo {
-    func toFavoriteLicenseCardModel() -> FavoriteLicenseCardModel {
-        return FavoriteLicenseCardModel(certificationId: self.certificationId, certificationName: self.certificationName, testType: self.testType, agencyName: self.agencyName, certificationType: self.certificationType, isFavorite: self.isFavorite)
+    func toEntity() -> FavoriteCertificationEntityData {
+        return FavoriteCertificationEntityData(
+            certificationId: certificationId,
+            certificationName: certificationName,
+            testType: testType,
+            agencyName: agencyName,
+            certificationType: certificationType,
+            isFavorite: isFavorite
+        )
     }
 }

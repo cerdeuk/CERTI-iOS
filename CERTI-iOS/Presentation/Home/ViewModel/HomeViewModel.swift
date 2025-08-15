@@ -123,14 +123,13 @@ extension HomeViewModel {
     }
     
     func getFavoriteCertificationList() async {
-        let result = await homeRepository.getFavoriteCertification()
-        
+        let result = await homeUseCase.getFavoriteCertification()
+                
         switch result {
         case .success(let response):
             logger.info("✅ 즐겨찾기 자격증 조회 성공")
             
-            let list = response.data?.data.map { $0.toFavoriteLicenseCardModel() } ?? []
-            
+            let list = response.toModels()
             homeStateModel.favoriteLicenses = list
             
         case .failure(let error):

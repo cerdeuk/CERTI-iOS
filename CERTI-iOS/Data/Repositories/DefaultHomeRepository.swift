@@ -34,8 +34,17 @@ final class DefaultHomeRepository: HomeRepository {
         return await service.deletePreCertification(id: id)
     }
     
-    func getFavoriteCertification() async -> Result<FavoriteCertificationResponseDTO, NetworkError> {
-        return await service.getFavoriteCertification()
+    func getFavoriteCertification() async -> Result<FavoriteCertificationEntity, NetworkError> {
+        let result = await service.getFavoriteCertification()
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
 
     func addPreCertification(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {

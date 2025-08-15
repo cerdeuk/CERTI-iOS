@@ -10,7 +10,7 @@ import Foundation
 protocol HomeUseCase {
     func getPreCertification() async -> Result<PreCertificationEntity, NetworkError>
     func deletePreCertification(id: Int) async -> Result<Void, NetworkError>
-    func getFavoriteCertification() async -> Result<[FavoriteLicenseCardModel], NetworkError>
+    func getFavoriteCertification() async -> Result<FavoriteCertificationEntity, NetworkError>
     func addPreCertification(certificationId: Int) async -> Result<Bool, NetworkError>
 }
 
@@ -31,11 +31,9 @@ final class DefaultHomeUseCase: HomeUseCase {
         await repository.deletePreCertification(id: id)
     }
     
-    func getFavoriteCertification() async -> Result<[FavoriteLicenseCardModel], NetworkError> {
+    func getFavoriteCertification() async -> Result<FavoriteCertificationEntity, NetworkError> {
         let result = await repository.getFavoriteCertification()
-        return result.map { dto in
-            dto.data.map { FavoriteLicenseCardModel }
-        }
+        return result
     }
     
     func addPreCertification(certificationId: Int) async -> Result<Bool, NetworkError> {

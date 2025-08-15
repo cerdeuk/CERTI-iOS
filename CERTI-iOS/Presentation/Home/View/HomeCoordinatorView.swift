@@ -11,7 +11,7 @@ struct HomeCoordinatorView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
     @ObservedObject var homeCoordinator: HomeCoordinator
-    @StateObject var homeViewModel = HomeViewModel()
+    @StateObject var homeViewModel = AppDIContainer.shared.makeHomeViewModel()
     
     var body: some View {
         NavigationStack(path: $homeCoordinator.path) {

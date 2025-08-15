@@ -18,11 +18,11 @@ final class DefaultJobRepository: JobRepository {
     }
 
     func getFetchJob() async -> Result<JobListResponseDTO, NetworkError> {
-        return await requestDecodable(.fetchJob)
+        return await service.getFetchJob()
     }
     
     func editJob(jobNameList: [String]) async -> Result<Void, NetworkError> {
         let requestDTO = EditJobRequestDTO(jobNameList: jobNameList)
-        return await requestVoid(.editJob(request: requestDTO))
+        return await service.editJob(jobNameList: jobNameList)
     }
 }

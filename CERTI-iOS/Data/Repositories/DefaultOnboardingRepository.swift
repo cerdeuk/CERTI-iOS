@@ -18,11 +18,11 @@ final class DefaultOnboardingRepository: OnboardingRepository {
     }
     
     func getSearchUniv(keyword: String, preSignUpToken: String) async -> Result<UnivListResponseDTO, NetworkError> {
-        return await requestDecodable(.searchUniv(keyword: keyword, preSignUpToken: preSignUpToken))
+        return await service.getSearchUniv(keyword: keyword, preSignUpToken: preSignUpToken)
     }
     
     func getSearchMajor(keyword: String, preSignUpToken: String) async -> Result<MajorListResponseDTO, NetworkError> {
-        return await requestDecodable(.searchMajor(keyword: keyword, preSignUpToken: preSignUpToken))
+        return await service.getSearchMajor(keyword: keyword, preSignUpToken: preSignUpToken)
     }
     
 }
