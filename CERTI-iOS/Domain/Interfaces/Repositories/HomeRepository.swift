@@ -7,8 +7,6 @@
 
 import Foundation
 
-// TODO: - DTO가 아니라 전부 Entity 선언해서 바꿔줘야 함
-
 protocol HomeRepository {
     func getPreCertification() async -> Result<PreCertificationEntity, NetworkError>
     func deletePreCertification(id: Int) async -> Result<Void, NetworkError>

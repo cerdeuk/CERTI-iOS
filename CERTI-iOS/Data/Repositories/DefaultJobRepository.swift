@@ -22,7 +22,6 @@ final class DefaultJobRepository: JobRepository {
     }
     
     func editJob(jobNameList: [String]) async -> Result<Void, NetworkError> {
-        let requestDTO = EditJobRequestDTO(jobNameList: jobNameList)
         return await service.editJob(jobNameList: jobNameList)
     }
 }
