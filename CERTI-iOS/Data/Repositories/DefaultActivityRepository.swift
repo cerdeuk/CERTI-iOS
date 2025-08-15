@@ -9,17 +9,23 @@ import Foundation
 
 import Moya
 
-final class DefaultActivityRepository: BaseService<ActivityAPI>, ActivityRepository {
+final class DefaultActivityRepository: ActivityRepository {
+    
+    private let service: ActivityServiceProtocol
+
+    public init(service: ActivityServiceProtocol) {
+        self.service = service
+    }
     
     func fetchActivityList() async -> Result<ActivityListResponseDTO, NetworkError> {
-        return await requestDecodable(.fetchActivityList)
+        return await service.fetchActivityList()
     }
     
     func deleteActivity(id: Int) async -> Result<Void, NetworkError> {
-        return await requestVoid(.deleteActivity(id: id))
+        return await service.deleteActivity(id: id)
     }
     
     func addActivity(request: AddActivityRequestDTO) async -> Result<Void, NetworkError> {
-        return await requestVoid(.addActivity(request: request))
+        return await service.addActivity(request: request)
     }
 }

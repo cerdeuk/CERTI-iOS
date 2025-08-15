@@ -9,7 +9,13 @@ import Foundation
 
 import Moya
 
-final class DefaultOnboardingRepository: BaseService<OnboardingAPI>, OnboardingRepository {
+final class DefaultOnboardingRepository: OnboardingRepository {
+    
+    private let service: OnboardingServiceProtocol
+
+    public init(service: OnboardingServiceProtocol) {
+        self.service = service
+    }
     
     func getSearchUniv(keyword: String, preSignUpToken: String) async -> Result<UnivListResponseDTO, NetworkError> {
         return await requestDecodable(.searchUniv(keyword: keyword, preSignUpToken: preSignUpToken))

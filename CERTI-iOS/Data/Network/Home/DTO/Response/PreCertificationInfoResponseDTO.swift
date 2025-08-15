@@ -14,7 +14,9 @@ struct PreCertificationData: Decodable {
 }
 
 extension PreCertificationData {
-    func toPreLicenseCardModelList() -> [PreLicenseCardModel] {
-        return data.map { $0.toPreLicenseCardModel() }
+    func toEntity() -> PreCertificationEntity {
+        return PreCertificationEntity(
+            certifications: data.map { $0.toEntity() }
+        )
     }
 }

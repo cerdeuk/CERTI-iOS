@@ -9,21 +9,27 @@ import Foundation
 
 import Moya
 
-final class DefaultAcquisitionRepository: BaseService<AcquisitionAPI>, AcquisitionRepository {
+final class DefaultAcquisitionRepository: AcquisitionRepository {
+    
+    private let service: AcquisitionServiceProtocol
+
+    public init(service: AcquisitionServiceProtocol) {
+        self.service = service
+    }
     
     func fetchAcquisitionList() async -> Result<AcquisitionListResponseDTO, NetworkError> {
-        return await requestDecodable(.fetchAcquisitionList)
+        return await service.fetchAcquisitionList()
     }
 
     func addAcquisition(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
-        return await requestDecodable(.addAcquisition(certificationId: certificationId))
+        return await service.addAcquisition(certificationId: certificationId)
     }
 
     func fetchAcquisitionDetail(id: Int) async -> Result<AcquisitionDetailResponseDTO, NetworkError> {
-        return await requestDecodable(.fetchAcquisitionDetail(id: id))
+        return await service.fetchAcquisitionDetail(id: id)
     }
     
     func deleteAcquisition(id: Int) async -> Result<Void, NetworkError> {
-        return await requestVoid(.deleteAcquisition(id: id))
+        return await service.deleteAcquisition(id: id)
     }
 }

@@ -9,7 +9,13 @@ import Foundation
 
 import Moya
 
-final class DefaultJobRepository: BaseService<JobAPI>, JobRepository {
+final class DefaultJobRepository: JobRepository {
+    
+    private let service: JobsServiceProtocol
+
+    public init(service: JobsServiceProtocol) {
+        self.service = service
+    }
 
     func getFetchJob() async -> Result<JobListResponseDTO, NetworkError> {
         return await requestDecodable(.fetchJob)

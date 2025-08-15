@@ -17,14 +17,14 @@ struct CertificationInfoResponseDTO: Decodable {
 }
 
 extension CertificationInfoResponseDTO {
-    func toPreLicenseCardModel() -> PreLicenseCardModel {
-        return PreLicenseCardModel(
-            imageIndex: iconIndex,
-            certificationId: certificationId,
-            certificationName: certificationName,
+    func toEntity() -> PreCertificationEntityData {
+        return PreCertificationEntityData(
+            id: certificationId,
+            name: certificationName,
             averagePeriod: averagePeriod,
-            testDate: nearestTestDate,
-            agencyName: agencyName
+            nearestTestDate: nearestTestDate,
+            agencyName: agencyName,
+            iconIndex: iconIndex
         )
     }
 }

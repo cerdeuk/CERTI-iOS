@@ -37,6 +37,13 @@ final class HomeViewModel: ObservableObject {
     private let userRepository = AppDIContainer.shared.makeUserRepository()
     private let certificationRepository = AppDIContainer.shared.makeCertificationRepository()
     private let homeRepository = AppDIContainer.shared.makeHomeRepository()
+    
+    private let homeUseCase: HomeUseCase
+
+    init(homeUseCase: HomeUseCase) {
+        self.homeUseCase = homeUseCase
+    }
+    
 }
 
 
@@ -45,7 +52,7 @@ final class HomeViewModel: ObservableObject {
 extension HomeViewModel {
     func withDraw() async {
         let result = await authRepository.withDraw()
-        
+
         switch result {
         case .success:
             logger.info("✅ 탈퇴 성공")
@@ -88,17 +95,14 @@ extension HomeViewModel {
         }
     }
     
-    func getPreCertificationList() async {
-        let result = await homeRepository.getPreCertification()
+    func fetchPreCertification() async {
+        let result = await homeUseCase.getPreCertification()
         
         switch result {
-        case .success(let response):
+        case .success(let models):
             logger.info("✅ 취득 예정 자격증 조회 성공")
-            
-            let list = response.data?.toPreLicenseCardModelList()
-            
-            homeStateModel.preLicenses = list ?? []
-            
+
+            self.homeStateModel.preLicenses = models.toModels()
         case .failure(let error):
             logger.error("❌ 취득 예정 자격증 조회 실패: \(error.localizedDescription)")
         }

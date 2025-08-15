@@ -9,17 +9,23 @@ import Foundation
 
 import Moya
 
-final class DefaultCareersRepository: BaseService<CareersAPI>, CareersRepository {
+final class DefaultCareersRepository: CareersRepository {
+    
+    private let service: CareersServiceProtocol
+
+    public init(service: CareersServiceProtocol) {
+        self.service = service
+    }
     
     func fetchCareersList() async -> Result<CareersListResponseDTO, NetworkError> {
-        return await requestDecodable(.fetchCareersList)
+        return await service.fetchCareersList()
     }
     
     func deledteCareers(id: Int) async -> Result<Void, NetworkError> {
-        return await requestVoid(.deleteCareers(id: id))
+        return await service.deledteCareers(id: id)
     }
     
     func addCareer(request: AddCareerRequestDTO) async -> Result<Bool, NetworkError> {
-        return await requestDecodable(.addCareer(request: request))
+        return await service.addCareer(request: request)
     }
 }

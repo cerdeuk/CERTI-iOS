@@ -9,21 +9,36 @@ import Foundation
 
 import Moya
 
-final class DefaultHomeRepository: BaseService<HomeAPI>, HomeRepository {
-            
-    func getPreCertification() async -> Result<PreCertificationInfoResponseDTO, NetworkError> {
-        return await requestDecodable(.getPreCertification)
+final class DefaultHomeRepository: HomeRepository {
+    
+    private let service: HomeServiceProtocol
+
+    public init(service: HomeServiceProtocol) {
+        self.service = service
+    }
+
+    func getPreCertification() async -> Result<PreCertificationEntity, NetworkError> {
+        let result = await service.getPreCertification()
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
     func deletePreCertification(id: Int) async -> Result<Void, NetworkError> {
-        return await requestVoid(.deletePreCertification(id: id))
+        return await service.deletePreCertification(id: id)
     }
     
     func getFavoriteCertification() async -> Result<FavoriteCertificationResponseDTO, NetworkError> {
-        return await requestDecodable(.getFavoriteCertification)
+        return await service.getFavoriteCertification()
     }
 
     func addPreCertification(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
-        return await requestDecodable(.addPreCertification(certificationId: certificationId))
+        return await service.addPreCertification(certificationId: certificationId)
     }
 }
