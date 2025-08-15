@@ -14,6 +14,8 @@ protocol HomeUseCase {
     func addPreCertification(certificationId: Int) async -> Result<Bool, NetworkError>
 }
 
+
+
 final class DefaultHomeUseCase: HomeUseCase {
     
     private let repository: HomeRepository
