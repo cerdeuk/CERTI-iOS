@@ -36,12 +36,22 @@ final class HomeViewModel: ObservableObject {
     private let authRepository = AppDIContainer.shared.makeAuthRepository()
     private let userRepository = AppDIContainer.shared.makeUserRepository()
     private let certificationRepository = AppDIContainer.shared.makeCertificationRepository()
-    private let homeRepository = AppDIContainer.shared.makeHomeRepository()
-    
-    private let homeUseCase: HomeUseCase
+        
+    private let addPreCertificationUseCase: AddPreCertificationUseCase
+    private let deletePreCertificationUseCase: DeletePreCertificationUseCase
+    private let getPreCertificationsUseCase: GetPreCertificationUseCase
+    private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
 
-    init(homeUseCase: HomeUseCase) {
-        self.homeUseCase = homeUseCase
+    init(
+        addPreCertificationUseCase: AddPreCertificationUseCase,
+        deletePreCertificationUseCase: DeletePreCertificationUseCase,
+        getPreCertificationsUseCase: GetPreCertificationUseCase,
+        getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
+    ) {
+        self.addPreCertificationUseCase = addPreCertificationUseCase
+        self.deletePreCertificationUseCase = deletePreCertificationUseCase
+        self.getPreCertificationsUseCase = getPreCertificationsUseCase
+        self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
     }
     
 }
@@ -96,7 +106,7 @@ extension HomeViewModel {
     }
     
     func fetchPreCertification() async {
-        let result = await homeUseCase.getPreCertification()
+        let result = await getPreCertificationsUseCase.execute()
         
         switch result {
         case .success(let models):
@@ -109,7 +119,7 @@ extension HomeViewModel {
     }
     
     func deletePreCertification(id: Int) async {
-        let result = await homeRepository.deletePreCertification(id: id)
+        let result = await deletePreCertificationUseCase.execute(id: id)
         
         switch result {
         case .success:
@@ -123,7 +133,7 @@ extension HomeViewModel {
     }
     
     func getFavoriteCertificationList() async {
-        let result = await homeUseCase.getFavoriteCertification()
+        let result = await getFavoriteCertificationsUseCase.execute()
                 
         switch result {
         case .success(let response):
