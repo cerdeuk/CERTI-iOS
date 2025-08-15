@@ -34,8 +34,7 @@ final class DefaultHomeUseCase: HomeUseCase {
     }
     
     func getFavoriteCertification() async -> Result<FavoriteCertificationEntity, NetworkError> {
-        let result = await repository.getFavoriteCertification()
-        return result
+        return await repository.getFavoriteCertification()
     }
     
     func addPreCertification(certificationId: Int) async -> Result<Bool, NetworkError> {
