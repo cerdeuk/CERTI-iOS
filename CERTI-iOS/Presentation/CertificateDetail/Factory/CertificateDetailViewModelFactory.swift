@@ -14,7 +14,7 @@ struct CertificateDetailViewModelFactory {
         let homeService: HomeServiceProtocol = HomeService()
         let acquisitionService: AcquisitionServiceProtocol = AcquisitionService()
         
-        let repo = CertificateDetailImpl(
+        let repo = CertificateDetailRepositoryImpl(
             certificationService: certService,
             homeService: homeService,
             acquisitionService: acquisitionService

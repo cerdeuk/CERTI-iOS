@@ -1,5 +1,5 @@
 //
-//  CertificateDetailImpl.swift
+//  CertificateDetailRepositoryImpl.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 8/16/25.
@@ -16,19 +16,19 @@ enum AppendAcquisitionError: LocalizedError, Equatable {
     case duplicationError
 }
 
-final class CertificateDetailImpl: CertificateDetailRepository {
+final class CertificateDetailRepositoryImpl: CertificateDetailRepository {
     
     private let certificationService: CertificationServiceProtocol
-        private let homeService: HomeServiceProtocol
-        private let acquisitionService: AcquisitionServiceProtocol
-
-        init(certificationService: CertificationServiceProtocol,
+    private let homeService: HomeServiceProtocol
+    private let acquisitionService: AcquisitionServiceProtocol
+    
+    init(certificationService: CertificationServiceProtocol,
              homeService: HomeServiceProtocol,
-             acquisitionService: AcquisitionServiceProtocol) {
-            self.certificationService = certificationService
-            self.homeService = homeService
-            self.acquisitionService = acquisitionService
-        }
+         acquisitionService: AcquisitionServiceProtocol) {
+        self.certificationService = certificationService
+        self.homeService = homeService
+        self.acquisitionService = acquisitionService
+    }
     
     public func fetchDetail(id: Int) async throws -> CertificateDetail {
         let result = await certificationService.fetchCertificationDetail(certificationId: id)
