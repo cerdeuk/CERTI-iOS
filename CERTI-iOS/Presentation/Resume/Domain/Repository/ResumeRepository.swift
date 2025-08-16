@@ -8,13 +8,21 @@
 import Foundation
 
 protocol ResumeRepository {
-    func fetchCareers() async throws -> [ResumeCareer]
-    func addCareer(_ item: ResumeCareer) async throws
-    func deleteCareer(id: Int) async throws
+    // MARK: - Career
+    func fetchCareers() async -> Result<[ResumeCareer], ResumeError>
+    func addCareer(_ item: ResumeCareer) async -> Result<Void, ResumeError>
+    func deleteCareer(id: Int) async -> Result<Void, ResumeError>
 
-    func fetchActivities() async throws -> [ResumeActivity]
-    func addActivity(_ item: ResumeActivity) async throws
-    func deleteActivity(id: Int) async throws
+    // MARK: - Activity
+    func fetchActivities() async -> Result<[ResumeActivity], ResumeError>
+    func addActivity(_ item: ResumeActivity) async -> Result<Void, ResumeError>
+    func deleteActivity(id: Int) async -> Result<Void, ResumeError>
 
-    func fetchJobs() async throws -> [String]
+    // MARK: - Jobs
+    func fetchJobs() async -> Result<[String], ResumeError>
+
+    // MARK: - Acquisition
+    func fetchAcquisitionList() async -> Result<[CertificatedListModel], ResumeError>
+    func fetchAcquisitionDetail(id: Int) async -> Result<CertificatedDetailModel, ResumeError>
+    func deleteAcquisition(id: Int) async -> Result<Void, ResumeError>
 }

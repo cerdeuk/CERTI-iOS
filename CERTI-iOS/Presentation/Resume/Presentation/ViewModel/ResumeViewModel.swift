@@ -47,11 +47,11 @@ final class ResumeViewModel: ObservableObject {
     private let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
     private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
 
-    private let fetchCareersUseCase: FetchCareersUseCase
+    private let fetchCareersListUseCase: FetchCareersListUseCase
     private let addCareerUseCase: AddCareerUseCase
     private let deleteCareerUseCase: DeleteCareerUseCase
 
-    private let fetchActivitiesUseCase: FetchActivitiesUseCase
+    private let fetchActivityListUseCase: FetchActivityListUseCase
     private let addActivityUseCase: AddActivityUseCase
     private let deleteActivityUseCase: DeleteActivityUseCase
 
@@ -62,10 +62,10 @@ final class ResumeViewModel: ObservableObject {
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
         deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
-        fetchCareersUseCase: FetchCareersUseCase,
+        fetchCareersListUseCase: FetchCareersListUseCase,
         addCareerUseCase: AddCareerUseCase,
         deleteCareerUseCase: DeleteCareerUseCase,
-        fetchActivitiesUseCase: FetchActivitiesUseCase,
+        fetchActivityListUseCase: FetchActivityListUseCase,
         addActivityUseCase: AddActivityUseCase,
         deleteActivityUseCase: DeleteActivityUseCase
     ) {
@@ -73,10 +73,10 @@ final class ResumeViewModel: ObservableObject {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
         self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
-        self.fetchCareersUseCase = fetchCareersUseCase
+        self.fetchCareersListUseCase = fetchCareersListUseCase
         self.addCareerUseCase = addCareerUseCase
         self.deleteCareerUseCase = deleteCareerUseCase
-        self.fetchActivitiesUseCase = fetchActivitiesUseCase
+        self.fetchActivityListUseCase = fetchActivityListUseCase
         self.addActivityUseCase = addActivityUseCase
         self.deleteActivityUseCase = deleteActivityUseCase
     }
