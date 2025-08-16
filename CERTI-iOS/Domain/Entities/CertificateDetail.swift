@@ -21,3 +21,22 @@ struct CertificateDetail: Equatable, Identifiable {
     
     var id: Int { certificationId }
 }
+
+extension CertificateDetail {
+    func toPresentation() -> CertificateDetailModel {
+        CertificateDetailModel(
+            certificationId: certificationId,
+            certificationName: certificationName,
+            tags: tags,
+            averagePeriod: averagePeriod,
+            charge: charge,
+            agencyName: agencyName,
+            testType: testType,
+            description: description,
+            testDateInformation: testDateInformation,
+            applicationMethod: applicationMethod,
+            applicationUrl: applicationUrl,
+            expirationPeriod: expirationPeriod
+        )
+    }
+}
