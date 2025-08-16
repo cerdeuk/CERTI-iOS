@@ -23,16 +23,3 @@ struct ActivityDetailResponseDTO: Decodable, Identifiable {
     let description: String
     let place: String
 }
-
-extension ActivityDetailResponseDTO {
-    func toResumeModel() -> ResumeModel {
-        ResumeModel(
-            activityId: activityId,
-            startAt: startAt,
-            endAt: endAt,
-            name: name,
-            place: place,
-            discription: description
-        )
-    }
-}

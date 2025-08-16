@@ -8,15 +8,17 @@
 import Foundation
 
 protocol FetchCareersListUseCase {
-    func execute() async -> Result<[ResumeModel], ResumeError>
+    func execute() async -> Result<[ResumeCareer], ResumeError>
 }
 
 struct FetchCareersListUseCaseImpl: FetchCareersListUseCase {
     private let repository: ResumeRepository
-    init(repository: ResumeRepository) { self.repository = repository }
 
-    func execute() async -> Result<[ResumeModel], ResumeError> {
-        let result = await repository.fetchCareers()
-        return result.map { $0.map { $0.toResumeModel() } }
+    init(repository: ResumeRepository) {
+        self.repository = repository
+    }
+
+    func execute() async -> Result<[ResumeCareer], ResumeError> {
+        return await repository.fetchCareers()
     }
 }

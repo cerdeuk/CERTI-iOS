@@ -8,14 +8,14 @@
 import Foundation
 
 protocol AddCareerUseCase {
-    func execute(resumeModel: ResumeModel) async -> Result<Void, ResumeError>
+    func execute(resumeCareer: ResumeCareer) async -> Result<Void, ResumeError>
 }
 
 struct AddCareerUseCaseImpl: AddCareerUseCase {
     private let repository: ResumeRepository
     init(repository: ResumeRepository) { self.repository = repository }
 
-    func execute(resumeModel: ResumeModel) async -> Result<Void, ResumeError> {
-        return await repository.addCareer(resumeModel.toResumeCareer())
+    func execute(resumeCareer: ResumeCareer) async -> Result<Void, ResumeError> {
+        return await repository.addCareer(resumeCareer)
     }
 }

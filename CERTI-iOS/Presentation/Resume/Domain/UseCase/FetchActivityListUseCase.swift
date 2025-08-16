@@ -8,15 +8,14 @@
 import Foundation
 
 protocol FetchActivityListUseCase {
-    func execute() async -> Result<[ResumeModel], ResumeError>
+    func execute() async -> Result<[ResumeActivity], ResumeError>
 }
 
 struct FetchActivityListUseCaseImpl: FetchActivityListUseCase {
     private let repository: ResumeRepository
     init(repository: ResumeRepository) { self.repository = repository }
 
-    func execute() async -> Result<[ResumeModel], ResumeError> {
-        let result = await repository.fetchActivities()
-        return result.map { $0.map { $0.toResumeModel() } }
+    func execute() async -> Result<[ResumeActivity], ResumeError> {
+        return await repository.fetchActivities()
     }
 }
