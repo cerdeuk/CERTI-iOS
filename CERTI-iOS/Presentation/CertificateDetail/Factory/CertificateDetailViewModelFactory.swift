@@ -10,20 +10,18 @@ struct CertificateDetailViewModelFactory {
     
     @MainActor
     static func make() -> CertificateDetailViewModel {
-        let certService: CertificationServiceProtocol = CertificationService()
+        let certificationService: CertificationServiceProtocol = CertificationService()
         let homeService: HomeServiceProtocol = HomeService()
         let acquisitionService: AcquisitionServiceProtocol = AcquisitionService()
         
-        let repo = CertificateDetailRepositoryImpl(
-            certificationService: certService,
-            homeService: homeService,
-            acquisitionService: acquisitionService
-        )
+        let certificationRepository = CertificateRepositoryImpl(certificationService: certificationService)
+        let homeRepository = HomeRepositoryImpl(homeService: homeService)
+        let acquisitionRepository = AcquisitionRepositoryImpl(acquisitionService: acquisitionService)
         
         return CertificateDetailViewModel(
-            fetchDetail: DefaultFetchCertificateDetailUseCase(repository: repo),
-            appendPreCertification: DefaultAppendPreCertificationUseCase(repository: repo),
-            appendAcquisition: DefaultAppendAcquisitionUseCase(repository: repo)
+            fetchDetail: DefaultFetchCertificateDetailUseCase(repository: certificationRepository),
+            appendPreCertification: DefaultAppendPreCertificationUseCase(repository: homeRepository),
+            appendAcquisition: DefaultAppendAcquisitionUseCase(repository: acquisitionRepository)
         )
     }
 }

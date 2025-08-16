@@ -11,10 +11,10 @@ protocol AppendPreCertificationUseCase {
 
 final class DefaultAppendPreCertificationUseCase: AppendPreCertificationUseCase {
     
-    private let repository: CertificateDetailRepository
+    private let repository: HomeRepository
     
     init(
-        repository: CertificateDetailRepository
+        repository: HomeRepository
     ) {
         self.repository = repository
     }

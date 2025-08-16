@@ -11,10 +11,10 @@ protocol FetchCertificateDetailUseCase {
 
 final class DefaultFetchCertificateDetailUseCase: FetchCertificateDetailUseCase {
     
-    private let repository: CertificateDetailRepository
+    private let repository: CertificateRepository
     
     init(
-        repository: CertificateDetailRepository
+        repository: CertificateRepository
     ) {
         self.repository = repository
     }

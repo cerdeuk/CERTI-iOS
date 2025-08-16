@@ -11,10 +11,10 @@ protocol AppendAcquisitionUseCase {
 
 final class DefaultAppendAcquisitionUseCase: AppendAcquisitionUseCase {
     
-    private let repository: CertificateDetailRepository
+    private let repository: AcquisitionRepository
     
     init(
-        repository: CertificateDetailRepository
+        repository: AcquisitionRepository
     ) {
         self.repository = repository
     }
