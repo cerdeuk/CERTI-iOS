@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ResumeView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
-    @ObservedObject var viewModel: ResumeViewModel
+//    @ObservedObject var viewModel: ResumeViewModel
     @State private var selectedCard: CertificatedDetailModel? = nil
+    @StateObject private var viewModel = ResumeViewModelFactory.make()
+
 
     let columns = [GridItem(.flexible())]
     let rows = [GridItem(.flexible())]
