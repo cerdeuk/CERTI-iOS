@@ -1,13 +1,11 @@
 //
-//  CertificateDetailModel.swift
+//  CertificateDetail.swift
 //  CERTI-iOS
 //
-//  Created by 김나연 on 7/12/25.
+//  Created by 김나연 on 8/16/25.
 //
 
-import SwiftUI
-
-struct CertificateDetailModel: Identifiable, Decodable {
+struct CertificateDetail: Equatable, Identifiable {
     let certificationId: Int
     let certificationName: String
     let tags: [String]
