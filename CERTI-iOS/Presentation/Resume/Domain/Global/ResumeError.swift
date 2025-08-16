@@ -10,7 +10,8 @@ import Foundation
 // MARK: - ResumeError (Domain Layer Error)
 
 enum ResumeError: Error {
-    case networkError(message: String)
-    case decodingError
+    case network(Error)
+    case noData
+    case decoding
     case unknown
 }
