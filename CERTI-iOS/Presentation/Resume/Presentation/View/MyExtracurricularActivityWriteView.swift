@@ -32,7 +32,7 @@ struct MyExtracurricularActivityWriteView: View {
                         ResumeWriteButton(
                             action: {
                                 Task {
-                                    await viewModel.addActivity(resumeModel: viewModel.resumeModel)
+//                                    await viewModel.addActivity(resumeModel: viewModel.resumeModel)
                                     viewModel.clearResumeModel()
                                     resumeCoordinator.pop()
                                 }

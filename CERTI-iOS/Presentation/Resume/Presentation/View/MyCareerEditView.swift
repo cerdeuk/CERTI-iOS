@@ -81,7 +81,7 @@ struct MyCareerEditView: View {
                 CertiDeleteAlertView {
                     Task {
                         guard let deleteIndex = selectedCareersIndex else { return }
-                        await viewModel.deleteCareers(id: deleteIndex)
+//                        await viewModel.deleteCareers(id: deleteIndex)
                     }
                     isDeleteAlertPresented = false
                     print("확인 버튼 클릭")
@@ -93,7 +93,7 @@ struct MyCareerEditView: View {
         }
         .onAppear{
             Task {
-                await viewModel.getCareersList()
+//                await viewModel.getCareersList()
             }
         }
         .navigationBarBackButtonHidden()

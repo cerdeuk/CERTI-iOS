@@ -10,8 +10,8 @@ import SwiftUI
 struct ResumeCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
     @ObservedObject var resumeCoordinator: ResumeCoordinator
-    @StateObject var resumeViewModel = ResumeViewModel()
-    
+    @StateObject var resumeViewModel = ResumeViewModelFactory.make()
+
     var body: some View {
         NavigationStack(path: $resumeCoordinator.path) {
             ResumeView(viewModel: resumeViewModel)

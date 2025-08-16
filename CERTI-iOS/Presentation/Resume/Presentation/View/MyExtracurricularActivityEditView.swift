@@ -81,7 +81,7 @@ struct MyExtracurricularActivityEditView: View {
                 CertiDeleteAlertView {
                     Task {
                         guard let deleteIndex = selectedActivityIndex else { return }
-                        await viewModel.deleteActivity(id: deleteIndex)
+//                        await viewModel.deleteActivity(id: deleteIndex)
                     }
                     isDeleteAlertPresented = false
                     print("확인 버튼 클릭")
@@ -93,7 +93,7 @@ struct MyExtracurricularActivityEditView: View {
         }
         .onAppear {
             Task {
-                await viewModel.getActivityList()
+//                await viewModel.getActivityList()
             }
         }
         .navigationBarBackButtonHidden()

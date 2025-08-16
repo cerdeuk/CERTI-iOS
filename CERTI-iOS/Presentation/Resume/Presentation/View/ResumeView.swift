@@ -9,10 +9,8 @@ import SwiftUI
 
 struct ResumeView: View {
     @EnvironmentObject var resumeCoordinator: ResumeCoordinator
-//    @ObservedObject var viewModel: ResumeViewModel
+    @ObservedObject var viewModel: ResumeViewModel
     @State private var selectedCard: CertificatedDetailModel? = nil
-    @StateObject private var viewModel = ResumeViewModelFactory.make()
-
 
     let columns = [GridItem(.flexible())]
     let rows = [GridItem(.flexible())]
@@ -51,10 +49,10 @@ struct ResumeView: View {
         }
         .onAppear{
             Task {
-                await viewModel.getJobList()
-                await viewModel.getAcquisitionList()
-                await viewModel.getCareersList()
-                await viewModel.getActivityList()
+                await viewModel.fetchJobs()
+//                await viewModel.getAcquisitionList()
+//                await viewModel.getCareersList()
+//                await viewModel.getActivityList()
             }
         }
     }
@@ -172,7 +170,7 @@ extension ResumeView {
                                 CeritificateCardComponent(model: cardItem)
                                     .onTapGesture {
                                         Task {
-                                            await viewModel.getAcquisitionDetail(id: cardItem.acquisitionId)
+//                                            await viewModel.getAcquisitionDetail(id: cardItem.acquisitionId)
                                             if let detail = viewModel.acquisitionDetail,
                                                !detail.name.isEmpty {
                                                 selectedCard = detail

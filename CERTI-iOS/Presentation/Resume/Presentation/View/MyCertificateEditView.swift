@@ -60,7 +60,7 @@ struct MyCertificateEditView: View {
                 CertiDeleteAlertView {
                     Task {
                         guard let deleteIndex = selectedIndex else { return }
-                        await viewModel.deleteAcquisition(id: deleteIndex)
+//                        await viewModel.deleteAcquisition(id: deleteIndex)
                     }
                     isDeleteAlertPresented = false
                     print("확인 버튼 클릭")
@@ -72,7 +72,7 @@ struct MyCertificateEditView: View {
         }
         .onAppear{
             Task {
-                await viewModel.getAcquisitionList()
+//                await viewModel.getAcquisitionList()
             }
         }
         .navigationBarBackButtonHidden()

@@ -7,6 +7,18 @@
 
 import Foundation
 
-protocol DeleteAcquisitionUseCase {
-    func execute(id: Int) async -> Result<Void, ResumeError>
-}
+//protocol DeleteAcquisitionUseCase {
+//    func execute(id: Int) async -> Result<Void, ResumeError>
+//}
+//
+//struct DeleteAcquisitionUseCaseImpl: DeleteAcquisitionUseCase {
+//    private let repository: ResumeRepository
+//
+//    init(repository: ResumeRepository) {
+//        self.repository = repository
+//    }
+//
+//    func execute(id: Int) async -> Result<Void, ResumeError> {
+//        return await repository.deleteAcquisition(id: id)
+//    }
+//}
