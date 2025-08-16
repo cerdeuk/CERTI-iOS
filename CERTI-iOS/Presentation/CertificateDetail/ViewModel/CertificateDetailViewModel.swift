@@ -30,13 +30,19 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var showFailToBeAcquired: Bool = false
     @Published var showCompleteModal = false
 
+    private let fetchDetail: FetchCertificateDetailUseCase
+    private let appendPreCertification: AppendPreCertificationUseCase
+    private let appendAcquisition: AppendAcquisitionUseCase
     
-    private let certificateDetailService = NetworkService.shared.certificationService
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
-    private let homeService = NetworkService.shared.homeService
-    
-    private let acquisitionService = NetworkService.shared.acquisitionService
+    init(fetchDetail: FetchCertificateDetailUseCase,
+         appendPreCertification: AppendPreCertificationUseCase,
+         appendAcquisition: AppendAcquisitionUseCase) {
+        self.fetchDetail = fetchDetail
+        self.appendPreCertification = appendPreCertification
+        self.appendAcquisition = appendAcquisition
+    }
 }
 
 
@@ -44,68 +50,46 @@ final class CertificateDetailViewModel: ObservableObject {
 
 extension CertificateDetailViewModel {
     func fetchCertificateDetail(certificationId: Int) async {
-        let result = await certificateDetailService.fetchCertificationDetail(certificationId: certificationId)
-        
-        switch result {
-        case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getCertificationDetailList: No data received")
-                return
-            }
-            self.certificateDetailModel = data.toDomain()
+        do {
+            let domain = try await fetchDetail.execute(id: certificationId)
+            self.certificateDetailModel = domain.toPresentation()
             logger.debug("✅ CertificationDetail success: \(String(describing: self.certificateDetailModel))")
-            
-        case .failure(let error):
+        } catch {
             logger.error("CertificationDetail failed: \(error.localizedDescription)")
         }
     }
     
-    func appendPreCertification(certification: Int) async {
-        let result = await homeService.addPreCertification(certificationId: certification)
-        
-        switch result {
-        case .success(let response):
-            guard let data = response.data else {
-                if response.status == 409  {
-                    showFailAcquired = true
-                    return
-                } else {
-                    logger.error("❌ appendPreCertification: No data received")
-                    return
-                }
-            }
-            
-            if data {
-                showSuccessToBeAcquired = true
-            } else {
+    func onTapAppendPreCertification(id: Int) async {
+        do {
+            try await appendPreCertification.execute(id: id)
+            showSuccessToBeAcquired = true
+            logger.debug("✅ appendPreCertification success")
+        } catch let e as AppendPreCertificationError {
+            switch e {
+            case .duplicationError:
                 showFailToBeAcquired = true
+            case .conflictError:
+                showFailAcquired = true
             }
-            logger.debug("✅ appendPreCertification success: \(data)")
-            
-        case .failure(let error):
-            logger.error("appendPreCertification failed: \(error.localizedDescription)")
+            logger.error("appendPreCertification domain failure: \(e.localizedDescription)")
+        } catch {
+            logger.error("appendPreCertification failed(Other): \(error.localizedDescription)")
         }
     }
     
-    func appendAcquisition(certification: Int) async {
-        let result = await acquisitionService.addAcquisition(certificationId: certification)
-        
-        switch result {
-        case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ appendAcquisition: No data received")
-                return
-            }
-            
-            if data {
-                showCompleteModal = true
-            } else {
+    func onTapAppendAcquisition(id: Int) async {
+        do {
+            try await appendAcquisition.execute(id: id)
+            showCompleteModal = true
+            logger.debug("✅ appendPreCertification success")
+        } catch let e as AppendAcquisitionError {
+            switch e {
+            case .duplicationError:
                 showFailAcquired = true
             }
-            logger.debug("✅ appendAcquisition success: \(data)")
-            
-        case .failure(let error):
-            logger.error("appendAcquisition failed: \(error.localizedDescription)")
+            logger.error("appendPreCertification domain failure: \(e.localizedDescription)")
+        } catch {
+            logger.error("appendPreCertification failed(Other): \(error.localizedDescription)")
         }
     }
 }

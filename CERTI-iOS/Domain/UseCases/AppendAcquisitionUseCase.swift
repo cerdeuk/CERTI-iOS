@@ -9,7 +9,7 @@ protocol AppendAcquisitionUseCase {
     func execute(id: Int) async throws
 }
 
-final class DefaultAppendAcquisitionUseCasee: AppendAcquisitionUseCase {
+final class DefaultAppendAcquisitionUseCase: AppendAcquisitionUseCase {
     
     private let repository: CertificateDetailRepository
     

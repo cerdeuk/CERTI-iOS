@@ -1,5 +1,5 @@
 //
-//  CertificateDetialImpl.swift
+//  CertificateDetailImpl.swift
 //  CERTI-iOS
 //
 //  Created by 김나연 on 8/16/25.
@@ -7,11 +7,16 @@
 
 import Foundation
 
-enum AppendError: LocalizedError, Equatable {
+enum AppendPreCertificationError: LocalizedError, Equatable {
+    case duplicationError
+    case conflictError
+}
+
+enum AppendAcquisitionError: LocalizedError, Equatable {
     case duplicationError
 }
 
-final class CertificateDetialImpl: CertificateDetailRepository {
+final class CertificateDetailImpl: CertificateDetailRepository {
     
     private let certificationService: CertificationServiceProtocol
         private let homeService: HomeServiceProtocol
@@ -44,13 +49,13 @@ final class CertificateDetialImpl: CertificateDetailRepository {
         switch result {
         case .success(let response):
             if response.status == 409 {
-                throw NetworkError.conflict
+                throw AppendPreCertificationError.conflictError
             }
             guard let ok = response.data else {
                 throw NetworkError.decodingError
             }
             if ok { return } else {
-                throw AppendError.duplicationError
+                throw AppendPreCertificationError.duplicationError
             }
             
         case .failure(let error):
@@ -67,7 +72,7 @@ final class CertificateDetialImpl: CertificateDetailRepository {
                 throw NetworkError.decodingError
             }
             if ok { return } else {
-                throw AppendError.duplicationError
+                throw AppendAcquisitionError.duplicationError
             }
         case .failure(let error):
             throw error

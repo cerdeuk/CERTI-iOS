@@ -18,7 +18,7 @@ struct CertificateDetailView: View {
     @EnvironmentObject var homeCoordinator: HomeCoordinator
     @EnvironmentObject var categoryCoordinator: CategoryCoordinator
     
-    @StateObject var viewModel = CertificateDetailViewModel()
+    @StateObject var viewModel = CertificateDetailViewModelFactory.make()
 
     @Binding var certificationId: Int
     let beforeViewType: BeforeViewType
@@ -318,7 +318,7 @@ struct CertificateDetailView: View {
     private var ToBeAcquiredButton: some View {
         Button {
             Task {
-                await viewModel.appendPreCertification(certification: certificationId)
+                await viewModel.onTapAppendPreCertification(id: certificationId)
             }
         } label: {
             ZStack {
@@ -343,7 +343,7 @@ struct CertificateDetailView: View {
     private var AcquiredButton: some View {
         Button {
             Task {
-                await viewModel.appendAcquisition(certification: certificationId)
+                await viewModel.onTapAppendAcquisition(id: certificationId)
             }
         } label: {
             ZStack {
