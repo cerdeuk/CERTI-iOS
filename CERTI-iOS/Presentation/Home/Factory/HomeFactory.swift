@@ -12,19 +12,30 @@ protocol HomeFactory {
 }
 
 final class DefaultHomeFactory: HomeFactory {
-    
-    private let container: AppDIContainer
-    
-    init(container: AppDIContainer) {
-        self.container = container
+    let addPreUseCase: AddPreCertificationUseCase
+    let deletePreUseCase: DeletePreCertificationUseCase
+    let getPreUseCase: GetPreCertificationUseCase
+    let getFavoriteUseCase: GetFavoriteCertificationUseCase
+
+    init(
+        addPreUseCase: AddPreCertificationUseCase,
+        deletePreUseCase: DeletePreCertificationUseCase,
+        getPreUseCase: GetPreCertificationUseCase,
+        getFavoriteUseCase: GetFavoriteCertificationUseCase
+    ) {
+        self.addPreUseCase = addPreUseCase
+        self.deletePreUseCase = deletePreUseCase
+        self.getPreUseCase = getPreUseCase
+        self.getFavoriteUseCase = getFavoriteUseCase
     }
-    
-    @MainActor func makeHomeViewModel() -> HomeViewModel {
-        return HomeViewModel(
-            addPreCertificationUseCase: container.makeAddPreCertificationUseCase(),
-            deletePreCertificationUseCase: container.makeDeletePreCertificationUseCase(),
-            getPreCertificationsUseCase: container.makeGetPreCertificationUseCase(),
-            getFavoriteCertificationsUseCase: container.makeGetFavoritePreCertificationUseCase()
+
+    @MainActor
+    func makeHomeViewModel() -> HomeViewModel {
+        HomeViewModel(
+            addPreCertificationUseCase: addPreUseCase,
+            deletePreCertificationUseCase: deletePreUseCase,
+            getPreCertificationsUseCase: getPreUseCase,
+            getFavoriteCertificationsUseCase: getFavoriteUseCase
         )
     }
 }

@@ -15,10 +15,12 @@ struct HomeCoordinatorView: View {
     
     @StateObject private var homeViewModel: HomeViewModel
     
-    init(homeCoordinator: HomeCoordinator) {
-        let factory = AppDIContainer.shared.makeHomeFactory()
-        _homeViewModel = StateObject(wrappedValue: factory.makeHomeViewModel())
+    private let homeFactory: HomeFactory
+    
+    init(homeCoordinator: HomeCoordinator, homeFactory: HomeFactory) {
         self.homeCoordinator = homeCoordinator
+        self.homeFactory = homeFactory
+        _homeViewModel = StateObject(wrappedValue: homeFactory.makeHomeViewModel())
     }
     
     var body: some View {

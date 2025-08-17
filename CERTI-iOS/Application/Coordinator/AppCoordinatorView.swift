@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AppCoordinatorView: View {
     @StateObject private var appCoordinator = AppCoordinator()
+    
+    private let appDIContainer = AppDIContainer.shared
 
     var body: some View {
         switch appCoordinator.appState {
@@ -21,7 +23,7 @@ struct AppCoordinatorView: View {
             LoginView()
                 .environmentObject(appCoordinator)
         case .main:
-            CertiTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator)
+            CertiTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator, appDIContainer: appDIContainer)
                 .environmentObject(appCoordinator)
         }
     }
