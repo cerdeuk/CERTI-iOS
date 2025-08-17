@@ -180,18 +180,12 @@ extension AppDIContainer {
     
 }
 
-
-// MARK: - ViewModel
+// MARK: - Factories
 
 extension AppDIContainer {
     
-    @MainActor func makeHomeViewModel() -> HomeViewModel {
-        return HomeViewModel(
-            addPreCertificationUseCase: makeAddPreCertificationUseCase(),
-            deletePreCertificationUseCase: makeDeletePreCertificationUseCase(),
-            getPreCertificationsUseCase: makeGetPreCertificationUseCase(),
-            getFavoriteCertificationsUseCase: makeGetFavoritePreCertificationUseCase()
-        )
+    func makeHomeFactory() -> HomeFactory {
+        return DefaultHomeFactory(container: self)
     }
     
 }

@@ -11,11 +11,23 @@ struct HomeCoordinatorView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
     @ObservedObject var homeCoordinator: HomeCoordinator
-    @StateObject var homeViewModel = AppDIContainer.shared.makeHomeViewModel()
+    @StateObject private var homeViewModel: HomeViewModel
+    
+    init(homeCoordinator: HomeCoordinator) {
+        let factory = AppDIContainer.shared.makeHomeFactory()
+        _homeViewModel = StateObject(wrappedValue: factory.makeHomeViewModel())
+        self.homeCoordinator = homeCoordinator
+    }
     
     var body: some View {
         NavigationStack(path: $homeCoordinator.path) {
             HomeView(viewModel: homeViewModel)
+                .onChange(of: homeViewModel.route) { route in
+                    if let route = route {
+                        homeCoordinator.push(next: route)
+                        homeViewModel.route = nil
+                    }
+                }
                 .navigationDestination(for: HomeRoute.self) { route in
                     switch route {
                     case .preLicenseEdit:
@@ -28,11 +40,7 @@ struct HomeCoordinatorView: View {
         }
         .environmentObject(homeCoordinator)
         .onChange(of: homeCoordinator.path) { value in
-            if value.isEmpty {
-                tabCoordinator.isTabBarHidden = false
-            } else {
-                tabCoordinator.isTabBarHidden = true
-            }
+            tabCoordinator.isTabBarHidden = !value.isEmpty
         }
     }
 }

@@ -25,6 +25,7 @@ struct HomeStateModel {
 final class HomeViewModel: ObservableObject {
     @Published var homeStateModel = HomeStateModel()
     @Published var selectedLicenseId: Int = 0
+    @Published var route: HomeRoute?
     
     func toggleFavorite(id: Int) {
         guard let index = homeStateModel.favoriteLicenses.firstIndex(where: { $0.certificationId == id }) else { return }
@@ -57,7 +58,20 @@ final class HomeViewModel: ObservableObject {
 }
 
 
-//MARK: - Network
+// MARK: - Navigation Func
+
+extension HomeViewModel {
+    func navigateToPreLicenseEdit() {
+        route = .preLicenseEdit
+    }
+
+    func navigateToCertificateDetail() {
+        route = .certificateDetail
+    }
+}
+
+
+// MARK: - Network
 
 extension HomeViewModel {
     func withDraw() async {

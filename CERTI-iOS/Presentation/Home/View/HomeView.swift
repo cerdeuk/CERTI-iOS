@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
-    @EnvironmentObject var homeCoordinator: HomeCoordinator
+//    @EnvironmentObject var homeCoordinator: HomeCoordinator
     @ObservedObject var viewModel: HomeViewModel
     
     let columns = [GridItem(.flexible())]
@@ -78,6 +78,7 @@ extension HomeView {
                 .scaledToFit()
                 .frame(width: 75, height: 25)
                 .onTapGesture {
+                    //TODO: - 탈퇴하기 뷰 생기면 지우기
                     Task {
                         await viewModel.withDraw()
                         appCoordinator.withDraw()
@@ -200,7 +201,8 @@ extension HomeView {
                     .frame(maxWidth: .infinity)
                     .onTapGesture {
                         viewModel.selectedLicenseId = item.id
-                        homeCoordinator.push(next: .certificateDetail)
+                        viewModel.navigateToCertificateDetail()
+//                        homeCoordinator.push(next: .certificateDetail)
                     }
                 
             }
@@ -217,7 +219,8 @@ extension HomeView {
             Spacer()
             
             Button {
-                homeCoordinator.push(next: .preLicenseEdit)
+                viewModel.navigateToPreLicenseEdit()
+//                homeCoordinator.push(next: .preLicenseEdit)
             } label: {
                 Image(.iconArrowright36)
                     .resizable()
@@ -239,7 +242,8 @@ extension HomeView {
                         .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
                         .onTapGesture {
                             viewModel.selectedLicenseId = item.id
-                            homeCoordinator.push(next: .certificateDetail)
+                            viewModel.navigateToCertificateDetail()
+//                            homeCoordinator.push(next: .certificateDetail)
                         }
                 }
             }
@@ -291,7 +295,8 @@ extension HomeView {
                     FavoriteLicenseCard(viewModel: viewModel, licenseCard: item)
                         .onTapGesture {
                             viewModel.selectedLicenseId = item.id
-                            homeCoordinator.push(next: .certificateDetail)
+                            viewModel.navigateToCertificateDetail()
+//                            homeCoordinator.push(next: .certificateDetail)
                         }
                 }
             }
