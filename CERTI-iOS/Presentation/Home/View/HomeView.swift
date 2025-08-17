@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var appCoordinator: AppCoordinator
-    @EnvironmentObject var tabCoordinator: CertiTabCoordinator
-//    @EnvironmentObject var homeCoordinator: HomeCoordinator
     @ObservedObject var viewModel: HomeViewModel
     
     let columns = [GridItem(.flexible())]
@@ -81,7 +78,7 @@ extension HomeView {
                     //TODO: - 탈퇴하기 뷰 생기면 지우기
                     Task {
                         await viewModel.withDraw()
-                        appCoordinator.withDraw()
+                        viewModel.withDrawNavigate()
                     }
                 }
             
@@ -180,7 +177,7 @@ extension HomeView {
             
             Button {
                 // 추천 자격증 항목 이동
-                tabCoordinator.switchTab(tab: .recommend)
+                viewModel.switchToRecommendTab()
             } label: {
                 Image(.iconArrowright36)
                     .resizable()
@@ -202,7 +199,6 @@ extension HomeView {
                     .onTapGesture {
                         viewModel.selectedLicenseId = item.id
                         viewModel.navigateToCertificateDetail()
-//                        homeCoordinator.push(next: .certificateDetail)
                     }
                 
             }
@@ -220,7 +216,6 @@ extension HomeView {
             
             Button {
                 viewModel.navigateToPreLicenseEdit()
-//                homeCoordinator.push(next: .preLicenseEdit)
             } label: {
                 Image(.iconArrowright36)
                     .resizable()
@@ -243,7 +238,6 @@ extension HomeView {
                         .onTapGesture {
                             viewModel.selectedLicenseId = item.id
                             viewModel.navigateToCertificateDetail()
-//                            homeCoordinator.push(next: .certificateDetail)
                         }
                 }
             }
@@ -296,7 +290,6 @@ extension HomeView {
                         .onTapGesture {
                             viewModel.selectedLicenseId = item.id
                             viewModel.navigateToCertificateDetail()
-//                            homeCoordinator.push(next: .certificateDetail)
                         }
                 }
             }

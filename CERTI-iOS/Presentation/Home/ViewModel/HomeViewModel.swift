@@ -9,6 +9,13 @@ import Foundation
 
 import os
 
+enum HomeViewRoute {
+    case switchToRecommendTab
+    case withDraw
+    case navigateToPreLicenseEdit
+    case navigateToCertificateDetail
+}
+
 // 뷰모델 사용 예시를 보여주기 위한 임시 모델
 struct HomeStateModel {
     var username: String = ""
@@ -25,24 +32,15 @@ struct HomeStateModel {
 final class HomeViewModel: ObservableObject {
     @Published var homeStateModel = HomeStateModel()
     @Published var selectedLicenseId: Int = 0
-    @Published var route: HomeRoute?
-    
-    func toggleFavorite(id: Int) {
-        guard let index = homeStateModel.favoriteLicenses.firstIndex(where: { $0.certificationId == id }) else { return }
-        homeStateModel.favoriteLicenses[index].isFavorite.toggle()
-    }
+    @Published var homeViewRoute: HomeViewRoute?
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "HOME")
     
-    private let authRepository = AppDIContainer.shared.makeAuthRepository()
-    private let userRepository = AppDIContainer.shared.makeUserRepository()
-    private let certificationRepository = AppDIContainer.shared.makeCertificationRepository()
-        
     private let addPreCertificationUseCase: AddPreCertificationUseCase
     private let deletePreCertificationUseCase: DeletePreCertificationUseCase
     private let getPreCertificationsUseCase: GetPreCertificationUseCase
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
-
+    
     init(
         addPreCertificationUseCase: AddPreCertificationUseCase,
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
@@ -55,18 +53,33 @@ final class HomeViewModel: ObservableObject {
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
     }
     
+    
+    // Usecase 다 만들어지면 레포지터리는 다 지워야함
+    private let authRepository = AppDIContainer.shared.makeAuthRepository()
+    private let userRepository = AppDIContainer.shared.makeUserRepository()
+    private let certificationRepository = AppDIContainer.shared.makeCertificationRepository()
+
 }
 
 
 // MARK: - Navigation Func
 
 extension HomeViewModel {
+    
+    func switchToRecommendTab() {
+        homeViewRoute = .switchToRecommendTab
+    }
+    
+    func withDrawNavigate() {
+        homeViewRoute = .withDraw
+    }
+    
     func navigateToPreLicenseEdit() {
-        route = .preLicenseEdit
+        homeViewRoute = .navigateToPreLicenseEdit
     }
 
     func navigateToCertificateDetail() {
-        route = .certificateDetail
+        homeViewRoute = .navigateToCertificateDetail
     }
 }
 
@@ -175,4 +188,14 @@ extension HomeViewModel {
         }
     }
     
+}
+
+
+// MARK: - Func
+
+extension HomeViewModel {
+    func toggleFavorite(id: Int) {
+        guard let index = homeStateModel.favoriteLicenses.firstIndex(where: { $0.certificationId == id }) else { return }
+        homeStateModel.favoriteLicenses[index].isFavorite.toggle()
+    }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeCoordinatorView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
+    
     @ObservedObject var homeCoordinator: HomeCoordinator
     @StateObject private var homeViewModel: HomeViewModel
     
@@ -22,11 +23,19 @@ struct HomeCoordinatorView: View {
     var body: some View {
         NavigationStack(path: $homeCoordinator.path) {
             HomeView(viewModel: homeViewModel)
-                .onChange(of: homeViewModel.route) { route in
-                    if let route = route {
-                        homeCoordinator.push(next: route)
-                        homeViewModel.route = nil
+                .onChange(of: homeViewModel.homeViewRoute) { route in
+                    guard let route = route else { return }
+                    switch route {
+                    case .switchToRecommendTab:
+                        tabCoordinator.switchTab(tab: .recommend)
+                    case .withDraw:
+                        appCoordinator.withDraw()
+                    case .navigateToCertificateDetail:
+                        homeCoordinator.push(next: .certificateDetail)
+                    case .navigateToPreLicenseEdit:
+                        homeCoordinator.push(next: .preLicenseEdit)
                     }
+                    homeViewModel.homeViewRoute = nil
                 }
                 .navigationDestination(for: HomeRoute.self) { route in
                     switch route {

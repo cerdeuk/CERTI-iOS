@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ResumeCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
+    
     @ObservedObject var resumeCoordinator: ResumeCoordinator
     @StateObject var resumeViewModel = ResumeViewModel()
     
