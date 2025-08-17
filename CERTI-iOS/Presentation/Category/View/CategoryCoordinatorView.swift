@@ -28,11 +28,7 @@ struct CategoryCoordinatorView: View {
 
         .environmentObject(categoryCoordinator)
         .onChange(of: categoryCoordinator.path) { value in
-            if value.isEmpty {
-                tabCoordinator.isTabBarHidden = false
-            } else {
-                tabCoordinator.isTabBarHidden = true
-            }
+            tabCoordinator.isTabBarHidden = !value.isEmpty
         }
     }
 }

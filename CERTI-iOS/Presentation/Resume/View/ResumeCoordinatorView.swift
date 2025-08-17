@@ -32,18 +32,10 @@ struct ResumeCoordinatorView: View {
         }
         .environmentObject(resumeCoordinator)
         .onChange(of: resumeCoordinator.path) { value in
-            if value.isEmpty {
-                tabCoordinator.isTabBarHidden = false
-            } else {
-                tabCoordinator.isTabBarHidden = true
-            }
+            tabCoordinator.isTabBarHidden = !value.isEmpty
         }
         .onChange(of: resumeViewModel.isCardDetailPresented) { state in
-            if state {
-                tabCoordinator.isTabBarHidden = true
-            } else {
-                tabCoordinator.isTabBarHidden = false
-            }
+            tabCoordinator.isTabBarHidden = state
         }
     }
 }

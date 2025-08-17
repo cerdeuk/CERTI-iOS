@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CertiTabBarCoordinatorView: View {
     @ObservedObject var tabCoordinator: CertiTabCoordinator
-    @EnvironmentObject var appCoordinator: AppCoordinator
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -17,7 +16,6 @@ struct CertiTabBarCoordinatorView: View {
                 switch tabCoordinator.selectedTab {
                 case .home:
                     HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
-                        .environmentObject(appCoordinator)
                 case .category:
                     CategoryCoordinatorView(categoryCoordinator: tabCoordinator.categoryCoordinator)
                 case .recommend:
