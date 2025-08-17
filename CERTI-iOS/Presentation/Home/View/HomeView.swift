@@ -200,7 +200,7 @@ extension HomeView {
                     .frame(maxWidth: .infinity)
                     .onTapGesture {
                         viewModel.selectedLicenseId = item.id
-                        homeCoordinator.push(next: .certificateDetail(id: viewModel.selectedLicenseId, beforeViewType: .home))
+                        homeCoordinator.push(next: .certificateDetail)
                     }
                 
             }
@@ -239,7 +239,7 @@ extension HomeView {
                         .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
                         .onTapGesture {
                             viewModel.selectedLicenseId = item.id
-                            homeCoordinator.push(next: .certificateDetail(id: viewModel.selectedLicenseId, beforeViewType: .home))
+                            homeCoordinator.push(next: .certificateDetail)
                         }
                 }
             }
@@ -291,7 +291,7 @@ extension HomeView {
                     FavoriteLicenseCard(viewModel: viewModel, licenseCard: item)
                         .onTapGesture {
                             viewModel.selectedLicenseId = item.id
-                            homeCoordinator.push(next: .certificateDetail(id: viewModel.selectedLicenseId, beforeViewType: .home))
+                            homeCoordinator.push(next: .certificateDetail)
                         }
                 }
             }

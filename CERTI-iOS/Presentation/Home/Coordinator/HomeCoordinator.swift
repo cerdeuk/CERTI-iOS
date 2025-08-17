@@ -9,7 +9,7 @@ import SwiftUI
 
 enum HomeRoute: Hashable {
     case preLicenseEdit
-    case certificateDetail(id: Int, beforeViewType: BeforeViewType)
+    case certificateDetail
 }
 
 final class HomeCoordinator: ObservableObject {
