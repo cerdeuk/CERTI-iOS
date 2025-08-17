@@ -14,6 +14,8 @@ enum HomeViewRoute {
     case withDraw
     case navigateToPreLicenseEdit
     case navigateToCertificateDetail
+    
+    case homeViewRoutePop
 }
 
 // 뷰모델 사용 예시를 보여주기 위한 임시 모델
@@ -80,6 +82,10 @@ extension HomeViewModel {
 
     func navigateToCertificateDetail() {
         homeViewRoute = .navigateToCertificateDetail
+    }
+    
+    func homeViewRoutePop() {
+        homeViewRoute = .homeViewRoutePop
     }
 }
 

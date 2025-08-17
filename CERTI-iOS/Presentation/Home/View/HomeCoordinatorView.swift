@@ -12,6 +12,7 @@ struct HomeCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
     
     @ObservedObject var homeCoordinator: HomeCoordinator
+    
     @StateObject private var homeViewModel: HomeViewModel
     
     init(homeCoordinator: HomeCoordinator) {
@@ -34,6 +35,8 @@ struct HomeCoordinatorView: View {
                         homeCoordinator.push(next: .certificateDetail)
                     case .navigateToPreLicenseEdit:
                         homeCoordinator.push(next: .preLicenseEdit)
+                    case .homeViewRoutePop:
+                        homeCoordinator.pop()
                     }
                     homeViewModel.homeViewRoute = nil
                 }

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct PreLicenseEditView: View {
-    @EnvironmentObject var homeCoordinator: HomeCoordinator
-
     @ObservedObject var viewModel: HomeViewModel
 
     @State private var isDeleteAlertPresented = false
@@ -22,7 +20,7 @@ struct PreLicenseEditView: View {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 0) {
                     Button {
-                        homeCoordinator.pop()
+                        viewModel.homeViewRoutePop()
                     } label: {
                         Image(.iconArrowleft36)
                     }
