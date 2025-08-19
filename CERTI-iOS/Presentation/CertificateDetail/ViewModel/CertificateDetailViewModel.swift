@@ -31,12 +31,12 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var showCompleteModal = false
 
     
-    private let certificateDetailService = NetworkService.shared.certificationService
+    private let certificateDetailService = AppDIContainer.shared.makeCertificationRepository()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
-    private let homeService = NetworkService.shared.homeService
+    private let homeService = AppDIContainer.shared.makeHomeRepository()
     
-    private let acquisitionService = NetworkService.shared.acquisitionService
+    private let acquisitionService = AppDIContainer.shared.makeAcquisitionRepository()
 }
 
 

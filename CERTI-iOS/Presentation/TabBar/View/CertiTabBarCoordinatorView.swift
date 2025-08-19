@@ -9,15 +9,20 @@ import SwiftUI
 
 struct CertiTabBarCoordinatorView: View {
     @ObservedObject var tabCoordinator: CertiTabCoordinator
-    @EnvironmentObject var appCoordinator: AppCoordinator
-
+    
+    private let appDIContainer: AppDIContainer
+  
+    init(tabCoordinator: CertiTabCoordinator, appDIContainer: AppDIContainer) {
+        self.tabCoordinator = tabCoordinator
+        self.appDIContainer = appDIContainer
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             Group {
                 switch tabCoordinator.selectedTab {
                 case .home:
-                    HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator)
-                        .environmentObject(appCoordinator)
+                    HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator, homeFactory: appDIContainer.makeHomeFactory())
                 case .category:
                     CategoryCoordinatorView(categoryCoordinator: tabCoordinator.categoryCoordinator)
                 case .recommend:

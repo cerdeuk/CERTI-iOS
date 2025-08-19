@@ -10,29 +10,51 @@ import SwiftUI
 struct HomeCoordinatorView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
+    
     @ObservedObject var homeCoordinator: HomeCoordinator
-    @StateObject var homeViewModel = HomeViewModel()
+    
+    @StateObject private var homeViewModel: HomeViewModel
+    
+    private let homeFactory: HomeFactory
+    
+    init(homeCoordinator: HomeCoordinator, homeFactory: HomeFactory) {
+        self.homeCoordinator = homeCoordinator
+        self.homeFactory = homeFactory
+        _homeViewModel = StateObject(wrappedValue: homeFactory.makeHomeViewModel())
+    }
     
     var body: some View {
         NavigationStack(path: $homeCoordinator.path) {
             HomeView(viewModel: homeViewModel)
+                .onChange(of: homeViewModel.homeViewRoute) { route in
+                    guard let route = route else { return }
+                    switch route {
+                    case .switchToRecommendTab:
+                        tabCoordinator.switchTab(tab: .recommend)
+                    case .withDraw:
+                        appCoordinator.withDraw()
+                    case .navigateToCertificateDetail:
+                        homeCoordinator.push(next: .certificateDetail)
+                    case .navigateToPreLicenseEdit:
+                        homeCoordinator.push(next: .preLicenseEdit)
+                    case .homeViewRoutePop:
+                        homeCoordinator.pop()
+                    }
+                    homeViewModel.homeViewRoute = nil
+                }
                 .navigationDestination(for: HomeRoute.self) { route in
                     switch route {
                     case .preLicenseEdit:
                         PreLicenseEditView(viewModel: homeViewModel)
                             .navigationBarBackButtonHidden()
-                    case .certificateDetail(id: let id, beforeViewType: let beforeViewType):
+                    case .certificateDetail:
                         CertificateDetailView(certificationId: $homeViewModel.selectedLicenseId, beforeViewType: .home)
                     }
                 }
         }
         .environmentObject(homeCoordinator)
         .onChange(of: homeCoordinator.path) { value in
-            if value.isEmpty {
-                tabCoordinator.isTabBarHidden = false
-            } else {
-                tabCoordinator.isTabBarHidden = true
-            }
+            tabCoordinator.isTabBarHidden = !value.isEmpty
         }
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ResumeCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
+    
     @ObservedObject var resumeCoordinator: ResumeCoordinator
     @StateObject var resumeViewModel = ResumeViewModel()
     
@@ -32,18 +33,10 @@ struct ResumeCoordinatorView: View {
         }
         .environmentObject(resumeCoordinator)
         .onChange(of: resumeCoordinator.path) { value in
-            if value.isEmpty {
-                tabCoordinator.isTabBarHidden = false
-            } else {
-                tabCoordinator.isTabBarHidden = true
-            }
+            tabCoordinator.isTabBarHidden = !value.isEmpty
         }
         .onChange(of: resumeViewModel.isCardDetailPresented) { state in
-            if state {
-                tabCoordinator.isTabBarHidden = true
-            } else {
-                tabCoordinator.isTabBarHidden = false
-            }
+            tabCoordinator.isTabBarHidden = state
         }
     }
 }

@@ -9,6 +9,15 @@ import Foundation
 
 import os
 
+enum HomeViewRoute {
+    case switchToRecommendTab
+    case withDraw
+    case navigateToPreLicenseEdit
+    case navigateToCertificateDetail
+    
+    case homeViewRoutePop
+}
+
 // 뷰모델 사용 예시를 보여주기 위한 임시 모델
 struct HomeStateModel {
     var username: String = ""
@@ -25,22 +34,68 @@ struct HomeStateModel {
 final class HomeViewModel: ObservableObject {
     @Published var homeStateModel = HomeStateModel()
     @Published var selectedLicenseId: Int = 0
-    
-    func toggleFavorite(id: Int) {
-        guard let index = homeStateModel.favoriteLicenses.firstIndex(where: { $0.certificationId == id }) else { return }
-        homeStateModel.favoriteLicenses[index].isFavorite.toggle()
-    }
+    @Published var homeViewRoute: HomeViewRoute?
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "HOME")
+    
+    private let addPreCertificationUseCase: AddPreCertificationUseCase
+    private let deletePreCertificationUseCase: DeletePreCertificationUseCase
+    private let getPreCertificationsUseCase: GetPreCertificationUseCase
+    private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
+    
+    init(
+        addPreCertificationUseCase: AddPreCertificationUseCase,
+        deletePreCertificationUseCase: DeletePreCertificationUseCase,
+        getPreCertificationsUseCase: GetPreCertificationUseCase,
+        getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
+    ) {
+        self.addPreCertificationUseCase = addPreCertificationUseCase
+        self.deletePreCertificationUseCase = deletePreCertificationUseCase
+        self.getPreCertificationsUseCase = getPreCertificationsUseCase
+        self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
+    }
+    
+    
+    // Usecase 다 만들어지면 레포지터리는 다 지워야함
+    private let authRepository = AppDIContainer.shared.makeAuthRepository()
+    private let userRepository = AppDIContainer.shared.makeUserRepository()
+    private let certificationRepository = AppDIContainer.shared.makeCertificationRepository()
+
 }
 
 
-//MARK: - Network
+// MARK: - Navigation Func
+
+extension HomeViewModel {
+    
+    func switchToRecommendTab() {
+        homeViewRoute = .switchToRecommendTab
+    }
+    
+    func withDrawNavigate() {
+        homeViewRoute = .withDraw
+    }
+    
+    func navigateToPreLicenseEdit() {
+        homeViewRoute = .navigateToPreLicenseEdit
+    }
+
+    func navigateToCertificateDetail() {
+        homeViewRoute = .navigateToCertificateDetail
+    }
+    
+    func homeViewRoutePop() {
+        homeViewRoute = .homeViewRoutePop
+    }
+}
+
+
+// MARK: - Network
 
 extension HomeViewModel {
     func withDraw() async {
-        let result = await NetworkService.shared.authService.withDraw()
-        
+        let result = await authRepository.withDraw()
+
         switch result {
         case .success:
             logger.info("✅ 탈퇴 성공")
@@ -52,7 +107,7 @@ extension HomeViewModel {
     }
     
     func getUserInfo() async {
-        let result = await NetworkService.shared.userService.getuserInfo()
+        let result = await userRepository.getuserInfo()
         
         switch result {
         case .success(let response):
@@ -69,7 +124,7 @@ extension HomeViewModel {
     }
     
     func getRecommendCertificationList() async {
-        let result = await NetworkService.shared.certificationService.getRecommend()
+        let result = await certificationRepository.getRecommend()
         
         switch result {
         case .success(let response):
@@ -83,24 +138,21 @@ extension HomeViewModel {
         }
     }
     
-    func getPreCertificationList() async {
-        let result = await NetworkService.shared.homeService.getPreCertification()
+    func fetchPreCertification() async {
+        let result = await getPreCertificationsUseCase.execute()
         
         switch result {
-        case .success(let response):
+        case .success(let models):
             logger.info("✅ 취득 예정 자격증 조회 성공")
-            
-            let list = response.data?.toPreLicenseCardModelList()
-            
-            homeStateModel.preLicenses = list ?? []
-            
+
+            self.homeStateModel.preLicenses = models.toPreLicenseCardModelList()
         case .failure(let error):
             logger.error("❌ 취득 예정 자격증 조회 실패: \(error.localizedDescription)")
         }
     }
     
     func deletePreCertification(id: Int) async {
-        let result = await NetworkService.shared.homeService.deletePreCertification(id: id)
+        let result = await deletePreCertificationUseCase.execute(id: id)
         
         switch result {
         case .success:
@@ -114,14 +166,13 @@ extension HomeViewModel {
     }
     
     func getFavoriteCertificationList() async {
-        let result = await NetworkService.shared.homeService.getFavoriteCertification()
-        
+        let result = await getFavoriteCertificationsUseCase.execute()
+                
         switch result {
         case .success(let response):
             logger.info("✅ 즐겨찾기 자격증 조회 성공")
             
-            let list = response.data?.data.map { $0.toFavoriteLicenseCardModel() } ?? []
-            
+            let list = response.toFavoriteLicenseCardModelList()
             homeStateModel.favoriteLicenses = list
             
         case .failure(let error):
@@ -131,7 +182,7 @@ extension HomeViewModel {
     }
     
     func toggleFavoriteCertification(certificationId: Int) async {
-        let result = await NetworkService.shared.certificationService.switchFavorite(certificationId: certificationId)
+        let result = await certificationRepository.switchFavorite(certificationId: certificationId)
         
         switch result {
         case .success():
@@ -143,4 +194,14 @@ extension HomeViewModel {
         }
     }
     
+}
+
+
+// MARK: - Func
+
+extension HomeViewModel {
+    func toggleFavorite(id: Int) {
+        guard let index = homeStateModel.favoriteLicenses.firstIndex(where: { $0.certificationId == id }) else { return }
+        homeStateModel.favoriteLicenses[index].isFavorite.toggle()
+    }
 }

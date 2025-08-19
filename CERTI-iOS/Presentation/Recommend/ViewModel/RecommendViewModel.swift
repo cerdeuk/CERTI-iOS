@@ -19,10 +19,10 @@ class RecommendViewModel: ObservableObject {
     @Published var selectedCategories: [String] = []
     @Published var selectedCertificateId: Int = 0
     
-    private let recommendService = NetworkService.shared.certificationService
+    private let recommendService = AppDIContainer.shared.makeCertificationRepository()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Recommend")
     
-    private let jobService = NetworkService.shared.jobService
+    private let jobService = AppDIContainer.shared.makeJobRepository()
 
     @Published var isShowLoading: Bool = false
     
@@ -49,7 +49,7 @@ class RecommendViewModel: ObservableObject {
 
 extension RecommendViewModel {
     func getRecommendCertificationList() async {
-        let result = await NetworkService.shared.certificationService.getRecommend()
+        let result = await recommendService.getRecommend()
         
         switch result {
         case .success(let response):

@@ -25,18 +25,10 @@ struct RecommendCoordinatorView: View {
         }
         .environmentObject(recommendCoordinator)
         .onChange(of: recommendCoordinator.path) { value in
-            if value.isEmpty {
-                tabCoordinator.isTabBarHidden = false
-            } else {
-                tabCoordinator.isTabBarHidden = true
-            }
+            tabCoordinator.isTabBarHidden = !value.isEmpty
         }
         .onChange(of: recommendViewModel.isShowLoading) { loadingState in
-            if loadingState {
-                tabCoordinator.isTabBarHidden = true
-            } else {
-                tabCoordinator.isTabBarHidden = false
-            }
+            tabCoordinator.isTabBarHidden = loadingState
         }
     }
 }
