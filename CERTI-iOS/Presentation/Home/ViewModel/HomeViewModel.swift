@@ -145,7 +145,7 @@ extension HomeViewModel {
         case .success(let models):
             logger.info("✅ 취득 예정 자격증 조회 성공")
 
-            self.homeStateModel.preLicenses = models.toModels()
+            self.homeStateModel.preLicenses = models.toPreLicenseCardModelList()
         case .failure(let error):
             logger.error("❌ 취득 예정 자격증 조회 실패: \(error.localizedDescription)")
         }
@@ -172,7 +172,7 @@ extension HomeViewModel {
         case .success(let response):
             logger.info("✅ 즐겨찾기 자격증 조회 성공")
             
-            let list = response.toModels()
+            let list = response.toFavoriteLicenseCardModelList()
             homeStateModel.favoriteLicenses = list
             
         case .failure(let error):

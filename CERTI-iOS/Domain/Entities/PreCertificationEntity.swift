@@ -17,7 +17,7 @@ struct PreCertificationEntity {
     
     // MARK: - Func
     
-    func toModels() -> [PreLicenseCardModel] {
+    func toPreLicenseCardModelList() -> [PreLicenseCardModel] {
         return certifications.map { $0.toPreLicenseCardModel() }
     }
     

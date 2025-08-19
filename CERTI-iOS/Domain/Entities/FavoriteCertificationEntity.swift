@@ -17,7 +17,7 @@ struct FavoriteCertificationEntity {
     
     // MARK: - Func
     
-    func toModels() -> [FavoriteLicenseCardModel] {
+    func toFavoriteLicenseCardModelList() -> [FavoriteLicenseCardModel] {
         return certifications.map { $0.toFavoriteLicenseCardModel() }
     }
     
