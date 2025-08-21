@@ -15,3 +15,9 @@ struct UserInfoData: Decodable {
     let major: String
     let percentage: Int
 }
+
+extension UserInfoData {
+    func toEntity() -> UserInfoEntity {
+        return UserInfoEntity(name: name, university: university, major: major, percentage: percentage)
+    }
+}
