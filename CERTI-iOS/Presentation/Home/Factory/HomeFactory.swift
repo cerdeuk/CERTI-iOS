@@ -16,17 +16,20 @@ final class DefaultHomeFactory: HomeFactory {
     let deletePreUseCase: DeletePreCertificationUseCase
     let getPreUseCase: GetPreCertificationUseCase
     let getFavoriteUseCase: GetFavoriteCertificationUseCase
+    let fetchUserInfoUseCase: FetchUserInfoUseCase
 
     init(
         addPreUseCase: AddPreCertificationUseCase,
         deletePreUseCase: DeletePreCertificationUseCase,
         getPreUseCase: GetPreCertificationUseCase,
-        getFavoriteUseCase: GetFavoriteCertificationUseCase
+        getFavoriteUseCase: GetFavoriteCertificationUseCase,
+        fetchUserInfoUseCase: FetchUserInfoUseCase
     ) {
         self.addPreUseCase = addPreUseCase
         self.deletePreUseCase = deletePreUseCase
         self.getPreUseCase = getPreUseCase
         self.getFavoriteUseCase = getFavoriteUseCase
+        self.fetchUserInfoUseCase = fetchUserInfoUseCase
     }
 
     @MainActor
@@ -35,7 +38,8 @@ final class DefaultHomeFactory: HomeFactory {
             addPreCertificationUseCase: addPreUseCase,
             deletePreCertificationUseCase: deletePreUseCase,
             getPreCertificationsUseCase: getPreUseCase,
-            getFavoriteCertificationsUseCase: getFavoriteUseCase
+            getFavoriteCertificationsUseCase: getFavoriteUseCase,
+            fetchUserInfoUseCase: fetchUserInfoUseCase
         )
     }
 }

@@ -19,10 +19,10 @@ class RecommendViewModel: ObservableObject {
     @Published var selectedCategories: [String] = []
     @Published var selectedCertificateId: Int = 0
     
-    private let recommendService = AppDIContainer.shared.makeCertificationRepository()
+    private let recommendService = AppDIContainer.shared.certificationRepository
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Recommend")
     
-    private let jobService = AppDIContainer.shared.makeJobRepository()
+    private let jobService = AppDIContainer.shared.jobRepository
 
     @Published var isShowLoading: Bool = false
     

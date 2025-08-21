@@ -21,7 +21,7 @@ final class OnboardingViewModel: ObservableObject {
     @Published var universityList: [String] = []
     @Published var majorList: [String] = []
     
-    private let onboardingService = AppDIContainer.shared.makeOnboardingRepository()
+    private let onboardingService = AppDIContainer.shared.onboardingRepository
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Onboarding")
     
     func searchUnivValidate() -> Bool {

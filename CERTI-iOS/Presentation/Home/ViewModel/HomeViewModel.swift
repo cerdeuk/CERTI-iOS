@@ -42,24 +42,26 @@ final class HomeViewModel: ObservableObject {
     private let deletePreCertificationUseCase: DeletePreCertificationUseCase
     private let getPreCertificationsUseCase: GetPreCertificationUseCase
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
+    private let fetchUserInfoUseCase: FetchUserInfoUseCase
     
     init(
         addPreCertificationUseCase: AddPreCertificationUseCase,
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
         getPreCertificationsUseCase: GetPreCertificationUseCase,
-        getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
+        getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
+        fetchUserInfoUseCase: FetchUserInfoUseCase
     ) {
         self.addPreCertificationUseCase = addPreCertificationUseCase
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
         self.getPreCertificationsUseCase = getPreCertificationsUseCase
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
+        self.fetchUserInfoUseCase = fetchUserInfoUseCase
     }
     
     
     // Usecase 다 만들어지면 레포지터리는 다 지워야함
-    private let authRepository = AppDIContainer.shared.makeAuthRepository()
-    private let userRepository = AppDIContainer.shared.makeUserRepository()
-    private let certificationRepository = AppDIContainer.shared.makeCertificationRepository()
+    private let authRepository = AppDIContainer.shared.authRepository
+    private let certificationRepository = AppDIContainer.shared.certificationRepository
 
 }
 
@@ -107,16 +109,16 @@ extension HomeViewModel {
     }
     
     func getUserInfo() async {
-        let result = await userRepository.getuserInfo()
+        let result = await fetchUserInfoUseCase.execute()
         
         switch result {
         case .success(let response):
             logger.info("✅ 유저 정보 조회 성공")
-            homeStateModel.username = response.data?.name ?? ""
-            homeStateModel.userUniversity = response.data?.university ?? ""
-            homeStateModel.userDepartment = response.data?.major ?? ""
-            homeStateModel.progressValue = response.data?.percentage ?? 0
-            AuthManager.shared.nickname = response.data?.name ?? ""
+            homeStateModel.username = response.name
+            homeStateModel.userUniversity = response.university
+            homeStateModel.userDepartment = response.major
+            homeStateModel.progressValue = response.percentage
+            AuthManager.shared.nickname = response.name
             
         case .failure(let error):
             logger.error("❌ 탈퇴 실패: \(error.localizedDescription)")
