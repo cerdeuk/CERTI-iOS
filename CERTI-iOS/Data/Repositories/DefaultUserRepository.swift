@@ -9,16 +9,26 @@ import Foundation
 
 import Moya
 
-final class DefaultUserRepository:  UserRepository {
-    
+final class DefaultUserRepository: UserRepository {
+
     private let service: UserServiceProtocol
 
     public init(service: UserServiceProtocol) {
         self.service = service
     }
     
-    func getuserInfo() async -> Result<UserInfoResponseDTO, NetworkError> {
-        return await service.getuserInfo()
+    func getUserInfo() async -> Result<UserInfoEntity, NetworkError> {
+        let result = await service.getuserInfo()
+        
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
 }
