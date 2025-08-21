@@ -8,7 +8,7 @@
 import Foundation
 
 protocol EditJobUseCase {
-    func execute(jobNameList: [String]) async -> Result<Void, NetworkError>
+    func execute(jobNameList: JobEntity) async -> Result<Void, NetworkError>
 }
 
 final class DefaultEditJobUseCase: EditJobUseCase {
@@ -18,7 +18,7 @@ final class DefaultEditJobUseCase: EditJobUseCase {
         self.repository = repository
     }
     
-    func execute(jobNameList: [String]) async -> Result<Void, NetworkError> {
+    func execute(jobNameList: JobEntity) async -> Result<Void, NetworkError> {
         let result = await repository.editJob(jobNameList: jobNameList)
         return result
     }
