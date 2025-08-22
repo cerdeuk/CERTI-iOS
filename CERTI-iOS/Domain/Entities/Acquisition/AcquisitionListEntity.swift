@@ -25,17 +25,15 @@ struct AcquisitionListEntity {
 struct AcquisitionListEntityData {
     let acquisitionId: Int
     let cardFrontImageUrl: String
-    let cardBackImageUrl: String
     let index: Int
     let name: String
     let tags: [String]
     let description: String
     let createdAt: String
     
-    init(acquisitionId: Int, cardFrontImageUrl: String, cardBackImageUrl: String, index: Int, name: String, tags: [String], description: String, createdAt: String) {
+    init(acquisitionId: Int, cardFrontImageUrl: String, index: Int, name: String, tags: [String], description: String, createdAt: String) {
         self.acquisitionId = acquisitionId
         self.cardFrontImageUrl = cardFrontImageUrl
-        self.cardBackImageUrl = cardBackImageUrl
         self.index = index
         self.name = name
         self.tags = tags
