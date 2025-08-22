@@ -17,8 +17,17 @@ final class DefaultAcquisitionRepository: AcquisitionRepository {
         self.service = service
     }
     
-    func fetchAcquisitionList() async -> Result<AcquisitionListResponseDTO, NetworkError> {
-        return await service.fetchAcquisitionList()
+    func fetchAcquisitionList() async -> Result<AcquisitionListEntity, NetworkError> {
+        let result = await service.fetchAcquisitionList()
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toAcquisitionListEntityList() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
 
     func addAcquisition(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
