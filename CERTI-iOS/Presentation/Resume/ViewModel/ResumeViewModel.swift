@@ -16,7 +16,7 @@ final class ResumeViewModel: ObservableObject {
     @Published var certificatedDummy: [CertificatedListModel] = CertificatedListModel.dummy()
     @Published var jobList: [String] = []
     @Published var acquisitionList: [CertificatedListModel] = []
-    @Published var acquisitionDetail: CertificatedDetailModel? = nil
+    @Published var acquisitionDetail: [CertificatedDetailModel]? = nil
     @Published var careersList: [ResumeModel] = []
     @Published var activityList: [ResumeModel] = []
     @Published var isPeriodFilled: Bool = false
@@ -38,11 +38,14 @@ final class ResumeViewModel: ObservableObject {
     private let activityService = AppDIContainer.shared.makeActivityRepository()
     
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+    private let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
     
     init(
-        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
+        fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
     ) {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
+        self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
     }
 
     func clearResumeModel() {
@@ -94,19 +97,15 @@ extension ResumeViewModel {
     }
     
     func getAcquisitionDetail(id: Int) async {
-        let result = await acquisitionService.fetchAcquisitionDetail(id: id)
+        let result = await fetchAcquisitionDetailUseCase.excute(id: id)
         
         switch result {
         case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getAcquisitionDetail: No data received")
-                return
-            }
-            
-            self.acquisitionDetail = data
+            logger.info("✅ 취득한 자격증 상세 조회 성공")
+            self.acquisitionDetail = response.toAcquisitionDetail()
             
         case .failure(let error):
-            logger.error("getAcquisitionDetail failed: \(error.localizedDescription)")
+            logger.error("❌ 취득한 자격증 상세 조회 실패: \(error.localizedDescription)")
         }
     }
     
