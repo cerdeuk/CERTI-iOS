@@ -21,21 +21,18 @@ final class OnboardingViewModel: ObservableObject {
     @Published var universityList: [String] = []
     @Published var majorList: [String] = []
     
-    private let onboardingService = AppDIContainer.shared.onboardingRepository
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Onboarding")
+    private let authManager = AuthManager.shared
     
-    func searchUnivValidate() -> Bool {
-        let searchTextValid = !searchUnivText.trimmingCharacters(in: .whitespaces).isEmpty
-        let userUniversityValid = !userUniversity.trimmingCharacters(in: .whitespaces).isEmpty
-
-        return searchTextValid && userUniversityValid
-    }
+    private let fetchMajorListUseCase: FetchMajorListUseCase
+    private let fetchUnivListUseCase: FetchUnivListUsecase
     
-    func searchMajorValidate() -> Bool {
-        let searchTextValid = !searchMajorText.trimmingCharacters(in: .whitespaces).isEmpty
-        let userMajorValid = !userMajor.trimmingCharacters(in: .whitespaces).isEmpty
-
-        return searchTextValid && userMajorValid
+    init(
+        fetchMajorListUseCase: FetchMajorListUseCase,
+        fetchUnivListUseCase: FetchUnivListUsecase
+    ) {
+        self.fetchMajorListUseCase = fetchMajorListUseCase
+        self.fetchUnivListUseCase = fetchUnivListUseCase
     }
     
     @MainActor
@@ -58,15 +55,10 @@ final class OnboardingViewModel: ObservableObject {
 
 extension OnboardingViewModel {
     func getUnivList(keyword: String) async {
-        let result = await onboardingService.getSearchUniv(keyword: keyword, preSignUpToken: AuthManager.shared.getPreSignupToken())
+        let result = await fetchUnivListUseCase.execute(keyword: keyword, preSignUpToken: authManager.getPreSignupToken())
         
         switch result {
-        case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getUnivList: No data received")
-                return
-            }
-            
+        case .success(let data):
             self.universityList = data.universityNameList
             logger.debug("✅ getUnivList success: \(data.universityNameList)")
             
@@ -76,21 +68,34 @@ extension OnboardingViewModel {
     }
     
     func getMajorList(keyword: String) async {
-        let result = await onboardingService.getSearchMajor(keyword: keyword, preSignUpToken: AuthManager.shared.getPreSignupToken())
+        let result = await fetchMajorListUseCase.execute(keyword: keyword, preSignUpToken: authManager.getPreSignupToken())
         
         switch result {
-        case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getMajorList: No data received")
-                return
-            }
-            
+        case .success(let data):
             self.majorList = data.majorNameList
             logger.debug("✅ getMajorList success: \(data.majorNameList)")
-            
         case .failure(let error):
             logger.error("getMajorList failed: \(error.localizedDescription)")
         }
     }
 
+}
+
+
+// MARK: - Func
+
+extension OnboardingViewModel {
+    func searchUnivValidate() -> Bool {
+        let searchTextValid = !searchUnivText.trimmingCharacters(in: .whitespaces).isEmpty
+        let userUniversityValid = !userUniversity.trimmingCharacters(in: .whitespaces).isEmpty
+
+        return searchTextValid && userUniversityValid
+    }
+    
+    func searchMajorValidate() -> Bool {
+        let searchTextValid = !searchMajorText.trimmingCharacters(in: .whitespaces).isEmpty
+        let userMajorValid = !userMajor.trimmingCharacters(in: .whitespaces).isEmpty
+
+        return searchTextValid && userMajorValid
+    }
 }
