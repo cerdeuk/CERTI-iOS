@@ -10,7 +10,7 @@ import Foundation
 typealias AcquisitionListResponseDTO = BaseResponseDTO<AcquisitionListData>
 
 struct AcquisitionListData: Decodable {
-    let acquisitionListResponses: [AcquisitionListInfo]
+    let acquisitionListDetailResponses: [AcquisitionListInfo]
 }
 
 struct AcquisitionListInfo: Decodable {
@@ -40,7 +40,7 @@ struct AcquisitionListInfo: Decodable {
 
 extension AcquisitionListData {
     func toAcquisitionListEntityList() -> AcquisitionListEntity {
-        return AcquisitionListEntity(acquisitionList: acquisitionListResponses.map{ $0.toAcquisitionListEntity() })
+        return AcquisitionListEntity(acquisitionList: acquisitionListDetailResponses.map{ $0.toAcquisitionListEntity() })
     }
 }
 
