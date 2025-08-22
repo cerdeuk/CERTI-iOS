@@ -8,16 +8,16 @@
 import Foundation
 
 struct AcquisitionDetailEntity {
-    let acquisitionDetail: [AcquisitionDetailEntityData]
+    let acquisitionDetail: AcquisitionDetailEntityData
     
-    init(acquisitionDetail: [AcquisitionDetailEntityData]) {
+    init(acquisitionDetail: AcquisitionDetailEntityData) {
         self.acquisitionDetail = acquisitionDetail
     }
     
     // MARK: - Func
     
-    func toAcquisitionDetail() -> [CertificatedDetailModel] {
-        return acquisitionDetail.map { $0.toAcquisitionDetailModel() }
+    func toAcquisitionDetail() -> CertificatedDetailModel {
+        return acquisitionDetail.toAcquisitionDetailModel()
     }
 }
 

@@ -7,11 +7,7 @@
 
 import Foundation
 
-typealias AcquisitionDetailResponseDTO = BaseResponseDTO<AcquisitionDetailData>
-
-struct AcquisitionDetailData: Decodable {
-    let getAcquisitionDetailResponses: [AcquisitionDetailInfo]
-}
+typealias AcquisitionDetailResponseDTO = BaseResponseDTO<AcquisitionDetailInfo>
 
 struct AcquisitionDetailInfo: Decodable {
     let acquisitionId: Int
@@ -38,10 +34,10 @@ struct AcquisitionDetailInfo: Decodable {
             createdAt: createdAt
         )
     }
-}
-
-extension AcquisitionDetailData {
+    
     func toAcquisitionDetailEntityList() -> AcquisitionDetailEntity {
-        return AcquisitionDetailEntity(acquisitionDetail: getAcquisitionDetailResponses.map{$0.toAcquisitionDetailEntity() })
+        return AcquisitionDetailEntity(
+            acquisitionDetail: self.toAcquisitionDetailEntity()
+        )
     }
 }

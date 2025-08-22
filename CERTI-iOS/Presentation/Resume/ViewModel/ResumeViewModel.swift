@@ -16,7 +16,7 @@ final class ResumeViewModel: ObservableObject {
     @Published var certificatedDummy: [CertificatedListModel] = CertificatedListModel.dummy()
     @Published var jobList: [String] = []
     @Published var acquisitionList: [CertificatedListModel] = []
-    @Published var acquisitionDetail: [CertificatedDetailModel]? = nil
+    @Published var acquisitionDetail: CertificatedDetailModel? = nil
     @Published var careersList: [ResumeModel] = []
     @Published var activityList: [ResumeModel] = []
     @Published var isPeriodFilled: Bool = false
