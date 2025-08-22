@@ -17,7 +17,7 @@ final class DefaultFetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase 
     init(repository: AcquisitionRepository) {
         self.repository = repository
     }
-    func excute() async -> Result<AcquisitionDetailEntity, NetworkError> {
+    func excute(id: Int) async -> Result<AcquisitionDetailEntity, NetworkError> {
         return await repository.fetchAcquisitionDetail(id: id)
     }
 }
