@@ -161,6 +161,9 @@ extension AppDIContainer {
     private var homeRepositoryInstance: HomeRepository {
         return DefaultHomeRepository(service: makeHomeService())
     }
+    private var acquisitionRepositoryInstance: AcquisitionRepository {
+        return DefaultAcquisitionRepository(service: makeAcquisitionService())
+    }
     
     func makeAddPreCertificationUseCase() -> AddPreCertificationUseCase {
         return DefaultAddPreCertificationUseCase(repository: homeRepositoryInstance)
@@ -178,6 +181,10 @@ extension AppDIContainer {
         return DefaultGetFavoriteCertificationUseCase(repository: homeRepositoryInstance)
     }
     
+    func makeFetchAcquisitionListUseCase() -> FetchAcquisitionListUseCase {
+        return DefaultFetchAcquisitionListUseCase(repository: acquisitionRepositoryInstance)
+    }
+    
 }
 
 // MARK: - Factories
@@ -190,6 +197,12 @@ extension AppDIContainer {
             deletePreUseCase: makeDeletePreCertificationUseCase(),
             getPreUseCase: makeGetPreCertificationUseCase(),
             getFavoriteUseCase: makeGetFavoritePreCertificationUseCase()
+        )
+    }
+    
+    func makeResumeFactory() -> ResumeFactory {
+        return DefaultResumeFactory(
+            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase()
         )
     }
     
