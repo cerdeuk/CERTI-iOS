@@ -25,7 +25,7 @@ struct AcquisitionListInfo: Decodable {
     
     // MARK: - Func
     
-    func toAcquisitionListEntityList() -> AcquisitionListEntityData {
+    func toAcquisitionListEntity() -> AcquisitionListEntityData {
         return AcquisitionListEntityData(
             acquisitionId: acquisitionId,
             cardFrontImageUrl: cardFrontImageUrl,
@@ -39,8 +39,8 @@ struct AcquisitionListInfo: Decodable {
 }
 
 extension AcquisitionListData {
-    func toAcquisitionListEntity() -> AcquisitionListEntity {
-        return AcquisitionListEntity(acquisitionList: acquisitionListResponses.map{ $0.toAcquisitionListEntityList() })
+    func toAcquisitionListEntityList() -> AcquisitionListEntity {
+        return AcquisitionListEntity(acquisitionList: acquisitionListResponses.map{ $0.toAcquisitionListEntity() })
     }
 }
 
