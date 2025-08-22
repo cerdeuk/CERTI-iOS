@@ -11,7 +11,7 @@ protocol FetchUnivListUseCase {
     func execute(keyword: String, preSignUpToken: String) async -> Result<UniversityListEntity, NetworkError>
 }
 
-final class DefaultFetchUnivListUsecase: FetchUnivListUseCase {
+final class DefaultFetchUnivListUseCase: FetchUnivListUseCase {
     
     private let repository: OnboardingRepository
 
