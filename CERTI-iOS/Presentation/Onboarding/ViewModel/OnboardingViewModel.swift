@@ -9,6 +9,20 @@ import Foundation
 
 import os
 
+enum OnboardingViewRoute {
+    case navigateToGrade
+    case navigateToTrack
+    case navigateToMajor
+    case navigateToJobCategory
+    case navigateToInfo
+    
+    case completeOnboarding
+    case cancelOnboarding
+    
+    case onboardingViewRouteReset
+    case onboardingViewRoutePop
+}
+
 @MainActor
 final class OnboardingViewModel: ObservableObject {
     @Published var searchUnivText: String = ""
@@ -20,6 +34,7 @@ final class OnboardingViewModel: ObservableObject {
     @Published var selectedJobCategory: [String] = []
     @Published var universityList: [String] = []
     @Published var majorList: [String] = []
+    @Published var onboardingViewRoute: OnboardingViewRoute?
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Onboarding")
     private let authManager = AuthManager.shared
@@ -48,6 +63,49 @@ final class OnboardingViewModel: ObservableObject {
         }
     }
     
+}
+
+
+// MARK: - Navigation Func
+
+extension OnboardingViewModel {
+    
+    func navigateToGrade() {
+        onboardingViewRoute = .navigateToGrade
+    }
+
+    func navigateToTrack() {
+        onboardingViewRoute = .navigateToTrack
+    }
+    
+    func navigateToMajor() {
+        onboardingViewRoute = .navigateToMajor
+    }
+    
+    func navigateToJobCategory() {
+        onboardingViewRoute = .navigateToJobCategory
+    }
+    
+    func navigateToInfo() {
+        onboardingViewRoute = .navigateToInfo
+    }
+    
+    func completeOnboarding() {
+        onboardingViewRoute = .completeOnboarding
+    }
+    
+    func cancelOnboarding() {
+        onboardingViewRoute = .cancelOnboarding
+    }
+    
+    func onboardingViewRoutePop() {
+        onboardingViewRoute = .onboardingViewRoutePop
+    }
+    
+    func onboardingViewRouteReset() {
+        onboardingViewRoute = .onboardingViewRouteReset
+    }
+        
 }
 
 
