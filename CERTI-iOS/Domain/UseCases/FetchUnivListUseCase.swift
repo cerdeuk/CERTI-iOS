@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol FetchUnivListUsecase {
+protocol FetchUnivListUseCase {
     func execute(keyword: String, preSignUpToken: String) async -> Result<UniversityListEntity, NetworkError>
 }
 
-final class DefaultFetchUnivListUsecase: FetchUnivListUsecase {
+final class DefaultFetchUnivListUsecase: FetchUnivListUseCase {
     
     private let repository: OnboardingRepository
 

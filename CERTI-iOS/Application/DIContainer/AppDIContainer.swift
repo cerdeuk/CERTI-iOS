@@ -82,6 +82,14 @@ extension AppDIContainer {
     func makeWithDrawUseCase() -> WithDrawUseCase {
         return DefaultWithDrawUseCase(repository: authRepository)
     }
+    
+    func makeFetchUnivListUseCase() -> FetchUnivListUseCase {
+        return DefaultFetchUnivListUseCase(repository: onboardingRepository)
+    }
+    
+    func makeFetchMajorListUseCase() -> FetchMajorListUseCase {
+        return DefaultFetchMajorListUseCase(repository: onboardingRepository)
+    }
 }
 
 
@@ -97,6 +105,13 @@ extension AppDIContainer {
             getFavoriteUseCase: makeGetFavoritePreCertificationUseCase(),
             fetchUserInfoUseCase: makeFetchUserInfoUseCase(),
             withDrawUseCase: makeWithDrawUseCase()
+        )
+    }
+    
+    func makeOnboardingFactory() -> OnboardingFactory {
+        return DefaultOnboardingFactory(
+            fetchMajorListUseCase: makeFetchMajorListUseCase(),
+            fetchUnivListUseCase: makeFetchUnivListUseCase()
         )
     }
     

@@ -13,11 +13,11 @@ protocol OnboardingFactory {
 
 final class DefaultOnboardingFactory: OnboardingFactory {
     let fetchMajorListUseCase: FetchMajorListUseCase
-    let fetchUnivListUseCase: FetchUnivListUsecase
+    let fetchUnivListUseCase: FetchUnivListUseCase
 
     init(
         fetchMajorListUseCase: FetchMajorListUseCase,
-        fetchUnivListUseCase: FetchUnivListUsecase
+        fetchUnivListUseCase: FetchUnivListUseCase
     ) {
         self.fetchMajorListUseCase = fetchMajorListUseCase
         self.fetchUnivListUseCase = fetchUnivListUseCase

@@ -25,11 +25,11 @@ final class OnboardingViewModel: ObservableObject {
     private let authManager = AuthManager.shared
     
     private let fetchMajorListUseCase: FetchMajorListUseCase
-    private let fetchUnivListUseCase: FetchUnivListUsecase
+    private let fetchUnivListUseCase: FetchUnivListUseCase
     
     init(
         fetchMajorListUseCase: FetchMajorListUseCase,
-        fetchUnivListUseCase: FetchUnivListUsecase
+        fetchUnivListUseCase: FetchUnivListUseCase
     ) {
         self.fetchMajorListUseCase = fetchMajorListUseCase
         self.fetchUnivListUseCase = fetchUnivListUseCase
