@@ -17,12 +17,34 @@ final class DefaultOnboardingRepository: OnboardingRepository {
         self.service = service
     }
     
-    func getSearchUniv(keyword: String, preSignUpToken: String) async -> Result<UnivListResponseDTO, NetworkError> {
-        return await service.getSearchUniv(keyword: keyword, preSignUpToken: preSignUpToken)
+    func getSearchUniv(keyword: String, preSignUpToken: String) async -> Result<UniversityListEntity, NetworkError> {
+        let result = await service.getSearchUniv(keyword: keyword, preSignUpToken: preSignUpToken)
+        
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+        
     }
     
-    func getSearchMajor(keyword: String, preSignUpToken: String) async -> Result<MajorListResponseDTO, NetworkError> {
-        return await service.getSearchMajor(keyword: keyword, preSignUpToken: preSignUpToken)
+    func getSearchMajor(keyword: String, preSignUpToken: String) async -> Result<MajorListEntity, NetworkError> {
+        let result = await service.getSearchMajor(keyword: keyword, preSignUpToken: preSignUpToken)
+        
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+        
     }
     
 }
