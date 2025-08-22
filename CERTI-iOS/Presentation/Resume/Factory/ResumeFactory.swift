@@ -13,17 +13,21 @@ protocol ResumeFactory {
 
 final class DefaultResumeFactory: ResumeFactory {
     let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+    let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
     
     init(
-        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
+        fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
     ) {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
+        self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
     }
     
     @MainActor
     func makeResumeViewModel() -> ResumeViewModel {
         ResumeViewModel(
-            fetchAcquisitionListUseCase: fetchAcquisitionListUseCase
+            fetchAcquisitionListUseCase: fetchAcquisitionListUseCase,
+            fetchAcquisitionDetailUseCase: fetchAcquisitionDetailUseCase
         )
     }
 }

@@ -184,6 +184,9 @@ extension AppDIContainer {
     func makeFetchAcquisitionListUseCase() -> FetchAcquisitionListUseCase {
         return DefaultFetchAcquisitionListUseCase(repository: acquisitionRepositoryInstance)
     }
+    func makeFetchAcquisitionDetailUseCase() -> FetchAcquisitionDetailUseCase {
+        return DefaultFetchAcquisitionDetailUseCase(repository: acquisitionRepositoryInstance)
+    }
     
 }
 
@@ -202,7 +205,8 @@ extension AppDIContainer {
     
     func makeResumeFactory() -> ResumeFactory {
         return DefaultResumeFactory(
-            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase()
+            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
+            fetchAcquisitionDetailUseCase: makeFetchAcquisitionDetailUseCase()
         )
     }
     
