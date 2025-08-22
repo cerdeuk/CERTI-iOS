@@ -215,7 +215,7 @@ extension AuthManager {
     }
     
     @MainActor
-    private func handleAuthResponse(_ authResponse: AuthResponse) -> Result<Void, AuthError> {
+    private func handleAuthResponse(_ authResponse: AuthResponseDTO) -> Result<Void, AuthError> {
         switch authResponse {
         case .success(let loginDTO):
             logger.info("✅ 서버 로그인 성공, 유저 ID: \(loginDTO.userId)")

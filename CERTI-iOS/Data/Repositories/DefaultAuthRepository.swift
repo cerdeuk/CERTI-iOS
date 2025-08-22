@@ -9,6 +9,11 @@ import Foundation
 
 import Moya
 
+enum AuthResponseEntity {
+    case success(LoginSuccessResponseEntity)
+    case needSignUp(SignupRequiredResponseDTO)
+}
+
 final class DefaultAuthRepository: AuthRepository {
     
     private let service: AuthServiceProtocol
@@ -25,7 +30,7 @@ final class DefaultAuthRepository: AuthRepository {
         return await service.signUp(request: request, preSignUpToken: preSignUpToken)
     }
     
-    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponse, NetworkError> {
+    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponseEntity, NetworkError> {
         return await service.login(type: type, authorizationCode: authorizationCode)
     }
 }
