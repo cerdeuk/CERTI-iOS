@@ -12,9 +12,25 @@ struct LoginSuccessResponseDTO: Decodable {
     let nickName: String
     let needSignUp: Bool
     let tokenResponse: TokenResponse?
+    
+    func toEntity() -> LoginSuccessResponseEntity {
+        return LoginSuccessResponseEntity(
+            userId: userId,
+            nickName: nickName,
+            needSignUp: needSignUp,
+            tokenResponseData: tokenResponse?.toEntity()
+        )
+    }
 }
 
 struct TokenResponse: Decodable {
     let accessToken: String
     let refreshToken: String
+    
+    func toEntity() -> TokenResponseData {
+        return TokenResponseData(
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        )
+    }
 }
