@@ -43,6 +43,4 @@ final class LoginViewModel: ObservableObject {
         }
     }
     
-    
-
 }

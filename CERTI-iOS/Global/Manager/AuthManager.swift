@@ -14,8 +14,9 @@ import os
 final class AuthManager {
     static let shared = AuthManager()
     private init() {}
-    
-    private let authService = AppDIContainer.shared.authRepository
+        
+    private let loginUseCase = AppDIContainer.shared.makeLoginUseCase()
+    private let signUpUseCase = AppDIContainer.shared.makeSignUpUseCase()
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Auth")
 
@@ -53,31 +54,12 @@ final class AuthManager {
     func signUp() async -> Result<Void, AuthError> {
         logger.debug("Starting signUp")
 
-        let signupRequest = SignupRequestDTO(
-            userInformation: .init(
-                email: email,
-                nickname: nickname,
-                profileImageUrl: profileImageUrl
-            ),
-            university: university,
-            grade: grade,
-            track: track,
-            major: major,
-            jobs: jobs
-        )
-
-        let result = await authService.signUp(
-            request: signupRequest,
-            preSignUpToken: preSignupToken
-        )
+        let signupRequest = SignupRequestEntity(userInformation: .init(email: email, nickname: nickname, profileImageUrl: profileImageUrl), university: university, grade: grade, track: track, major: major, jobs: jobs)
+        
+        let result = await signUpUseCase.execute(request: signupRequest, preSignUpToken: preSignupToken)
         
         switch result {
-        case .success(let dto):
-            guard let data = dto.data else {
-                logger.error("❌ 회원가입 응답 데이터 없음")
-                return .failure(.networkError)
-            }
-
+        case .success(let data):
             logger.info("✅ 회원가입 성공, 유저 ID: \(data.userId)")
 
             let accessToken = data.jwtResponse.accessToken
@@ -121,15 +103,15 @@ final class AuthManager {
     
     //MARK: - Private Func
     
-    private func saveUserInfo(from dto: SignupRequiredResponseDTO) {
-        nickname = dto.userInformation.nickname
-        email = dto.userInformation.email
-        profileImageUrl = dto.userInformation.profileImageUrl
-        preSignupToken = dto.preSignupToken
+    private func saveUserInfo(from entity: SignupRequiredResponseEntity) {
+        nickname = entity.userInformation.nickname
+        email = entity.userInformation.email
+        profileImageUrl = entity.userInformation.profileImageUrl
+        preSignupToken = entity.preSignupToken
     }
 
-    private func saveTokens(from dto: LoginSuccessResponseDTO) {
-        guard let token = dto.tokenResponse else {
+    private func saveTokens(from entity: LoginSuccessResponseEntity) {
+        guard let token = entity.tokenResponseData else {
             logger.error("❌ 토큰 응답 누락")
             return
         }
@@ -203,7 +185,8 @@ extension AuthManager {
 extension AuthManager {
     @MainActor
     private func handleServerLogin(with accessToken: String) async -> Result<Void, AuthError> {
-        let result = await authService.login(type: .kakao, authorizationCode: accessToken)
+        
+        let result = await loginUseCase.execute(type: .kakao, authorizationCode: accessToken)
         
         switch result {
         case .success(let authResponse):
@@ -215,20 +198,20 @@ extension AuthManager {
     }
     
     @MainActor
-    private func handleAuthResponse(_ authResponse: AuthResponseDTO) -> Result<Void, AuthError> {
+    private func handleAuthResponse(_ authResponse: AuthResponseEntity) -> Result<Void, AuthError> {
         switch authResponse {
-        case .success(let loginDTO):
-            logger.info("✅ 서버 로그인 성공, 유저 ID: \(loginDTO.userId)")
+        case .success(let loginEntity):
+            logger.info("✅ 서버 로그인 성공, 유저 ID: \(loginEntity.userId)")
             Task {
-                saveTokens(from: loginDTO)
+                saveTokens(from: loginEntity)
             }
-            needSignup = loginDTO.needSignUp
+            needSignup = loginEntity.needSignUp
             return .success(())
             
-        case .needSignUp(let signupDTO):
-            logger.info("🔁 회원가입 필요: \(signupDTO.userInformation.nickname)")
+        case .needSignUp(let signupEntity):
+            logger.info("🔁 회원가입 필요: \(signupEntity.userInformation.nickname)")
             Task {
-                saveUserInfo(from: signupDTO)
+                saveUserInfo(from: signupEntity)
             }
             return .success(())
         }

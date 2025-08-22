@@ -43,24 +43,26 @@ final class HomeViewModel: ObservableObject {
     private let getPreCertificationsUseCase: GetPreCertificationUseCase
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
     private let fetchUserInfoUseCase: FetchUserInfoUseCase
+    private let withDrawUseCase: WithDrawUseCase
     
     init(
         addPreCertificationUseCase: AddPreCertificationUseCase,
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
         getPreCertificationsUseCase: GetPreCertificationUseCase,
         getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
-        fetchUserInfoUseCase: FetchUserInfoUseCase
+        fetchUserInfoUseCase: FetchUserInfoUseCase,
+        withDrawUseCase: WithDrawUseCase
     ) {
         self.addPreCertificationUseCase = addPreCertificationUseCase
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
         self.getPreCertificationsUseCase = getPreCertificationsUseCase
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
         self.fetchUserInfoUseCase = fetchUserInfoUseCase
+        self.withDrawUseCase = withDrawUseCase
     }
     
     
     // Usecase 다 만들어지면 레포지터리는 다 지워야함
-    private let authRepository = AppDIContainer.shared.authRepository
     private let certificationRepository = AppDIContainer.shared.certificationRepository
 
 }
@@ -96,7 +98,7 @@ extension HomeViewModel {
 
 extension HomeViewModel {
     func withDraw() async {
-        let result = await authRepository.withDraw()
+        let result = await withDrawUseCase.execute()
 
         switch result {
         case .success:

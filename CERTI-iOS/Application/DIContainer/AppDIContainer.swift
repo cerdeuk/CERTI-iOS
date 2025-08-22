@@ -68,6 +68,20 @@ extension AppDIContainer {
         return DefaultFetchUserInfoUseCase(repository: userRepository)
     }
     
+    
+    // MARK: - AuthUseCase
+    
+    func makeLoginUseCase() -> LoginUseCase {
+        return DefaultLoginUseCase(repository: authRepository)
+    }
+    
+    func makeSignUpUseCase() -> SignUpUseCase {
+        return DefaultSignUpUseCase(repository: authRepository)
+    }
+    
+    func makeWithDrawUseCase() -> WithDrawUseCase {
+        return DefaultWithDrawUseCase(repository: authRepository)
+    }
 }
 
 
@@ -81,7 +95,8 @@ extension AppDIContainer {
             deletePreUseCase: makeDeletePreCertificationUseCase(),
             getPreUseCase: makeGetPreCertificationUseCase(),
             getFavoriteUseCase: makeGetFavoritePreCertificationUseCase(),
-            fetchUserInfoUseCase: makeFetchUserInfoUseCase()
+            fetchUserInfoUseCase: makeFetchUserInfoUseCase(),
+            withDrawUseCase: makeWithDrawUseCase()
         )
     }
     
