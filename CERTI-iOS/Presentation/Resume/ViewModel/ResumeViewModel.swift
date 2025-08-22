@@ -39,13 +39,16 @@ final class ResumeViewModel: ObservableObject {
     
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     private let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
+    private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
     
     init(
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
-        fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
+        fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
+        deleteAcquisitionUseCase: DeleteAcquisitionUseCase
     ) {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
+        self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
     }
 
     func clearResumeModel() {
