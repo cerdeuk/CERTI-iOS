@@ -26,8 +26,18 @@ final class DefaultAuthRepository: AuthRepository {
         return await service.withDraw()
     }
     
-    func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError> {
-        return await service.signUp(request: request, preSignUpToken: preSignUpToken)
+    func signUp(request: SignupRequestEntity, preSignUpToken: String) async -> Result<SignupSuccessUserDataEntity, NetworkError> {
+        let result = await service.signUp(request: request.toDTO(), preSignUpToken: preSignUpToken)
+        
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
 

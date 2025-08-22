@@ -14,10 +14,29 @@ struct SignupRequestDTO: Encodable {
     let track: String
     let major: String
     let jobs: [String]
+    
+    func toEntity() -> SignupRequestEntity {
+        return SignupRequestEntity(
+            userInformation: userInformation.toEntity(),
+            university: university,
+            grade: grade,
+            track: track,
+            major: major,
+            jobs: jobs
+        )
+    }
 }
 
 struct UserInformationData: Encodable {
     let email: String
     let nickname: String
     let profileImageUrl: String
+    
+    func toEntity() -> UserInformationEntityData {
+        return UserInformationEntityData(
+            email: email,
+            nickname: nickname,
+            profileImageUrl: profileImageUrl
+        )
+    }
 }

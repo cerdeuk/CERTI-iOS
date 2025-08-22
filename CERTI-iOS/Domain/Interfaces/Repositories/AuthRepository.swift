@@ -9,6 +9,6 @@ import Foundation
 
 protocol AuthRepository {
     func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponseEntity, NetworkError>
-    func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError>
+    func signUp(request: SignupRequestEntity, preSignUpToken: String) async -> Result<SignupSuccessUserDataEntity, NetworkError>
     func withDraw() async -> Result<Void, NetworkError>
 }
