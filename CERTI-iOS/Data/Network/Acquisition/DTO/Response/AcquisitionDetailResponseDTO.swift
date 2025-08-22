@@ -22,4 +22,26 @@ struct AcquisitionDetailInfo: Decodable {
     let tags: [String]
     let description: String
     let createdAt: String
+    
+    
+    // MARK: - Func
+    
+    func toAcquisitionDetailEntity() -> AcquisitionDetailEntityData {
+        return AcquisitionDetailEntityData(
+            acquisitionId: acquisitionId,
+            cardFrontImageUrl: cardFrontImageUrl,
+            cardBackImageUrl: cardBackImageUrl,
+            index: index,
+            name: name,
+            tags: tags,
+            description: description,
+            createdAt: createdAt
+        )
+    }
+}
+
+extension AcquisitionDetailData {
+    func toAcquisitionDetailEntityList() -> AcquisitionDetailEntity {
+        return AcquisitionDetailEntity(acquisitionDetail: getAcquisitionDetailResponses.map{$0.toAcquisitionDetailEntity() })
+    }
 }
