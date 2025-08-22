@@ -36,6 +36,14 @@ final class ResumeViewModel: ObservableObject {
     private let acquisitionService = AppDIContainer.shared.makeAcquisitionRepository()
     private let careersService = AppDIContainer.shared.makeCareersRepository()
     private let activityService = AppDIContainer.shared.makeActivityRepository()
+    
+    private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+    
+    init(
+        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+    ) {
+        self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
+    }
 
     func clearResumeModel() {
         resumeModel = ResumeModel(
@@ -73,20 +81,15 @@ extension ResumeViewModel {
     }
     
     func getAcquisitionList() async {
-        let result = await acquisitionService.fetchAcquisitionList()
+        let result = await fetchAcquisitionListUseCase.execute()
         
         switch result {
         case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getAcquisitionList: No data received")
-                return
-            }
-            
-            self.acquisitionList = data.acquisitionListDetailResponses
-            logger.debug("✅ getAcquisitionList success: \(data.acquisitionListDetailResponses)")
+            logger.info("✅ 취득한 자격증 목록 조회 성공")
+            self.acquisitionList = response.toAcquisitionList()
             
         case .failure(let error):
-            logger.error("getAcquisitionList failed: \(error.localizedDescription)")
+            logger.error("❌ 취득한 자격증 목록 조회 실패: \(error.localizedDescription)")
         }
     }
     
