@@ -19,7 +19,6 @@ final class DefaultAddAcquisitionUseCase: AddAcquisitionUseCase {
     }
     
     func execute(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
-        let result = await repository.addAcquisition(certificationId: certificationId)
         return await repository.addAcquisition(certificationId: certificationId)
     }
 }
