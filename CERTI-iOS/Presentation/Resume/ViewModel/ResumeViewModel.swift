@@ -113,7 +113,7 @@ extension ResumeViewModel {
     }
     
     func deleteAcquisition(id: Int) async {
-        let result = await acquisitionService.deleteAcquisition(id: id)
+        let result = await deleteAcquisitionUseCase.execute(id: id)
         
         switch result {
         case .success(_):
