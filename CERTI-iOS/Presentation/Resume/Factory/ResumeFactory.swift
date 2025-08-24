@@ -15,11 +15,14 @@ final class DefaultResumeFactory: ResumeFactory {
     let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
     let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
+    
     let addCareersUseCase: AddCareersUseCase
     let deleteCareersUseCase: DeleteCareersUseCase
+    let fetchCareersListUseCase: FetchCareersListUseCase
     
     let addActivityUseCase: AddActivityUseCase
     let deleteActivityUseCase: DeleteActivityUseCase
+    let fetchActivityListUseCase: FetchActivityListUseCase
     
     init(
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
@@ -27,16 +30,20 @@ final class DefaultResumeFactory: ResumeFactory {
         deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
         addCareersUseCase: AddCareersUseCase,
         deleteCareersUseCase: DeleteCareersUseCase,
+        fetchCareersListUseCase: FetchCareersListUseCase,
         addActivityUseCase: AddActivityUseCase,
-        deleteActivityUseCase: DeleteActivityUseCase
+        deleteActivityUseCase: DeleteActivityUseCase,
+        fetchActivityListUseCase: FetchActivityListUseCase
     ) {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
         self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
         self.addCareersUseCase = addCareersUseCase
         self.deleteCareersUseCase = deleteCareersUseCase
+        self.fetchCareersListUseCase = fetchCareersListUseCase
         self.addActivityUseCase = addActivityUseCase
         self.deleteActivityUseCase = deleteActivityUseCase
+        self.fetchActivityListUseCase = fetchActivityListUseCase
     }
     
     @MainActor
@@ -47,8 +54,10 @@ final class DefaultResumeFactory: ResumeFactory {
             deleteAcquisitionUseCase: deleteAcquisitionUseCase,
             addCareersUseCase: addCareersUseCase,
             deleteCareersUseCase: deleteCareersUseCase,
+            fetchCareersListUseCase: fetchCareersListUseCase,
             addActivityUseCase: addActivityUseCase,
-            deleteActivityUseCase: deleteActivityUseCase
+            deleteActivityUseCase: deleteActivityUseCase,
+            fetchActivityListUseCase: fetchActivityListUseCase
             
         )
     }

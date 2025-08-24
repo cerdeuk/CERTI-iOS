@@ -22,17 +22,23 @@ struct ActivityDetailResponseDTO: Decodable, Identifiable {
     let name: String
     let description: String
     let place: String
-}
-
-extension ActivityDetailResponseDTO {
-    func toResumeModel() -> ResumeModel {
-        ResumeModel(
+    
+    func toActivityDetailEntity() -> ActivityDetailEntityData {
+        return ActivityDetailEntityData(
             activityId: activityId,
             startAt: startAt,
             endAt: endAt,
             name: name,
-            place: place,
-            discription: description
+            description: place,
+            place: description
+        )
+    }
+}
+
+extension ActivityListData {
+    func toActivityDetailEntityList() -> ActivityDetailEntity {
+        return ActivityDetailEntity(
+            activityDetail: activityDetailResponses.map{$0.toActivityDetailEntity()} 
         )
     }
 }

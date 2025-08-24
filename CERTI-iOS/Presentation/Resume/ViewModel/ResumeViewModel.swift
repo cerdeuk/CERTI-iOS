@@ -43,9 +43,11 @@ final class ResumeViewModel: ObservableObject {
     
     private let addCareersUseCase: AddCareersUseCase
     private let deleteCareersUseCase: DeleteCareersUseCase
+    private let fetchCareersListUseCase: FetchCareersListUseCase
     
     private let addActivityUseCase: AddActivityUseCase
     private let deleteActivityUseCase: DeleteActivityUseCase
+    private let fetchActivityListUseCase: FetchActivityListUseCase
     
     init(
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
@@ -53,16 +55,20 @@ final class ResumeViewModel: ObservableObject {
         deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
         addCareersUseCase: AddCareersUseCase,
         deleteCareersUseCase: DeleteCareersUseCase,
+        fetchCareersListUseCase: FetchCareersListUseCase,
         addActivityUseCase: AddActivityUseCase,
-        deleteActivityUseCase: DeleteActivityUseCase
+        deleteActivityUseCase: DeleteActivityUseCase,
+        fetchActivityListUseCase: FetchActivityListUseCase
     ) {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
         self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
         self.addCareersUseCase = addCareersUseCase
         self.deleteCareersUseCase = deleteCareersUseCase
+        self.fetchCareersListUseCase = fetchCareersListUseCase
         self.addActivityUseCase = addActivityUseCase
         self.deleteActivityUseCase = deleteActivityUseCase
+        self.fetchActivityListUseCase = fetchActivityListUseCase
     }
 
     func clearResumeModel() {
@@ -141,20 +147,15 @@ extension ResumeViewModel {
 
     
     func getCareersList() async {
-        let result = await careersService.fetchCareersList()
+        let result = await fetchCareersListUseCase.execute()
         
         switch result {
         case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getCareersList: No data received")
-                return
-            }
-            
-            self.careersList = data.careerDetailResponseList.map { $0.toResumeModel() }
-            logger.debug("✅ getCareersList success: \(data.careerDetailResponseList)")
+            self.careersList = response.toCareersModel()
+            logger.debug("✅ 경력사항 조회 성공")
             
         case .failure(let error):
-            logger.error("getCareersList failed: \(error.localizedDescription)")
+            logger.error("❌ 경력사항 조회 실패: \(error.localizedDescription)")
         }
     }
     
@@ -186,22 +187,18 @@ extension ResumeViewModel {
 
 
     func getActivityList() async {
-        let result = await activityService.fetchActivityList()
+        let result = await fetchActivityListUseCase.execute()
         
         switch result {
         case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getActivityList: No data received")
-                return
-            }
-            
-            self.activityList = data.activityDetailResponses.map { $0.toResumeModel() }
-            logger.debug("✅ getActivityList success: \(data.activityDetailResponses)")
+            self.activityList = response.toActivityModel()
+            logger.debug("✅ 대내외활동 조회 성공")
             
         case .failure(let error):
-            logger.error("getActivityList failed: \(error.localizedDescription)")
+            logger.error("❌ 대내외활동 조회 실패: \(error.localizedDescription)")
         }
     }
+
     
     func deleteActivity(id: Int) async {
         let result = await deleteActivityUseCase.execute(id: id)

@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 protocol ActivityRepository {
-    func fetchActivityList() async -> Result<ActivityListResponseDTO, NetworkError>
+    func fetchActivityList() async -> Result<ActivityDetailEntity, NetworkError>
     func deleteActivity(id: Int) async -> Result<Void, NetworkError>
     func addActivity(request: ActivityEntity) async -> Result<Void, NetworkError>
 }

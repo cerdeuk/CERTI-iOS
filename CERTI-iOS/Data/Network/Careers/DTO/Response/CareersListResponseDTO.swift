@@ -22,17 +22,22 @@ struct CareerDetailResponseDTO: Decodable, Identifiable {
     let name: String
     let description: String
     let place: String
-}
-
-extension CareerDetailResponseDTO {
-    func toResumeModel() -> ResumeModel {
-        ResumeModel(
+    
+    func toCareersDetailEntity() -> CareersDetailEntityData {
+        return CareersDetailEntityData(
             careerId: careerId,
             startAt: startAt,
             endAt: endAt,
             name: name,
-            place: place,
-            discription: description
+            description: place,
+            place: description
         )
+    }
+}
+
+extension CareersListData {
+    func toCareersDetailEntityList() -> CareersDetailEntity {
+        return CareersDetailEntity(
+            careersDetail: careerDetailResponseList.map{$0.toCareersDetailEntity()}         )
     }
 }

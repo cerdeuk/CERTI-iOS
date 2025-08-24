@@ -17,8 +17,17 @@ final class DefaultActivityRepository: ActivityRepository {
         self.service = service
     }
     
-    func fetchActivityList() async -> Result<ActivityListResponseDTO, NetworkError> {
-        return await service.fetchActivityList()
+    func fetchActivityList() async -> Result<ActivityDetailEntity, NetworkError> {
+        let result = await service.fetchActivityList()
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toActivityDetailEntityList() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
     func deleteActivity(id: Int) async -> Result<Void, NetworkError> {

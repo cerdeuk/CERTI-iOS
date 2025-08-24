@@ -17,8 +17,17 @@ final class DefaultCareersRepository: CareersRepository {
         self.service = service
     }
     
-    func fetchCareersList() async -> Result<CareersListResponseDTO, NetworkError> {
-        return await service.fetchCareersList()
+    func fetchCareersList() async -> Result<CareersDetailEntity, NetworkError> {
+        let result = await service.fetchCareersList()
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toCareersDetailEntityList() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
     func deleteCareers(id: Int) async -> Result<Void, NetworkError> {
