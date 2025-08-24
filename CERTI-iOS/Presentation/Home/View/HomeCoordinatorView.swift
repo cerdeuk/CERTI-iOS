@@ -48,7 +48,7 @@ struct HomeCoordinatorView: View {
                         PreLicenseEditView(viewModel: homeViewModel)
                             .navigationBarBackButtonHidden()
                     case .certificateDetail:
-                        CertificateDetailView(certificationId: $homeViewModel.selectedLicenseId, beforeViewType: .home)
+                        CertificateDetailView(certificationId: $homeViewModel.selectedLicenseId, beforeViewType: BeforeViewType.home)
                     }
                 }
         }

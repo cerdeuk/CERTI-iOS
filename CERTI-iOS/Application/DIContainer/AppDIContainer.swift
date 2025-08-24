@@ -244,4 +244,10 @@ extension AppDIContainer {
             searchCertificationUseCase: makeSearchCertificationUseCase()
         )
     }
+    
+    func makeCertificateDetailFactory() -> CertificateDetailFactory {
+        return DefaultCertificationDetailFactory(
+          fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase()
+        )
+    }
 }
