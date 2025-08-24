@@ -22,7 +22,7 @@ final class DefaultOnboardingRepository: OnboardingRepository {
         
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toUniversityListEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)
@@ -37,7 +37,7 @@ final class DefaultOnboardingRepository: OnboardingRepository {
         
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toMajorListEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)

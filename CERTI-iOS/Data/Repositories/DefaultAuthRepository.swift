@@ -27,11 +27,11 @@ final class DefaultAuthRepository: AuthRepository {
     }
     
     func signUp(request: SignupRequestEntity, preSignUpToken: String) async -> Result<SignupSuccessUserDataEntity, NetworkError> {
-        let result = await service.signUp(request: request.toDTO(), preSignUpToken: preSignUpToken)
+        let result = await service.signUp(request: request.toSignupRequestDTO(), preSignUpToken: preSignUpToken)
         
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toSignupSuccessUserDataEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)
@@ -48,10 +48,10 @@ final class DefaultAuthRepository: AuthRepository {
         case .success(let dto):
             switch dto {
             case .success(let loginDTO):
-                let entity = LoginSuccessResponseEntity(userId: loginDTO.userId, nickName: loginDTO.nickName, needSignUp: loginDTO.needSignUp, tokenResponseData: loginDTO.tokenResponse?.toEntity())
+                let entity = LoginSuccessResponseEntity(userId: loginDTO.userId, nickName: loginDTO.nickName, needSignUp: loginDTO.needSignUp, tokenResponseData: loginDTO.tokenResponse?.toTokenResponseData())
                 return .success(.success(entity))
             case .needSignUp(let signupDTO):
-                let entity = SignupRequiredResponseEntity(needSignUp: signupDTO.needSignUp, preSignupToken: signupDTO.preSignupToken, userInformation: signupDTO.userInformation.toEntity())
+                let entity = SignupRequiredResponseEntity(needSignUp: signupDTO.needSignUp, preSignupToken: signupDTO.preSignupToken, userInformation: signupDTO.userInformation.toUserInformationEntityData())
                 return .success(.needSignUp(entity))
             }
         case .failure(let error):

@@ -14,9 +14,9 @@ struct FavoriteCertificationData: Decodable {
 }
 
 extension FavoriteCertificationData {
-    func toEntity() -> FavoriteCertificationEntity {
+    func toFavoriteCertificationEntity() -> FavoriteCertificationEntity {
         return FavoriteCertificationEntity(
-            certifications: data.map { $0.toEntity() }
+            certifications: data.map { $0.toFavoriteCertificationEntityData() }
         )
     }
 }
@@ -31,7 +31,7 @@ struct FavoriteCertificationInfo: Decodable {
 }
 
 extension FavoriteCertificationInfo {
-    func toEntity() -> FavoriteCertificationEntityData {
+    func toFavoriteCertificationEntityData() -> FavoriteCertificationEntityData {
         return FavoriteCertificationEntityData(
             certificationId: certificationId,
             certificationName: certificationName,

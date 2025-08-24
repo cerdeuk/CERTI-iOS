@@ -22,7 +22,7 @@ final class DefaultUserRepository: UserRepository {
         
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toUserInfoEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)
