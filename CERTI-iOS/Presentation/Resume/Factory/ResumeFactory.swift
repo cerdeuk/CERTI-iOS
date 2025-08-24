@@ -16,21 +16,27 @@ final class DefaultResumeFactory: ResumeFactory {
     let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
     let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
     let addCareersUseCase: AddCareersUseCase
+    let deleteCareersUseCase: DeleteCareersUseCase
     
     let addActivityUseCase: AddActivityUseCase
+    let deleteActivityUseCase: DeleteActivityUseCase
     
     init(
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
         deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
         addCareersUseCase: AddCareersUseCase,
-        addActivityUseCase: AddActivityUseCase
+        deleteCareersUseCase: DeleteCareersUseCase,
+        addActivityUseCase: AddActivityUseCase,
+        deleteActivityUseCase: DeleteActivityUseCase
     ) {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
         self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
         self.addCareersUseCase = addCareersUseCase
+        self.deleteCareersUseCase = deleteCareersUseCase
         self.addActivityUseCase = addActivityUseCase
+        self.deleteActivityUseCase = deleteActivityUseCase
     }
     
     @MainActor
@@ -40,7 +46,9 @@ final class DefaultResumeFactory: ResumeFactory {
             fetchAcquisitionDetailUseCase: fetchAcquisitionDetailUseCase,
             deleteAcquisitionUseCase: deleteAcquisitionUseCase,
             addCareersUseCase: addCareersUseCase,
-            addActivityUseCase: addActivityUseCase
+            deleteCareersUseCase: deleteCareersUseCase,
+            addActivityUseCase: addActivityUseCase,
+            deleteActivityUseCase: deleteActivityUseCase
             
         )
     }

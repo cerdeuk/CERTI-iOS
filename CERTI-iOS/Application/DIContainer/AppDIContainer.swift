@@ -210,8 +210,16 @@ extension AppDIContainer {
         return DefaultAddCareersUseCase(repository: careersRepositoryInstance)
     }
     
+    func makeDeleteCareersUseCase() -> DeleteCareersUseCase {
+        return DefaultDeleteCareersUseCase(repository: careersRepositoryInstance)
+    }
+    
     func makeAddActivityUseCase() -> AddActivityUseCase {
         return DefaultAddActivityUseCase(repository: activityRepositoryInstance)
+    }
+    
+    func makeDeleteActivityUseCase() -> DeleteActivityUseCase {
+        return DefaultDeleteActivityUseCase(repository: activityRepositoryInstance)
     }
     
 }
@@ -235,7 +243,9 @@ extension AppDIContainer {
             fetchAcquisitionDetailUseCase: makeFetchAcquisitionDetailUseCase(),
             deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
             addCareersUseCase: makeAddCareersUseCase(),
-            addActivityUseCase: makeAddActivityUseCase()
+            deleteCareersUseCase: makeDeleteCareersUseCase(),
+            addActivityUseCase: makeAddActivityUseCase(),
+            deleteActivityUseCase: makeDeleteActivityUseCase(),
         )
     }
     

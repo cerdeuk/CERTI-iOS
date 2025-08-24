@@ -21,7 +21,7 @@ final class DefaultCareersRepository: CareersRepository {
         return await service.fetchCareersList()
     }
     
-    func deledteCareers(id: Int) async -> Result<Void, NetworkError> {
+    func deleteCareers(id: Int) async -> Result<Void, NetworkError> {
         return await service.deledteCareers(id: id)
     }
     

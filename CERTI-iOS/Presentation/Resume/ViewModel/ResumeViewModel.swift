@@ -42,21 +42,27 @@ final class ResumeViewModel: ObservableObject {
     private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
     
     private let addCareersUseCase: AddCareersUseCase
+    private let deleteCareersUseCase: DeleteCareersUseCase
     
     private let addActivityUseCase: AddActivityUseCase
+    private let deleteActivityUseCase: DeleteActivityUseCase
     
     init(
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
         deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
         addCareersUseCase: AddCareersUseCase,
-        addActivityUseCase: AddActivityUseCase
+        deleteCareersUseCase: DeleteCareersUseCase,
+        addActivityUseCase: AddActivityUseCase,
+        deleteActivityUseCase: DeleteActivityUseCase
     ) {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
         self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
         self.addCareersUseCase = addCareersUseCase
+        self.deleteCareersUseCase = deleteCareersUseCase
         self.addActivityUseCase = addActivityUseCase
+        self.deleteActivityUseCase = deleteActivityUseCase
     }
 
     func clearResumeModel() {
@@ -166,7 +172,7 @@ extension ResumeViewModel {
     }
     
     func deleteCareers(id: Int) async {
-        let result = await careersService.deledteCareers(id: id)
+        let result = await deleteCareersUseCase.execute(id: id)
         
         switch result {
         case .success(_):
@@ -198,7 +204,7 @@ extension ResumeViewModel {
     }
     
     func deleteActivity(id: Int) async {
-        let result = await activityService.deleteActivity(id: id)
+        let result = await deleteActivityUseCase.execute(id: id)
         
         switch result {
         case .success(_):
