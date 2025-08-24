@@ -6,7 +6,7 @@ name: Build Test
 # develop 브랜치에 push 되면 실행
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "setting/#141" ]
 
 # 최신 push에 관한 CI 작업만 수행
 concurrency:
@@ -51,3 +51,18 @@ jobs:
           -sdk iphonesimulator \
           -destination 'platform=iOS Simulator,name=iPhone SE (3rd generation)' \
           CODE_SIGNING_ALLOWED=NO
+
+    # 🔔 Discord 알림 (이모지 포함)
+    - name: Send Discord notification
+      if: always() # 성공이든 실패든 항상 실행
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          STATUS="✅ Build Succeeded"
+        else
+          STATUS="❌ Build Failed"
+        fi
+        PAYLOAD=$(jq -n --arg content "$STATUS for ${{ github.repository }} on branch ${{ github.ref_name }}" '{content: $content}')
+        curl -H "Content-Type: application/json" \
+             -X POST \
+             -d "$PAYLOAD" \
+             ${{ secrets.DISCORD_WEBHOOK_URL }}
