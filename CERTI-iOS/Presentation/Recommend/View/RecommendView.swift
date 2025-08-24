@@ -16,15 +16,15 @@ struct RecommendView: View {
         VStack(spacing: 0) {
             RecommendViewHeader
             
-            RecommendInterestTagBar(isModalPresented: $viewModel.isFilterModalPresented,
+            RecommendInterestTagBar(isModalPresented: $viewModel.recommendStateModel.isFilterModalPresented,
                                     interestTags: viewModel.interestTags)
                 .padding(.top, 12)
             
             RecommendLicenseCardList(viewModel: viewModel)
                 .padding(.horizontal, 20)
         }
-        .sheet(isPresented: $viewModel.isFilterModalPresented) {
-            RecommendFilterModalView(selectedCategories: $viewModel.selectedCategories, viewModel: viewModel)
+        .sheet(isPresented: $viewModel.recommendStateModel.isFilterModalPresented) {
+            RecommendFilterModalView(selectedCategories: $viewModel.recommendStateModel.selectedCategories, viewModel: viewModel)
                 .presentationDetents([.height(523)])
                 .presentationCornerRadius(40)
                 .presentationDragIndicator(.hidden)
@@ -35,14 +35,14 @@ struct RecommendView: View {
                 await viewModel.getJobList()
             }
         }
-        .onChange(of: viewModel.selectedCategories, perform: { _ in
+        .onChange(of: viewModel.recommendStateModel.selectedCategories, perform: { _ in
             Task {
                 await viewModel.getRecommendCertificationList()
                 await viewModel.getJobList()
             }
         })
         .overlay {
-            if viewModel.isShowLoading {
+            if viewModel.recommendStateModel.isShowLoading {
                 CertiLoadingView(name: AuthManager.shared.nickname)
             }
         }

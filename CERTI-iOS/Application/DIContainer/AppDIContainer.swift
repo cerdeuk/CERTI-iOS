@@ -178,7 +178,6 @@ extension AppDIContainer {
         return DefaultGetFavoriteCertificationUseCase(repository: homeRepositoryInstance)
     }
     
-    // 이거를 어디서 써줘야할지.. 익스텐션 맨 위에? 흑..
     private var jobRepositoryInstance: JobRepository {
         return DefaultJobRepository(service: makeJobService())
     }
@@ -189,6 +188,30 @@ extension AppDIContainer {
     
     func makeEditJobUseCase() -> EditJobUseCase {
         return DefaultEditJobUseCase(repository: jobRepositoryInstance)
+    }
+    
+    private var certificationRepositoryInstance: CertificationRepository {
+        return DefaultCertificationRepository(service: makeCertificationService())
+    }
+    
+    func makeFetchCategoryUseCase() -> FetchCategoryUseCase {
+        return DefaultFetchCategoryUseCase(repository: certificationRepositoryInstance)
+    }
+    
+    func makeSwitchFavoriteUseCase() -> SwitchFavoriteUseCase {
+        return DefaultSwitchFavoriteUseCase(repository: certificationRepositoryInstance)
+    }
+    
+    func makeSearchCertificationUseCase() -> SearchCertificationUseCase {
+        return DefaultSearchCertificationUseCase(repository: certificationRepositoryInstance)
+    }
+    
+    func makeFetchCertificationDetailUseCase() -> FetchCertificationDetailUseCase {
+        return DefaultFetchCertificationDetailUseCase(repository: certificationRepositoryInstance)
+    }
+    
+    func makeFetchRecommendUseCase() -> FetchRecommendUseCase {
+        return DefaultFetchRecommendUseCase(repository: certificationRepositoryInstance)
     }
 }
 
@@ -205,4 +228,12 @@ extension AppDIContainer {
         )
     }
     
+    func makeRecommendFactory() -> RecommendFactory {
+        return DefaultRecommendFactory(
+            fetchRecommendUseCase: makeFetchRecommendUseCase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            fetchJobUseCase: makeFetchJobUseCase(),
+            editJobUseCase: makeEditJobUseCase()
+        )
+    }
 }
