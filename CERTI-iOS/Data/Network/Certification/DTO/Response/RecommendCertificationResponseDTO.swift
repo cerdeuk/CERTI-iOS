@@ -13,6 +13,14 @@ struct RecommendCertificationData: Decodable {
     let recommendationList: [RecommendCertification]
 }
 
+extension RecommendCertificationData {
+    func toEntity() -> CertificationsEntity {
+        return CertificationsEntity(
+            certifications: recommendationList.map { $0.toCertificationsEntity() }
+        )
+    }
+}
+
 struct RecommendCertification: Decodable {
     let certificationId: Int
     let certificationName: String
@@ -24,8 +32,8 @@ struct RecommendCertification: Decodable {
 }
 
 extension RecommendCertification {
-    func toRecommendLicenseCardModel() -> RecommendLicenseCardModel {
-        return RecommendLicenseCardModel(
+    func toRecommendCertificationEntity() -> RecommendCertificationEntity {
+        return RecommendCertificationEntity(
             id: certificationId,
             licenseName: certificationName,
             recommendScore: recommendationScore,
@@ -33,8 +41,8 @@ extension RecommendCertification {
         )
     }
     
-    func toLicenseCardModel() -> LicenseCardModel {
-        return LicenseCardModel(
+    func toCertificationsEntity() -> CertificationsEntityData {
+        return CertificationsEntityData(
             certificationId: certificationId,
             certificationName: certificationName,
             certificationType: certificationType,
