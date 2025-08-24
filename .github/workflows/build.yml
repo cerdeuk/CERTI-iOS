@@ -3,12 +3,10 @@
 
 name: Build Test
 
-# setting/#141 브랜치에 push 되면 실행
+# develop 브랜치에 push 되면 실행
 on:
   push:
-    branches: [ "setting/#141" ]
-  # pull_request:
-  #   branches: [ "develop" ]
+    branches: [ "develop" ]
 
 # 최신 push에 관한 CI 작업만 수행
 concurrency:
