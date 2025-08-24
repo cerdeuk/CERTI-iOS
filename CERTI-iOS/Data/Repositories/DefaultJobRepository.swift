@@ -17,11 +17,21 @@ final class DefaultJobRepository: JobRepository {
         self.service = service
     }
 
-    func getFetchJob() async -> Result<JobListResponseDTO, NetworkError> {
-        return await service.getFetchJob()
+    func getFetchJob() async -> Result<JobEntity, NetworkError> {
+        let result = await service.getFetchJob()
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
-    func editJob(jobNameList: [String]) async -> Result<Void, NetworkError> {
-        return await service.editJob(jobNameList: jobNameList)
+    func editJob(jobNameList: JobEntity) async -> Result<Void, NetworkError> {
+        let requestDTO = jobNameList.toEditJobRequestDTO()
+        return await service.editJob(jobNameList: requestDTO)
     }
 }

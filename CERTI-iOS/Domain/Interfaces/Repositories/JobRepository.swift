@@ -10,6 +10,6 @@ import Foundation
 import Moya
 
 protocol JobRepository {
-    func getFetchJob() async -> Result<JobListResponseDTO, NetworkError>
-    func editJob(jobNameList: [String]) async -> Result<Void, NetworkError>
+    func getFetchJob() async -> Result<JobEntity, NetworkError>
+    func editJob(jobNameList: JobEntity) async -> Result<Void, NetworkError>
 }
