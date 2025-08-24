@@ -36,13 +36,15 @@ final class CertificateDetailViewModel: ObservableObject {
     
     private let acquisitionService = AppDIContainer.shared.makeAcquisitionRepository()
     
-    private let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
+    private let certificateService = AppDIContainer.shared.makeCertificationRepository()
     
-    init(
-        fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
-    ) {
-        self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
-    }
+//    private let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
+    
+//    init(
+//        fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
+//    ) {
+//        self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
+//    }
 }
 
 
@@ -50,7 +52,8 @@ final class CertificateDetailViewModel: ObservableObject {
 
 extension CertificateDetailViewModel {
     func fetchCertificateDetail(certificationId: Int) async {
-        let result = await fetchCertificationDetailUseCase.execute(id: certificationId)
+//        let result = await fetchCertificationDetailUseCase.execute(id: certificationId)
+        let result = await certificateService.fetchCertificationDetail(certificationId: certificationId)
         
         switch result {
         case .success(let response):

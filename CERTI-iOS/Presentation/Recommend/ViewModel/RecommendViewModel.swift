@@ -9,27 +9,23 @@ import SwiftUI
 
 import os
 
-struct RecommendStateModel {
-    var licenseCards: [LicenseCardModel] = []
-    var selectedCategories: [String] = []
-    var isFilterModalPresented = false
-    var isShowLoading: Bool = false
-}
-
 @MainActor
 class RecommendViewModel: ObservableObject {
-    @Published var recommendStateModel = RecommendStateModel()
+    @Published var licenseCards: [LicenseCardModel] = []
+    @Published var selectedCategories: [String] = []
+    @Published var isFilterModalPresented = false
     @Published var selectedCertificateId: Int = 0
+    @Published var isShowLoading: Bool = false
     
     var username: String = AuthManager.shared.nickname
 
     var interestTags: [String] {
-        recommendStateModel.selectedCategories.map(\.description)
+        selectedCategories.map(\.description)
     }
     
     func toggleFavorite(id: Int) {
-        guard let index = recommendStateModel.licenseCards.firstIndex(where: { $0.id == id }) else { return }
-        recommendStateModel.licenseCards[index].isFavorite.toggle()
+        guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
+        licenseCards[index].isFavorite.toggle()
     }
     
     func selectCertificate(id: Int) {
@@ -37,7 +33,7 @@ class RecommendViewModel: ObservableObject {
     }
     
     func toggleLoadingState() {
-        recommendStateModel.isShowLoading.toggle()
+        isShowLoading.toggle()
     }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Recommend")
@@ -71,7 +67,7 @@ extension RecommendViewModel {
         case .success(let response):
             logger.info("✅ 추천 자격증 조회 성공")
             
-            self.recommendStateModel.licenseCards = response.toLicenseCardModelList()
+            self.licenseCards = response.toLicenseCardModelList()
             
         case .failure(let error):
             logger.error("❌ 추천 자격증 조회 실패: \(error.localizedDescription)")
@@ -96,7 +92,7 @@ extension RecommendViewModel {
         switch result {
         case .success(let response):
             
-            self.recommendStateModel.selectedCategories = response.jobs
+            self.selectedCategories = response.jobs
             logger.debug("✅ getJobList success: \(response.jobs)")
             
         case .failure(let error):

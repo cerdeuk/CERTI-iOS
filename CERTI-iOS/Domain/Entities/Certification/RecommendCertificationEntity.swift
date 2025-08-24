@@ -27,6 +27,7 @@ struct RecommendCertificationEntity {
         return RecommendLicenseCardModel(
             id: id,
             licenseName: licenseName,
+            recommendScore: recommendScore,
             tagChip: tagChip
         )
     }

@@ -245,9 +245,9 @@ extension AppDIContainer {
         )
     }
     
-    func makeCertificateDetailFactory() -> CertificateDetailFactory {
-        return DefaultCertificationDetailFactory(
-          fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase()
-        )
-    }
+//    func makeCertificateDetailFactory() -> CertificateDetailFactory {
+//        return DefaultCertificationDetailFactory(
+//          fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase()
+//        )
+//    }
 }
