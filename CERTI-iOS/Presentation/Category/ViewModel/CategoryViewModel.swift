@@ -20,7 +20,6 @@ class CategoryViewModel: ObservableObject {
     @Published var searchResult: SearchResultType? = nil
     @Published var selectedCertificateId: Int = 0
     
-    private let categoryService = AppDIContainer.shared.makeCertificationRepository()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
     
     func toggleFavorite(id: Int) {
@@ -40,6 +39,20 @@ class CategoryViewModel: ObservableObject {
     func selectCertificate(id: Int) {
         selectedCertificateId = id
     }
+    
+    private let fetchCategoryUseCase: FetchCategoryUseCase
+    private let switchFavoriteUseCase: SwitchFavoriteUseCase
+    private let searchCertificationUseCase: SearchCertificationUseCase
+    
+    init(
+        fetchCategoryUseCase: FetchCategoryUseCase,
+        switchFavoriteUseCase: SwitchFavoriteUseCase,
+        searchCertificationUseCase: SearchCertificationUseCase
+    ) {
+        self.fetchCategoryUseCase = fetchCategoryUseCase
+        self.switchFavoriteUseCase = switchFavoriteUseCase
+        self.searchCertificationUseCase = searchCertificationUseCase
+    }
 }
 
 
@@ -47,18 +60,14 @@ class CategoryViewModel: ObservableObject {
 
 extension CategoryViewModel {
     func getCategoryList() async {
-        let result = await categoryService.getCategory(isFavorite: isFilterToggle, jobs: selectedCategory.description)
+        let result = await fetchCategoryUseCase.execute(isFavorite: isFilterToggle, jobs: selectedCategory.description)
         
         switch result {
         case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getCategoryList: No data received")
-                return
-            }
             
             self.licenseCards.removeAll()
-            self.licenseCards = data.certificationSimpleList
-            logger.debug("✅ getCategoryList success: \(data.certificationSimpleList)")
+            self.licenseCards = response.toLicenseCardModelList()
+            logger.debug("✅ getCategoryList success: \(response.toLicenseCardModelList())")
             
         case .failure(let error):
             logger.error("getCategoryList failed: \(error.localizedDescription)")
@@ -66,7 +75,7 @@ extension CategoryViewModel {
     }
     
     func postFavorite(certificationId: Int) async {
-        let result = await categoryService.switchFavorite(certificationId: certificationId)
+        let result = await switchFavoriteUseCase.execute(id: certificationId)
         
         switch result {
         case .success(_):
@@ -78,18 +87,13 @@ extension CategoryViewModel {
     }
     
     func searchCertifiedList(keyword: String) async {
-        let result = await categoryService.searchCertification(keyword: keyword)
+        let result = await searchCertificationUseCase.execute(keyword: keyword)
         
         switch result {
         case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ searchCertifiedList: No data received")
-                return
-            }
-            
             self.searchLicenseCards.removeAll()
-            self.searchLicenseCards = data.certificationSimpleList
-            logger.debug("✅ searchCertifiedList success: \(data.certificationSimpleList)")
+            self.searchLicenseCards = response.toLicenseCardModelList()
+            logger.debug("✅ searchCertifiedList success: \(response.toLicenseCardModelList())")
             
         case .failure(let error):
             logger.error("searchCertifiedList failed: \(error.localizedDescription)")

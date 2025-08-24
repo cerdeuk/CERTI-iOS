@@ -236,4 +236,12 @@ extension AppDIContainer {
             editJobUseCase: makeEditJobUseCase()
         )
     }
+    
+    func makeCategoryFactory() -> CategoryFactory {
+        return DefaultCategoryFactory(
+            fetchCategoryUseCase: makeFetchCategoryUseCase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            searchCertificationUseCase: makeSearchCertificationUseCase()
+        )
+    }
 }
