@@ -18,8 +18,17 @@ final class DefaultCertificationRepository: CertificationRepository {
     }
     
     func getCategory(isFavorite: Bool, jobs: String)
-    async -> Result<CategoryListResponseDTO, NetworkError> {
-        return await service.getCategory(isFavorite: isFavorite, jobs: jobs)
+    async -> Result<CertificationsEntity, NetworkError> {
+        let result = await service.getCategory(isFavorite: isFavorite, jobs: jobs)
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
     func switchFavorite(certificationId: Int)
@@ -27,16 +36,43 @@ final class DefaultCertificationRepository: CertificationRepository {
         return await service.switchFavorite(certificationId: certificationId)
     }
     
-    func searchCertification(keyword: String) async -> Result<SearchCertificationResponseDTO, NetworkError> {
-        return await service.searchCertification(keyword: keyword)
+    func searchCertification(keyword: String) async -> Result<CertificationsEntity, NetworkError> {
+        let result = await service.searchCertification(keyword: keyword)
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
     func fetchCertificationDetail(certificationId: Int)
-    async -> Result<CertificationDetailResponseDTO, NetworkError> {
-        return await service.fetchCertificationDetail(certificationId: certificationId)
+    async -> Result<CertificationDetailEntity, NetworkError> {
+        let result = await service.fetchCertificationDetail(certificationId: certificationId)
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
-    func getRecommend() async -> Result<RecommendCertificationResponseDTO, NetworkError> {
-        return await service.getRecommend()
+    func getRecommend() async -> Result<CertificationsEntity, NetworkError> {
+        let result = await service.getRecommend()
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
 }
