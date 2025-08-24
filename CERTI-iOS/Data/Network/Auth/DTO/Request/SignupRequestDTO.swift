@@ -15,9 +15,9 @@ struct SignupRequestDTO: Encodable {
     let major: String
     let jobs: [String]
     
-    func toEntity() -> SignupRequestEntity {
+    func toSignupRequestEntity() -> SignupRequestEntity {
         return SignupRequestEntity(
-            userInformation: userInformation.toEntity(),
+            userInformation: userInformation.toUserInformationEntityData(),
             university: university,
             grade: grade,
             track: track,
@@ -32,7 +32,7 @@ struct UserInformationData: Encodable {
     let nickname: String
     let profileImageUrl: String
     
-    func toEntity() -> UserInformationEntityData {
+    func toUserInformationEntityData() -> UserInformationEntityData {
         return UserInformationEntityData(
             email: email,
             nickname: nickname,

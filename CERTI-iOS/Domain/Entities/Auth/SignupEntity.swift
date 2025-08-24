@@ -21,9 +21,9 @@ struct SignupRequestEntity {
     let major: String
     let jobs: [String]
     
-    func toDTO() -> SignupRequestDTO {
+    func toSignupRequestDTO() -> SignupRequestDTO {
         return SignupRequestDTO(
-            userInformation: userInformation.toDTO(),
+            userInformation: userInformation.toUserInformationData(),
             university: university,
             grade: grade,
             track: track,
@@ -53,7 +53,7 @@ struct UserInformationEntityData {
     let nickname: String
     let profileImageUrl: String
     
-    func toDTO() -> UserInformationData {
+    func toUserInformationData() -> UserInformationData {
         return UserInformationData(
             email: email,
             nickname: nickname,

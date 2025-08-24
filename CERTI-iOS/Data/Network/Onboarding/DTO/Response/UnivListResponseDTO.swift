@@ -12,7 +12,7 @@ typealias UnivListResponseDTO = BaseResponseDTO<UnivListData>
 struct UnivListData: Decodable {
     let universityNameList: [String]
     
-    func toEntity() -> UniversityListEntity {
+    func toUniversityListEntity() -> UniversityListEntity {
         return UniversityListEntity(universityNameList: universityNameList)
     }
 }

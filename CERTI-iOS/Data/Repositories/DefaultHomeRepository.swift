@@ -21,7 +21,7 @@ final class DefaultHomeRepository: HomeRepository {
         let result = await service.getPreCertification()
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toPreCertificationEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)
@@ -38,7 +38,7 @@ final class DefaultHomeRepository: HomeRepository {
         let result = await service.getFavoriteCertification()
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toFavoriteCertificationEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)
