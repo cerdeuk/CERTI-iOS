@@ -6,7 +6,7 @@ name: Build Test
 # develop 브랜치에 push 되면 실행
 on:
   push:
-    branches: [ "setting/#141" ]
+    branches: [ "develop" ]
 
 # 최신 push에 관한 CI 작업만 수행
 concurrency:
@@ -37,10 +37,6 @@ jobs:
     - name: Generate Config.xcconfig from secret
       run: |
         echo "${{ secrets.CONFIG_XCCONFIG }}" > "${{ env.SECRET_XCCONFIG_PATH }}"
-      
-    # 📝 설치된 시뮬레이터 확인 (옵션)
-    - name: List available simulators
-      run: xcrun simctl list devices
 
     # 🛠️ Simulator 빌드 (codesign 없이)
     - name: Build project on iPhone SE 3rd gen
@@ -57,9 +53,9 @@ jobs:
       if: always() # 성공이든 실패든 항상 실행
       run: |
         if [ "${{ job.status }}" == "success" ]; then
-          STATUS="✅ Build Succeeded"
+          STATUS="✅ develop 브랜치 Build Succeeded"
         else
-          STATUS="❌ Build Failed"
+          STATUS="❌ develop 브랜치 Build Failed"
         fi
         PAYLOAD=$(jq -n --arg content "$STATUS for ${{ github.repository }} on branch ${{ github.ref_name }}" '{content: $content}')
         curl -H "Content-Type: application/json" \
