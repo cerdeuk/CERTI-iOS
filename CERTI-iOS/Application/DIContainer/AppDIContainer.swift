@@ -235,7 +235,7 @@ extension AppDIContainer {
             fetchAcquisitionDetailUseCase: makeFetchAcquisitionDetailUseCase(),
             deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
             addCareersUseCase: makeAddCareersUseCase(),
-            AddActivityUseCase: makeAddActivityUseCase()
+            addActivityUseCase: makeAddActivityUseCase()
         )
     }
     

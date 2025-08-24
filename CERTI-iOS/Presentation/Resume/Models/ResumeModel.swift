@@ -35,3 +35,25 @@ extension ResumeModel {
                  ResumeModel(startAt: "2021.11", endAt: "2022.01", name: "동아리 36기 기획", place: "SOPTㅇㅇㅇㅇㅇㅇ", discription: "서비스 기획 및 아이디어 도출"),
         ]
     }}
+
+extension ResumeModel {
+    func toCareersEntity() -> CareersEntityData {
+        return CareersEntityData(
+            startAt: startAt,
+            endAt: endAt,
+            place: place,
+            name: name,
+            description: discription
+        )
+    }
+    
+    func toActivityEntity() -> ActivityEntityData {
+        return ActivityEntityData(
+            startAt: startAt,
+            endAt: endAt,
+            place: place,
+            name: name,
+            description: discription
+        )
+    }
+}
