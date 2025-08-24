@@ -15,15 +15,22 @@ final class DefaultResumeFactory: ResumeFactory {
     let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
     let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
+    let addCareersUseCase: AddCareersUseCase
+    
+    let addActivityUseCase: AddActivityUseCase
     
     init(
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
-        DeleteAcquisitionUseCase: DeleteAcquisitionUseCase
+        deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
+        addCareersUseCase: AddCareersUseCase,
+        addActivityUseCase: AddActivityUseCase
     ) {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
-        self.deleteAcquisitionUseCase = DeleteAcquisitionUseCase
+        self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
+        self.addCareersUseCase = addCareersUseCase
+        self.addActivityUseCase = addActivityUseCase
     }
     
     @MainActor
@@ -31,7 +38,10 @@ final class DefaultResumeFactory: ResumeFactory {
         ResumeViewModel(
             fetchAcquisitionListUseCase: fetchAcquisitionListUseCase,
             fetchAcquisitionDetailUseCase: fetchAcquisitionDetailUseCase,
-            deleteAcquisitionUseCase: deleteAcquisitionUseCase
+            deleteAcquisitionUseCase: deleteAcquisitionUseCase,
+            addCareersUseCase: addCareersUseCase,
+            addActivityUseCase: addActivityUseCase
+            
         )
     }
 }

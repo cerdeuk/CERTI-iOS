@@ -161,8 +161,17 @@ extension AppDIContainer {
     private var homeRepositoryInstance: HomeRepository {
         return DefaultHomeRepository(service: makeHomeService())
     }
+    
     private var acquisitionRepositoryInstance: AcquisitionRepository {
         return DefaultAcquisitionRepository(service: makeAcquisitionService())
+    }
+    
+    private var careersRepositoryInstance: CareersRepository {
+        return DefaultCareersRepository(service: makeCareersService())
+    }
+    
+    private var activityRepositoryInstance: ActivityRepository {
+        return DefaultActivityRepository(service: makeActivityService())
     }
     
     func makeAddPreCertificationUseCase() -> AddPreCertificationUseCase {
@@ -197,6 +206,14 @@ extension AppDIContainer {
         return DefaultDeleteAcquisitionUseCase(repository: acquisitionRepositoryInstance)
     }
     
+    func makeAddCareersUseCase() -> AddCareersUseCase {
+        return DefaultAddCareersUseCase(repository: careersRepositoryInstance)
+    }
+    
+    func makeAddActivityUseCase() -> AddActivityUseCase {
+        return DefaultAddActivityUseCase(repository: activityRepositoryInstance)
+    }
+    
 }
 
 // MARK: - Factories
@@ -216,7 +233,9 @@ extension AppDIContainer {
         return DefaultResumeFactory(
             fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
             fetchAcquisitionDetailUseCase: makeFetchAcquisitionDetailUseCase(),
-            DeleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
+            deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
+            addCareersUseCase: makeAddCareersUseCase(),
+            AddActivityUseCase: makeAddActivityUseCase()
         )
     }
     

@@ -41,14 +41,22 @@ final class ResumeViewModel: ObservableObject {
     private let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
     private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
     
+    private let addCareersUseCase: AddCareersUseCase
+    
+    private let addActivityUseCase: AddActivityUseCase
+    
     init(
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
-        deleteAcquisitionUseCase: DeleteAcquisitionUseCase
+        deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
+        addCareersUseCase: AddCareersUseCase,
+        addActivityUseCase: AddActivityUseCase
     ) {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
         self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
+        self.addCareersUseCase = addCareersUseCase
+        self.addActivityUseCase = addActivityUseCase
     }
 
     func clearResumeModel() {
@@ -145,19 +153,13 @@ extension ResumeViewModel {
     }
     
     func addCareer(resumeModel: ResumeModel) async {
-        let request = AddCareerRequestDTO(
-            startAt: resumeModel.startAt,
-            endAt: resumeModel.endAt,
-            place: resumeModel.place,
-            name: resumeModel.name,
-            description: resumeModel.discription
-        )
-
-        let result = await careersService.addCareer(request: request)
+        let entityData = resumeModel.toEntity()
+        let entity = CareersEntity(careers: entityData)
+        let result = await addCareersUseCase.execute(request: entity)
 
         switch result {
-        case .success(let result):
-            logger.info("✅ 경력 추가 성공: \(result)")
+        case .success:
+            logger.info("✅ 경력 추가 성공")
         case .failure(let error):
             logger.error("❌ 경력 추가 실패: \(error.localizedDescription)")
         }
