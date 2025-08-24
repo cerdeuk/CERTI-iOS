@@ -20,6 +20,10 @@ struct CareersEntity {
     func toResumeModel() -> ResumeModel {
         return careers.toResumeModel()
     }
+    
+    func toAddCareerRequestDTO() -> AddCareerRequestDTO {
+        return careers.toAddCareerRequestDTO()
+    }
 }
 
 struct CareersEntityData {
@@ -46,6 +50,16 @@ struct CareersEntityData {
                            name: name,
                            place: place,
                            discription: description
+        )
+    }
+    
+    func toAddCareerRequestDTO() -> AddCareerRequestDTO {
+        return AddCareerRequestDTO(
+            startAt: startAt,
+            endAt: endAt,
+            place: place,
+            name: name,
+            description: description
         )
     }
 }

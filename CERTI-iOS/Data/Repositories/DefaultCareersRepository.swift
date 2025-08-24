@@ -25,7 +25,8 @@ final class DefaultCareersRepository: CareersRepository {
         return await service.deledteCareers(id: id)
     }
     
-    func addCareer(request: AddCareerRequestDTO) async -> Result<Bool, NetworkError> {
-        return await service.addCareer(request: request)
+    func addCareer(request: CareersEntity) async -> Result<Bool, NetworkError> {
+        let requestDTO = request.toAddCareerRequestDTO()
+        return await service.addCareer(request: requestDTO)
     }
 }
