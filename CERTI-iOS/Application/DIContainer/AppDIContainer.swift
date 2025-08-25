@@ -89,20 +89,14 @@ extension AppDIContainer {
     
     func makeFetchMajorListUseCase() -> FetchMajorListUseCase {
         return DefaultFetchMajorListUseCase(repository: onboardingRepository)
-        return DefaultGetFavoriteCertificationUseCase(repository: homeRepositoryInstance)
-    }
-    
-    // 이거를 어디서 써줘야할지.. 익스텐션 맨 위에? 흑..
-    private var jobRepositoryInstance: JobRepository {
-        return DefaultJobRepository(service: makeJobService())
     }
     
     func makeFetchJobUseCase() -> FetchJobUseCase {
-        return DefaultFetchJobUseCase(repository: jobRepositoryInstance)
+        return DefaultFetchJobUseCase(repository: jobRepository)
     }
     
     func makeEditJobUseCase() -> EditJobUseCase {
-        return DefaultEditJobUseCase(repository: jobRepositoryInstance)
+        return DefaultEditJobUseCase(repository: jobRepository)
     }
 }
 
