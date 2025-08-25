@@ -48,10 +48,10 @@ final class DefaultAuthRepository: AuthRepository {
         case .success(let dto):
             switch dto {
             case .success(let loginDTO):
-                let entity = LoginSuccessResponseEntity(userId: loginDTO.userId, nickName: loginDTO.nickName, needSignUp: loginDTO.needSignUp, tokenResponseData: loginDTO.tokenResponse?.toTokenResponseData())
+                let entity = loginDTO.toLoginSuccessResponseEntity()
                 return .success(.success(entity))
             case .needSignUp(let signupDTO):
-                let entity = SignupRequiredResponseEntity(needSignUp: signupDTO.needSignUp, preSignupToken: signupDTO.preSignupToken, userInformation: signupDTO.userInformation.toUserInformationEntityData())
+                let entity = signupDTO.toSignupRequiredResponseEntity()
                 return .success(.needSignUp(entity))
             }
         case .failure(let error):

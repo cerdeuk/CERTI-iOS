@@ -40,12 +40,7 @@ struct SignupSuccessUserDataEntity {
     let trackType: String
     let major: String
     let jobs: [String]
-    let jwtResponse: JWTResponseEntityData
-}
-
-struct JWTResponseEntityData {
-    let accessToken: String
-    let refreshToken: String
+    let jwtResponse: TokenResponseData
 }
 
 struct UserInformationEntityData {

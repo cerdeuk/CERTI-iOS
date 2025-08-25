@@ -12,4 +12,8 @@ struct UserInfoEntity {
     let university: String
     let major: String
     let percentage: Int
+    
+    func toHomeStateModel() -> HomeStateModel {
+        return HomeStateModel(username: name, userUniversity: university, userDepartment: major, progressValue: percentage)
+    }
 }
