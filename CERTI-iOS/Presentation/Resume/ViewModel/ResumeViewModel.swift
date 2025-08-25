@@ -55,21 +55,21 @@ final class ResumeViewModel: ObservableObject {
 
 extension ResumeViewModel {
     func getJobList() async {
-        let result = await jobService.getFetchJob()
-        
-        switch result {
-        case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getJobList: No data received")
-                return
-            }
-            
-            self.jobList = data.jobList
-            logger.debug("✅ getJobList success: \(data.jobList)")
-            
-        case .failure(let error):
-            logger.error("getJobList failed: \(error.localizedDescription)")
-        }
+//        let result = await jobService.getFetchJob()
+//        
+//        switch result {
+//        case .success(let response):
+//            guard let data = response.data else {
+//                logger.error("❌ getJobList: No data received")
+//                return
+//            }
+//            
+//            self.jobList = data.jobList
+//            logger.debug("✅ getJobList success: \(data.jobList)")
+//            
+//        case .failure(let error):
+//            logger.error("getJobList failed: \(error.localizedDescription)")
+//        }
     }
     
     func getAcquisitionList() async {
