@@ -90,6 +90,14 @@ extension AppDIContainer {
     func makeFetchMajorListUseCase() -> FetchMajorListUseCase {
         return DefaultFetchMajorListUseCase(repository: onboardingRepository)
     }
+    
+    func makeFetchJobUseCase() -> FetchJobUseCase {
+        return DefaultFetchJobUseCase(repository: jobRepository)
+    }
+    
+    func makeEditJobUseCase() -> EditJobUseCase {
+        return DefaultEditJobUseCase(repository: jobRepository)
+    }
 }
 
 

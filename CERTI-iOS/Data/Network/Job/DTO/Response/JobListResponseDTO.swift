@@ -12,3 +12,9 @@ typealias JobListResponseDTO = BaseResponseDTO<JobListData>
 struct JobListData: Decodable {
     let jobList: [String]
 }
+
+extension JobListData {
+    func toEntity() -> JobEntity {
+        return JobEntity(jobs: jobList)
+    }
+}
