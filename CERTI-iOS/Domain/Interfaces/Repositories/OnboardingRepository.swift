@@ -10,6 +10,6 @@ import Foundation
 import Moya
 
 protocol OnboardingRepository {
-    func getSearchUniv(keyword: String, preSignUpToken: String) async -> Result<UnivListResponseDTO, NetworkError>
-    func getSearchMajor(keyword: String, preSignUpToken: String) async -> Result<MajorListResponseDTO, NetworkError>
+    func getSearchUniv(keyword: String, preSignUpToken: String) async -> Result<UniversityListEntity, NetworkError>
+    func getSearchMajor(keyword: String, preSignUpToken: String) async -> Result<MajorListEntity, NetworkError>
 }

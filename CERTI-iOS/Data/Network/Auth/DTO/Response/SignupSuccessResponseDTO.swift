@@ -17,9 +17,28 @@ struct SignupUserData: Decodable {
     let major: String
     let jobs: [String]
     let jwtResponse: JWTResponse
+    
+    func toSignupSuccessUserDataEntity() -> SignupSuccessUserDataEntity {
+        return SignupSuccessUserDataEntity(
+            userId: userId,
+            nickName: nickName,
+            university: university,
+            trackType: trackType,
+            major: major,
+            jobs: jobs,
+            jwtResponse: jwtResponse.toTokenResponseData()
+        )
+    }
 }
 
 struct JWTResponse: Decodable {
     let accessToken: String
     let refreshToken: String
+    
+    func toTokenResponseData() -> TokenResponseData {
+        return TokenResponseData(
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        )
+    }
 }

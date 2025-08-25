@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct OnboardingInfoView: View {
-    @EnvironmentObject private var appCoordinator: AppCoordinator
-    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
     @ObservedObject var viewModel: OnboardingViewModel
 
     @State private var username = AuthManager.shared.nickname
@@ -22,7 +20,7 @@ struct OnboardingInfoView: View {
             
             VStack(alignment: .leading, spacing: 0) {
                 BackButton {
-                    onboardingCoordinator.pop()
+                    viewModel.onboardingViewRoutePop()
                 }
                 .padding(.bottom, 35)
                 
@@ -103,8 +101,8 @@ struct OnboardingInfoView: View {
                         let success = await viewModel.completeSignUp()
                         if success {
                             try await Task.sleep(for: .seconds(2))
-                            appCoordinator.completeOnboarding()
-                            onboardingCoordinator.reset()
+                            viewModel.onboardingViewRouteReset()
+                            viewModel.completeOnboarding()
                             isShowLoadingView = false
                         } else {
                             print("회원가입 실패")

@@ -32,10 +32,10 @@ final class ResumeViewModel: ObservableObject {
     var isWriteButtonEnabled: Bool {
         !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
     }
-    private let jobService = AppDIContainer.shared.makeJobRepository()
-    private let acquisitionService = AppDIContainer.shared.makeAcquisitionRepository()
-    private let careersService = AppDIContainer.shared.makeCareersRepository()
-    private let activityService = AppDIContainer.shared.makeActivityRepository()
+    private let jobService = AppDIContainer.shared.jobRepository
+    private let acquisitionService = AppDIContainer.shared.acquisitionRepository
+    private let careersService = AppDIContainer.shared.careersRepository
+    private let activityService = AppDIContainer.shared.activityRepository
 
     func clearResumeModel() {
         resumeModel = ResumeModel(

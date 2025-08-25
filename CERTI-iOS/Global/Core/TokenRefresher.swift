@@ -16,7 +16,7 @@ actor TokenRefresher {
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Auth.Refresh")
     
-    private let tokenRefreshService = AppDIContainer.shared.maketokenRefreshService()
+    private let tokenRefreshService = AppDIContainer.shared.tokenRefreshService
     private var refreshTask: Task<Result<String, NetworkError>, Never>?
 
     /// 액세스 토큰을 재발급하고 Keychain에 저장합니다.

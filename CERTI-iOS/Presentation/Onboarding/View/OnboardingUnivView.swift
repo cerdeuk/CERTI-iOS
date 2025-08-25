@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct OnboardingUnivView: View {
-    @EnvironmentObject private var appCoordinator: AppCoordinator
-    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
     @ObservedObject var viewModel: OnboardingViewModel
     
     @State private var univListToggle: Bool = false
@@ -23,7 +21,7 @@ struct OnboardingUnivView: View {
         ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
                 BackButton {
-                    appCoordinator.cancelOnboarding()
+                    viewModel.cancelOnboarding()
                 }
                 .padding(.bottom, 13)
                 
@@ -91,7 +89,7 @@ struct OnboardingUnivView: View {
                     .ignoresSafeArea(edges: .bottom)
                 
                 Button {
-                    onboardingCoordinator.push(next: .grade)
+                    viewModel.navigateToGrade()
                 } label: {
                     Text("다음")
                         .applyCertiFont(.body_semibold_16)
