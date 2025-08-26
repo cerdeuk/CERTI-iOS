@@ -125,7 +125,7 @@ extension ResumeViewModel {
         switch result {
         case .success(let response):
             logger.info("✅ 취득한 자격증 상세 조회 성공")
-            self.acquisitionDetail = response.toAcquisitionDetail()
+            self.acquisitionDetail = response.acquisitionDetail.toCertificatedDetailModel()
             
         case .failure(let error):
             logger.error("❌ 취득한 자격증 상세 조회 실패: \(error.localizedDescription)")

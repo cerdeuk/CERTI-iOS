@@ -13,12 +13,6 @@ struct AcquisitionDetailEntity {
     init(acquisitionDetail: AcquisitionDetailEntityData) {
         self.acquisitionDetail = acquisitionDetail
     }
-    
-    // MARK: - Func
-    
-    func toAcquisitionDetail() -> CertificatedDetailModel {
-        return acquisitionDetail.toAcquisitionDetailModel()
-    }
 }
 
 struct AcquisitionDetailEntityData {
@@ -44,7 +38,7 @@ struct AcquisitionDetailEntityData {
     
     // MARK: - Func
     
-    func toAcquisitionDetailModel() -> CertificatedDetailModel {
+    func toCertificatedDetailModel() -> CertificatedDetailModel {
         return CertificatedDetailModel(
             acquisitionId: acquisitionId,
             cardFrontImageUrl: cardFrontImageUrl,
