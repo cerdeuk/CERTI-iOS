@@ -8,7 +8,7 @@
 import Foundation
 
 protocol FetchActivityListUseCase {
-    func execute() async -> Result<ActivityDetailEntity, NetworkError>
+    func execute() async -> Result<ActivityListEntity, NetworkError>
 }
 
 final class DefaultFetchActivityListUseCase: FetchActivityListUseCase {
@@ -18,7 +18,7 @@ final class DefaultFetchActivityListUseCase: FetchActivityListUseCase {
         self.repository = repository
     }
     
-    func execute() async -> Result<ActivityDetailEntity, NetworkError> {
+    func execute() async -> Result<ActivityListEntity, NetworkError> {
         return await repository.fetchActivityList()
     }
 }

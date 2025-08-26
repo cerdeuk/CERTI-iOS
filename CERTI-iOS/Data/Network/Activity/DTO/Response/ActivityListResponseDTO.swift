@@ -10,10 +10,10 @@ import Foundation
 typealias ActivityListResponseDTO = BaseResponseDTO<ActivityListData>
 
 struct ActivityListData: Decodable {
-    let activityDetailResponses: [ActivityDetailResponseDTO]
+    let activityDetailResponses: [Activity]
 }
 
-struct ActivityDetailResponseDTO: Decodable, Identifiable {
+struct Activity: Decodable, Identifiable {
     var id: Int { activityId }
 
     let activityId: Int
@@ -23,8 +23,8 @@ struct ActivityDetailResponseDTO: Decodable, Identifiable {
     let description: String
     let place: String
     
-    func toActivityDetailEntityData() -> ActivityDetailEntityData {
-        return ActivityDetailEntityData(
+    func toActivityListEntityData() -> ActivityListEntityData {
+        return ActivityListEntityData(
             activityId: activityId,
             startAt: startAt,
             endAt: endAt,
@@ -36,9 +36,9 @@ struct ActivityDetailResponseDTO: Decodable, Identifiable {
 }
 
 extension ActivityListData {
-    func toActivityDetailEntityList() -> ActivityDetailEntity {
-        return ActivityDetailEntity(
-            activityDetail: activityDetailResponses.map{ $0.toActivityDetailEntityData() } 
+    func toActivityListEntity() -> ActivityListEntity {
+        return ActivityListEntity(
+            activityList: activityDetailResponses.map{ $0.toActivityListEntityData() }
         )
     }
 }

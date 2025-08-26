@@ -1,5 +1,5 @@
 //
-//  ActivityDetailEntity.swift
+//  ActivityListEntity.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 8/24/25.
@@ -7,22 +7,22 @@
 
 import Foundation
 
-struct ActivityDetailEntity {
-    let activityDetail: [ActivityDetailEntityData]
+struct ActivityListEntity {
+    let activityList: [ActivityListEntityData]
     
-    init(activityDetail: [ActivityDetailEntityData]) {
-        self.activityDetail = activityDetail
+    init(activityList: [ActivityListEntityData]) {
+        self.activityList = activityList
     }
     
     
     // MARK: - Func
     
     func toActivityModel() -> [ResumeModel] {
-        return activityDetail.map { $0.toActivityModel() }
+        return activityList.map { $0.toActivityModel() }
     }
 }
 
-struct ActivityDetailEntityData {
+struct ActivityListEntityData {
     let activityId: Int
     let startAt: String
     let endAt: String
