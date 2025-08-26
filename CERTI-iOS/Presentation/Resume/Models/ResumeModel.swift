@@ -37,23 +37,27 @@ extension ResumeModel {
     }}
 
 extension ResumeModel {
-    func toCareersEntity() -> CareersEntityData {
-        return CareersEntityData(
-            startAt: startAt,
-            endAt: endAt,
-            place: place,
-            name: name,
-            description: discription
+    func toCareersEntity() -> CareersEntity {
+        return CareersEntity(
+            careers: CareersEntityData(
+                startAt: startAt,
+                endAt: endAt,
+                place: place,
+                name: name,
+                description: discription
+            )
         )
     }
     
-    func toActivityEntity() -> ActivityEntityData {
-        return ActivityEntityData(
+    func toActivityEntity() -> ActivityEntity {
+        return ActivityEntity(
+            activities: ActivityEntityData(
             startAt: startAt,
             endAt: endAt,
             place: place,
             name: name,
             description: discription
+            )
         )
     }
 }

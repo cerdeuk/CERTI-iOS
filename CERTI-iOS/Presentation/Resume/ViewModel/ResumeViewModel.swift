@@ -160,9 +160,7 @@ extension ResumeViewModel {
     }
     
     func addCareer(resumeModel: ResumeModel) async {
-        let entityData = resumeModel.toCareersEntity()
-        let entity = CareersEntity(careers: entityData)
-        let result = await addCareersUseCase.execute(request: entity)
+        let result = await addCareersUseCase.execute(request: resumeModel.toCareersEntity())
 
         switch result {
         case .success:
@@ -214,9 +212,7 @@ extension ResumeViewModel {
     }
 
     func addActivity(resumeModel: ResumeModel) async {
-        let entityData = resumeModel.toActivityEntity()
-        let entity = ActivityEntity(activities: entityData)
-        let result = await addActivityUseCase.execute(request: entity)
+        let result = await addActivityUseCase.execute(request: resumeModel.toActivityEntity())
 
         switch result {
         case .success:

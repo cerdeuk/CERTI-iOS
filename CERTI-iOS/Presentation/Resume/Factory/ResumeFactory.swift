@@ -58,7 +58,6 @@ final class DefaultResumeFactory: ResumeFactory {
             addActivityUseCase: addActivityUseCase,
             deleteActivityUseCase: deleteActivityUseCase,
             fetchActivityListUseCase: fetchActivityListUseCase
-            
         )
     }
 }
