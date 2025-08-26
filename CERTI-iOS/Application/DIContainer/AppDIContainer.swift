@@ -85,20 +85,6 @@ extension AppDIContainer {
     
     func makeFetchUnivListUseCase() -> FetchUnivListUseCase {
         return DefaultFetchUnivListUseCase(repository: onboardingRepository)
-    private var acquisitionRepositoryInstance: AcquisitionRepository {
-        return DefaultAcquisitionRepository(service: makeAcquisitionService())
-    }
-    
-    private var careersRepositoryInstance: CareersRepository {
-        return DefaultCareersRepository(service: makeCareersService())
-    }
-    
-    private var activityRepositoryInstance: ActivityRepository {
-        return DefaultActivityRepository(service: makeActivityService())
-    }
-    
-    func makeAddPreCertificationUseCase() -> AddPreCertificationUseCase {
-        return DefaultAddPreCertificationUseCase(repository: homeRepositoryInstance)
     }
     
     func makeFetchMajorListUseCase() -> FetchMajorListUseCase {
@@ -114,43 +100,43 @@ extension AppDIContainer {
     }
     
     func makeFetchAcquisitionListUseCase() -> FetchAcquisitionListUseCase {
-        return DefaultFetchAcquisitionListUseCase(repository: acquisitionRepositoryInstance)
+        return DefaultFetchAcquisitionListUseCase(repository: acquisitionRepository)
     }
     
     func makeFetchAcquisitionDetailUseCase() -> FetchAcquisitionDetailUseCase {
-        return DefaultFetchAcquisitionDetailUseCase(repository: acquisitionRepositoryInstance)
+        return DefaultFetchAcquisitionDetailUseCase(repository: acquisitionRepository)
     }
     
     func makeAddAcquisitionUseCase() -> AddAcquisitionUseCase {
-        return DefaultAddAcquisitionUseCase(repository: acquisitionRepositoryInstance)
+        return DefaultAddAcquisitionUseCase(repository: acquisitionRepository)
     }
     
     func makeDeleteAcquisitionUseCase() -> DeleteAcquisitionUseCase {
-        return DefaultDeleteAcquisitionUseCase(repository: acquisitionRepositoryInstance)
+        return DefaultDeleteAcquisitionUseCase(repository: acquisitionRepository)
     }
     
     func makeAddCareersUseCase() -> AddCareersUseCase {
-        return DefaultAddCareersUseCase(repository: careersRepositoryInstance)
+        return DefaultAddCareersUseCase(repository: careersRepository)
     }
     
     func makeDeleteCareersUseCase() -> DeleteCareersUseCase {
-        return DefaultDeleteCareersUseCase(repository: careersRepositoryInstance)
+        return DefaultDeleteCareersUseCase(repository: careersRepository)
     }
     
     func makeFetchCareersListUseCase() -> FetchCareersListUseCase {
-        return DefaultFetchCareersListUseCase(repository: careersRepositoryInstance)
+        return DefaultFetchCareersListUseCase(repository: careersRepository)
     }
     
     func makeAddActivityUseCase() -> AddActivityUseCase {
-        return DefaultAddActivityUseCase(repository: activityRepositoryInstance)
+        return DefaultAddActivityUseCase(repository: activityRepository)
     }
     
     func makeDeleteActivityUseCase() -> DeleteActivityUseCase {
-        return DefaultDeleteActivityUseCase(repository: activityRepositoryInstance)
+        return DefaultDeleteActivityUseCase(repository: activityRepository)
     }
     
     func makeFetchActivityListUseCase() -> FetchActivityListUseCase {
-        return DefaultFetchActivityListUseCase(repository: activityRepositoryInstance)
+        return DefaultFetchActivityListUseCase(repository: activityRepository)
     }
     
 }
