@@ -13,9 +13,9 @@ import os
 final class ResumeViewModel: ObservableObject {
     @Published var careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
     @Published var myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
-    @Published var certificatedDummy: [CertificatedListModel] = CertificatedListModel.dummy()
+    @Published var certificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
     @Published var jobList: [String] = []
-    @Published var acquisitionList: [CertificatedListModel] = []
+    @Published var acquisitionList: [CertificatedModel] = []
     @Published var acquisitionDetail: CertificatedDetailModel? = nil
     @Published var careersList: [ResumeModel] = []
     @Published var activityList: [ResumeModel] = []
@@ -112,7 +112,7 @@ extension ResumeViewModel {
         switch result {
         case .success(let response):
             logger.info("✅ 취득한 자격증 목록 조회 성공")
-            self.acquisitionList = response.toAcquisitionList()
+            self.acquisitionList = response.toCertificatedModel()
             
         case .failure(let error):
             logger.error("❌ 취득한 자격증 목록 조회 실패: \(error.localizedDescription)")
@@ -151,7 +151,7 @@ extension ResumeViewModel {
         
         switch result {
         case .success(let response):
-            self.careersList = response.toCareersModel()
+            self.careersList = response.toResumeModel()
             logger.debug("✅ 경력사항 조회 성공")
             
         case .failure(let error):
@@ -191,7 +191,7 @@ extension ResumeViewModel {
         
         switch result {
         case .success(let response):
-            self.activityList = response.toActivityModel()
+            self.activityList = response.toResumeModel()
             logger.debug("✅ 대내외활동 조회 성공")
             
         case .failure(let error):

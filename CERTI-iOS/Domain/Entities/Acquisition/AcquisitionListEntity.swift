@@ -17,8 +17,8 @@ struct AcquisitionListEntity {
     
     // MARK: - Func
 
-    func toAcquisitionList() -> [CertificatedListModel] {
-        return acquisitionList.map { $0.toAcquisitionListModel() }
+    func toCertificatedModel() -> [CertificatedModel] {
+        return acquisitionList.map { $0.toCertificatedModel() }
     }
 }
 
@@ -44,8 +44,8 @@ struct AcquisitionListEntityData {
     
     // MARK: - Func
     
-    func toAcquisitionListModel() -> CertificatedListModel {
-        return CertificatedListModel(
+    func toCertificatedModel() -> CertificatedModel {
+        return CertificatedModel(
             acquisitionId: acquisitionId,
             cardFrontImageUrl: cardFrontImageUrl,
             index: index,

@@ -17,8 +17,8 @@ struct ActivityListEntity {
     
     // MARK: - Func
     
-    func toActivityModel() -> [ResumeModel] {
-        return activityList.map { $0.toActivityModel() }
+    func toResumeModel() -> [ResumeModel] {
+        return activityList.map { $0.toResumeModel() }
     }
 }
 
@@ -41,7 +41,7 @@ struct ActivityListEntityData {
     
     // MARK: - Func
     
-    func toActivityModel() -> ResumeModel {
+    func toResumeModel() -> ResumeModel {
         return ResumeModel(
             activityId: activityId,
             startAt: startAt,

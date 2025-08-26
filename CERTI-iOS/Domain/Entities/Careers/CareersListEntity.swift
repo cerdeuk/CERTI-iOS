@@ -18,8 +18,8 @@ struct CareersListEntity {
     
     // MARK: - Func
     
-    func toCareersModel() -> [ResumeModel] {
-        return careersList.map { $0.toCareersModel() }
+    func toResumeModel() -> [ResumeModel] {
+        return careersList.map { $0.toResumeModel() }
     }
 }
 
@@ -42,7 +42,7 @@ struct CareersListEntityData {
     
     // MARK: - Func
     
-    func toCareersModel() -> ResumeModel {
+    func toResumeModel() -> ResumeModel {
         return ResumeModel(
             careerId: careerId,
             startAt: startAt,
