@@ -10,29 +10,35 @@ import Foundation
 typealias CareersListResponseDTO = BaseResponseDTO<CareersListData>
 
 struct CareersListData: Decodable {
-    let careerDetailResponseList: [CareerDetailResponseDTO]
+    let careerDetailResponseList: [Career]
 }
 
-struct CareerDetailResponseDTO: Decodable, Identifiable {
-    var id: Int { careerId }
+extension CareersListData {
+    func toCareersListEntity() -> CareersListEntity {
+        return CareersListEntity(
+            list: careerDetailResponseList.map{ $0.toResumeEntityData() }
+        )
+    }
+}
 
+struct Career: Decodable, Identifiable {
+    var id: Int { careerId }
+    
     let careerId: Int
     let startAt: String
     let endAt: String
     let name: String
     let description: String
     let place: String
-}
-
-extension CareerDetailResponseDTO {
-    func toResumeModel() -> ResumeModel {
-        ResumeModel(
+    
+    func toResumeEntityData() -> ResumeEntityData {
+        return ResumeEntityData(
             careerId: careerId,
             startAt: startAt,
             endAt: endAt,
             name: name,
             place: place,
-            discription: description
+            description: description
         )
     }
 }

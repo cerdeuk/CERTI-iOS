@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 protocol CareersRepository {
-    func fetchCareersList() async -> Result<CareersListResponseDTO, NetworkError>
-    func deledteCareers(id: Int) async -> Result<Void, NetworkError>
-    func addCareer(request: AddCareerRequestDTO) async -> Result<Bool, NetworkError>
+    func fetchCareersList() async -> Result<CareersListEntity, NetworkError>
+    func deleteCareers(id: Int) async -> Result<Void, NetworkError>
+    func addCareer(request: CareersEntity) async -> Result<Bool, NetworkError>
 }
