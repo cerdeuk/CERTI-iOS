@@ -32,19 +32,19 @@ final class CertificateDetailViewModel: ObservableObject {
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
-    private let homeService = AppDIContainer.shared.homeRepository
-
-    private let acquisitionService = AppDIContainer.shared.acquisitionRepository
+    private let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
+    private let addPreCertificationUseCase: AddPreCertificationUseCase
+    private let addAcquisitionUseCase: AddAcquisitionUseCase
     
-    private let certificateService = AppDIContainer.shared.certificationRepository
-    
-//    private let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
-    
-//    init(
-//        fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
-//    ) {
-//        self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
-//    }
+    init(
+        fetchCertificationDetailUseCase: FetchCertificationDetailUseCase,
+        addPreCertificationUseCase: AddPreCertificationUseCase,
+        addAcquisitionUseCase: AddAcquisitionUseCase
+    ) {
+        self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
+        self.addPreCertificationUseCase = addPreCertificationUseCase
+        self.addAcquisitionUseCase = addAcquisitionUseCase
+    }
 }
 
 
@@ -52,8 +52,7 @@ final class CertificateDetailViewModel: ObservableObject {
 
 extension CertificateDetailViewModel {
     func fetchCertificateDetail(certificationId: Int) async {
-//        let result = await fetchCertificationDetailUseCase.execute(id: certificationId)
-        let result = await certificateService.fetchCertificationDetail(certificationId: certificationId)
+        let result = await fetchCertificationDetailUseCase.execute(id: certificationId)
         
         switch result {
         case .success(let response):
@@ -65,52 +64,37 @@ extension CertificateDetailViewModel {
         }
     }
     
-    func appendPreCertification(certification: Int) async {
-        let result = await homeService.addPreCertification(certificationId: certification)
+    func appendPreCertification(certificationId: Int) async {
+        let result = await addPreCertificationUseCase.execute(certificationId: certificationId)
         
         switch result {
-        case .success(let response):
-            guard let data = response.data else {
-                if response.status == 409  {
-                    showFailAcquired = true
-                    return
-                } else {
-                    logger.error("❌ appendPreCertification: No data received")
-                    return
-                }
+        case .success(let status):
+            switch status {
+            case .success: showSuccessToBeAcquired = true
+            case .conflictError: showFailAcquired = true
+            case .duplicationError: showFailToBeAcquired = true
             }
-            
-            if data {
-                showSuccessToBeAcquired = true
-            } else {
-                showFailToBeAcquired = true
-            }
-            logger.debug("✅ appendPreCertification success: \(data)")
+            logger.debug("✅ appendPreCertification success")
             
         case .failure(let error):
             logger.error("appendPreCertification failed: \(error.localizedDescription)")
         }
     }
     
-    func appendAcquisition(certification: Int) async {
-//        let result = await acquisitionService.addAcquisition(certificationId: certification)
-//        
-//        switch result {
-//        case .success(let response):
-//            guard let data = response.data else {
-//                logger.error("❌ appendAcquisition: No data received")
-//                return
-//            }
-//            
-//            if data {
-//                showCompleteModal = true
-//            } else {
-//                showFailAcquired = true
-//            }
-//            logger.debug("✅ appendAcquisition success: \(data)")
-//            
-//        case .failure(let error):
-//            logger.error("appendAcquisition failed: \(error.localizedDescription)")
-//        }
+    func appendAcquisition(certificationId: Int) async {
+        let result = await addAcquisitionUseCase.execute(certificationId: certificationId)
+
+        switch result {
+        case .success(let response):
+            if response {
+                showCompleteModal = true
+            } else {
+                showFailAcquired = true
+            }
+            logger.debug("✅ appendAcquisition success")
+            
+        case .failure(let error):
+            logger.error("appendAcquisition failed: \(error.localizedDescription)")
+        }
     }
 }

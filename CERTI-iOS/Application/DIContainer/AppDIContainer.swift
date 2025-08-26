@@ -200,11 +200,13 @@ extension AppDIContainer {
         )
     }
     
-//    func makeCertificateDetailFactory() -> CertificateDetailFactory {
-//        return DefaultCertificationDetailFactory(
-//          fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase()
-//        )
-//    }
+    func makeCertificateDetailFactory() -> CertificateDetailFactory {
+        return DefaultCertificationDetailFactory(
+          fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase(),
+          addPreCertificationUseCase: makeAddPreCertificationUseCase(),
+          addAcquisitionUseCase: makeAddAcquisitionUseCase()
+        )
+    }
   
     func makeResumeFactory() -> ResumeFactory {
         return DefaultResumeFactory(
