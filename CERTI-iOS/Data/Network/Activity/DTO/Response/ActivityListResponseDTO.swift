@@ -10,29 +10,35 @@ import Foundation
 typealias ActivityListResponseDTO = BaseResponseDTO<ActivityListData>
 
 struct ActivityListData: Decodable {
-    let activityDetailResponses: [ActivityDetailResponseDTO]
+    let activityDetailResponses: [Activity]
 }
 
-struct ActivityDetailResponseDTO: Decodable, Identifiable {
-    var id: Int { activityId }
+extension ActivityListData {
+    func toActivityListEntity() -> ActivityListEntity {
+        return ActivityListEntity(
+            list: activityDetailResponses.map{ $0.toResumeEntityData() }
+        )
+    }
+}
 
+struct Activity: Decodable, Identifiable {
+    var id: Int { activityId }
+    
     let activityId: Int
     let startAt: String
     let endAt: String
     let name: String
     let description: String
     let place: String
-}
-
-extension ActivityDetailResponseDTO {
-    func toResumeModel() -> ResumeModel {
-        ResumeModel(
+    
+    func toResumeEntityData() -> ResumeEntityData {
+        return ResumeEntityData(
             activityId: activityId,
             startAt: startAt,
             endAt: endAt,
             name: name,
             place: place,
-            discription: description
+            description: description
         )
     }
 }

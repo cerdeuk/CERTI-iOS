@@ -10,5 +10,38 @@ import Foundation
 typealias AcquisitionListResponseDTO = BaseResponseDTO<AcquisitionListData>
 
 struct AcquisitionListData: Decodable {
-    let acquisitionListDetailResponses: [CertificatedListModel]
+    let acquisitionListDetailResponses: [AcquisitionListInfo]
+}
+
+extension AcquisitionListData {
+    func toAcquisitionListEntityList() -> AcquisitionListEntity {
+        return AcquisitionListEntity(
+            acquisitionList: acquisitionListDetailResponses.map{ $0.toAcquisitionListEntityData() }
+        )
+    }
+}
+
+struct AcquisitionListInfo: Decodable {
+    let acquisitionId: Int
+    let cardFrontImageUrl: String
+    let index: Int
+    let name: String
+    let tags: [String]
+    let description: String
+    let createdAt: String
+    
+    
+    // MARK: - Func
+    
+    func toAcquisitionListEntityData() -> AcquisitionListEntityData {
+        return AcquisitionListEntityData(
+            acquisitionId: acquisitionId,
+            cardFrontImageUrl: cardFrontImageUrl,
+            index: index,
+            name: name,
+            tags: tags,
+            description: description,
+            createdAt: createdAt
+        )
+    }
 }

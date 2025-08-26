@@ -28,7 +28,7 @@ struct CertiTabBarCoordinatorView: View {
                 case .recommend:
                     RecommendCoordinatorView(recommendCoordinator: tabCoordinator.recommendCoordinator, recommendFactory: appDIContainer.makeRecommendFactory())
                 case .resume:
-                    ResumeCoordinatorView(resumeCoordinator: tabCoordinator.resumeCoordinator)
+                    ResumeCoordinatorView(resumeCoordinator: tabCoordinator.resumeCoordinator, resumeFactory: appDIContainer.makeResumeFactory())
                 }
             }
             .id(tabCoordinator.selectedTab)

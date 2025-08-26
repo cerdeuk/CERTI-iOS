@@ -146,7 +146,7 @@ extension MyCareerWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.discription, maxLength: 16)
+            CharLimitTextField(text: $viewModel.resumeModel.description, maxLength: 16)
                 .padding(.horizontal, 20)
         }
     }

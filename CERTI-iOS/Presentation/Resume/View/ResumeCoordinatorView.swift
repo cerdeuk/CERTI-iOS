@@ -11,7 +11,15 @@ struct ResumeCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
     
     @ObservedObject var resumeCoordinator: ResumeCoordinator
-    @StateObject var resumeViewModel = ResumeViewModel()
+    @StateObject var resumeViewModel: ResumeViewModel
+    
+    private let resumeFactory: ResumeFactory
+    
+    init(resumeCoordinator: ResumeCoordinator, resumeFactory: ResumeFactory) {
+        self.resumeCoordinator = resumeCoordinator
+        self.resumeFactory = resumeFactory
+        _resumeViewModel = StateObject(wrappedValue: resumeFactory.makeResumeViewModel())
+    }
     
     var body: some View {
         NavigationStack(path: $resumeCoordinator.path) {

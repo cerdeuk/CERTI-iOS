@@ -93,24 +93,24 @@ extension CertificateDetailViewModel {
     }
     
     func appendAcquisition(certification: Int) async {
-        let result = await acquisitionService.addAcquisition(certificationId: certification)
-        
-        switch result {
-        case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ appendAcquisition: No data received")
-                return
-            }
-            
-            if data {
-                showCompleteModal = true
-            } else {
-                showFailAcquired = true
-            }
-            logger.debug("✅ appendAcquisition success: \(data)")
-            
-        case .failure(let error):
-            logger.error("appendAcquisition failed: \(error.localizedDescription)")
-        }
+//        let result = await acquisitionService.addAcquisition(certificationId: certification)
+//        
+//        switch result {
+//        case .success(let response):
+//            guard let data = response.data else {
+//                logger.error("❌ appendAcquisition: No data received")
+//                return
+//            }
+//            
+//            if data {
+//                showCompleteModal = true
+//            } else {
+//                showFailAcquired = true
+//            }
+//            logger.debug("✅ appendAcquisition success: \(data)")
+//            
+//        case .failure(let error):
+//            logger.error("appendAcquisition failed: \(error.localizedDescription)")
+//        }
     }
 }
