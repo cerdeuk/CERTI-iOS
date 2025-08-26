@@ -10,10 +10,10 @@ import Foundation
 typealias CareersListResponseDTO = BaseResponseDTO<CareersListData>
 
 struct CareersListData: Decodable {
-    let careerDetailResponseList: [CareerDetailResponseDTO]
+    let careerDetailResponseList: [Career]
 }
 
-struct CareerDetailResponseDTO: Decodable, Identifiable {
+struct Career: Decodable, Identifiable {
     var id: Int { careerId }
     
     let careerId: Int
@@ -23,8 +23,8 @@ struct CareerDetailResponseDTO: Decodable, Identifiable {
     let description: String
     let place: String
     
-    func toCareersDetailEntity() -> CareersDetailEntityData {
-        return CareersDetailEntityData(
+    func toCareersListEntityData() -> CareersListEntityData {
+        return CareersListEntityData(
             careerId: careerId,
             startAt: startAt,
             endAt: endAt,
@@ -36,9 +36,9 @@ struct CareerDetailResponseDTO: Decodable, Identifiable {
 }
 
 extension CareersListData {
-    func toCareersDetailEntityList() -> CareersDetailEntity {
-        return CareersDetailEntity(
-            careersDetail: careerDetailResponseList.map{ $0.toCareersDetailEntity() }
+    func toCareersListEntity() -> CareersListEntity {
+        return CareersListEntity(
+            careersList: careerDetailResponseList.map{ $0.toCareersListEntityData() }
         )
     }
 }

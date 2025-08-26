@@ -1,5 +1,5 @@
 //
-//  CareersDetailEntity.swift
+//  CareersListEntity.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 8/24/25.
@@ -8,22 +8,22 @@
 import Foundation
 
 
-struct CareersDetailEntity {
-    let careersDetail: [CareersDetailEntityData]
+struct CareersListEntity {
+    let careersList: [CareersListEntityData]
     
-    init(careersDetail: [CareersDetailEntityData]) {
-        self.careersDetail = careersDetail
+    init(careersList: [CareersListEntityData]) {
+        self.careersList = careersList
     }
     
     
     // MARK: - Func
     
     func toCareersModel() -> [ResumeModel] {
-        return careersDetail.map { $0.toCareersModel() }
+        return careersList.map { $0.toCareersModel() }
     }
 }
 
-struct CareersDetailEntityData {
+struct CareersListEntityData {
     let careerId: Int
     let startAt: String
     let endAt: String
