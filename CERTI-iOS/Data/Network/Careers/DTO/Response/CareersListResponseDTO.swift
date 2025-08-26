@@ -15,7 +15,7 @@ struct CareersListData: Decodable {
 
 struct CareerDetailResponseDTO: Decodable, Identifiable {
     var id: Int { careerId }
-
+    
     let careerId: Int
     let startAt: String
     let endAt: String
@@ -38,6 +38,7 @@ struct CareerDetailResponseDTO: Decodable, Identifiable {
 extension CareersListData {
     func toCareersDetailEntityList() -> CareersDetailEntity {
         return CareersDetailEntity(
-            careersDetail: careerDetailResponseList.map{$0.toCareersDetailEntity()}         )
+            careersDetail: careerDetailResponseList.map{ $0.toCareersDetailEntity() }
+        )
     }
 }
