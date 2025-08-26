@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MyCareerEditView: View {
-    @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     @State var isDeleteAlertPresented = false
     @State var selectedCareersIndex : Int? = nil
@@ -19,13 +18,13 @@ struct MyCareerEditView: View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
                 BackButton {
-                    resumeCoordinator.pop()
+                    viewModel.resumeViewRoutePop()
                 }
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
                         Button {
-                            resumeCoordinator.push(next: .myCareerWriteView)
+                            viewModel.navigateToCareerWrite()
                         } label: {
                             HStack(alignment: .center, spacing: 0) {
                                 Image(.iconPlus)

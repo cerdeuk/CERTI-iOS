@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct MyExtracurricularActivityWriteView: View {
-    @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
             VStack (alignment: .leading, spacing: 0) {
                 BackButton() {
-                    resumeCoordinator.pop()
+                    viewModel.resumeViewRoutePop()
                 }
                 
                 ScrollView {
@@ -34,7 +33,7 @@ struct MyExtracurricularActivityWriteView: View {
                                 Task {
                                     await viewModel.addActivity(resumeModel: viewModel.resumeModel)
                                     viewModel.clearResumeModel()
-                                    resumeCoordinator.pop()
+                                    viewModel.resumeViewRoutePop()
                                 }
                             },
                             textEmpty: .constant(viewModel.isWriteButtonEnabled)

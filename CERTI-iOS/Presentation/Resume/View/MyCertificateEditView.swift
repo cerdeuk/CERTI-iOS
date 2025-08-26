@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MyCertificateEditView: View {
-    @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     @State var isDeleteAlertPresented = false
     @State var selectedIndex : Int? = nil
@@ -19,7 +18,7 @@ struct MyCertificateEditView: View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
                 BackButton {
-                    resumeCoordinator.pop()
+                    viewModel.resumeViewRoutePop()
                 }
                 
                 ScrollView(.vertical) {

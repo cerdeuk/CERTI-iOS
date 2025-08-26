@@ -24,6 +24,24 @@ struct ResumeCoordinatorView: View {
     var body: some View {
         NavigationStack(path: $resumeCoordinator.path) {
             ResumeView(viewModel: resumeViewModel)
+                .onChange(of: resumeViewModel.resumeViewRoute) { route in
+                    guard let route = route else { return }
+                    switch route {
+                    case .navigateToActivityEdit:
+                        resumeCoordinator.push(next: .myExtracurricularActivityEditView)
+                    case .navigateToCareerWrite:
+                        resumeCoordinator.push(next: .myCareerWriteView)
+                    case .navigateToActivityWrite:
+                        resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
+                    case .navigateToCertificatedEdit:
+                        resumeCoordinator.push(next: .myCertificateEdit)
+                    case .navigateToCareerEdit:
+                        resumeCoordinator.push(next: .myCareerEdit)
+                    case .resumeViewRoutePop:
+                        resumeCoordinator.pop()
+                    }
+                    resumeViewModel.resumeViewRoute = nil
+                }
                 .navigationDestination(for: ResumeRoute.self) { route in
                     switch route {
                     case .myCertificateEdit:

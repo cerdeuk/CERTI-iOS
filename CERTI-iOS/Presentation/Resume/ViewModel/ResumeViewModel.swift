@@ -11,9 +11,8 @@ import os
 
 enum ResumeViewRoute {
     case navigateToCareerWrite
-    case navigateToActivityWirte
+    case navigateToActivityWrite
     case navigateToCertificatedEdit
-    case navigateToCardDetail
     case navigateToCareerEdit
     case navigateToActivityEdit
     
@@ -105,16 +104,12 @@ extension ResumeViewModel {
         resumeViewRoute = .navigateToCareerWrite
     }
     
-    func navigateToActivityWirte() {
-        resumeViewRoute = .navigateToActivityWirte
+    func navigateToActivityWrite() {
+        resumeViewRoute = .navigateToActivityWrite
     }
 
     func navigateToCertificatedEdit() {
         resumeViewRoute = .navigateToCertificatedEdit
-    }
-    
-    func navigateToCardDetail() {
-        resumeViewRoute = .navigateToCardDetail
     }
     
     func navigateToCareerEdit() {
