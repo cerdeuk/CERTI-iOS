@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct OnboardingTrackView: View {
-    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
-    @Binding var selectedtrack: String
+    @ObservedObject var viewModel: OnboardingViewModel
 
     private let trackOptions = ["인문계열", "사회계열", "교육계열", "자연계열", "공학계열", "의약계열", "예체능계열"]
     
@@ -21,7 +20,7 @@ struct OnboardingTrackView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             BackButton {
-                onboardingCoordinator.pop()
+                viewModel.onboardingViewRoutePop()
             }
             .padding(.bottom, 13)
             
@@ -38,21 +37,21 @@ struct OnboardingTrackView: View {
             LazyVGrid(columns: columns, spacing: 12) {
                 ForEach(trackOptions, id: \.self) { track in
                     Button {
-                        if selectedtrack == track {
-                            selectedtrack = ""
+                        if viewModel.selectedTrack == track {
+                            viewModel.selectedTrack = ""
                         } else {
-                            selectedtrack = track
+                            viewModel.selectedTrack = track
                         }
                     } label: {
                         Text(track)
-                            .applyCertiFont(selectedtrack == track ? .body_semibold_16 : .body_regular_16)
-                            .foregroundColor(selectedtrack == track ? .grayscale600 : .grayscale500)
+                            .applyCertiFont(viewModel.selectedTrack == track ? .body_semibold_16 : .body_regular_16)
+                            .foregroundColor(viewModel.selectedTrack == track ? .grayscale600 : .grayscale500)
                             .frame(maxWidth: .infinity, minHeight: 80)
-                            .background(selectedtrack == track ? .lightblue : .bluewhite)
+                            .background(viewModel.selectedTrack == track ? .lightblue : .bluewhite)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                             .overlay {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(selectedtrack == track ? .skyblue : .lightblue , lineWidth: 1)
+                                    .stroke(viewModel.selectedTrack == track ? .skyblue : .lightblue , lineWidth: 1)
                             }
                     }
                 }
@@ -63,16 +62,16 @@ struct OnboardingTrackView: View {
             Spacer()
             
             Button {
-                onboardingCoordinator.push(next: .major)
+                viewModel.navigateToMajor()
             } label: {
                 Text("다음")
                     .applyCertiFont(.body_semibold_16)
-                    .foregroundColor(selectedtrack.isEmpty ? .grayscale400 : .white)
+                    .foregroundColor(viewModel.selectedTrack.isEmpty ? .grayscale400 : .white)
                     .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(selectedtrack.isEmpty ? .grayscale100 : .purpleblue)
+                    .background(viewModel.selectedTrack.isEmpty ? .grayscale100 : .purpleblue)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .disabled(selectedtrack.isEmpty)
+            .disabled(viewModel.selectedTrack.isEmpty)
             .padding(.horizontal, 20)
             .padding(.bottom, 22)
         }

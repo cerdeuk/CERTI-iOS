@@ -19,7 +19,7 @@ class CategoryViewModel: ObservableObject {
     @Published var inputText: String = ""
     @Published var searchResult: SearchResultType? = nil
     @Published var selectedCertificateId: Int = 0
-    
+
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
     
     func toggleFavorite(id: Int) {

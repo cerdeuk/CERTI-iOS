@@ -20,4 +20,12 @@ struct UserInformationData: Encodable {
     let email: String
     let nickname: String
     let profileImageUrl: String
+    
+    func toUserInformationEntityData() -> UserInformationEntityData {
+        return UserInformationEntityData(
+            email: email,
+            nickname: nickname,
+            profileImageUrl: profileImageUrl
+        )
+    }
 }

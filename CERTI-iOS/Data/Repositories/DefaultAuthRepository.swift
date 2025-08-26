@@ -9,6 +9,11 @@ import Foundation
 
 import Moya
 
+enum AuthResponseEntity {
+    case success(LoginSuccessResponseEntity)
+    case needSignUp(SignupRequiredResponseEntity)
+}
+
 final class DefaultAuthRepository: AuthRepository {
     
     private let service: AuthServiceProtocol
@@ -21,11 +26,36 @@ final class DefaultAuthRepository: AuthRepository {
         return await service.withDraw()
     }
     
-    func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError> {
-        return await service.signUp(request: request, preSignUpToken: preSignUpToken)
+    func signUp(request: SignupRequestEntity, preSignUpToken: String) async -> Result<SignupSuccessUserDataEntity, NetworkError> {
+        let result = await service.signUp(request: request.toSignupRequestDTO(), preSignUpToken: preSignUpToken)
+        
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toSignupSuccessUserDataEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
-    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponse, NetworkError> {
-        return await service.login(type: type, authorizationCode: authorizationCode)
+
+    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponseEntity, NetworkError> {
+        let result = await service.login(type: type, authorizationCode: authorizationCode)
+
+        switch result {
+        case .success(let dto):
+            switch dto {
+            case .success(let loginDTO):
+                let entity = loginDTO.toLoginSuccessResponseEntity()
+                return .success(.success(entity))
+            case .needSignUp(let signupDTO):
+                let entity = signupDTO.toSignupRequiredResponseEntity()
+                return .success(.needSignUp(entity))
+            }
+        case .failure(let error):
+            return .failure(error)
+        }
     }
 }

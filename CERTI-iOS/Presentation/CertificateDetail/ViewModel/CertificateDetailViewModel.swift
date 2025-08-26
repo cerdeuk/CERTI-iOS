@@ -32,8 +32,8 @@ final class CertificateDetailViewModel: ObservableObject {
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
-    private let homeService = AppDIContainer.shared.makeHomeRepository()
-    
+    private let homeService = AppDIContainer.shared.homeRepository
+
     private let acquisitionService = AppDIContainer.shared.makeAcquisitionRepository()
     
     private let certificateService = AppDIContainer.shared.makeCertificationRepository()
@@ -45,6 +45,8 @@ final class CertificateDetailViewModel: ObservableObject {
 //    ) {
 //        self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
 //    }
+
+    private let acquisitionService = AppDIContainer.shared.acquisitionRepository
 }
 
 

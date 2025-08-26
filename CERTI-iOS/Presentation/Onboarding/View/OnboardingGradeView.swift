@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct OnboardingGradeView: View {
-    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
-    @Binding var selectedGrade: String
+    @ObservedObject var viewModel: OnboardingViewModel
+    
     private let gradeOptions = ["1학년", "2학년", "3학년", "4학년 이상", "졸업/졸업유예"]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             BackButton {
-                onboardingCoordinator.pop()
+                viewModel.onboardingViewRoutePop()
             }
             .padding(.bottom, 13)
             
@@ -32,21 +32,21 @@ struct OnboardingGradeView: View {
             VStack(spacing: 12) {
                 ForEach(gradeOptions, id: \.self) { grade in
                     Button {
-                        if selectedGrade == grade {
-                            selectedGrade = ""
+                        if viewModel.selectedGrade == grade {
+                            viewModel.selectedGrade = ""
                         } else {
-                            selectedGrade = grade
+                            viewModel.selectedGrade = grade
                         }
                     } label: {
                         Text(grade)
-                            .applyCertiFont(selectedGrade == grade ? .body_semibold_16 : .body_regular_16)
-                            .foregroundColor(selectedGrade == grade ? .grayscale600 : .grayscale500)
+                            .applyCertiFont(viewModel.selectedGrade == grade ? .body_semibold_16 : .body_regular_16)
+                            .foregroundColor(viewModel.selectedGrade == grade ? .grayscale600 : .grayscale500)
                             .frame(maxWidth: .infinity, minHeight: 56)
-                            .background(selectedGrade == grade ? .lightblue : .bluewhite)
+                            .background(viewModel.selectedGrade == grade ? .lightblue : .bluewhite)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                             .overlay {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(selectedGrade == grade ? .skyblue : .lightblue , lineWidth: 1)
+                                    .stroke(viewModel.selectedGrade == grade ? .skyblue : .lightblue , lineWidth: 1)
                             }
                     }
                 }
@@ -56,16 +56,16 @@ struct OnboardingGradeView: View {
             Spacer()
             
             Button {
-                onboardingCoordinator.push(next: .track)
+                viewModel.navigateToTrack()
             } label: {
                 Text("다음")
                     .applyCertiFont(.body_semibold_16)
-                    .foregroundColor(selectedGrade.isEmpty ? .grayscale400 : .white)
+                    .foregroundColor(viewModel.selectedGrade.isEmpty ? .grayscale400 : .white)
                     .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(selectedGrade.isEmpty ? .grayscale100 : .purpleblue)
+                    .background(viewModel.selectedGrade.isEmpty ? .grayscale100 : .purpleblue)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .disabled(selectedGrade.isEmpty)
+            .disabled(viewModel.selectedGrade.isEmpty)
             .padding(.horizontal, 20)
             .padding(.bottom, 22)
             
