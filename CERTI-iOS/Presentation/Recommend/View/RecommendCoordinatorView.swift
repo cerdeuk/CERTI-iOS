@@ -13,13 +13,17 @@ struct RecommendCoordinatorView: View {
     @ObservedObject var recommendCoordinator: RecommendCoordinator
     
     @StateObject var recommendViewModel: RecommendViewModel
+    @StateObject var certificateDetailViewModel: CertificateDetailViewModel
     
     private let recommendFactory: RecommendFactory
+    private let certificateDetailFactory: CertificateDetailFactory
     
-    init(recommendCoordinator: RecommendCoordinator, recommendFactory: RecommendFactory) {
+    init(recommendCoordinator: RecommendCoordinator, recommendFactory: RecommendFactory, certificateDetailFactory: CertificateDetailFactory) {
         self.recommendCoordinator = recommendCoordinator
         self.recommendFactory = recommendFactory
         _recommendViewModel = StateObject(wrappedValue: recommendFactory.makeRecommendViewModel())
+        self.certificateDetailFactory = certificateDetailFactory
+        _certificateDetailViewModel = StateObject(wrappedValue: certificateDetailFactory.makeCertificateDetailViewModel())
     }
 
     var body: some View {
@@ -37,7 +41,9 @@ struct RecommendCoordinatorView: View {
                 .navigationDestination(for: RecommendRoute.self) { route in
                     switch route {
                     case .certificateDetail:
-                        CertificateDetailView(certificationId: $recommendViewModel.selectedCertificateId, beforeViewType: BeforeViewType.recommend)
+                        CertificateDetailView(viewModel: certificateDetailViewModel, certificationId: $recommendViewModel.selectedCertificateId) {
+                            recommendCoordinator.pop()
+                        }
                     }
                 }
         }
