@@ -22,7 +22,7 @@ struct AcquisitionDetailInfo: Decodable {
     
     // MARK: - Func
     
-    func toAcquisitionDetailEntity() -> AcquisitionDetailEntityData {
+    func toAcquisitionDetailEntityData() -> AcquisitionDetailEntityData {
         return AcquisitionDetailEntityData(
             acquisitionId: acquisitionId,
             cardFrontImageUrl: cardFrontImageUrl,
@@ -37,7 +37,7 @@ struct AcquisitionDetailInfo: Decodable {
     
     func toAcquisitionDetailEntityList() -> AcquisitionDetailEntity {
         return AcquisitionDetailEntity(
-            acquisitionDetail: self.toAcquisitionDetailEntity()
+            acquisitionDetail: self.toAcquisitionDetailEntityData()
         )
     }
 }
