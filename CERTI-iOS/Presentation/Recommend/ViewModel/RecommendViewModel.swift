@@ -92,7 +92,7 @@ extension RecommendViewModel {
         switch result {
         case .success(let response):
             
-            self.selectedCategories = response.jobs
+            self.selectedCategories = response.toJobFieldModel().jobList
             logger.debug("✅ getJobList success: \(response.jobs)")
             
         case .failure(let error):
@@ -101,8 +101,7 @@ extension RecommendViewModel {
     }
     
     func postJobList(jobNameList: [String]) async {
-        let jobs = JobEntity(jobs: jobNameList)
-        let result = await editJobUseCase.execute(jobNameList: jobs)
+        let result = await editJobUseCase.execute(jobNameList: JobFieldModel(jobList: jobNameList).toJobEntity())
         
         switch result {
         case .success(_):
