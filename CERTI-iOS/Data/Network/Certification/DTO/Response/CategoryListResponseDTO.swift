@@ -38,7 +38,8 @@ extension CategoryCertificationInfo {
             certificationType: certificationType,
             tags: tags,
             testType: testType,
-            isFavorite: isFavorite
+            isFavorite: isFavorite,
+            recommendScore: nil
         )
     }
 }
