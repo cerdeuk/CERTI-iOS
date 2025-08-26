@@ -23,14 +23,14 @@ struct Career: Decodable, Identifiable {
     let description: String
     let place: String
     
-    func toCareersListEntityData() -> CareersListEntityData {
-        return CareersListEntityData(
+    func toResumeEntityData() -> ResumeEntityData {
+        return ResumeEntityData(
             careerId: careerId,
             startAt: startAt,
             endAt: endAt,
             name: name,
-            description: place,
-            place: description
+            place: place,
+            description: description
         )
     }
 }
@@ -38,7 +38,7 @@ struct Career: Decodable, Identifiable {
 extension CareersListData {
     func toCareersListEntity() -> CareersListEntity {
         return CareersListEntity(
-            careersList: careerDetailResponseList.map{ $0.toCareersListEntityData() }
+            list: careerDetailResponseList.map{ $0.toResumeEntityData() }
         )
     }
 }

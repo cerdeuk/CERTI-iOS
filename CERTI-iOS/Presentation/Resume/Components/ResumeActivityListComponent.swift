@@ -32,7 +32,7 @@ struct ResumeActivityListComponent: View {
                     .foregroundStyle(.grayscale600)
                     .frame(width: 137, height: 22, alignment: .leading)
                 
-                Text(model.discription)
+                Text(model.description)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale600)
                     .lineLimit(1)

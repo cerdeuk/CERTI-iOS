@@ -25,12 +25,12 @@ final class ResumeViewModel: ObservableObject {
         endAt: "",
         name: "",
         place: "",
-        discription: ""
+        description: ""
     )
     @Published var isCardDetailPresented = false
     
     var isWriteButtonEnabled: Bool {
-        !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.discription.isBlank && isPeriodFilled
+        !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.description.isBlank && isPeriodFilled
     }
     private let jobService = AppDIContainer.shared.makeJobRepository()
     private let acquisitionService = AppDIContainer.shared.makeAcquisitionRepository()
@@ -77,7 +77,7 @@ final class ResumeViewModel: ObservableObject {
             endAt: "",
             name: "",
             place: "",
-            discription: ""
+            description: ""
         )
         isPeriodFilled = false
     }
