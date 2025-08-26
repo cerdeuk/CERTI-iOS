@@ -30,13 +30,21 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var showFailToBeAcquired: Bool = false
     @Published var showCompleteModal = false
 
-    
-    private let certificateDetailService = AppDIContainer.shared.certificationRepository
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
     private let homeService = AppDIContainer.shared.homeRepository
-    
+
     private let acquisitionService = AppDIContainer.shared.acquisitionRepository
+    
+    private let certificateService = AppDIContainer.shared.certificationRepository
+    
+//    private let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
+    
+//    init(
+//        fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
+//    ) {
+//        self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
+//    }
 }
 
 
@@ -44,15 +52,12 @@ final class CertificateDetailViewModel: ObservableObject {
 
 extension CertificateDetailViewModel {
     func fetchCertificateDetail(certificationId: Int) async {
-        let result = await certificateDetailService.fetchCertificationDetail(certificationId: certificationId)
+//        let result = await fetchCertificationDetailUseCase.execute(id: certificationId)
+        let result = await certificateService.fetchCertificationDetail(certificationId: certificationId)
         
         switch result {
         case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getCertificationDetailList: No data received")
-                return
-            }
-            self.certificateDetailModel = data.toDomain()
+            self.certificateDetailModel = response.toCertificationDetailModel()
             logger.debug("✅ CertificationDetail success: \(String(describing: self.certificateDetailModel))")
             
         case .failure(let error):

@@ -10,5 +10,35 @@ import Foundation
 typealias SearchCertificationResponseDTO = BaseResponseDTO<SearchCertificationData>
 
 struct SearchCertificationData: Decodable {
-    let certificationSimpleList: [LicenseCardModel]
+    let certificationSimpleList: [SearchCertificationInfo]
+}
+
+extension SearchCertificationData {
+    func toCertificationsEntity() -> CertificationsEntity {
+        return CertificationsEntity(
+            certifications: certificationSimpleList.map { $0.toCertificationsEntityData() }
+        )
+    }
+}
+
+struct SearchCertificationInfo: Decodable {
+    let certificationId: Int
+    let certificationName: String
+    let certificationType: String
+    let tags: [String]
+    let testType: String
+    var isFavorite: Bool
+}
+
+extension SearchCertificationInfo {
+    func toCertificationsEntityData() -> CertificationsEntityData {
+        return CertificationsEntityData(
+            certificationId: certificationId,
+            certificationName: certificationName,
+            certificationType: certificationType,
+            tags: tags,
+            testType: testType,
+            isFavorite: isFavorite
+        )
+    }
 }

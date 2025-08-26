@@ -63,7 +63,7 @@ extension AppDIContainer {
     func makeGetFavoritePreCertificationUseCase() -> GetFavoriteCertificationUseCase {
         return DefaultGetFavoriteCertificationUseCase(repository: homeRepository)
     }
-    
+
     func makeFetchUserInfoUseCase() -> FetchUserInfoUseCase {
         return DefaultFetchUserInfoUseCase(repository: userRepository)
     }
@@ -98,7 +98,27 @@ extension AppDIContainer {
     func makeEditJobUseCase() -> EditJobUseCase {
         return DefaultEditJobUseCase(repository: jobRepository)
     }
+  
+    func makeFetchCategoryUseCase() -> FetchCategoryUseCase {
+        return DefaultFetchCategoryUseCase(repository: certificationRepository)
+    }
     
+    func makeSwitchFavoriteUseCase() -> SwitchFavoriteUseCase {
+        return DefaultSwitchFavoriteUseCase(repository: certificationRepository)
+    }
+    
+    func makeSearchCertificationUseCase() -> SearchCertificationUseCase {
+        return DefaultSearchCertificationUseCase(repository: certificationRepository)
+    }
+    
+    func makeFetchCertificationDetailUseCase() -> FetchCertificationDetailUseCase {
+        return DefaultFetchCertificationDetailUseCase(repository: certificationRepository)
+    }
+    
+    func makeFetchRecommendUseCase() -> FetchRecommendUseCase {
+        return DefaultFetchRecommendUseCase(repository: certificationRepository)
+    }
+  
     func makeFetchAcquisitionListUseCase() -> FetchAcquisitionListUseCase {
         return DefaultFetchAcquisitionListUseCase(repository: acquisitionRepository)
     }
@@ -138,7 +158,6 @@ extension AppDIContainer {
     func makeFetchActivityListUseCase() -> FetchActivityListUseCase {
         return DefaultFetchActivityListUseCase(repository: activityRepository)
     }
-    
 }
 
 
@@ -164,6 +183,29 @@ extension AppDIContainer {
         )
     }
     
+    func makeRecommendFactory() -> RecommendFactory {
+        return DefaultRecommendFactory(
+            fetchRecommendUseCase: makeFetchRecommendUseCase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            fetchJobUseCase: makeFetchJobUseCase(),
+            editJobUseCase: makeEditJobUseCase()
+        )
+    }
+    
+    func makeCategoryFactory() -> CategoryFactory {
+        return DefaultCategoryFactory(
+            fetchCategoryUseCase: makeFetchCategoryUseCase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            searchCertificationUseCase: makeSearchCertificationUseCase()
+        )
+    }
+    
+//    func makeCertificateDetailFactory() -> CertificateDetailFactory {
+//        return DefaultCertificationDetailFactory(
+//          fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase()
+//        )
+//    }
+  
     func makeResumeFactory() -> ResumeFactory {
         return DefaultResumeFactory(
             fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
@@ -177,5 +219,4 @@ extension AppDIContainer {
             fetchActivityListUseCase: makeFetchActivityListUseCase()
         )
     }
-    
 }

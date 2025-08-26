@@ -25,8 +25,8 @@ struct CertificationDetailData: Decodable {
 }
 
 extension CertificationDetailData {
-    func toDomain() -> CertificateDetailModel {
-        return CertificateDetailModel(
+    func toCertificationDetailEntity() -> CertificationDetailEntity {
+        return CertificationDetailEntity(
             certificationId: certificationId,
             certificationName: certificationName,
             tags: tags,
