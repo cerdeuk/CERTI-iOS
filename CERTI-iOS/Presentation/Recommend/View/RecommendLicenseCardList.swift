@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct RecommendLicenseCardList: View {
-    
-    @EnvironmentObject var recommendCoordinator: RecommendCoordinator
     @ObservedObject var viewModel: RecommendViewModel
     
     let columns = [
