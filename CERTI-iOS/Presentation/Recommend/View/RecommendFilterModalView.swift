@@ -9,8 +9,8 @@ import SwiftUI
 
 struct RecommendFilterModalView: View {
     @Environment(\.dismiss) private var dismiss
-    @Binding var selectedCategories: [String]
-    @State private var tempSelectedCategories: [String] = []
+    @Binding var selectedJobField: [String]
+    @State private var tempSelectedJobField: [String] = []
     @ObservedObject var viewModel: RecommendViewModel
     
     var body: some View {
@@ -22,7 +22,7 @@ struct RecommendFilterModalView: View {
             ApplyButton
         }
         .onAppear {
-            tempSelectedCategories = viewModel.selectedCategories
+            tempSelectedJobField = viewModel.selectedJobField
         }
     }
     
@@ -60,11 +60,11 @@ struct RecommendFilterModalView: View {
     private var RecoommendFilterButtonList: some View {
         LazyVGrid(columns: Array(repeating: .init(spacing: 16), count: 3), spacing: 13) {
             ForEach(JobCategory.allCases) {category in
-                RecommendFilterButton(category: category, isSelected: tempSelectedCategories.contains(category.description)) {
-                    if tempSelectedCategories.contains(category.description) {
-                        tempSelectedCategories.removeAll { $0 == category.description }
-                    } else if tempSelectedCategories.count < 3 {
-                        tempSelectedCategories.append(category.description)
+                RecommendFilterButton(category: category, isSelected: tempSelectedJobField.contains(category.description)) {
+                    if tempSelectedJobField.contains(category.description) {
+                        tempSelectedJobField.removeAll { $0 == category.description }
+                    } else if tempSelectedJobField.count < 3 {
+                        tempSelectedJobField.append(category.description)
                     }
                 }
             }
@@ -76,12 +76,12 @@ struct RecommendFilterModalView: View {
     private var ApplyButton: some View {
         Button {
             viewModel.toggleLoadingState()
-            selectedCategories = tempSelectedCategories
+            selectedJobField = tempSelectedJobField
             viewModel.licenseCards.removeAll()
             Task{
-                await viewModel.postJobList(jobNameList: selectedCategories)
+                await viewModel.postJobList(jobNameList: selectedJobField)
                 try await Task.sleep(for: .seconds(2))
-                viewModel.selectedCategories = tempSelectedCategories
+                viewModel.selectedJobField = tempSelectedJobField
                 await viewModel.getRecommendCertificationList()
 
                 viewModel.toggleLoadingState()
@@ -90,17 +90,17 @@ struct RecommendFilterModalView: View {
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundStyle(tempSelectedCategories.isEmpty ? .grayscale100 : .purpleblue)
+                    .foregroundStyle(tempSelectedJobField.isEmpty ? .grayscale100 : .purpleblue)
                     .frame(height: 56)
                 
                 Text("적용하기")
                     .applyCertiFont(.body_semibold_16)
-                    .foregroundStyle(tempSelectedCategories.isEmpty ? .grayscale400 : .white)
+                    .foregroundStyle(tempSelectedJobField.isEmpty ? .grayscale400 : .white)
                     .frame(height: 22)
             }
             .padding(.horizontal, 20)
             .padding(.top, 53)
         }
-        .disabled(tempSelectedCategories.isEmpty)
+        .disabled(tempSelectedJobField.isEmpty)
     }
 }

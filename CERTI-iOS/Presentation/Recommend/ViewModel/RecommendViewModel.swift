@@ -12,7 +12,7 @@ import os
 @MainActor
 class RecommendViewModel: ObservableObject {
     @Published var licenseCards: [LicenseCardModel] = []
-    @Published var selectedCategories: [String] = []
+    @Published var selectedJobField: [String] = []
     @Published var isFilterModalPresented = false
     @Published var selectedCertificateId: Int = 0
     @Published var isShowLoading: Bool = false
@@ -20,7 +20,7 @@ class RecommendViewModel: ObservableObject {
     var username: String = AuthManager.shared.nickname
 
     var interestTags: [String] {
-        selectedCategories.map(\.description)
+        selectedJobField.map(\.description)
     }
     
     func toggleFavorite(id: Int) {
@@ -92,7 +92,7 @@ extension RecommendViewModel {
         switch result {
         case .success(let response):
             
-            self.selectedCategories = response.toJobFieldModel().jobList
+            self.selectedJobField = response.toJobFieldModel().jobList
             logger.debug("✅ getJobList success: \(response.jobs)")
             
         case .failure(let error):
