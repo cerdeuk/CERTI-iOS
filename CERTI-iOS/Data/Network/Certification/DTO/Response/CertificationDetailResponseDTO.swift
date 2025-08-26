@@ -25,7 +25,7 @@ struct CertificationDetailData: Decodable {
 }
 
 extension CertificationDetailData {
-    func toEntity() -> CertificationDetailEntity {
+    func toCertificationDetailEntity() -> CertificationDetailEntity {
         return CertificationDetailEntity(
             certificationId: certificationId,
             certificationName: certificationName,

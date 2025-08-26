@@ -14,9 +14,9 @@ struct RecommendCertificationData: Decodable {
 }
 
 extension RecommendCertificationData {
-    func toEntity() -> CertificationsEntity {
+    func toCertificationsEntity() -> CertificationsEntity {
         return CertificationsEntity(
-            certifications: recommendationList.map { $0.toCertificationsEntity() }
+            certifications: recommendationList.map { $0.toCertificationsEntityData() }
         )
     }
 }
@@ -41,7 +41,7 @@ extension RecommendCertification {
         )
     }
     
-    func toCertificationsEntity() -> CertificationsEntityData {
+    func toCertificationsEntityData() -> CertificationsEntityData {
         return CertificationsEntityData(
             certificationId: certificationId,
             certificationName: certificationName,

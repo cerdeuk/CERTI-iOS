@@ -22,7 +22,7 @@ final class DefaultCertificationRepository: CertificationRepository {
         let result = await service.getCategory(isFavorite: isFavorite, jobs: jobs)
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toCertificationsEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)
@@ -40,7 +40,7 @@ final class DefaultCertificationRepository: CertificationRepository {
         let result = await service.searchCertification(keyword: keyword)
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toCertificationsEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)
@@ -54,7 +54,7 @@ final class DefaultCertificationRepository: CertificationRepository {
         let result = await service.fetchCertificationDetail(certificationId: certificationId)
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toCertificationDetailEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)
@@ -67,7 +67,7 @@ final class DefaultCertificationRepository: CertificationRepository {
         let result = await service.getRecommend()
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toCertificationsEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)

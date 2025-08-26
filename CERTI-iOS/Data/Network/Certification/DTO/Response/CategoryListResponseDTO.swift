@@ -14,9 +14,9 @@ struct CategoryListData: Decodable {
 }
 
 extension CategoryListData {
-    func toEntity() -> CertificationsEntity {
+    func toCertificationsEntity() -> CertificationsEntity {
         return CertificationsEntity(
-            certifications: certificationSimpleList.map { $0.toEntity() }
+            certifications: certificationSimpleList.map { $0.toCertificationsEntityData() }
         )
     }
 }
@@ -31,7 +31,7 @@ struct CategoryCertificationInfo: Decodable {
 }
 
 extension CategoryCertificationInfo {
-    func toEntity() -> CertificationsEntityData {
+    func toCertificationsEntityData() -> CertificationsEntityData {
         return CertificationsEntityData(
             certificationId: certificationId,
             certificationName: certificationName,
