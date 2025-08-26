@@ -11,6 +11,7 @@ struct CategoryCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
 
     @ObservedObject var categoryCoordinator: CategoryCoordinator
+    
     @StateObject var categoryViewModel: CategoryViewModel
     
     private let categoryFactory: CategoryFactory
@@ -24,12 +25,19 @@ struct CategoryCoordinatorView: View {
     var body: some View {
         NavigationStack(path: $categoryCoordinator.path) {
             CategoryView(viewModel: categoryViewModel)
+                .onChange(of: categoryViewModel.categoryViewRoute) { route in
+                    guard let route = route else { return }
+                    switch route {
+                    case .navigateToSearch: categoryCoordinator.push(next: .search)
+                    case .navigateToCertificateDetail: categoryCoordinator.push(next: .certificateDetail)
+                    case .categoryViewRoutePop: categoryCoordinator.pop()
+                    }
+                    categoryViewModel.categoryViewRoute = nil
+                }
                 .navigationDestination(for: CategoryRoute.self) { route in
                     switch route {
-                    case .search:
-                        CategorySearchView(viewModel: categoryViewModel)
-                    case .detail:
-                        CertificateDetailView(certificationId: $categoryViewModel.selectedCertificateId, beforeViewType: BeforeViewType.category)
+                    case .search: CategorySearchView(viewModel: categoryViewModel)
+                    case .certificateDetail: CertificateDetailView(certificationId: $categoryViewModel.selectedCertificateId, beforeViewType: .category)
                     }
                 }
         }

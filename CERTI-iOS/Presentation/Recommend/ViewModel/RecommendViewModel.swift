@@ -16,7 +16,7 @@ enum RecommendViewRoute {
 }
 
 @MainActor
-class RecommendViewModel: ObservableObject {
+final class RecommendViewModel: ObservableObject {
     @Published var recommendViewRoute: RecommendViewRoute?
     @Published var licenseCards: [LicenseCardModel] = []
     @Published var selectedJobField: [String] = []

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct CategoryLicenseCardList: View {
-    
-    @EnvironmentObject var categoryCoordinator: CategoryCoordinator
     @ObservedObject var viewModel: CategoryViewModel
     
     let columns = [
@@ -30,9 +28,7 @@ struct CategoryLicenseCardList: View {
                         },
                                         onTapCard: {
                             viewModel.selectCertificate(id: item.id)
-                            Task { @MainActor in
-                                categoryCoordinator.push(next: .detail(id: item.id, beforeViewType: .category))
-                            }
+                            viewModel.navigateToCertificateDetail()
                         }
                         )
                     }

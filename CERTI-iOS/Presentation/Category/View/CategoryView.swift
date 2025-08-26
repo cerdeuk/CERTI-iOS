@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct CategoryView: View {
-    
-    @EnvironmentObject var categoryCoordinator: CategoryCoordinator
-    
     @ObservedObject var viewModel: CategoryViewModel
     
     var body: some View {
@@ -18,7 +15,7 @@ struct CategoryView: View {
             CategoryTabBar(
                         selectedCategory: $viewModel.selectedCategory,
                         onSearchTapped: {
-                            categoryCoordinator.push(next: .search)
+                            viewModel.navigateToSearch()
                         }
                     )
             
