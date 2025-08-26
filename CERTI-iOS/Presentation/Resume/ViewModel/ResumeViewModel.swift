@@ -9,8 +9,20 @@ import Foundation
 
 import os
 
+enum ResumeViewRoute {
+    case navigateToCareerWrite
+    case navigateToActivityWirte
+    case navigateToCertificatedEdit
+    case navigateToCardDetail
+    case navigateToCareerEdit
+    case navigateToActivityEdit
+    
+    case resumeViewRoutePop
+}
+
 @MainActor
 final class ResumeViewModel: ObservableObject {
+    @Published var resumeViewRoute: ResumeViewRoute?
     @Published var careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
     @Published var myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
     @Published var certificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
@@ -82,6 +94,40 @@ final class ResumeViewModel: ObservableObject {
         isPeriodFilled = false
     }
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "resume")
+}
+
+
+// MARK: - Navigation Func
+
+extension ResumeViewModel {
+    
+    func navigateToCareerWrite() {
+        resumeViewRoute = .navigateToCareerWrite
+    }
+    
+    func navigateToActivityWirte() {
+        resumeViewRoute = .navigateToActivityWirte
+    }
+
+    func navigateToCertificatedEdit() {
+        resumeViewRoute = .navigateToCertificatedEdit
+    }
+    
+    func navigateToCardDetail() {
+        resumeViewRoute = .navigateToCardDetail
+    }
+    
+    func navigateToCareerEdit() {
+        resumeViewRoute = .navigateToCareerEdit
+    }
+    
+    func navigateToActivityEdit() {
+        resumeViewRoute = .navigateToActivityEdit
+    }
+    
+    func resumeViewRoutePop() {
+        resumeViewRoute = .resumeViewRoutePop
+    }
 }
 
 
