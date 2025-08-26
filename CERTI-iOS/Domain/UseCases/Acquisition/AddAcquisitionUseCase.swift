@@ -8,7 +8,7 @@
 import Foundation
 
  protocol AddAcquisitionUseCase {
-    func execute(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError>
+    func execute(certificationId: Int) async -> Result<Void, NetworkError>
 }
 
 final class DefaultAddAcquisitionUseCase: AddAcquisitionUseCase {
@@ -18,7 +18,7 @@ final class DefaultAddAcquisitionUseCase: AddAcquisitionUseCase {
         self.repository = repository
     }
     
-    func execute(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
+    func execute(certificationId: Int) async -> Result<Void, NetworkError> {
         return await repository.addAcquisition(certificationId: certificationId)
     }
 }
