@@ -20,6 +20,6 @@ final class DefaultAddAcquisitionUseCase: AddAcquisitionUseCase {
     
     func execute(certificationId: Int) async -> Result<Bool, NetworkError> {
         let result = await repository.addAcquisition(certificationId: certificationId)
-        return result.map { $0.data ?? false }
+        return result
     }
 }
