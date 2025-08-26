@@ -13,6 +13,14 @@ struct CareersListData: Decodable {
     let careerDetailResponseList: [Career]
 }
 
+extension CareersListData {
+    func toCareersListEntity() -> CareersListEntity {
+        return CareersListEntity(
+            list: careerDetailResponseList.map{ $0.toResumeEntityData() }
+        )
+    }
+}
+
 struct Career: Decodable, Identifiable {
     var id: Int { careerId }
     
@@ -31,14 +39,6 @@ struct Career: Decodable, Identifiable {
             name: name,
             place: place,
             description: description
-        )
-    }
-}
-
-extension CareersListData {
-    func toCareersListEntity() -> CareersListEntity {
-        return CareersListEntity(
-            list: careerDetailResponseList.map{ $0.toResumeEntityData() }
         )
     }
 }
