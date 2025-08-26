@@ -34,9 +34,9 @@ final class CertificateDetailViewModel: ObservableObject {
     
     private let homeService = AppDIContainer.shared.homeRepository
 
-    private let acquisitionService = AppDIContainer.shared.makeAcquisitionRepository()
+    private let acquisitionService = AppDIContainer.shared.acquisitionRepository
     
-    private let certificateService = AppDIContainer.shared.makeCertificationRepository()
+    private let certificateService = AppDIContainer.shared.certificationRepository
     
 //    private let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
     
@@ -45,8 +45,6 @@ final class CertificateDetailViewModel: ObservableObject {
 //    ) {
 //        self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
 //    }
-
-    private let acquisitionService = AppDIContainer.shared.acquisitionRepository
 }
 
 

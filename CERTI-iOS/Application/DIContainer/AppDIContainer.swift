@@ -99,28 +99,24 @@ extension AppDIContainer {
         return DefaultEditJobUseCase(repository: jobRepository)
     }
     
-    private var certificationRepositoryInstance: CertificationRepository {
-        return DefaultCertificationRepository(service: makeCertificationService())
-    }
-    
     func makeFetchCategoryUseCase() -> FetchCategoryUseCase {
-        return DefaultFetchCategoryUseCase(repository: certificationRepositoryInstance)
+        return DefaultFetchCategoryUseCase(repository: certificationRepository)
     }
     
     func makeSwitchFavoriteUseCase() -> SwitchFavoriteUseCase {
-        return DefaultSwitchFavoriteUseCase(repository: certificationRepositoryInstance)
+        return DefaultSwitchFavoriteUseCase(repository: certificationRepository)
     }
     
     func makeSearchCertificationUseCase() -> SearchCertificationUseCase {
-        return DefaultSearchCertificationUseCase(repository: certificationRepositoryInstance)
+        return DefaultSearchCertificationUseCase(repository: certificationRepository)
     }
     
     func makeFetchCertificationDetailUseCase() -> FetchCertificationDetailUseCase {
-        return DefaultFetchCertificationDetailUseCase(repository: certificationRepositoryInstance)
+        return DefaultFetchCertificationDetailUseCase(repository: certificationRepository)
     }
     
     func makeFetchRecommendUseCase() -> FetchRecommendUseCase {
-        return DefaultFetchRecommendUseCase(repository: certificationRepositoryInstance)
+        return DefaultFetchRecommendUseCase(repository: certificationRepository)
     }
 }
 
