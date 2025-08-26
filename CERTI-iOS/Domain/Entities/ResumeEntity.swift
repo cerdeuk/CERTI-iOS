@@ -9,7 +9,7 @@ import Foundation
 
 struct ActivityEntity {
     let data: ResumeEntityData
-
+    
     
     // MARK: - Func
     
