@@ -10,36 +10,68 @@ import SwiftUI
 struct OnboardingCoordinatorView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
     @ObservedObject var onboardingCoordinator: OnboardingCoordinator
-    @StateObject var viewModel = OnboardingViewModel()
+    
+    @StateObject private var onboardingViewModel: OnboardingViewModel
+    
+    private let onboardingFactory: OnboardingFactory
+
+    init(onboardingCoordinator: OnboardingCoordinator, onboardingFactory: OnboardingFactory) {
+        self.onboardingCoordinator = onboardingCoordinator
+        self.onboardingFactory = onboardingFactory
+        _onboardingViewModel = StateObject(wrappedValue: onboardingFactory.makeOnboardingViewModel())
+    }
     
     var body: some View {
         NavigationStack(path: $onboardingCoordinator.path) {
-            OnboardingUnivView(viewModel: viewModel)
+            OnboardingUnivView(viewModel: onboardingViewModel)
+                .onChange(of: onboardingViewModel.onboardingViewRoute) { route in
+                    guard let route = route else { return }
+                    switch route {
+                    case .navigateToGrade:
+                        onboardingCoordinator.push(next: .grade)
+                    case .navigateToTrack:
+                        onboardingCoordinator.push(next: .track)
+                    case .navigateToMajor:
+                        onboardingCoordinator.push(next: .major)
+                    case .navigateToJobCategory:
+                        onboardingCoordinator.push(next: .jobCategory)
+                    case .navigateToInfo:
+                        onboardingCoordinator.push(next: .info)
+                    case .onboardingViewRoutePop:
+                        onboardingCoordinator.pop()
+                    case .completeOnboarding:
+                        appCoordinator.completeOnboarding()
+                    case .onboardingViewRouteReset:
+                        onboardingCoordinator.reset()
+                    case .cancelOnboarding:
+                        appCoordinator.cancelOnboarding()
+                    }
+                    onboardingViewModel.onboardingViewRoute = nil
+                }
                 .navigationDestination(for: OnboardingRoute.self) { route in
                     switch route {
                     case .grade:
-                        OnboardingGradeView(selectedGrade: $viewModel.selectedGrade)
+                        OnboardingGradeView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
 
                     case .track:
-                        OnboardingTrackView(selectedtrack: $viewModel.selectedTrack)
+                        OnboardingTrackView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
 
                     case .major:
-                        OnboardingMajorView(viewModel: viewModel)
+                        OnboardingMajorView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
 
                     case .jobCategory:
-                        OnboardingJobCategoryView(selectedJobCategory: $viewModel.selectedJobCategory)
+                        OnboardingJobCategoryView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
 
                     case .info:
-                        OnboardingInfoView(viewModel: viewModel)
+                        OnboardingInfoView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
 
                     }
                 }
         }
-        .environmentObject(onboardingCoordinator)
     }
 }

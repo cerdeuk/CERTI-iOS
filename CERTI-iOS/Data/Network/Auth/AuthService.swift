@@ -9,13 +9,13 @@ import Foundation
 
 import Moya
 
-enum AuthResponse {
+enum AuthResponseDTO {
     case success(LoginSuccessResponseDTO)
     case needSignUp(SignupRequiredResponseDTO)
 }
 
 protocol AuthServiceProtocol {
-    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponse, NetworkError>
+    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponseDTO, NetworkError>
     func signUp(request: SignupRequestDTO, preSignUpToken: String) async -> Result<SignupSuccessResponseDTO, NetworkError>
     func withDraw() async -> Result<Void, NetworkError>
 }
@@ -32,7 +32,7 @@ final class AuthService: BaseService, AuthServiceProtocol {
         return await requestDecodable(provider, .signUp(request: request, preSignUpToken: preSignUpToken))
     }
     
-    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponse, NetworkError> {
+    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponseDTO, NetworkError> {
         let target = AuthAPI.login(type: type, code: authorizationCode)
         
         let rawResponse: Result<Response, MoyaError> = await withCheckedContinuation { continuation in

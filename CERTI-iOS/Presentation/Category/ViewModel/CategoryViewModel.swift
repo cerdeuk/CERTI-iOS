@@ -20,7 +20,7 @@ class CategoryViewModel: ObservableObject {
     @Published var searchResult: SearchResultType? = nil
     @Published var selectedCertificateId: Int = 0
     
-    private let categoryService = AppDIContainer.shared.makeCertificationRepository()
+    private let categoryService = AppDIContainer.shared.certificationRepository
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
     
     func toggleFavorite(id: Int) {

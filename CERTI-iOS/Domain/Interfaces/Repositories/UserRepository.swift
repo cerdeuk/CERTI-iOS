@@ -10,5 +10,5 @@ import Foundation
 import Moya
 
 protocol UserRepository {
-    func getuserInfo() async -> Result<UserInfoResponseDTO, NetworkError>
+    func getUserInfo() async -> Result<UserInfoEntity, NetworkError>
 }

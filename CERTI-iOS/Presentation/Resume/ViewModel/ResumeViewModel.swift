@@ -32,10 +32,10 @@ final class ResumeViewModel: ObservableObject {
     var isWriteButtonEnabled: Bool {
         !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.description.isBlank && isPeriodFilled
     }
-    private let jobService = AppDIContainer.shared.makeJobRepository()
-    private let acquisitionService = AppDIContainer.shared.makeAcquisitionRepository()
-    private let careersService = AppDIContainer.shared.makeCareersRepository()
-    private let activityService = AppDIContainer.shared.makeActivityRepository()
+    private let jobService = AppDIContainer.shared.jobRepository
+    private let acquisitionService = AppDIContainer.shared.acquisitionRepository
+    private let careersService = AppDIContainer.shared.careersRepository
+    private let activityService = AppDIContainer.shared.activityRepository
     
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     private let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
@@ -89,21 +89,21 @@ final class ResumeViewModel: ObservableObject {
 
 extension ResumeViewModel {
     func getJobList() async {
-        let result = await jobService.getFetchJob()
-        
-        switch result {
-        case .success(let response):
-            guard let data = response.data else {
-                logger.error("❌ getJobList: No data received")
-                return
-            }
-            
-            self.jobList = data.jobList
-            logger.debug("✅ getJobList success: \(data.jobList)")
-            
-        case .failure(let error):
-            logger.error("getJobList failed: \(error.localizedDescription)")
-        }
+//        let result = await jobService.getFetchJob()
+//        
+//        switch result {
+//        case .success(let response):
+//            guard let data = response.data else {
+//                logger.error("❌ getJobList: No data received")
+//                return
+//            }
+//            
+//            self.jobList = data.jobList
+//            logger.debug("✅ getJobList success: \(data.jobList)")
+//            
+//        case .failure(let error):
+//            logger.error("getJobList failed: \(error.localizedDescription)")
+//        }
     }
     
     func getAcquisitionList() async {

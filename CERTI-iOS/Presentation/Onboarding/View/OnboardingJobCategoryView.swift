@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct OnboardingJobCategoryView: View {
-    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
-    @Binding var selectedJobCategory: [String]
+    @ObservedObject var viewModel: OnboardingViewModel
 
     private let jobOptions = ["경영/사무", "마케팅/광고/홍보", "무역/유통", "IT/인터넷", "생산/제조", "영업/고객상담", "건설", "금융", "연구개발/설계", "디자인", "미디어", "전문/특수직"]
     
@@ -21,7 +20,7 @@ struct OnboardingJobCategoryView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             BackButton {
-                onboardingCoordinator.pop()
+                viewModel.onboardingViewRoutePop()
             }
             .padding(.bottom, 13)
             
@@ -46,21 +45,21 @@ struct OnboardingJobCategoryView: View {
             LazyVGrid(columns: columns, spacing: 14) {
                 ForEach(jobOptions, id: \.self) { job in
                     Button {
-                        if selectedJobCategory.contains(job) {
-                            selectedJobCategory.removeAll(where: { $0 == job })
-                        } else if selectedJobCategory.count < 3 {
-                            selectedJobCategory.append(job)
+                        if viewModel.selectedJobCategory.contains(job) {
+                            viewModel.selectedJobCategory.removeAll(where: { $0 == job })
+                        } else if viewModel.selectedJobCategory.count < 3 {
+                            viewModel.selectedJobCategory.append(job)
                         }
                     } label: {
                         Text(job)
-                            .applyCertiFont(selectedJobCategory.contains(job) ? .body_semibold_16 : .body_regular_16)
-                            .foregroundColor(selectedJobCategory.contains(job) ? .grayscale600 : .grayscale500)
+                            .applyCertiFont(viewModel.selectedJobCategory.contains(job) ? .body_semibold_16 : .body_regular_16)
+                            .foregroundColor(viewModel.selectedJobCategory.contains(job) ? .grayscale600 : .grayscale500)
                             .frame(maxWidth: .infinity, minHeight: 56)
-                            .background(selectedJobCategory.contains(job) ? .lightblue : .bluewhite)
+                            .background(viewModel.selectedJobCategory.contains(job) ? .lightblue : .bluewhite)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                             .overlay {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(selectedJobCategory.contains(job) ? .skyblue : .lightblue , lineWidth: 1)
+                                    .stroke(viewModel.selectedJobCategory.contains(job) ? .skyblue : .lightblue , lineWidth: 1)
                             }
                     }
                 }
@@ -71,16 +70,16 @@ struct OnboardingJobCategoryView: View {
             Spacer()
             
             Button {
-                onboardingCoordinator.push(next: .info)
+                viewModel.navigateToInfo()
             } label: {
                 Text("다음")
                     .applyCertiFont(.body_semibold_16)
-                    .foregroundColor(selectedJobCategory.isEmpty ? .grayscale400 : .white)
+                    .foregroundColor(viewModel.selectedJobCategory.isEmpty ? .grayscale400 : .white)
                     .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(selectedJobCategory.isEmpty ? .grayscale100 : .purpleblue)
+                    .background(viewModel.selectedJobCategory.isEmpty ? .grayscale100 : .purpleblue)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .disabled(selectedJobCategory.isEmpty)
+            .disabled(viewModel.selectedJobCategory.isEmpty)
             .padding(.horizontal, 20)
             .padding(.bottom, 22)
         }

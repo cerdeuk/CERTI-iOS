@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct OnboardingMajorView: View {
-    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
     @ObservedObject var viewModel: OnboardingViewModel
     
     @State private var majorListToggle: Bool = false
@@ -22,7 +21,7 @@ struct OnboardingMajorView: View {
         ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
                 BackButton {
-                    onboardingCoordinator.pop()
+                    viewModel.onboardingViewRoutePop()
                 }
                 .padding(.bottom, 13)
                 
@@ -90,7 +89,7 @@ struct OnboardingMajorView: View {
                     .ignoresSafeArea(edges: .bottom)
                 
                 Button {
-                    onboardingCoordinator.push(next: .jobCategory)
+                    viewModel.navigateToJobCategory()
                 } label: {
                     Text("다음")
                         .applyCertiFont(.body_semibold_16)
