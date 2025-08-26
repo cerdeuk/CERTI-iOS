@@ -22,9 +22,6 @@ enum ResumeViewRoute {
 @MainActor
 final class ResumeViewModel: ObservableObject {
     @Published var resumeViewRoute: ResumeViewRoute?
-    @Published var careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
-    @Published var myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
-    @Published var certificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
     @Published var jobList: [String] = []
     @Published var acquisitionList: [CertificatedModel] = []
     @Published var acquisitionDetail: CertificatedDetailModel? = nil
