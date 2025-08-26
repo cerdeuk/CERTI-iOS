@@ -11,6 +11,7 @@ struct RecommendCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
 
     @ObservedObject var recommendCoordinator: RecommendCoordinator
+    
     @StateObject var recommendViewModel: RecommendViewModel
     
     private let recommendFactory: RecommendFactory
@@ -24,9 +25,18 @@ struct RecommendCoordinatorView: View {
     var body: some View {
         NavigationStack(path: $recommendCoordinator.path) {
             RecommendView(viewModel: recommendViewModel)
+                .onChange(of: recommendViewModel.recommendViewRoute) { route in
+                    guard let route = route else { return }
+                    switch route {
+                    case .navigateToCertificateDetail:
+                        recommendCoordinator.push(next: .certificateDetail)
+                    case .recommendViewRoutePop: recommendCoordinator.pop()
+                    }
+                    recommendViewModel.recommendViewRoute = nil
+                }
                 .navigationDestination(for: RecommendRoute.self) { route in
                     switch route {
-                    case .detail:
+                    case .certificateDetail:
                         CertificateDetailView(certificationId: $recommendViewModel.selectedCertificateId, beforeViewType: BeforeViewType.recommend)
                     }
                 }

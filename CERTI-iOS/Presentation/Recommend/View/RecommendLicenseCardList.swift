@@ -30,9 +30,7 @@ struct RecommendLicenseCardList: View {
                         },
                                         onTapCard: {
                             viewModel.selectCertificate(id: item.id)
-                            Task { @MainActor in
-                                recommendCoordinator.push(next: .detail(id: item.id, beforeViewType: .recommend))
-                            }
+                            viewModel.navigateToCertificateDetail()
                         }
                         )
                     }
