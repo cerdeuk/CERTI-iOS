@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MyCareerEditView: View {
     @ObservedObject var viewModel: ResumeViewModel
+    
     @State var isDeleteAlertPresented = false
     @State var selectedCareersIndex : Int? = nil
     
