@@ -125,18 +125,18 @@ extension HomeViewModel {
     }
     
     func getRecommendCertificationList() async {
-        let result = await certificationRepository.getRecommend()
-        
-        switch result {
-        case .success(let response):
-            logger.info("✅ 추천 자격증 조회 성공")
-            
-            let list = response.data?.recommendationList.map { $0.toRecommendLicenseCardModel() } ?? []
-            homeStateModel.recommendLicenses = list
-            
-        case .failure(let error):
-            logger.error("❌ 추천 자격증 조회 실패: \(error.localizedDescription)")
-        }
+//        let result = await certificationRepository.getRecommend()
+//        
+//        switch result {
+//        case .success(let response):
+//            logger.info("✅ 추천 자격증 조회 성공")
+//            
+//            let list = response.data?.recommendationList.map { $0.toRecommendLicenseCardModel() } ?? []
+//            homeStateModel.recommendLicenses = list
+//            
+//        case .failure(let error):
+//            logger.error("❌ 추천 자격증 조회 실패: \(error.localizedDescription)")
+//        }
     }
     
     func fetchPreCertification() async {

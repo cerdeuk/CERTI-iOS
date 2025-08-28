@@ -24,7 +24,7 @@ struct RecommendView: View {
                 .padding(.horizontal, 20)
         }
         .sheet(isPresented: $viewModel.isFilterModalPresented) {
-            RecommendFilterModalView(selectedCategories: $viewModel.selectedCategories, viewModel: viewModel)
+            RecommendFilterModalView(selectedJobField: $viewModel.selectedJobField, viewModel: viewModel)
                 .presentationDetents([.height(523)])
                 .presentationCornerRadius(40)
                 .presentationDragIndicator(.hidden)
@@ -35,7 +35,7 @@ struct RecommendView: View {
                 await viewModel.getJobList()
             }
         }
-        .onChange(of: viewModel.selectedCategories, perform: { _ in
+        .onChange(of: viewModel.selectedJobField, perform: { _ in
             Task {
                 await viewModel.getRecommendCertificationList()
                 await viewModel.getJobList()

@@ -14,7 +14,7 @@ struct JobListData: Decodable {
 }
 
 extension JobListData {
-    func toEntity() -> JobEntity {
+    func toJobEntity() -> JobEntity {
         return JobEntity(jobs: jobList)
     }
 }

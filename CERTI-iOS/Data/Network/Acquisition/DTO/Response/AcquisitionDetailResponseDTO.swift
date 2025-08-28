@@ -7,8 +7,37 @@
 
 import Foundation
 
-typealias AcquisitionDetailResponseDTO = BaseResponseDTO<CertificatedDetailModel>
+typealias AcquisitionDetailResponseDTO = BaseResponseDTO<AcquisitionDetailInfo>
 
-struct AcquisitionDetailData: Decodable {
-    let getAcquisitionDetailResponses: CertificatedDetailModel
+struct AcquisitionDetailInfo: Decodable {
+    let acquisitionId: Int
+    let cardFrontImageUrl: String
+    let cardBackImageUrl: String
+    let index: Int
+    let name: String
+    let tags: [String]
+    let description: String
+    let createdAt: String
+    
+    
+    // MARK: - Func
+    
+    func toAcquisitionDetailEntityData() -> AcquisitionDetailEntityData {
+        return AcquisitionDetailEntityData(
+            acquisitionId: acquisitionId,
+            cardFrontImageUrl: cardFrontImageUrl,
+            cardBackImageUrl: cardBackImageUrl,
+            index: index,
+            name: name,
+            tags: tags,
+            description: description,
+            createdAt: createdAt
+        )
+    }
+    
+    func toAcquisitionDetailEntityList() -> AcquisitionDetailEntity {
+        return AcquisitionDetailEntity(
+            acquisitionDetail: self.toAcquisitionDetailEntityData()
+        )
+    }
 }

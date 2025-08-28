@@ -17,7 +17,7 @@ struct CertificationInfoResponseDTO: Decodable {
 }
 
 extension CertificationInfoResponseDTO {
-    func toEntity() -> PreCertificationEntityData {
+    func toPreCertificationEntityData() -> PreCertificationEntityData {
         return PreCertificationEntityData(
             id: certificationId,
             name: certificationName,

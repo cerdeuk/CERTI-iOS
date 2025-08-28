@@ -31,7 +31,7 @@ extension CertificationAPI: BaseTargetType {
             return "certification"
         case .switchFavorite(certificationId: let certificationId):
             return "certification/\(certificationId)/favorite"
-        case .searchCertification(keyword: let keyword):
+        case .searchCertification:
             return "certification/search"
         case .fetchCertificationDetail(certificationId: let certificationId):
             return "certification/\(certificationId)"

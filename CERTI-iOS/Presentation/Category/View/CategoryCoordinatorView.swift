@@ -11,7 +11,15 @@ struct CategoryCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
 
     @ObservedObject var categoryCoordinator: CategoryCoordinator
-    @StateObject var categoryViewModel = CategoryViewModel()
+    @StateObject var categoryViewModel: CategoryViewModel
+    
+    private let categoryFactory: CategoryFactory
+    
+    init(categoryCoordinator: CategoryCoordinator, categoryFactory: CategoryFactory) {
+        self.categoryCoordinator = categoryCoordinator
+        self.categoryFactory = categoryFactory
+        _categoryViewModel = StateObject(wrappedValue: categoryFactory.makeCategoryViewModel())
+    }
     
     var body: some View {
         NavigationStack(path: $categoryCoordinator.path) {
@@ -21,7 +29,7 @@ struct CategoryCoordinatorView: View {
                     case .search:
                         CategorySearchView(viewModel: categoryViewModel)
                     case .detail:
-                        CertificateDetailView(certificationId: $categoryViewModel.selectedCertificateId, beforeViewType: .category)
+                        CertificateDetailView(certificationId: $categoryViewModel.selectedCertificateId, beforeViewType: BeforeViewType.category)
                     }
                 }
         }

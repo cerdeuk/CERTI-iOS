@@ -21,7 +21,7 @@ final class DefaultJobRepository: JobRepository {
         let result = await service.getFetchJob()
         switch result {
         case .success(let dto):
-            guard let entity = dto.data?.toEntity() else {
+            guard let entity = dto.data?.toJobEntity() else {
                 return .failure(.decodingError)
             }
             return .success(entity)

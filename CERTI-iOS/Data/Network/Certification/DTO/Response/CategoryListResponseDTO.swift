@@ -10,5 +10,35 @@ import Foundation
 typealias CategoryListResponseDTO = BaseResponseDTO<CategoryListData>
 
 struct CategoryListData: Decodable {
-    let certificationSimpleList: [LicenseCardModel]
+    let certificationSimpleList: [CategoryCertificationInfo]
+}
+
+extension CategoryListData {
+    func toCertificationsEntity() -> CertificationsEntity {
+        return CertificationsEntity(
+            certifications: certificationSimpleList.map { $0.toCertificationsEntityData() }
+        )
+    }
+}
+
+struct CategoryCertificationInfo: Decodable {
+    let certificationId: Int
+    let certificationName: String
+    let certificationType: String
+    let tags: [String]
+    let testType: String
+    var isFavorite: Bool
+}
+
+extension CategoryCertificationInfo {
+    func toCertificationsEntityData() -> CertificationsEntityData {
+        return CertificationsEntityData(
+            certificationId: certificationId,
+            certificationName: certificationName,
+            certificationType: certificationType,
+            tags: tags,
+            testType: testType,
+            isFavorite: isFavorite
+        )
+    }
 }

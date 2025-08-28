@@ -16,7 +16,7 @@ struct PreCertificationData: Decodable {
 extension PreCertificationData {
     func toPreCertificationEntity() -> PreCertificationEntity {
         return PreCertificationEntity(
-            certifications: data.map { $0.toEntity() }
+            certifications: data.map { $0.toPreCertificationEntityData() }
         )
     }
 }

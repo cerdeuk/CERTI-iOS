@@ -63,7 +63,7 @@ extension AppDIContainer {
     func makeGetFavoritePreCertificationUseCase() -> GetFavoriteCertificationUseCase {
         return DefaultGetFavoriteCertificationUseCase(repository: homeRepository)
     }
-    
+
     func makeFetchUserInfoUseCase() -> FetchUserInfoUseCase {
         return DefaultFetchUserInfoUseCase(repository: userRepository)
     }
@@ -98,6 +98,66 @@ extension AppDIContainer {
     func makeEditJobUseCase() -> EditJobUseCase {
         return DefaultEditJobUseCase(repository: jobRepository)
     }
+  
+    func makeFetchCategoryUseCase() -> FetchCategoryUseCase {
+        return DefaultFetchCategoryUseCase(repository: certificationRepository)
+    }
+    
+    func makeSwitchFavoriteUseCase() -> SwitchFavoriteUseCase {
+        return DefaultSwitchFavoriteUseCase(repository: certificationRepository)
+    }
+    
+    func makeSearchCertificationUseCase() -> SearchCertificationUseCase {
+        return DefaultSearchCertificationUseCase(repository: certificationRepository)
+    }
+    
+    func makeFetchCertificationDetailUseCase() -> FetchCertificationDetailUseCase {
+        return DefaultFetchCertificationDetailUseCase(repository: certificationRepository)
+    }
+    
+    func makeFetchRecommendUseCase() -> FetchRecommendUseCase {
+        return DefaultFetchRecommendUseCase(repository: certificationRepository)
+    }
+  
+    func makeFetchAcquisitionListUseCase() -> FetchAcquisitionListUseCase {
+        return DefaultFetchAcquisitionListUseCase(repository: acquisitionRepository)
+    }
+    
+    func makeFetchAcquisitionDetailUseCase() -> FetchAcquisitionDetailUseCase {
+        return DefaultFetchAcquisitionDetailUseCase(repository: acquisitionRepository)
+    }
+    
+    func makeAddAcquisitionUseCase() -> AddAcquisitionUseCase {
+        return DefaultAddAcquisitionUseCase(repository: acquisitionRepository)
+    }
+    
+    func makeDeleteAcquisitionUseCase() -> DeleteAcquisitionUseCase {
+        return DefaultDeleteAcquisitionUseCase(repository: acquisitionRepository)
+    }
+    
+    func makeAddCareersUseCase() -> AddCareersUseCase {
+        return DefaultAddCareersUseCase(repository: careersRepository)
+    }
+    
+    func makeDeleteCareersUseCase() -> DeleteCareersUseCase {
+        return DefaultDeleteCareersUseCase(repository: careersRepository)
+    }
+    
+    func makeFetchCareersListUseCase() -> FetchCareersListUseCase {
+        return DefaultFetchCareersListUseCase(repository: careersRepository)
+    }
+    
+    func makeAddActivityUseCase() -> AddActivityUseCase {
+        return DefaultAddActivityUseCase(repository: activityRepository)
+    }
+    
+    func makeDeleteActivityUseCase() -> DeleteActivityUseCase {
+        return DefaultDeleteActivityUseCase(repository: activityRepository)
+    }
+    
+    func makeFetchActivityListUseCase() -> FetchActivityListUseCase {
+        return DefaultFetchActivityListUseCase(repository: activityRepository)
+    }
 }
 
 
@@ -123,4 +183,40 @@ extension AppDIContainer {
         )
     }
     
+    func makeRecommendFactory() -> RecommendFactory {
+        return DefaultRecommendFactory(
+            fetchRecommendUseCase: makeFetchRecommendUseCase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            fetchJobUseCase: makeFetchJobUseCase(),
+            editJobUseCase: makeEditJobUseCase()
+        )
+    }
+    
+    func makeCategoryFactory() -> CategoryFactory {
+        return DefaultCategoryFactory(
+            fetchCategoryUseCase: makeFetchCategoryUseCase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            searchCertificationUseCase: makeSearchCertificationUseCase()
+        )
+    }
+    
+//    func makeCertificateDetailFactory() -> CertificateDetailFactory {
+//        return DefaultCertificationDetailFactory(
+//          fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase()
+//        )
+//    }
+  
+    func makeResumeFactory() -> ResumeFactory {
+        return DefaultResumeFactory(
+            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
+            fetchAcquisitionDetailUseCase: makeFetchAcquisitionDetailUseCase(),
+            deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
+            addCareersUseCase: makeAddCareersUseCase(),
+            deleteCareersUseCase: makeDeleteCareersUseCase(),
+            fetchCareersListUseCase: makeFetchCareersListUseCase(),
+            addActivityUseCase: makeAddActivityUseCase(),
+            deleteActivityUseCase: makeDeleteActivityUseCase(),
+            fetchActivityListUseCase: makeFetchActivityListUseCase()
+        )
+    }
 }
