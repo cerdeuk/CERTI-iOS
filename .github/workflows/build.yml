@@ -1,0 +1,64 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: Build Test
+
+# develop 브랜치에 push 되면 실행
+on:
+  push:
+    branches: [ "develop" ]
+
+# 최신 push에 관한 CI 작업만 수행
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build iOS Project
+    runs-on: macos-15
+
+    env:
+      SECRET_XCCONFIG_PATH: Config.xcconfig
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 🔧 Xcode Version 세팅
+    - name: Set Xcode version
+      run: sudo xcode-select -s /Applications/Xcode_16.4.app
+
+    # 🔧 경로 생성
+    - name: Create directory for Config.xcconfig
+      run: mkdir -p $(dirname "${{ env.SECRET_XCCONFIG_PATH }}")
+
+    # 🔐 Secret에서 config 파일 생성
+    - name: Generate Config.xcconfig from secret
+      run: |
+        echo "${{ secrets.CONFIG_XCCONFIG }}" > "${{ env.SECRET_XCCONFIG_PATH }}"
+
+    # 🛠️ Simulator 빌드 (codesign 없이)
+    - name: Build project on iPhone SE 3rd gen
+      run: |
+        xcodebuild clean build \
+          -project CERTI-iOS.xcodeproj \
+          -scheme CERTI-iOS \
+          -sdk iphonesimulator \
+          -destination 'platform=iOS Simulator,name=iPhone SE (3rd generation)' \
+          CODE_SIGNING_ALLOWED=NO
+
+    # 🔔 Discord 알림 (이모지 포함)
+    - name: Send Discord notification
+      if: always() # 성공이든 실패든 항상 실행
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          STATUS="✅ develop 브랜치 Build Succeeded"
+        else
+          STATUS="❌ develop 브랜치 Build Failed"
+        fi
+        PAYLOAD=$(jq -n --arg content "$STATUS for ${{ github.repository }} on branch ${{ github.ref_name }}" '{content: $content}')
+        curl -H "Content-Type: application/json" \
+             -X POST \
+             -d "$PAYLOAD" \
+             ${{ secrets.DISCORD_WEBHOOK_URL }}
