@@ -9,8 +9,15 @@ import SwiftUI
 
 import os
 
+enum RecommendViewRoute {
+    case navigateToCertificateDetail
+    
+    case recommendViewRoutePop
+}
+
 @MainActor
-class RecommendViewModel: ObservableObject {
+final class RecommendViewModel: ObservableObject {
+    @Published var recommendViewRoute: RecommendViewRoute?
     @Published var licenseCards: [LicenseCardModel] = []
     @Published var selectedJobField: [String] = []
     @Published var isFilterModalPresented = false
@@ -21,19 +28,6 @@ class RecommendViewModel: ObservableObject {
 
     var interestTags: [String] {
         selectedJobField.map(\.description)
-    }
-    
-    func toggleFavorite(id: Int) {
-        guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
-        licenseCards[index].isFavorite.toggle()
-    }
-    
-    func selectCertificate(id: Int) {
-        selectedCertificateId = id
-    }
-    
-    func toggleLoadingState() {
-        isShowLoading.toggle()
     }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Recommend")
@@ -57,9 +51,24 @@ class RecommendViewModel: ObservableObject {
 }
 
 
+// MARK: - Navigation Func
+
+extension RecommendViewModel {
+    
+    func navigateToCertificateDetail() {
+        recommendViewRoute = .navigateToCertificateDetail
+    }
+    
+    func recommendViewRoutePop() {
+        recommendViewRoute = .recommendViewRoutePop
+    }
+}
+
+
 //MARK: - Network
 
 extension RecommendViewModel {
+    
     func getRecommendCertificationList() async {
         let result = await fetchRecommendUseCase.execute()
         
@@ -110,5 +119,23 @@ extension RecommendViewModel {
         case .failure(let error):
             logger.error("editJob failed: \(error.localizedDescription)")
         }
+    }
+}
+
+
+// MARK: - Func
+
+extension RecommendViewModel {
+    func toggleFavorite(id: Int) {
+        guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
+        licenseCards[index].isFavorite.toggle()
+    }
+    
+    func selectCertificate(id: Int) {
+        selectedCertificateId = id
+    }
+    
+    func toggleLoadingState() {
+        isShowLoading.toggle()
     }
 }

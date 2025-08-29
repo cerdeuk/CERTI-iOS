@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RecommendView: View {
-    @EnvironmentObject var recommendCoordinator: RecommendCoordinator
     @ObservedObject var viewModel: RecommendViewModel
     
     var body: some View {

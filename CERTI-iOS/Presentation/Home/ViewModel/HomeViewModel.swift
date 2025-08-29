@@ -38,7 +38,6 @@ final class HomeViewModel: ObservableObject {
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "HOME")
     
-    private let addPreCertificationUseCase: AddPreCertificationUseCase
     private let deletePreCertificationUseCase: DeletePreCertificationUseCase
     private let getPreCertificationsUseCase: GetPreCertificationUseCase
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
@@ -48,7 +47,6 @@ final class HomeViewModel: ObservableObject {
     private let fetchRecommendUseCase: FetchRecommendUseCase
     
     init(
-        addPreCertificationUseCase: AddPreCertificationUseCase,
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
         getPreCertificationsUseCase: GetPreCertificationUseCase,
         getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
@@ -57,7 +55,6 @@ final class HomeViewModel: ObservableObject {
         switchFavoriteUseCase: SwitchFavoriteUseCase,
         fetchRecommendUseCase: FetchRecommendUseCase
     ) {
-        self.addPreCertificationUseCase = addPreCertificationUseCase
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
         self.getPreCertificationsUseCase = getPreCertificationsUseCase
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase

@@ -14,7 +14,6 @@ enum SearchResultType {
 }
 
 struct CategorySearchView: View {
-    @EnvironmentObject var categoryCoordinator: CategoryCoordinator
     @ObservedObject var viewModel: CategoryViewModel
     
     var body: some View {
@@ -27,7 +26,7 @@ struct CategorySearchView: View {
             
             VStack(spacing: 0) {
                 BackButton {
-                    categoryCoordinator.pop()
+                    viewModel.categoryViewRoutePop()
                 }
                 .padding(.bottom, 12)
                 

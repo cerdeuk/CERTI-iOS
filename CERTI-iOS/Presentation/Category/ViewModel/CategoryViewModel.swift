@@ -9,9 +9,16 @@ import Foundation
 
 import os
 
-@MainActor
-class CategoryViewModel: ObservableObject {
+enum CategoryViewRoute {
+    case navigateToSearch
+    case navigateToCertificateDetail
     
+    case categoryViewRoutePop
+}
+
+@MainActor
+final class CategoryViewModel: ObservableObject {
+    @Published var categoryViewRoute: CategoryViewRoute?
     @Published var licenseCards: [LicenseCardModel] = []
     @Published var searchLicenseCards: [LicenseCardModel] = []
     @Published var isFilterToggle = false
@@ -22,22 +29,8 @@ class CategoryViewModel: ObservableObject {
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Certification")
     
-    func toggleFavorite(id: Int) {
-        guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
-        licenseCards[index].isFavorite.toggle()
-    }
-    
-    func toggleSearchFavorite(id: Int) {
-        guard let index = searchLicenseCards.firstIndex(where: { $0.id == id }) else { return }
-        searchLicenseCards[index].isFavorite.toggle()
-    }
-    
     var trimmedInput: String {
         inputText.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-    
-    func selectCertificate(id: Int) {
-        selectedCertificateId = id
     }
     
     private let fetchCategoryUseCase: FetchCategoryUseCase
@@ -52,6 +45,24 @@ class CategoryViewModel: ObservableObject {
         self.fetchCategoryUseCase = fetchCategoryUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
         self.searchCertificationUseCase = searchCertificationUseCase
+    }
+}
+
+
+// MARK: - Navigation Func
+
+extension CategoryViewModel {
+    
+    func navigateToSearch() {
+        categoryViewRoute = .navigateToSearch
+    }
+    
+    func navigateToCertificateDetail() {
+        categoryViewRoute = .navigateToCertificateDetail
+    }
+    
+    func categoryViewRoutePop() {
+        categoryViewRoute = .categoryViewRoutePop
     }
 }
 
@@ -98,5 +109,24 @@ extension CategoryViewModel {
         case .failure(let error):
             logger.error("searchCertifiedList failed: \(error.localizedDescription)")
         }
+    }
+}
+
+
+// MARK: - Func
+
+extension CategoryViewModel {
+    func toggleFavorite(id: Int) {
+        guard let index = licenseCards.firstIndex(where: { $0.id == id }) else { return }
+        licenseCards[index].isFavorite.toggle()
+    }
+    
+    func toggleSearchFavorite(id: Int) {
+        guard let index = searchLicenseCards.firstIndex(where: { $0.id == id }) else { return }
+        searchLicenseCards[index].isFavorite.toggle()
+    }
+    
+    func selectCertificate(id: Int) {
+        selectedCertificateId = id
     }
 }

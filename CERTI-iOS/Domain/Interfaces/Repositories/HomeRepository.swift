@@ -11,5 +11,5 @@ protocol HomeRepository {
     func getPreCertification() async -> Result<PreCertificationEntity, NetworkError>
     func deletePreCertification(id: Int) async -> Result<Void, NetworkError>
     func getFavoriteCertification() async -> Result<FavoriteCertificationEntity, NetworkError>
-    func addPreCertification(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError>
+    func addPreCertification(certificationId: Int) async -> Result<AppendPreCertificationStatus, NetworkError>
 }

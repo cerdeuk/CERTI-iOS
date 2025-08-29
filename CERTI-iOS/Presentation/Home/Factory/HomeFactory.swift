@@ -12,7 +12,6 @@ protocol HomeFactory {
 }
 
 final class DefaultHomeFactory: HomeFactory {
-    let addPreUseCase: AddPreCertificationUseCase
     let deletePreUseCase: DeletePreCertificationUseCase
     let getPreUseCase: GetPreCertificationUseCase
     let getFavoriteUseCase: GetFavoriteCertificationUseCase
@@ -22,7 +21,6 @@ final class DefaultHomeFactory: HomeFactory {
     let fetchRecommendUseCase: FetchRecommendUseCase
 
     init(
-        addPreUseCase: AddPreCertificationUseCase,
         deletePreUseCase: DeletePreCertificationUseCase,
         getPreUseCase: GetPreCertificationUseCase,
         getFavoriteUseCase: GetFavoriteCertificationUseCase,
@@ -31,7 +29,6 @@ final class DefaultHomeFactory: HomeFactory {
         switchFavoriteUseCase: SwitchFavoriteUseCase,
         fetchRecommendUseCase: FetchRecommendUseCase
     ) {
-        self.addPreUseCase = addPreUseCase
         self.deletePreUseCase = deletePreUseCase
         self.getPreUseCase = getPreUseCase
         self.getFavoriteUseCase = getFavoriteUseCase
@@ -44,7 +41,6 @@ final class DefaultHomeFactory: HomeFactory {
     @MainActor
     func makeHomeViewModel() -> HomeViewModel {
         HomeViewModel(
-            addPreCertificationUseCase: addPreUseCase,
             deletePreCertificationUseCase: deletePreUseCase,
             getPreCertificationsUseCase: getPreUseCase,
             getFavoriteCertificationsUseCase: getFavoriteUseCase,

@@ -22,11 +22,11 @@ struct CertiTabBarCoordinatorView: View {
             Group {
                 switch tabCoordinator.selectedTab {
                 case .home:
-                    HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator, homeFactory: appDIContainer.makeHomeFactory())
+                    HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator, homeFactory: appDIContainer.makeHomeFactory(), certificateDetailFactory: appDIContainer.makeCertificateDetailFactory())
                 case .category:
-                    CategoryCoordinatorView(categoryCoordinator: tabCoordinator.categoryCoordinator, categoryFactory: appDIContainer.makeCategoryFactory())
+                    CategoryCoordinatorView(categoryCoordinator: tabCoordinator.categoryCoordinator, categoryFactory: appDIContainer.makeCategoryFactory(), certificateDetailFactory: appDIContainer.makeCertificateDetailFactory())
                 case .recommend:
-                    RecommendCoordinatorView(recommendCoordinator: tabCoordinator.recommendCoordinator, recommendFactory: appDIContainer.makeRecommendFactory())
+                    RecommendCoordinatorView(recommendCoordinator: tabCoordinator.recommendCoordinator, recommendFactory: appDIContainer.makeRecommendFactory(), certificateDetailFactory: appDIContainer.makeCertificateDetailFactory())
                 case .resume:
                     ResumeCoordinatorView(resumeCoordinator: tabCoordinator.resumeCoordinator, resumeFactory: appDIContainer.makeResumeFactory())
                 }

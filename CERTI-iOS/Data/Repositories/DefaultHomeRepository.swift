@@ -9,6 +9,12 @@ import Foundation
 
 import Moya
 
+enum AppendPreCertificationStatus: Equatable {
+    case conflictError        // 상태코드 409
+    case duplicationError     // data == false
+    case success        // data == true
+}
+
 final class DefaultHomeRepository: HomeRepository {
     
     private let service: HomeServiceProtocol
@@ -47,7 +53,23 @@ final class DefaultHomeRepository: HomeRepository {
         }
     }
 
-    func addPreCertification(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
-        return await service.addPreCertification(certificationId: certificationId)
+    func addPreCertification(certificationId: Int) async -> Result<AppendPreCertificationStatus, NetworkError> {
+        let result = await service.addPreCertification(certificationId: certificationId)
+        switch result {
+        case .success(let response):
+            if response.status == 409 {
+                return .success(.conflictError)
+            }
+            guard let data = response.data else {
+                return .failure(.decodingError)
+            }
+            if data {
+                return .success(.success)
+            } else {
+                return .success(.duplicationError)
+            }
+        case .failure(let error):
+            return .failure(error)
+        }
     }
 }

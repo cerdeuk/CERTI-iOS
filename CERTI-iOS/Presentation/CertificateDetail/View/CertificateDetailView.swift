@@ -7,21 +7,12 @@
 
 import SwiftUI
 
-enum BeforeViewType {
-    case home
-    case category
-    case recommend
-}
-
 struct CertificateDetailView: View {
-    @EnvironmentObject var recommendCoordinator: RecommendCoordinator
-    @EnvironmentObject var homeCoordinator: HomeCoordinator
-    @EnvironmentObject var categoryCoordinator: CategoryCoordinator
-    
-    @StateObject var viewModel = CertificateDetailViewModel()
+    @ObservedObject var viewModel: CertificateDetailViewModel
 
     @Binding var certificationId: Int
-    let beforeViewType: BeforeViewType
+    
+    let onBack: () -> Void
     
     @State private var opacity: Double = 1.0
     
@@ -31,7 +22,7 @@ struct CertificateDetailView: View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
                 BackButton {
-                    handleBack()
+                    onBack()
                 }
                 
                 ScrollView {
@@ -318,7 +309,7 @@ struct CertificateDetailView: View {
     private var ToBeAcquiredButton: some View {
         Button {
             Task {
-                await viewModel.appendPreCertification(certification: certificationId)
+                await viewModel.appendPreCertification(certificationId: certificationId)
             }
         } label: {
             ZStack {
@@ -343,7 +334,7 @@ struct CertificateDetailView: View {
     private var AcquiredButton: some View {
         Button {
             Task {
-                await viewModel.appendAcquisition(certification: certificationId)
+                await viewModel.appendAcquisition(certificationId: certificationId)
             }
         } label: {
             ZStack {
@@ -359,16 +350,5 @@ struct CertificateDetailView: View {
             .padding(.horizontal, 20)
         }
         .padding(.bottom, 12)
-    }
-    
-    private func handleBack() {
-        switch beforeViewType {
-        case .home:
-            homeCoordinator.pop()
-        case .category:
-            categoryCoordinator.pop()
-        case .recommend:
-            recommendCoordinator.pop()
-        }
     }
 }
