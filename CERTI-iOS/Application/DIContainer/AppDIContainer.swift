@@ -167,7 +167,6 @@ extension AppDIContainer {
     
     func makeHomeFactory() -> HomeFactory {
         return DefaultHomeFactory(
-            addPreUseCase: makeAddPreCertificationUseCase(),
             deletePreUseCase: makeDeletePreCertificationUseCase(),
             getPreUseCase: makeGetPreCertificationUseCase(),
             getFavoriteUseCase: makeGetFavoritePreCertificationUseCase(),
