@@ -32,15 +32,6 @@ struct RecommendCertification: Decodable {
 }
 
 extension RecommendCertification {
-    func toRecommendCertificationEntity() -> RecommendCertificationEntity {
-        return RecommendCertificationEntity(
-            id: certificationId,
-            licenseName: certificationName,
-            recommendScore: recommendationScore,
-            tagChip: tags
-        )
-    }
-    
     func toCertificationsEntityData() -> CertificationsEntityData {
         return CertificationsEntityData(
             certificationId: certificationId,
@@ -48,7 +39,8 @@ extension RecommendCertification {
             certificationType: certificationType,
             tags: tags,
             testType: testType,
-            isFavorite: isFavorite
+            isFavorite: isFavorite,
+            recommendScore: recommendationScore
         )
     }
 }

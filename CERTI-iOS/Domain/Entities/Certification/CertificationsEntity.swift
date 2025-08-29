@@ -20,6 +20,10 @@ struct CertificationsEntity {
     func toLicenseCardModelList() -> [LicenseCardModel] {
         return certifications.map { $0.toLicenseCardModel() }
     }
+    
+    func toRecommendLicenseCardModelList() -> [RecommendLicenseCardModel] {
+        return certifications.map { $0.toRecommendLicenseCardModel() }
+    }
 }
 
 struct CertificationsEntityData {
@@ -29,14 +33,16 @@ struct CertificationsEntityData {
     let tags: [String]
     let testType: String
     let isFavorite: Bool
+    let recommendScore: Int?
     
-    init(certificationId: Int, certificationName: String, certificationType: String, tags: [String], testType: String, isFavorite: Bool) {
+    init(certificationId: Int, certificationName: String, certificationType: String, tags: [String], testType: String, isFavorite: Bool, recommendScore: Int?) {
         self.certificationId = certificationId
         self.certificationName = certificationName
         self.certificationType = certificationType
         self.tags = tags
         self.testType = testType
         self.isFavorite = isFavorite
+        self.recommendScore = recommendScore
     }
     
     
@@ -50,6 +56,15 @@ struct CertificationsEntityData {
             tags: tags,
             testType: testType,
             isFavorite: isFavorite
+        )
+    }
+    
+    func toRecommendLicenseCardModel() -> RecommendLicenseCardModel {
+        return RecommendLicenseCardModel(
+            id: certificationId,
+            licenseName: certificationName,
+            recommendScore: recommendScore ?? 0,
+            tagChip: tags
         )
     }
 }

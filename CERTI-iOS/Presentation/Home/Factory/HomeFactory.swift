@@ -18,6 +18,8 @@ final class DefaultHomeFactory: HomeFactory {
     let getFavoriteUseCase: GetFavoriteCertificationUseCase
     let fetchUserInfoUseCase: FetchUserInfoUseCase
     let withDrawUseCase: WithDrawUseCase
+    let switchFavoriteUseCase: SwitchFavoriteUseCase
+    let fetchRecommendUseCase: FetchRecommendUseCase
 
     init(
         addPreUseCase: AddPreCertificationUseCase,
@@ -25,7 +27,9 @@ final class DefaultHomeFactory: HomeFactory {
         getPreUseCase: GetPreCertificationUseCase,
         getFavoriteUseCase: GetFavoriteCertificationUseCase,
         fetchUserInfoUseCase: FetchUserInfoUseCase,
-        withDrawUseCase: WithDrawUseCase
+        withDrawUseCase: WithDrawUseCase,
+        switchFavoriteUseCase: SwitchFavoriteUseCase,
+        fetchRecommendUseCase: FetchRecommendUseCase
     ) {
         self.addPreUseCase = addPreUseCase
         self.deletePreUseCase = deletePreUseCase
@@ -33,6 +37,8 @@ final class DefaultHomeFactory: HomeFactory {
         self.getFavoriteUseCase = getFavoriteUseCase
         self.fetchUserInfoUseCase = fetchUserInfoUseCase
         self.withDrawUseCase = withDrawUseCase
+        self.switchFavoriteUseCase = switchFavoriteUseCase
+        self.fetchRecommendUseCase = fetchRecommendUseCase
     }
 
     @MainActor
@@ -43,7 +49,9 @@ final class DefaultHomeFactory: HomeFactory {
             getPreCertificationsUseCase: getPreUseCase,
             getFavoriteCertificationsUseCase: getFavoriteUseCase,
             fetchUserInfoUseCase: fetchUserInfoUseCase,
-            withDrawUseCase: withDrawUseCase
+            withDrawUseCase: withDrawUseCase,
+            switchFavoriteUseCase: switchFavoriteUseCase,
+            fetchRecommendUseCase: fetchRecommendUseCase
         )
     }
 }
