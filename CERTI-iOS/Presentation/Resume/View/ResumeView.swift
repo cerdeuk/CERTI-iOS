@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ResumeView: View {
-    @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     @State private var selectedCard: CertificatedDetailModel? = nil
 
@@ -139,7 +138,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                resumeCoordinator.push(next: .myCertificateEdit)
+                viewModel.navigateToCertificatedEdit()
             } label: {
                 Image(.iconArrowright36)
             }
@@ -204,7 +203,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                resumeCoordinator.push(next: .myCareerEdit)
+                viewModel.navigateToCareerEdit()
             } label: {
                 Image(.iconArrowright36)
             }
@@ -265,7 +264,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                resumeCoordinator.push(next: .myExtracurricularActivityEditView)
+                viewModel.navigateToActivityEdit()
             } label: {
                 Image(.iconArrowright36)
             }

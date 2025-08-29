@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MyExtracurricularActivityEditView: View {
-    @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     @State var isDeleteAlertPresented = false
     @State var selectedActivityIndex : Int? = nil
@@ -20,13 +19,13 @@ struct MyExtracurricularActivityEditView: View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
                 BackButton {
-                    resumeCoordinator.pop()
+                    viewModel.resumeViewRoutePop()
                 }
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
                         Button {
-                            resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
+                            viewModel.navigateToActivityWrite()
                         } label: {
                             HStack(alignment: .center, spacing: 0) {
                                 Image(.iconPlus)

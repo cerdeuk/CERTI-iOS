@@ -10,14 +10,14 @@ import Foundation
 import Moya
 
 protocol JobsServiceProtocol {
-    func getFetchJob() async -> Result<JobListResponseDTO, NetworkError>
+    func fetchJob() async -> Result<JobListResponseDTO, NetworkError>
     func editJob(jobNameList: EditJobRequestDTO) async -> Result<Void, NetworkError>
 }
 
 final class JobService: BaseService, JobsServiceProtocol {
     private let provider = MoyaProvider<JobAPI>.init(plugins: [MoyaPlugin()])
 
-    func getFetchJob() async -> Result<JobListResponseDTO, NetworkError> {
+    func fetchJob() async -> Result<JobListResponseDTO, NetworkError> {
         return await requestDecodable(provider, .fetchJob)
     }
     func editJob(jobNameList: EditJobRequestDTO) async -> Result<Void, NetworkError> {

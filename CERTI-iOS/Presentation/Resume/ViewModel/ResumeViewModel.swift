@@ -9,11 +9,19 @@ import Foundation
 
 import os
 
+enum ResumeViewRoute {
+    case navigateToCareerWrite
+    case navigateToActivityWrite
+    case navigateToCertificatedEdit
+    case navigateToCareerEdit
+    case navigateToActivityEdit
+    
+    case resumeViewRoutePop
+}
+
 @MainActor
 final class ResumeViewModel: ObservableObject {
-    @Published var careerDummy: [ResumeModel] = ResumeModel.myCareerDummy()
-    @Published var myExtracurricularActivityModelDummy: [ResumeModel] = ResumeModel.myExtracurricularActivityDummy()
-    @Published var certificatedDummy: [CertificatedModel] = CertificatedModel.dummy()
+    @Published var resumeViewRoute: ResumeViewRoute?
     @Published var jobList: [String] = []
     @Published var acquisitionList: [CertificatedModel] = []
     @Published var acquisitionDetail: CertificatedDetailModel? = nil
@@ -32,10 +40,8 @@ final class ResumeViewModel: ObservableObject {
     var isWriteButtonEnabled: Bool {
         !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.description.isBlank && isPeriodFilled
     }
-    private let jobService = AppDIContainer.shared.jobRepository
-    private let acquisitionService = AppDIContainer.shared.acquisitionRepository
-    private let careersService = AppDIContainer.shared.careersRepository
-    private let activityService = AppDIContainer.shared.activityRepository
+    
+    private let fetchJobUseCase: FetchJobUseCase
     
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     private let fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase
@@ -50,6 +56,7 @@ final class ResumeViewModel: ObservableObject {
     private let fetchActivityListUseCase: FetchActivityListUseCase
     
     init(
+        fetchJobUseCase: FetchJobUseCase,
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
         deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
@@ -60,6 +67,7 @@ final class ResumeViewModel: ObservableObject {
         deleteActivityUseCase: DeleteActivityUseCase,
         fetchActivityListUseCase: FetchActivityListUseCase
     ) {
+        self.fetchJobUseCase = fetchJobUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
         self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
@@ -85,25 +93,50 @@ final class ResumeViewModel: ObservableObject {
 }
 
 
+// MARK: - Navigation Func
+
+extension ResumeViewModel {
+    
+    func navigateToCareerWrite() {
+        resumeViewRoute = .navigateToCareerWrite
+    }
+    
+    func navigateToActivityWrite() {
+        resumeViewRoute = .navigateToActivityWrite
+    }
+
+    func navigateToCertificatedEdit() {
+        resumeViewRoute = .navigateToCertificatedEdit
+    }
+    
+    func navigateToCareerEdit() {
+        resumeViewRoute = .navigateToCareerEdit
+    }
+    
+    func navigateToActivityEdit() {
+        resumeViewRoute = .navigateToActivityEdit
+    }
+    
+    func resumeViewRoutePop() {
+        resumeViewRoute = .resumeViewRoutePop
+    }
+}
+
+
 // MARK: - Network
 
 extension ResumeViewModel {
     func getJobList() async {
-//        let result = await jobService.getFetchJob()
-//        
-//        switch result {
-//        case .success(let response):
-//            guard let data = response.data else {
-//                logger.error("❌ getJobList: No data received")
-//                return
-//            }
-//            
-//            self.jobList = data.jobList
-//            logger.debug("✅ getJobList success: \(data.jobList)")
-//            
-//        case .failure(let error):
-//            logger.error("getJobList failed: \(error.localizedDescription)")
-//        }
+        let result = await fetchJobUseCase.execute()
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ 희망직무 조회 성공")
+            self.jobList = response.toJobListModel().jobList
+            
+        case .failure(let error):
+            logger.error("❌ 희망직무 조회 실패: \(error.localizedDescription)")
+        }
     }
     
     func getAcquisitionList() async {

@@ -44,6 +44,8 @@ final class HomeViewModel: ObservableObject {
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
     private let fetchUserInfoUseCase: FetchUserInfoUseCase
     private let withDrawUseCase: WithDrawUseCase
+    private let switchFavoriteUseCase: SwitchFavoriteUseCase
+    private let fetchRecommendUseCase: FetchRecommendUseCase
     
     init(
         addPreCertificationUseCase: AddPreCertificationUseCase,
@@ -51,7 +53,9 @@ final class HomeViewModel: ObservableObject {
         getPreCertificationsUseCase: GetPreCertificationUseCase,
         getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
         fetchUserInfoUseCase: FetchUserInfoUseCase,
-        withDrawUseCase: WithDrawUseCase
+        withDrawUseCase: WithDrawUseCase,
+        switchFavoriteUseCase: SwitchFavoriteUseCase,
+        fetchRecommendUseCase: FetchRecommendUseCase
     ) {
         self.addPreCertificationUseCase = addPreCertificationUseCase
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
@@ -59,11 +63,9 @@ final class HomeViewModel: ObservableObject {
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
         self.fetchUserInfoUseCase = fetchUserInfoUseCase
         self.withDrawUseCase = withDrawUseCase
+        self.switchFavoriteUseCase = switchFavoriteUseCase
+        self.fetchRecommendUseCase = fetchRecommendUseCase
     }
-    
-    
-    // Usecase 다 만들어지면 레포지터리는 다 지워야함
-    private let certificationRepository = AppDIContainer.shared.certificationRepository
 
 }
 
@@ -125,18 +127,18 @@ extension HomeViewModel {
     }
     
     func getRecommendCertificationList() async {
-//        let result = await certificationRepository.getRecommend()
-//        
-//        switch result {
-//        case .success(let response):
-//            logger.info("✅ 추천 자격증 조회 성공")
-//            
-//            let list = response.data?.recommendationList.map { $0.toRecommendLicenseCardModel() } ?? []
-//            homeStateModel.recommendLicenses = list
-//            
-//        case .failure(let error):
-//            logger.error("❌ 추천 자격증 조회 실패: \(error.localizedDescription)")
-//        }
+        let result = await fetchRecommendUseCase.execute()
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ 추천 자격증 조회 성공")
+            
+            let list = response.toRecommendLicenseCardModelList()
+            homeStateModel.recommendLicenses = list
+            
+        case .failure(let error):
+            logger.error("❌ 추천 자격증 조회 실패: \(error.localizedDescription)")
+        }
     }
     
     func fetchPreCertification() async {
@@ -183,7 +185,7 @@ extension HomeViewModel {
     }
     
     func toggleFavoriteCertification(certificationId: Int) async {
-        let result = await certificationRepository.switchFavorite(certificationId: certificationId)
+        let result = await switchFavoriteUseCase.execute(id: certificationId)
         
         switch result {
         case .success():

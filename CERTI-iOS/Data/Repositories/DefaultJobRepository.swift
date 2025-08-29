@@ -17,8 +17,8 @@ final class DefaultJobRepository: JobRepository {
         self.service = service
     }
 
-    func getFetchJob() async -> Result<JobEntity, NetworkError> {
-        let result = await service.getFetchJob()
+    func fetchJob() async -> Result<JobEntity, NetworkError> {
+        let result = await service.fetchJob()
         switch result {
         case .success(let dto):
             guard let entity = dto.data?.toJobEntity() else {
