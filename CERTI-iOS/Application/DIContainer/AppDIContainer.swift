@@ -210,6 +210,7 @@ extension AppDIContainer {
   
     func makeResumeFactory() -> ResumeFactory {
         return DefaultResumeFactory(
+            fetchJobUseCase: makeFetchJobUseCase(),
             fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
             fetchAcquisitionDetailUseCase: makeFetchAcquisitionDetailUseCase(),
             deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),

@@ -17,6 +17,6 @@ final class DefaultFetchJobUseCase: FetchJobUseCase {
     }
     
     func execute() async -> Result<JobEntity, NetworkError> {
-        return await repository.getFetchJob()
+        return await repository.fetchJob()
     }
 }

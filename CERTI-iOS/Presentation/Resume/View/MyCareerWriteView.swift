@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct MyCareerWriteView: View {
-    @EnvironmentObject var resumeCoordinator: ResumeCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
             VStack (alignment: .leading, spacing: 0) {
                 BackButton() {
-                    resumeCoordinator.pop()
+                    viewModel.resumeViewRoutePop()
                 }
                 
                 ScrollView {
@@ -33,7 +32,7 @@ struct MyCareerWriteView: View {
                             action: {
                                 Task {
                                     await viewModel.addCareer(resumeModel: viewModel.resumeModel)
-                                    resumeCoordinator.pop()
+                                    viewModel.resumeViewRoutePop()
                                 }
                             },
                             textEmpty: .constant(viewModel.isWriteButtonEnabled)
