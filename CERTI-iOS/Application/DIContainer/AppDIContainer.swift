@@ -31,15 +31,15 @@ final class AppDIContainer {
     // MARK: - Repositories
     // UseCase 다 만들면 private 붙이기
     
-    /*private*/ lazy var homeRepository: HomeRepository = DefaultHomeRepository(service: homeService)
-    /*private*/ lazy var authRepository: AuthRepository = DefaultAuthRepository(service: authService)
-    /*private*/ lazy var onboardingRepository: OnboardingRepository = DefaultOnboardingRepository(service: onboardingService)
-    /*private*/ lazy var certificationRepository: CertificationRepository = DefaultCertificationRepository(service: certificationService)
-    /*private*/ lazy var jobRepository: JobRepository = DefaultJobRepository(service: jobService)
-    /*private*/ lazy var userRepository: UserRepository = DefaultUserRepository(service: userService)
-    /*private*/ lazy var acquisitionRepository: AcquisitionRepository = DefaultAcquisitionRepository(service: acquisitionService)
-    /*private*/ lazy var careersRepository: CareersRepository = DefaultCareersRepository(service: careersService)
-    /*private*/ lazy var activityRepository: ActivityRepository = DefaultActivityRepository(service: activityService)
+    private lazy var homeRepository: HomeRepository = DefaultHomeRepository(service: homeService)
+    private lazy var authRepository: AuthRepository = DefaultAuthRepository(service: authService)
+    private lazy var onboardingRepository: OnboardingRepository = DefaultOnboardingRepository(service: onboardingService)
+    private lazy var certificationRepository: CertificationRepository = DefaultCertificationRepository(service: certificationService)
+    private lazy var jobRepository: JobRepository = DefaultJobRepository(service: jobService)
+    private lazy var userRepository: UserRepository = DefaultUserRepository(service: userService)
+    private lazy var acquisitionRepository: AcquisitionRepository = DefaultAcquisitionRepository(service: acquisitionService)
+    private lazy var careersRepository: CareersRepository = DefaultCareersRepository(service: careersService)
+    private lazy var activityRepository: ActivityRepository = DefaultActivityRepository(service: activityService)
     
 }
 
