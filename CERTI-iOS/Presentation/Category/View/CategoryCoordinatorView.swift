@@ -30,18 +30,29 @@ struct CategoryCoordinatorView: View {
         NavigationStack(path: $categoryCoordinator.path) {
             CategoryView(viewModel: categoryViewModel)
                 .onChange(of: categoryViewModel.categoryViewRoute) { route in
-                    guard let route = route else { return }
+                    guard let route = route else {
+                        return
+                    }
                     switch route {
-                    case .navigateToSearch: categoryCoordinator.push(next: .search)
-                    case .navigateToCertificateDetail: categoryCoordinator.push(next: .certificateDetail)
+                    case .navigateToSearch: categoryCoordinator.push(
+                        next: .search
+                    )
+                    case .navigateToCertificateDetail: categoryCoordinator.push(
+                        next: .certificateDetail
+                    )
                     case .categoryViewRoutePop: categoryCoordinator.pop()
                     }
                     categoryViewModel.categoryViewRoute = nil
                 }
                 .navigationDestination(for: CategoryRoute.self) { route in
                     switch route {
-                    case .search: CategorySearchView(viewModel: categoryViewModel)
-                    case .certificateDetail: CertificateDetailView(viewModel: certificateDetailViewModel, certificationId: $categoryViewModel.selectedCertificateId) {
+                    case .search: CategorySearchView(
+                        viewModel: categoryViewModel
+                    )
+                    case .certificateDetail: CertificateDetailView(
+                        viewModel: certificateDetailViewModel,
+                        certificationId: $categoryViewModel.selectedCertificateId
+                    ) {
                         categoryCoordinator.pop()
                     }
                     }

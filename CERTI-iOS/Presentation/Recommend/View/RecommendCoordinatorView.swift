@@ -33,7 +33,10 @@ struct RecommendCoordinatorView: View {
                     guard let route = route else { return }
                     switch route {
                     case .navigateToCertificateDetail:
-                        recommendCoordinator.push(next: .certificateDetail)
+                        recommendCoordinator
+                            .push(
+                                next: .certificateDetail
+                            )
                     case .recommendViewRoutePop: recommendCoordinator.pop()
                     }
                     recommendViewModel.recommendViewRoute = nil
@@ -41,7 +44,10 @@ struct RecommendCoordinatorView: View {
                 .navigationDestination(for: RecommendRoute.self) { route in
                     switch route {
                     case .certificateDetail:
-                        CertificateDetailView(viewModel: certificateDetailViewModel, certificationId: $recommendViewModel.selectedCertificateId) {
+                        CertificateDetailView(
+                            viewModel: certificateDetailViewModel,
+                            certificationId: $recommendViewModel.selectedCertificateId
+                        ) {
                             recommendCoordinator.pop()
                         }
                     }
