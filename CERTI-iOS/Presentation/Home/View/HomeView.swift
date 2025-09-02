@@ -111,9 +111,8 @@ extension HomeView {
                     .frame(height: 22)
                     .padding(.trailing, 8)
                 
-                HStack{}
+                Color.grayscale100
                     .frame(width: 2, height: 42)
-                    .background(.grayscale100)
                     .padding(.trailing, 8)
                 
                 VStack(alignment: .leading, spacing: 0) {

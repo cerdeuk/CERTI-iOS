@@ -17,10 +17,9 @@ struct RecommendLicenseCard: View {
                     .applyCertiFont(.body_bold_18)
                     .foregroundStyle(.grayscale600)
                 
-                VStack{}
+                Color.grayscale200
                     .frame(width: 2)
                     .frame(maxHeight: .infinity)
-                    .background(.grayscale200)
                     .padding(.vertical, 5)
                 
                 Text("추천점수 \(licenseCard.recommendScore)점")
