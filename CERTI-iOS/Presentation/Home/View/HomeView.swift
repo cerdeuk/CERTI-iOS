@@ -91,7 +91,7 @@ extension HomeView {
         Group {
             HStack(alignment: .center, spacing: 0) {
                 Text("안녕하세요, ")
-                Text.trimmedUsername(viewModel.homeStateModel.username)
+                Text(viewModel.homeStateModel.username.trimmedUsername())
                 Text("님!")
             }
             .frame(height: 26)
@@ -107,7 +107,7 @@ extension HomeView {
                     .frame(width: 80, height: 80)
                     .padding(.trailing, 12)
                 
-                Text.trimmedUsername(viewModel.homeStateModel.username)
+                Text(viewModel.homeStateModel.username.trimmedUsername())
                     .frame(height: 22)
                     .padding(.trailing, 8)
                 
@@ -166,7 +166,7 @@ extension HomeView {
     
     private var recommendLicenseTitle: some View {
         HStack(alignment: .center, spacing: 0) {
-            Text.trimmedUsername(viewModel.homeStateModel.username)
+            Text(viewModel.homeStateModel.username.trimmedUsername())
                 .frame(height: 26)
             
             Text("님에게 추천하는 자격증")
