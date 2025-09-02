@@ -15,10 +15,6 @@ import os
 @MainActor
 final class LoginViewModel: ObservableObject {
     
-    //MARK: - Property Wrappers
-    
-    @Published var isLoginSuccess = false
-    
     //MARK: - Properties
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Login")
@@ -26,20 +22,20 @@ final class LoginViewModel: ObservableObject {
     
     //MARK: - Func
 
-    func kakaoLogin() async {
-        guard !isLoginSuccess else { return }
-        isLoginSuccess = true
-        defer { isLoginSuccess = false }
-        
+    func kakaoLogin() async -> Bool {
         logger.info("카카오 로그인 시작")
         
         let result = await authManager.login(with: .kakao)
         
         switch result {
-        case .success:
-            logger.info("카카오 로그인 성공")
+        case .success(let response):
+            if response {
+                UserDefaults.standard.set(true, forKey: "didOnboard")
+            }
+            return true
         case .failure(let error):
             logger.error("로그인 실패: \(String(describing: error))")
+            return false
         }
     }
     

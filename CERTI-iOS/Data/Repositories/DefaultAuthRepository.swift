@@ -45,15 +45,17 @@ final class DefaultAuthRepository: AuthRepository {
         let result = await service.login(type: type, authorizationCode: authorizationCode)
 
         switch result {
-        case .success(let dto):
-            switch dto {
-            case .success(let loginDTO):
-                let entity = loginDTO.toLoginSuccessResponseEntity()
-                return .success(.success(entity))
-            case .needSignUp(let signupDTO):
-                let entity = signupDTO.toSignupRequiredResponseEntity()
+        case .success(let response):
+            guard let data = response.data else {return .failure(.decodingError)}
+            
+            if data.needSignUp {
+                guard let entity = data.signupRequired?.toSignupRequiredResponseEntity() else {return .failure(.decodingError)}
                 return .success(.needSignUp(entity))
+            } else {
+                guard let entity = data.loginSuccess?.toLoginSuccessResponseEntity() else {return .failure(.decodingError)}
+                return .success(.success(entity))
             }
+            
         case .failure(let error):
             return .failure(error)
         }

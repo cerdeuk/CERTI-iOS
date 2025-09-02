@@ -53,7 +53,7 @@ struct LoginView: View {
             
             Button {
                 Task {
-                    await viewModel.kakaoLogin()
+                    await viewModel.kakaoLogin() ? appCoordinator.completeLogin() : nil
                 }
             } label: {
                 Image(.imageSocialLoginKakao)
@@ -78,11 +78,6 @@ struct LoginView: View {
         .background(.white)
         .onAppear {
             isAnimating = true
-        }
-        .onChange(of: viewModel.isLoginSuccess) { isSuccess in
-            if isSuccess {
-                appCoordinator.completeLogin()
-            }
         }
     }
 }
