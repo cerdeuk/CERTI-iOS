@@ -20,12 +20,6 @@ final class AppCoordinator: ObservableObject {
     let onboardingCoordinator = OnboardingCoordinator()
 
     init() {
-//        #if DEBUG
-//        TokenManager.shared.clearTokens()
-//        UserDefaults.standard.removeObject(forKey: "didOnboard")
-//        print("[DEBUG] Keychain cleared for login testing")
-//        #endif
-        
         Task {
             await start()
         }
@@ -40,7 +34,7 @@ final class AppCoordinator: ObservableObject {
         await MainActor.run {
             switch tokenResult {
             case .success:
-                appState = .main
+                appState = didOnboard ? .main : .auth
             case .failure:
                 appState = .auth
             }
