@@ -30,7 +30,7 @@ final class LoginViewModel: ObservableObject {
         switch result {
         case .success(let response):
             if response {
-                UserDefaults.standard.set(true, forKey: "didOnboard")
+                UserDefaults.standard.set(true, forKey: DidOnboard.didOnboard.description)
             }
             return true
         case .failure(let error):

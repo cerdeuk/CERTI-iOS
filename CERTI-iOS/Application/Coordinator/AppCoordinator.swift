@@ -14,6 +14,18 @@ enum AppRoute {
     case main
 }
 
+enum DidOnboard {
+    case didOnboard
+    
+    var description: String {
+        switch self {
+        case .didOnboard:
+            return "didOnboard"
+        }
+    }
+    
+}
+
 final class AppCoordinator: ObservableObject {
     @Published var appState: AppRoute = .splash
     let tabCoordinator = CertiTabCoordinator()
@@ -22,7 +34,7 @@ final class AppCoordinator: ObservableObject {
     init() {
 //                #if DEBUG
 //                TokenManager.shared.clearTokens()
-//                UserDefaults.standard.removeObject(forKey: "didOnboard")
+//                UserDefaults.standard.removeObject(forKey: "DidOnboard.didOnboard.description")
 //                print("[DEBUG] Keychain cleared for login testing")
 //                #endif
         
@@ -35,7 +47,7 @@ final class AppCoordinator: ObservableObject {
         try? await Task.sleep(for: .seconds(2)) // Splash 대기 시간
 
         let tokenResult = TokenManager.shared.getAccessToken()
-        let didOnboard = UserDefaults.standard.bool(forKey: "didOnboard")
+        let didOnboard = UserDefaults.standard.bool(forKey: DidOnboard.didOnboard.description)
 
         await MainActor.run {
             switch tokenResult {
@@ -49,13 +61,13 @@ final class AppCoordinator: ObservableObject {
 
     /// 로그인 완료 시 호출
     func completeLogin() {
-        let didOnboard = UserDefaults.standard.bool(forKey: "didOnboard")
+        let didOnboard = UserDefaults.standard.bool(forKey: DidOnboard.didOnboard.description)
         appState = didOnboard ? .main : .onboarding
     }
 
     /// 온보딩 완료 시 호출
     func completeOnboarding() {
-        UserDefaults.standard.set(true, forKey: "didOnboard")
+        UserDefaults.standard.set(true, forKey: DidOnboard.didOnboard.description)
         appState = .main
     }
     
@@ -71,7 +83,7 @@ final class AppCoordinator: ObservableObject {
     
     func withDraw() {
         _ = TokenManager.shared.clearTokens()
-        UserDefaults.standard.removeObject(forKey: "didOnboard")
+        UserDefaults.standard.removeObject(forKey: DidOnboard.didOnboard.description)
         appState = .auth
     }
 }
