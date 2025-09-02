@@ -58,10 +58,12 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-                await viewModel.getUserInfo()
-                await viewModel.getRecommendCertificationList()
-                await viewModel.fetchPreCertification()
-                await viewModel.getFavoriteCertificationList()
+                async let userInfo: () = viewModel.getUserInfo()
+                async let recommendList: () = viewModel.getRecommendCertificationList()
+                async let preCertifications: () = viewModel.fetchPreCertification()
+                async let favoriteList: () = viewModel.getFavoriteCertificationList()
+
+                _ = await (userInfo, recommendList, preCertifications, favoriteList)
             }
         }
     }
