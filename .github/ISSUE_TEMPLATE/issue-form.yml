@@ -1,7 +1,7 @@
 name: '이슈 생성'
 description: 'Certi iOS Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
 labels: [order]
-title: ''
+title: '이슈명을 작성해주세요'
 body:
   - type: input
     id: parentKey
