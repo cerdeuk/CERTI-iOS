@@ -35,6 +35,21 @@ jobs:
           echo '${{ steps.issue-parser.outputs.__ticket_number }}'
           echo '${{ steps.issue-parser.outputs.jsonString }}'
 
+      - name: Map GitHub user to Jira Account ID
+        id: user-map
+        if: github.event.issue.assignees[0] != null
+        run: |
+          ASSIGNEE_LOGIN="${{ github.event.issue.assignees[0].login }}"
+          JIRA_ACCOUNT_ID=""
+          if [[ "$ASSIGNEE_LOGIN" == "sangyup12" ]]; then
+            JIRA_ACCOUNT_ID="712020:c34fc89a-5eba-4fb8-80d7-952df9c07444?cloudId=10784225-1720-490f-b7c2-871dd37920fc"
+          elif [[ "$ASSIGNEE_LOGIN" == "Yeonnies" ]]; then
+            JIRA_ACCOUNT_ID="712020:e9701a7b-fc97-4a87-9a60-331acc570dbe?cloudId=10784225-1720-490f-b7c2-871dd37920fc"
+          elif [[ "$ASSIGNEE_LOGIN" == "OneTen19" ]]; then
+            JIRA_ACCOUNT_ID="712020:aca95733-91c2-4f43-9b27-6bd3e65987e5?cloudId=10784225-1720-490f-b7c2-871dd37920fc"
+          fi
+          echo "ACCOUNT_ID=$JIRA_ACCOUNT_ID" >> $GITHUB_OUTPUT
+
       - name: Convert markdown to Jira Syntax
         uses: peter-evans/jira2md@v1
         id: md2jira
@@ -46,7 +61,27 @@ jobs:
             ${{ github.event.issue.body }}
           mode: md2jira
 
-      - name: Create Issue
+      - name: Create Issue with Assignee
+        if: steps.user-map.outputs.ACCOUNT_ID != ''
+        id: create
+        uses: atlassian/gajira-create@v3
+        with:
+          project: SCRUM
+          issuetype: Subtask
+          summary: '${{ github.event.issue.title }}'
+          description: '${{ steps.md2jira.outputs.output-text }}'
+          fields: |
+            {
+              "parent": {
+                "key": "${{ steps.issue-parser.outputs.issueparser_parentKey }}"
+              },
+              "assignee": {
+                "accountId": "${{ steps.user-map.outputs.ACCOUNT_ID }}"
+              }
+            }
+
+      - name: Create Issue without Assignee
+        if: steps.user-map.outputs.ACCOUNT_ID == ''
         id: create
         uses: atlassian/gajira-create@v3
         with:
