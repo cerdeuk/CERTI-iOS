@@ -1,7 +1,7 @@
 name: '이슈 생성'
 description: 'Certi iOS Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
 labels: [order]
-title: '이슈 이름을 작성해주세요'
+title: ''
 body:
   - type: input
     id: parentKey
@@ -9,14 +9,6 @@ body:
       label: '🎟️ 상위 작업 (Ticket Number)'
       description: '상위 작업의 Ticket Number를 기입해주세요'
       placeholder: 'SCRUM-00'
-    validations:
-      required: true
-  
-  - type: input
-    id: branch
-    attributes:
-      label: '🌳 브랜치명 (Branch)'
-      description: '영어로 브랜치명을 작성해주세요'
     validations:
       required: true
       
