@@ -1,0 +1,110 @@
+name: Create Jira issue
+on:
+  issues:
+    types:
+      - opened
+jobs:
+  create-issue:
+    name: Create Jira issue
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Login
+        uses: atlassian/gajira-login@v3
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+
+      - name: Checkout develop code
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+
+      - name: Issue Parser
+        id: issue-parser
+        uses: stefanbuck/github-issue-praser@v3
+        with:
+          template-path: .github/ISSUE_TEMPLATE/issue-form.yml
+
+      - name: Map GitHub user to Jira Account ID
+        id: user-map
+        if: github.event.issue.assignees[0] != null
+        run: |
+          ASSIGNEE_LOGIN="${{ github.event.issue.assignees[0].login }}"
+          JIRA_ACCOUNT_ID=""
+          if [[ "$ASSIGNEE_LOGIN" == "sangyup12" ]]; then
+            JIRA_ACCOUNT_ID="712020:c34fc89a-5eba-4fb8-80d7-952df9c07444"
+          elif [[ "$ASSIGNEE_LOGIN" == "Yeonnies" ]]; then
+            JIRA_ACCOUNT_ID="712020:e9701a7b-fc97-4a87-9a60-331acc570dbe"
+          elif [[ "$ASSIGNEE_LOGIN" == "OneTen19" ]]; then
+            JIRA_ACCOUNT_ID="712020:aca95733-91c2-4f43-9b27-6bd3e65987e5"
+          fi
+          echo "ACCOUNT_ID=$JIRA_ACCOUNT_ID" >> $GITHUB_OUTPUT
+
+      - name: Convert markdown to Jira Syntax
+        id: md2jira
+        uses: peter-evans/jira2md@v1
+        with:
+          input-text: |
+            ### Github Issue Link
+            - ${{ github.event.issue.html_url }}
+
+            ${{ github.event.issue.body }}
+          mode: md2jira
+
+      - name: Create Issue with Assignee
+        if: steps.user-map.outputs.ACCOUNT_ID != ''
+        id: create_with_assignee
+        uses: atlassian/gajira-create@v3
+        with:
+          project: SCRUM
+          issuetype: Subtask
+          summary: '${{ github.event.issue.title }}'
+          description: '${{ steps.md2jira.outputs.output-text }}'
+          fields: |
+            {
+              "parent": { "key": "${{ steps.issue-parser.outputs.issueparser_parentKey }}" },
+              "assignee": { "accountId": "${{ steps.user-map.outputs.ACCOUNT_ID }}" }
+            }
+
+      - name: Create Issue without Assignee
+        if: steps.user-map.outputs.ACCOUNT_ID == ''
+        id: create_without_assignee
+        uses: atlassian/gajira-create@v3
+        with:
+          project: SCRUM
+          issuetype: Subtask
+          summary: '${{ github.event.issue.title }}'
+          description: '${{ steps.md2jira.outputs.output-text }}'
+          fields: |
+            { "parent": { "key": "${{ steps.issue-parser.outputs.issueparser_parentKey }}" } }
+
+      - name: Set created issue key
+        id: set_key
+        run: |
+          if [ -n "${{ steps.create_with_assignee.outputs.issue }}" ]; then
+            echo "ISSUE_KEY=${{ steps.create_with_assignee.outputs.issue }}" >> $GITHUB_OUTPUT
+          else
+            echo "ISSUE_KEY=${{ steps.create_without_assignee.outputs.issue }}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Log created issue
+        run: echo "Jira Issue ${{ steps.issue-parser.outputs.parentKey }}/${{ steps.set_key.outputs.ISSUE_KEY }} was created"
+
+      - name: Update issue title
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'update-issue'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: '[${{ steps.set_key.outputs.ISSUE_KEY }}] ${{ github.event.issue.title }}'
+
+      - name: Add comment with Jira issue link
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: 'Jira Issue Created: [${{ steps.set_key.outputs.ISSUE_KEY }}](${{ secrets.JIRA_BASE_URL }}/browse/${{ steps.set_key.outputs.ISSUE_KEY }})' # ⬅️ 참조 변수 변경
