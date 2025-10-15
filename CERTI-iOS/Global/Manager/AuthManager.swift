@@ -30,11 +30,11 @@ final class AuthManager {
     private var track: String = ""
     private var major: String = ""
     private var jobs: [String] = []
-
+    
     //MARK: - Func
 
     @MainActor
-    func login(with type: SocialLoginType) async -> Result<Void, AuthError> {
+    func login(with type: SocialLoginType) async -> Result<Bool, AuthError> {
         logger.debug("Starting login with \(type.serviceName)")
 
         //TODO: - 추후 애플로그인 추가예정
@@ -184,7 +184,7 @@ extension AuthManager {
 
 extension AuthManager {
     @MainActor
-    private func handleServerLogin(with accessToken: String) async -> Result<Void, AuthError> {
+    private func handleServerLogin(with accessToken: String) async -> Result<Bool, AuthError> {
         
         let result = await loginUseCase.execute(type: .kakao, authorizationCode: accessToken)
         
@@ -198,7 +198,7 @@ extension AuthManager {
     }
     
     @MainActor
-    private func handleAuthResponse(_ authResponse: AuthResponseEntity) -> Result<Void, AuthError> {
+    private func handleAuthResponse(_ authResponse: AuthResponseEntity) -> Result<Bool, AuthError> {
         switch authResponse {
         case .success(let loginEntity):
             logger.info("✅ 서버 로그인 성공, 유저 ID: \(loginEntity.userId)")
@@ -206,14 +206,14 @@ extension AuthManager {
                 saveTokens(from: loginEntity)
             }
             needSignup = loginEntity.needSignUp
-            return .success(())
+            return .success(true)
             
         case .needSignUp(let signupEntity):
             logger.info("🔁 회원가입 필요: \(signupEntity.userInformation.nickname)")
             Task {
                 saveUserInfo(from: signupEntity)
             }
-            return .success(())
+            return .success(false)
         }
     }
 

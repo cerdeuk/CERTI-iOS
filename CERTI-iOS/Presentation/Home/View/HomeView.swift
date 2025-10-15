@@ -58,10 +58,12 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-                await viewModel.getUserInfo()
-                await viewModel.getRecommendCertificationList()
-                await viewModel.fetchPreCertification()
-                await viewModel.getFavoriteCertificationList()
+                async let userInfo: () = viewModel.getUserInfo()
+                async let recommendList: () = viewModel.getRecommendCertificationList()
+                async let preCertifications: () = viewModel.fetchPreCertification()
+                async let favoriteList: () = viewModel.getFavoriteCertificationList()
+
+                _ = await (userInfo, recommendList, preCertifications, favoriteList)
             }
         }
     }
@@ -91,7 +93,7 @@ extension HomeView {
         Group {
             HStack(alignment: .center, spacing: 0) {
                 Text("안녕하세요, ")
-                Text.trimmedUsername(viewModel.homeStateModel.username)
+                Text(viewModel.homeStateModel.username.trimmedUsername())
                 Text("님!")
             }
             .frame(height: 26)
@@ -107,13 +109,12 @@ extension HomeView {
                     .frame(width: 80, height: 80)
                     .padding(.trailing, 12)
                 
-                Text.trimmedUsername(viewModel.homeStateModel.username)
+                Text(viewModel.homeStateModel.username.trimmedUsername())
                     .frame(height: 22)
                     .padding(.trailing, 8)
                 
-                HStack{}
+                Color.grayscale100
                     .frame(width: 2, height: 42)
-                    .background(.grayscale100)
                     .padding(.trailing, 8)
                 
                 VStack(alignment: .leading, spacing: 0) {
@@ -167,7 +168,7 @@ extension HomeView {
     
     private var recommendLicenseTitle: some View {
         HStack(alignment: .center, spacing: 0) {
-            Text.trimmedUsername(viewModel.homeStateModel.username)
+            Text(viewModel.homeStateModel.username.trimmedUsername())
                 .frame(height: 26)
             
             Text("님에게 추천하는 자격증")
