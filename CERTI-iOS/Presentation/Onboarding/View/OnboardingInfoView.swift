@@ -12,7 +12,7 @@ struct OnboardingInfoView: View {
     
     @State private var username = AuthManager.shared.nickname
     @State private var isShowLoadingView = false
-        
+    
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             Image(.imageOnboardingFirework)
