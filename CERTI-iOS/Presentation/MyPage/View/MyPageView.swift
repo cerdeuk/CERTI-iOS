@@ -9,11 +9,7 @@ import SwiftUI
 
 struct MyPageView: View {
     @ObservedObject var viewModel: MyPageViewModel
-    
-    @State private var username: String = "김서티"
-    @State private var userEmail: String = "certification@gmail.com"
-    @State private var jobCategoryList: [JobCategory] = [.business, .construction, .design]
-    
+        
     private let tabIconList: [UIImage] = [.iconPerson24, .iconSchool24, .iconPencil24, .iconSetting24, .iconMessage24]
     private let tabList: [String] = ["개인 정보 수정", "학사정보 관리", "자격증 관리", "설정", "문의사항"]
     private let tabDescriptionList: [String] = ["프로필 사진 및 개인 정보 수정", "학교/학과 정보 및 희망직무 설정", "즐겨찾기 자격증 및 취득 자격증 관리", "비밀번호 변경 및 계정 관련", "오픈채팅 바로가기"]
@@ -90,20 +86,20 @@ extension MyPageView {
         }
         .padding(.bottom, 16)
         
-        Text(username)
+        Text(viewModel.userNickName)
             .applyCertiFont(.sub_bold_20)
             .foregroundStyle(.mainblue)
             .frame(height: 26)
             .padding(.bottom, 4)
         
-        Text(userEmail)
+        Text(viewModel.userEmail)
             .applyCertiFont(.caption_regular_14)
             .foregroundStyle(.grayscale500)
             .frame(height: 20)
             .padding(.bottom, 16)
         
         HStack(alignment: .center, spacing: 8) {
-            ForEach(jobCategoryList, id: \.self) { job in
+            ForEach(viewModel.jobCategoryList, id: \.self) { job in
                 Text(job.description)
                     .applyCertiFont(.caption_semibold_14)
                     .foregroundStyle(.mainblue)

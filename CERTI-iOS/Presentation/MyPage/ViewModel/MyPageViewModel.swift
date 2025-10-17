@@ -24,9 +24,15 @@ enum MyPageViewRoute {
 @MainActor
 final class MyPageViewModel: ObservableObject {
     @Published var myPageViewRoute: MyPageViewRoute?
+    @Published var userName: String = "김한열"
+    @Published var userNickName: String = "김서티"
+    @Published var userEmail: String = "certification@gmail.com"
+    @Published var jobCategoryList: [JobCategory] = [.business, .construction, .design]
+    @Published var userBirth: Date? = nil
 
+
+    
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "MyPage")
-
 }
 
 

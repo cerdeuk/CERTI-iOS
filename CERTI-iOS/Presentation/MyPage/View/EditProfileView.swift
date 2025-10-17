@@ -10,13 +10,7 @@ import SwiftUI
 struct EditProfileView: View {
     @ObservedObject var viewModel: MyPageViewModel
     
-    @State private var userNickname: String = "김서티"
     @State private var nicknameValidate: nickNameValidateCase? = nil
-    
-    @State private var userName: String = "김한열"
-    @State private var userEmail: String = "certification@gmail.com"
-    
-    @State private var userBirth: Date? = nil
     @State private var isCalendarVisible: Bool = false
     
     private var dateFormatter: DateFormatter {
@@ -155,8 +149,8 @@ extension EditProfileView {
         .padding(.bottom, 12)
         
         HStack(alignment: .center, spacing: 0) {
-            TextField("", text: $userNickname, prompt: Text(userNickname))
-                .maxLength(maxLength, text: $userNickname)
+            TextField("", text: $viewModel.userNickName, prompt: Text(viewModel.userNickName))
+                .maxLength(maxLength, text: $viewModel.userNickName)
                 .applyCertiFont(.body_regular_16)
                 .foregroundStyle(.black)
                 .frame(height: 24)
@@ -165,8 +159,8 @@ extension EditProfileView {
             
             Spacer()
             
-            if !userNickname.isEmpty {
-                Text("\(userNickname.count)/\(maxLength)")
+            if !viewModel.userNickName.isEmpty {
+                Text("\(viewModel.userNickName.count)/\(maxLength)")
                     .applyCertiFont(.caption_semibold_12)
                     .foregroundStyle(.grayscale500)
                     .padding(.trailing, 12)
@@ -219,7 +213,7 @@ extension EditProfileView {
             .padding(.horizontal, 20)
             .padding(.bottom, 12)
         
-        TextField("", text: $userName, prompt: Text(userName))
+        TextField("", text: $viewModel.userName, prompt: Text(viewModel.userName))
             .applyCertiFont(.body_regular_16)
             .foregroundStyle(.black)
             .frame(height: 24)
@@ -243,7 +237,7 @@ extension EditProfileView {
             .padding(.horizontal, 20)
             .padding(.bottom, 12)
         
-        TextField("", text: $userEmail, prompt: Text(userEmail))
+        TextField("", text: $viewModel.userEmail, prompt: Text(viewModel.userEmail))
             .applyCertiFont(.body_regular_16)
             .foregroundStyle(.black)
             .frame(height: 24)
@@ -274,8 +268,8 @@ extension EditProfileView {
                 }
             } label: {
                 HStack(alignment: .center, spacing: 0) {
-                    if let userBirth {
-                        Text(dateFormatter.string(from: userBirth))
+                    if viewModel.userBirth != nil {
+                        Text(dateFormatter.string(from: viewModel.userBirth!))
                             .applyCertiFont(.caption_regular_14)
                             .foregroundStyle(.black)
                     } else {
@@ -302,9 +296,9 @@ extension EditProfileView {
             
             if isCalendarVisible {
                 let binding = Binding<Date>(
-                    get: { self.userBirth ?? Date() },
+                    get: { self.viewModel.userBirth ?? Date() },
                     set: {
-                        self.userBirth = $0
+                        self.viewModel.userBirth = $0
                         withAnimation {
                             self.isCalendarVisible = false
                         }
