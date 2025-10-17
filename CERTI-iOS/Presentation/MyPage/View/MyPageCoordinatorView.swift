@@ -25,18 +25,33 @@ struct MyPageCoordinatorView: View {
     var body: some View {
         NavigationStack(path: $myPageCoordinator.path) {
             MyPageView(viewModel: myPageViewModel)
-//                .onChange(of: myPageViewModel.myPageViewRoute) { route in
-//                    guard let route = route else { return }
-//                    switch route {
-//
-//                    }
-//                    myPageViewModel.myPageViewRoute = nil
-//                }
-//                .navigationDestination(for: MyPageRoute.self) { route in
-//                    switch route {
-//
-//                    }
-//                }
+                .onChange(of: myPageViewModel.myPageViewRoute) { route in
+                    guard let route = route else { return }
+                    switch route {
+                    case .navigateToEditProfile:
+                        myPageCoordinator.push(next: .editProfile)
+                        
+                        
+                        
+                    case .myPageViewRoutePop:
+                        myPageCoordinator.pop()
+                        
+                    // case 다 만들면 지우기
+                    default:
+                        myPageCoordinator.reset()
+                    }
+                    myPageViewModel.myPageViewRoute = nil
+                }
+                .navigationDestination(for: MyPageRoute.self) { route in
+                    switch route {
+                    case .editProfile:
+                        EditProfileView(viewModel: myPageViewModel)
+                        
+                    // case 다 만들면 지우기
+                    default:
+                        EmptyView()
+                    }
+                }
         }
         .environmentObject(myPageCoordinator)
         .onChange(of: myPageCoordinator.path) { value in
@@ -46,5 +61,8 @@ struct MyPageCoordinatorView: View {
 }
 
 #Preview {
-    MyPageCoordinatorView(myPageCoordinator: MyPageCoordinator(), myPageFactory: AppDIContainer.shared.makeMyPageFactory())
+    let factory: MyPageFactory = AppDIContainer.shared.makeMyPageFactory()
+    @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
+
+    EditProfileView(viewModel: viewModel)
 }
