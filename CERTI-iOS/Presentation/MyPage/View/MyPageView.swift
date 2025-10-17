@@ -35,29 +35,35 @@ struct MyPageView: View {
             
             // 회색 배경 영역
             VStack(alignment: .center, spacing: 12) {
+                
+                // 개인 정보 수정
                 myPageViewButton(icon: tabIconList[0], title: tabList[0], description: tabDescriptionList[0], action: {
-                    // 개인 정보 수정으로 이동
+                    viewModel.navigateToEditProfile()
                 })
                 .padding(.top, 24)
                 .padding(.horizontal, 20)
 
+                // 학사정보 관리
                 myPageViewButton(icon: tabIconList[1], title: tabList[1], description: tabDescriptionList[1], action: {
-                    // 학사정보 관리로 이동
+                    viewModel.navigateToEditMajor()
                 })
                 .padding(.horizontal, 20)
                 
+                // 자격증 관리로 이동
                 myPageViewButton(icon: tabIconList[2], title: tabList[2], description: tabDescriptionList[2], action: {
-                    // 자격증 관리로 이동
+                    viewModel.navigateToManageCertificates()
                 })
                 .padding(.horizontal, 20)
                 
+                // 설정으로 이동
                 myPageViewButton(icon: tabIconList[3], title: tabList[3], description: tabDescriptionList[3], action: {
-                    // 설정으로 이동
+                    viewModel.navigateToSettings()
                 })
                 .padding(.horizontal, 20)
                 
+                // 문의사항으로 이동
                 myPageViewButton(icon: tabIconList[4], title: tabList[4], description: tabDescriptionList[4], action: {
-                    // 문의사항으로 이동
+                    // TODO: - 오픈채팅 링크
                 })
                 .padding(.horizontal, 20)
                 
