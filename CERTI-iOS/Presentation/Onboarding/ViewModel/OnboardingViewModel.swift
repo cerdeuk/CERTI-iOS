@@ -14,6 +14,7 @@ enum OnboardingViewRoute {
     case navigateToTrack
     case navigateToMajor
     case navigateToJobCategory
+    case navigateToNickName
     case navigateToInfo
     
     case completeOnboarding
@@ -84,6 +85,10 @@ extension OnboardingViewModel {
     
     func navigateToJobCategory() {
         onboardingViewRoute = .navigateToJobCategory
+    }
+    
+    func navigateToNickName() {
+        onboardingViewRoute = .navigateToNickName
     }
     
     func navigateToInfo() {

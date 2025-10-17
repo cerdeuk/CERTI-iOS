@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct OnboardingNickNameView: View {
+    @ObservedObject var viewModel: OnboardingViewModel
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading, spacing: 0) {
+            BackButton {
+                viewModel.onboardingViewRoutePop()
+            }
+            .padding(.bottom, 13)
+            
+            Image(.onboardingProgressbar5)
+                .padding(.leading, 20)
+                .padding(.bottom, 40)
+            
+        }
     }
 }
 
 #Preview {
-    OnboardingNickNameView()
+    let onboardingFactory: OnboardingFactory = AppDIContainer.shared.makeOnboardingFactory()
+    @StateObject var onBoardingViewModel = onboardingFactory.makeOnboardingViewModel()
+   
+    OnboardingNickNameView(viewModel: onBoardingViewModel)
 }
