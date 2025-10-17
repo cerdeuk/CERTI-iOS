@@ -158,10 +158,3 @@ extension OnboardingNickNameView {
         }
     }
 }
-
-#Preview {
-    let onboardingFactory: OnboardingFactory = AppDIContainer.shared.makeOnboardingFactory()
-    @StateObject var onBoardingViewModel = onboardingFactory.makeOnboardingViewModel()
-    
-    OnboardingNickNameView(viewModel: onBoardingViewModel)
-}
