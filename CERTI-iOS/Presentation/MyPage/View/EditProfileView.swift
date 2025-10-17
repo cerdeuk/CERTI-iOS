@@ -13,26 +13,47 @@ struct EditProfileView: View {
     @State private var userNickname: String = "김서티"
     @State private var nicknameValidate: nickNameValidateCase? = nil
     
+    @State private var userName: String = "김한열"
+    @State private var userEmail: String = "certification@gmail.com"
+    
+    @State private var userBirth: Date? = nil
+    @State private var isCalendarVisible: Bool = false
+    
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }
+    
     private let maxLength = 7
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             headerView
             
-            imageView
-                .padding(.top, 28)
-                .padding(.bottom, 38)
+            ScrollView(.vertical) {
+                VStack(alignment: .leading, spacing: 0) {
+                    
+                    imageView
+                        .padding(.top, 28)
+                        .padding(.bottom, 38)
+                    
+                    nickNameView
+                    
+                    nicknameValidateCaseView
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 24)
+                    
+                    userNameView
+                    userEmailView
+                    userBirthView
+                    
+                    Spacer()
+                }
+            }
+            .scrollIndicators(.hidden)
             
-            nickNameView
-            
-            nicknameValidateCaseView
-                .padding(.horizontal, 20)
-                .padding(.bottom, 24)
-            
-            
-            
-            
-            Spacer()
         }
     }
 }
@@ -58,6 +79,7 @@ extension EditProfileView {
             
             Button {
                 // TODO: - 저장
+                viewModel.myPageViewRoutePop()
             } label: {
                 Text("저장")
                     .applyCertiFont(.body_semibold_18)
@@ -188,4 +210,120 @@ extension EditProfileView {
             EmptyView()
         }
     }
+    
+    @ViewBuilder
+    private var userNameView: some View {
+        Text("이름")
+            .applyCertiFont(.body_semibold_16)
+            .foregroundStyle(.grayscale600)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 12)
+        
+        TextField("", text: $userName, prompt: Text(userName))
+            .applyCertiFont(.body_regular_16)
+            .foregroundStyle(.black)
+            .frame(height: 24)
+            .padding(.vertical, 12)
+            .padding(.leading, 12)
+            .background(.grayscale0)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .overlay(content: {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.grayscale200, lineWidth: 1)
+            })
+            .padding(.horizontal, 20)
+            .padding(.bottom, 24)
+    }
+    
+    @ViewBuilder
+    private var userEmailView: some View {
+        Text("이메일")
+            .applyCertiFont(.body_semibold_16)
+            .foregroundStyle(.grayscale600)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 12)
+        
+        TextField("", text: $userEmail, prompt: Text(userEmail))
+            .applyCertiFont(.body_regular_16)
+            .foregroundStyle(.black)
+            .frame(height: 24)
+            .padding(.vertical, 12)
+            .padding(.leading, 12)
+            .background(.grayscale0)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .overlay(content: {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.grayscale200, lineWidth: 1)
+            })
+            .padding(.horizontal, 20)
+            .padding(.bottom, 24)
+    }
+    
+    @ViewBuilder
+    private var userBirthView: some View {
+        Text("생년월일")
+            .applyCertiFont(.body_semibold_16)
+            .foregroundStyle(.grayscale600)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 12)
+        
+        VStack(alignment: .leading, spacing: 0) {
+            Button {
+                withAnimation {
+                    isCalendarVisible.toggle()
+                }
+            } label: {
+                HStack(alignment: .center, spacing: 0) {
+                    if let userBirth {
+                        Text(dateFormatter.string(from: userBirth))
+                            .applyCertiFont(.caption_regular_14)
+                            .foregroundStyle(.black)
+                    } else {
+                        Text("생년월일을 선택해주세요.")
+                            .applyCertiFont(.caption_semibold_14)
+                            .foregroundStyle(.grayscale300)
+                    }
+                    
+                    Spacer()
+                    
+                    Image(.iconArrowdown24)
+                        .foregroundStyle(.grayscale400)
+                }
+                .padding(.vertical, 12)
+                .padding(.horizontal, 12)
+            }
+            .background(.grayscale0)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.grayscale200, lineWidth: 1)
+            )
+            .padding(.horizontal, 20)
+            
+            if isCalendarVisible {
+                let binding = Binding<Date>(
+                    get: { self.userBirth ?? Date() },
+                    set: {
+                        self.userBirth = $0
+                        withAnimation {
+                            self.isCalendarVisible = false
+                        }
+                    }
+                )
+                
+                DatePicker("", selection: binding, displayedComponents: .date)
+                    .datePickerStyle(.graphical)
+                    .environment(\.locale, Locale(identifier: "ko"))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(.grayscale100, lineWidth: 1)
+                    }
+                    .padding(.top, 8)
+                    .padding(.horizontal, 8)
+            }
+            
+        }
+        .padding(.bottom, 24)
+    }
+    
 }
