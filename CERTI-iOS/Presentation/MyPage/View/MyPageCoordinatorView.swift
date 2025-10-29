@@ -64,5 +64,6 @@ struct MyPageCoordinatorView: View {
     let factory: MyPageFactory = AppDIContainer.shared.makeMyPageFactory()
     @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
 
-    EditProfileView(viewModel: viewModel)
+//    EditProfileView(viewModel: viewModel)
+    MyPageView(viewModel: viewModel)
 }
