@@ -36,6 +36,8 @@ struct MyPageCoordinatorView: View {
                         myPageCoordinator.push(next: .editUniversity)
                     case .navigateToEditMajor:
                         myPageCoordinator.push(next: .editMajor)
+                    case .navigateToSettings:
+                        myPageCoordinator.push(next: .settings)
                         
                     case .myPageViewRoutePop:
                         myPageCoordinator.pop()
@@ -50,12 +52,23 @@ struct MyPageCoordinatorView: View {
                     switch route {
                     case .editProfile:
                         EditProfileView(viewModel: myPageViewModel)
+                            .navigationBarBackButtonHidden()
+
                     case .manageAcademicInfo:
                         ManageAcademicInfoView(viewModel: myPageViewModel)
+                            .navigationBarBackButtonHidden()
+
                     case .editUniversity:
                         MyPageUnivView(viewModel: myPageViewModel)
+                            .navigationBarBackButtonHidden()
+
                     case .editMajor:
                         MyPageMajorView(viewModel: myPageViewModel)
+                            .navigationBarBackButtonHidden()
+
+                    case .settings:
+                        SettingView(viewModel: myPageViewModel)
+                            .navigationBarBackButtonHidden()
                         
                     // case 다 만들면 지우기
                     default:
@@ -74,9 +87,6 @@ struct MyPageCoordinatorView: View {
     let factory: MyPageFactory = AppDIContainer.shared.makeMyPageFactory()
     @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
 
-    MyPageMajorView(viewModel: viewModel)
-//    MyPageUnivView(viewModel: viewModel)
-//    ManageAcademicInfoView(viewModel: viewModel)
-//    EditProfileView(viewModel: viewModel)
-//    MyPageView(viewModel: viewModel)
+//    MyPageMajorView(viewModel: viewModel)
+    SettingView(viewModel: viewModel)
 }

@@ -113,7 +113,7 @@ struct MyPageView: View {
                     
                     // 학사정보 관리
                     myPageViewButton(icon: tabIconList[1], title: tabList[1], description: tabDescriptionList[1], action: {
-                        viewModel.navigateToEditMajor()
+                        viewModel.navigateToManageAcademicInfo()
                     })
                     .padding(.horizontal, 20)
                     
@@ -134,6 +134,11 @@ struct MyPageView: View {
                         // TODO: - 오픈채팅 링크
                     })
                     .padding(.horizontal, 20)
+
+                    Rectangle()
+                        .foregroundStyle(.grayscale0)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 40)
                     
                     Spacer()
                 }

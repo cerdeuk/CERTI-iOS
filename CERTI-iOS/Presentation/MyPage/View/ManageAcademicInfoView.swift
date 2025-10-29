@@ -133,7 +133,8 @@ extension ManageAcademicInfoView {
             } label: {
                 Image(.iconArrowleft36)
             }
-            .padding(.trailing, 30)
+            
+            Spacer()
                         
             Text("학사정보 및 희망직무 관리")
                 .applyCertiFont(.sub_semibold_20)
@@ -142,6 +143,9 @@ extension ManageAcademicInfoView {
             
             Spacer()
             
+            Rectangle()
+                .foregroundStyle(.clear)
+                .frame(width: 36)
         }
         .padding(.horizontal, 20)
         .frame(height: 68)
