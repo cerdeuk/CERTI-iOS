@@ -30,7 +30,8 @@ struct MyPageCoordinatorView: View {
                     switch route {
                     case .navigateToEditProfile:
                         myPageCoordinator.push(next: .editProfile)
-                        
+                    case .navigateToManageAcademicInfo:
+                        myPageCoordinator.push(next: .manageAcademicInfo)
                         
                         
                     case .myPageViewRoutePop:
@@ -46,6 +47,8 @@ struct MyPageCoordinatorView: View {
                     switch route {
                     case .editProfile:
                         EditProfileView(viewModel: myPageViewModel)
+                    case .manageAcademicInfo:
+                        ManageAcademicInfoView(viewModel: myPageViewModel)
                         
                     // case 다 만들면 지우기
                     default:
@@ -64,6 +67,7 @@ struct MyPageCoordinatorView: View {
     let factory: MyPageFactory = AppDIContainer.shared.makeMyPageFactory()
     @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
 
+    ManageAcademicInfoView(viewModel: viewModel)
 //    EditProfileView(viewModel: viewModel)
-    MyPageView(viewModel: viewModel)
+//    MyPageView(viewModel: viewModel)
 }
