@@ -34,6 +34,8 @@ struct MyPageCoordinatorView: View {
                         myPageCoordinator.push(next: .manageAcademicInfo)
                     case .navigateToEditUniversity:
                         myPageCoordinator.push(next: .editUniversity)
+                    case .navigateToEditMajor:
+                        myPageCoordinator.push(next: .editMajor)
                         
                     case .myPageViewRoutePop:
                         myPageCoordinator.pop()
@@ -52,6 +54,8 @@ struct MyPageCoordinatorView: View {
                         ManageAcademicInfoView(viewModel: myPageViewModel)
                     case .editUniversity:
                         MyPageUnivView(viewModel: myPageViewModel)
+                    case .editMajor:
+                        MyPageMajorView(viewModel: myPageViewModel)
                         
                     // case 다 만들면 지우기
                     default:
@@ -70,7 +74,8 @@ struct MyPageCoordinatorView: View {
     let factory: MyPageFactory = AppDIContainer.shared.makeMyPageFactory()
     @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
 
-    MyPageUnivView(viewModel: viewModel)
+    MyPageMajorView(viewModel: viewModel)
+//    MyPageUnivView(viewModel: viewModel)
 //    ManageAcademicInfoView(viewModel: viewModel)
 //    EditProfileView(viewModel: viewModel)
 //    MyPageView(viewModel: viewModel)
