@@ -26,7 +26,7 @@ struct ManageAcademicInfoView: View {
                 .padding(.bottom, 24)
             
             Button {
-                // 대학교 변경
+                viewModel.navigateToEditUniversity()
             } label: {
                 HStack(alignment: .center, spacing: 0) {
                     Text("대학교 변경")
@@ -44,7 +44,7 @@ struct ManageAcademicInfoView: View {
             .padding(.bottom, 16)
 
             Button {
-                // 학과 변경
+                viewModel.navigateToEditMajor()
             } label: {
                 HStack(alignment: .center, spacing: 0) {
                     Text("학과 변경")
