@@ -10,28 +10,88 @@ import SwiftUI
 struct SettingView: View {
     @ObservedObject var viewModel: MyPageViewModel
     
+    @State private var showLogoutAlert = false
+    @State private var showWithDrawAlert = false
+    
     let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            headerView
-            
-            notificationSetting
-                .padding(.bottom, 36)
-                .padding(.top, 20)
-            
-            privacyPolicy
-                .padding(.bottom, 36)
-            
-            withDraw
-                .padding(.bottom, 36)
+        ZStack {
+            VStack(alignment: .leading, spacing: 0) {
+                headerView
+                
+                notificationSetting
+                    .padding(.bottom, 36)
+                    .padding(.top, 20)
+                
+                privacyPolicy
+                    .padding(.bottom, 36)
+                
+                withDraw
+                    .padding(.bottom, 36)
 
-            appVersion
-                .padding(.bottom, 36)
+                appVersion
+                    .padding(.bottom, 36)
+                
+                logout
+                
+                Spacer()
+            }
+            .zIndex(1)
             
-            logout
+            if showLogoutAlert {
+                CertiAlertView(
+                    style: .plain,
+                    onConfirm: {
+                        Task {
+                            //TODO: - 로그아웃 로직
+                            
+                            withAnimation {
+                                showLogoutAlert = false
+                            }
+                        }
+                    },
+                    onCancel: {
+                        withAnimation {
+                            showLogoutAlert = false
+                        }
+                    },
+                    titleMessage: "로그아웃하시겠습니까?",
+                    subTitleMessage: "로그아웃 시 재로그인이 필요합니다.",
+                    confirmText: "확인",
+                    cancelText: "취소"
+                )
+                .transition(.opacity)
+                .zIndex(2)
+            }
             
-            Spacer()
+            if showWithDrawAlert {
+                CertiAlertView(
+                    style: .withdraw,
+                    onConfirm: {
+                        Task {
+                            //TODO: - 탈퇴 로직
+                            
+                            withAnimation {
+                                showWithDrawAlert = false
+                            }
+                        }
+                    },
+                    onCancel: {
+                        withAnimation {
+                            showWithDrawAlert = false
+                        }
+                    },
+                    titleMessage: "회원 탈퇴를 진행하시겠습니까?",
+                    subTitleMessage: "탈퇴 시 모든 개인 정보와 자격증, 학습 데이터, 저장된 이력서 정보가 영구적으로 삭제되며 이후 복구가 불가능합니다.",
+                    confirmText: "탈퇴",
+                    cancelText: "취소"
+                )
+                .transition(.opacity)
+                .zIndex(2)
+            }
+            
+            
         }
     }
 }
@@ -106,7 +166,9 @@ extension SettingView {
     @ViewBuilder
     private var withDraw: some View {
         Button {
-            // TODO: - 탈퇴하기
+            withAnimation {
+                showWithDrawAlert = true
+            }
         } label: {
             HStack(alignment: .center, spacing: 0) {
                 Text("회원 탈퇴")
@@ -145,7 +207,9 @@ extension SettingView {
     @ViewBuilder
     private var logout: some View {
         Button {
-            //TODO: - 로그아웃
+            withAnimation {
+                showLogoutAlert = true
+            }
         } label: {
             Text("로그아웃")
                 .applyCertiFont(.body_semibold_16)

@@ -49,6 +49,7 @@ struct NotificationSettingView: View {
                     helpPopup
                 }
             }
+            .zIndex(1)
             
             if showConfirmationAlert {
                 CertiAlertView(

@@ -88,6 +88,6 @@ struct MyPageCoordinatorView: View {
     @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
 
 //    MyPageMajorView(viewModel: viewModel)
-//    SettingView(viewModel: viewModel)
-    NotificationSettingView(viewModel: viewModel)
+    SettingView(viewModel: viewModel)
+//    NotificationSettingView(viewModel: viewModel)
 }
