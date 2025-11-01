@@ -50,6 +50,33 @@ struct NotificationSettingView: View {
                 }
             }
             
+            if showConfirmationAlert {
+                CertiAlertView(
+                    style: .onlyTitle,
+                    onConfirm: {
+                        Task {
+                            agreeState = true
+                            withAnimation {
+                                showConfirmationAlert = false
+                            }
+                            showToastMessage = true
+                            try await Task.sleep(for: .seconds(2))
+                            showToastMessage = false
+                        }
+                    },
+                    onCancel: {
+                        withAnimation {
+                            showConfirmationAlert = false
+                        }
+                    },
+                    titleMessage: "개인정보 수집 이용에 동의해야 이벤트 및 혜택 안내를 받을 수 있습니다. \n동의하시겠습니까?",
+                    confirmText: "확인",
+                    cancelText: "취소"
+                )
+                .transition(.opacity)
+                .zIndex(2)
+            }
+            
             
             if showToastMessage {
                 ToastMessageView(
@@ -57,7 +84,7 @@ struct NotificationSettingView: View {
                     style: .agreeMarketing
                 )
                 .transition(.move(edge: .bottom).combined(with: .opacity))
-                .zIndex(1)
+                .zIndex(3)
                 .padding(.bottom, 36)
             }
         }
@@ -101,15 +128,9 @@ extension NotificationSettingView {
             },
             set: { newValue in
                 if newValue == true {
-                    //                        showConfirmationAlert = true
-                    agreeState = true
-                    
-                    Task {
-                        showToastMessage = true
-                        try await Task.sleep(for: .seconds(2))
-                        showToastMessage = false
+                    withAnimation {
+                        showConfirmationAlert = true
                     }
-                    
                 } else {
                     agreeState = false
                     showToastMessage = false
