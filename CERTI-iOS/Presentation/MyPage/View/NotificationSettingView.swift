@@ -14,6 +14,7 @@ struct NotificationSettingView: View {
     @State private var agreeState: Bool = false
     @State private var showConfirmationAlert = false
     @State private var showToastMessage = false
+    @State private var showHelpPopup = false
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -43,6 +44,12 @@ struct NotificationSettingView: View {
                 
                 Spacer()
             }
+            .overlay(alignment: .top) {
+                if showHelpPopup {
+                    helpPopup
+                }
+            }
+            
             
             if showToastMessage {
                 ToastMessageView(
@@ -89,43 +96,43 @@ extension NotificationSettingView {
     @ViewBuilder
     private var agreeToggleButton: some View {
         let toggleBinding = Binding<Bool>(
-                get: {
-                    agreeState
-                },
-                set: { newValue in
-                    if newValue == true {
-//                        showConfirmationAlert = true
-                        agreeState = true
-                        
-                        Task {
-                            showToastMessage = true
-                            try await Task.sleep(for: .seconds(2))
-                            showToastMessage = false
-                        }
-                        
-                    } else {
-                        agreeState = false
+            get: {
+                agreeState
+            },
+            set: { newValue in
+                if newValue == true {
+                    //                        showConfirmationAlert = true
+                    agreeState = true
+                    
+                    Task {
+                        showToastMessage = true
+                        try await Task.sleep(for: .seconds(2))
                         showToastMessage = false
                     }
-                }
-            )
-            
-            Toggle(isOn: toggleBinding) {
-                HStack(alignment: .center, spacing: 0) {
-                    Text("광고성 정보 수신 동의")
-                        .applyCertiFont(.body_semibold_16)
-                        .foregroundStyle(.black)
-                        .padding(.trailing, 4)
-                 
-                    Button {
-                        // 도움말 팝업
-                    } label: {
-                        Image(.iconQuestion24)
-                    }
+                    
+                } else {
+                    agreeState = false
+                    showToastMessage = false
                 }
             }
-            .tint(.purpleblue)
-            .frame(height: 24)
+        )
+        
+        Toggle(isOn: toggleBinding) {
+            HStack(alignment: .center, spacing: 0) {
+                Text("광고성 정보 수신 동의")
+                    .applyCertiFont(.body_semibold_16)
+                    .foregroundStyle(.black)
+                    .padding(.trailing, 4)
+                
+                Button {
+                    showHelpPopup.toggle()
+                } label: {
+                    Image(.iconQuestion24)
+                }
+            }
+        }
+        .tint(.purpleblue)
+        .frame(height: 24)
     }
     
     @ViewBuilder
@@ -173,4 +180,36 @@ extension NotificationSettingView {
         .background(.grayscale0)
     }
     
+    @ViewBuilder
+    private var helpPopup: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(alignment: .center, spacing: 0) {
+                Text("광고성 정보 수신 동의")
+                    .applyCertiFont(.caption_semibold_12)
+                    .foregroundStyle(.grayscale500)
+                
+                Spacer()
+                
+                Button {
+                    showHelpPopup = false
+                } label: {
+                    Image(.iconClose20)
+                }
+            }
+            
+            Text("회원이 수집 및 이용에 동의한 개인정보를 서티에서 활용하는 것에 동의하며,해당 개인정보를 활용하여 이메일/SMS를 통해 서비스에 대한 개인 맞춤형 광고 정보(혜택·소식 메일,광고메일,문자알림)를 전송할 수 있어요.")
+                .applyCertiFont(.caption_regular_12)
+                .foregroundStyle(.grayscale400)
+        }
+        .padding(.vertical, 6)
+        .padding(.horizontal, 10)
+        .background(.white)
+        .frame(width: 216)
+        .overlay {
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(.grayscale400, lineWidth: 1)
+        }
+        .padding(.top, 120)
+        .padding(.leading, 40)
+    }
 }
