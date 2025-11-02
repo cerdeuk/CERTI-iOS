@@ -48,10 +48,12 @@ struct ResumeView: View {
         }
         .onAppear{
             Task {
-                await viewModel.getJobList()
-                await viewModel.getAcquisitionList()
-                await viewModel.getCareersList()
-                await viewModel.getActivityList()
+                async let jobList: () = viewModel.getJobList()
+                async let acquisitionList: () = viewModel.getAcquisitionList()
+                async let careersList: () = viewModel.getCareersList()
+                async let activityList:() = viewModel.getActivityList()
+                
+                _ = await (jobList, acquisitionList, careersList, activityList)
             }
         }
     }
