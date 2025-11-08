@@ -134,10 +134,8 @@ struct CertificateDetailView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .onAppear {
-            Task {
-                await viewModel.fetchCertificateDetail(certificationId: certificationId)
-            }
+        .task {
+            await viewModel.fetchCertificateDetail(certificationId: certificationId)
         }
     }
     
