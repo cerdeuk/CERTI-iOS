@@ -1,5 +1,5 @@
 //
-//  ResumePreviewStub.swift
+//  ResumePreviewUseCase.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 11/4/25.
