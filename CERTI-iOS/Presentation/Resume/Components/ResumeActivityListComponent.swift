@@ -48,5 +48,11 @@ struct ResumeActivityListComponent: View {
 }
 
 #Preview {
-    ResumeActivityListComponent(model: ResumeModel.myCareerDummy().first!)
+    ResumeActivityListComponent(model: ResumeModel(
+        startAt: "2021.11",
+        endAt: "2022.01",
+        name: "패션디자이너 인턴",
+        place: "서티그룹",
+        description: "트렌드 리서치 및 소재 조사"
+    ))
 }
