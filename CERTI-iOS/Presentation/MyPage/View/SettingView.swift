@@ -126,7 +126,7 @@ extension SettingView {
     @ViewBuilder
     private var notificationSetting: some View {
         Button {
-            // TODO: - 알림설정 이동
+            viewModel.navigateToNotificationSettings()
         } label: {
             HStack(alignment: .center, spacing: 0) {
                 Text("알림 설정")

@@ -38,6 +38,8 @@ struct MyPageCoordinatorView: View {
                         myPageCoordinator.push(next: .editMajor)
                     case .navigateToSettings:
                         myPageCoordinator.push(next: .settings)
+                    case .navigateToNotificationSettings:
+                        myPageCoordinator.push(next: .notificationSettings)
                         
                     case .myPageViewRoutePop:
                         myPageCoordinator.pop()
@@ -70,6 +72,10 @@ struct MyPageCoordinatorView: View {
                         SettingView(viewModel: myPageViewModel)
                             .navigationBarBackButtonHidden()
                         
+                    case .notificationSettings:
+                        NotificationSettingView(viewModel: myPageViewModel)
+                            .navigationBarBackButtonHidden()
+
                     // case 다 만들면 지우기
                     default:
                         EmptyView()
