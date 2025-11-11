@@ -9,10 +9,10 @@ import SwiftUI
 
 struct OnboardingInfoView: View {
     @ObservedObject var viewModel: OnboardingViewModel
-
+    
     @State private var username = AuthManager.shared.nickname
     @State private var isShowLoadingView = false
-    
+        
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             Image(.imageOnboardingFirework)
@@ -43,7 +43,7 @@ struct OnboardingInfoView: View {
                     .foregroundStyle(.black)
                     .padding(.bottom, 46)
                     .padding(.horizontal, 20)
-
+                
                 Text("최종학력")
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.black)
@@ -78,20 +78,10 @@ struct OnboardingInfoView: View {
                     .frame(height: 25)
                     .padding(.bottom, 14)
                     .padding(.horizontal, 20)
-
-                VStack(alignment: .leading, spacing: 13) {
-                    ForEach(viewModel.selectedJobCategory, id: \.self) { job in
-                        Text(job)
-                            .applyCertiFont(.caption_semibold_14)
-                            .foregroundStyle(.mainblue)
-                            .padding(.vertical, 4)
-                            .padding(.horizontal, 6)
-                            .background(.purplewhite)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                    }
-                }
-                .padding(.bottom, 36)
-                .padding(.horizontal, 20)
+                
+                jobCategoryList
+                    .padding(.bottom, 36)
+                    .padding(.horizontal, 20)
                 
                 Spacer()
                 
@@ -118,13 +108,83 @@ struct OnboardingInfoView: View {
                 }
                 .padding(.bottom, 22)
                 .padding(.horizontal, 20)
-
+                
             }
-
+            
         }
         .overlay {
             if isShowLoadingView {
                 CertiLoadingView(name: username.trimmedUsername())
+            }
+        }
+    }
+}
+
+extension OnboardingInfoView {
+    @ViewBuilder
+    private var jobCategoryList: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack(alignment: .center, spacing: 0) {
+                Text("1순위")
+                    .applyCertiFont(.caption_semibold_14)
+                    .foregroundStyle(.grayscale400)
+                    .padding(.trailing, 10)
+                
+                if viewModel.selectedJobCategory.count > 0 {
+                    Text(viewModel.selectedJobCategory[0])
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundStyle(.mainblue)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                        .background(.purplewhite)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                } else {
+                    Text("-")
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundStyle(.grayscale400)
+                }
+            }
+            
+            HStack(alignment: .center, spacing: 0) {
+                Text("2순위")
+                    .applyCertiFont(.caption_semibold_14)
+                    .foregroundStyle(.grayscale400)
+                    .padding(.trailing, 10)
+                
+                if viewModel.selectedJobCategory.count > 1 {
+                    Text(viewModel.selectedJobCategory[1])
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundStyle(.mainblue)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                        .background(.purplewhite)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                } else {
+                    Text("-")
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundStyle(.grayscale400)
+                }
+            }
+            
+            HStack(alignment: .center, spacing: 0) {
+                Text("3순위")
+                    .applyCertiFont(.caption_semibold_14)
+                    .foregroundStyle(.grayscale400)
+                    .padding(.trailing, 10)
+                
+                if viewModel.selectedJobCategory.count > 2 {
+                    Text(viewModel.selectedJobCategory[2])
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundStyle(.mainblue)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                        .background(.purplewhite)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                } else {
+                    Text("-")
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundStyle(.grayscale400)
+                }
             }
         }
     }

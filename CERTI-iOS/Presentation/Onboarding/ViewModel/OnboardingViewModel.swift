@@ -14,6 +14,7 @@ enum OnboardingViewRoute {
     case navigateToTrack
     case navigateToMajor
     case navigateToJobCategory
+    case navigateToNickName
     case navigateToInfo
     
     case completeOnboarding
@@ -34,6 +35,8 @@ final class OnboardingViewModel: ObservableObject {
     @Published var selectedJobCategory: [String] = []
     @Published var universityList: [String] = []
     @Published var majorList: [String] = []
+    @Published var nickname: String = ""
+    @Published var nickNameValid: nickNameValidateCase? = nil
     @Published var onboardingViewRoute: OnboardingViewRoute?
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Onboarding")
@@ -84,6 +87,10 @@ extension OnboardingViewModel {
     
     func navigateToJobCategory() {
         onboardingViewRoute = .navigateToJobCategory
+    }
+    
+    func navigateToNickName() {
+        onboardingViewRoute = .navigateToNickName
     }
     
     func navigateToInfo() {
