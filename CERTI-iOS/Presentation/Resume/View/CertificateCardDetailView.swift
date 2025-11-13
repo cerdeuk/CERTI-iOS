@@ -126,6 +126,8 @@ extension CertificateCardDetailView {
     
     private var CertificateCardDetailViewBack: some View {
             ZStack(alignment: .center) {
+                Color.blackOpacity40
+                    .frame(width: 250, height: 375)
                 KFImage(URL(string: card.cardBackImageUrl))
                     .retry(maxCount: 3, interval: .seconds(5))
                     .onFailure { error in
@@ -133,6 +135,7 @@ extension CertificateCardDetailView {
                     }
                     .resizable()
                     .scaledToFill()
+                    .frame(width: 250, height: 375)
                 
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .center, spacing: 0) {
