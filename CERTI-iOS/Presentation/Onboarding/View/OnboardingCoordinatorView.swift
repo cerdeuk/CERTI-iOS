@@ -14,7 +14,7 @@ struct OnboardingCoordinatorView: View {
     @StateObject private var onboardingViewModel: OnboardingViewModel
     
     private let onboardingFactory: OnboardingFactory
-
+    
     init(onboardingCoordinator: OnboardingCoordinator, onboardingFactory: OnboardingFactory) {
         self.onboardingCoordinator = onboardingCoordinator
         self.onboardingFactory = onboardingFactory
@@ -35,6 +35,8 @@ struct OnboardingCoordinatorView: View {
                         onboardingCoordinator.push(next: .major)
                     case .navigateToJobCategory:
                         onboardingCoordinator.push(next: .jobCategory)
+                    case .navigateToNickName:
+                        onboardingCoordinator.push(next: .nickname)
                     case .navigateToInfo:
                         onboardingCoordinator.push(next: .info)
                     case .onboardingViewRoutePop:
@@ -53,23 +55,27 @@ struct OnboardingCoordinatorView: View {
                     case .grade:
                         OnboardingGradeView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
-
+                        
                     case .track:
                         OnboardingTrackView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
-
+                        
                     case .major:
                         OnboardingMajorView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
-
+                        
                     case .jobCategory:
                         OnboardingJobCategoryView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
-
+                        
+                    case .nickname:
+                        OnboardingNickNameView(viewModel: onboardingViewModel)
+                            .navigationBarBackButtonHidden()
+                        
                     case .info:
                         OnboardingInfoView(viewModel: onboardingViewModel)
                             .navigationBarBackButtonHidden()
-
+                        
                     }
                 }
         }

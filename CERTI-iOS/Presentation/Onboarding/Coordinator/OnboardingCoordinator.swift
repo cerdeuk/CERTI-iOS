@@ -12,6 +12,7 @@ enum OnboardingRoute: Hashable {
     case track
     case major
     case jobCategory
+    case nickname
     case info
 }
 
