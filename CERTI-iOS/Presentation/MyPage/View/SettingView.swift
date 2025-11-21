@@ -18,7 +18,11 @@ struct SettingView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
-                headerView
+                MyPageHeader(style: .normal, title: "설정") {
+                    nil
+                } backButtonAction: {
+                    viewModel.myPageViewRoutePop()
+                }
                 
                 notificationSetting
                     .padding(.bottom, 36)
@@ -97,32 +101,6 @@ struct SettingView: View {
 }
 
 extension SettingView {
-    @ViewBuilder
-    private var headerView: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Button {
-                viewModel.myPageViewRoutePop()
-            } label: {
-                Image(.iconArrowleft36)
-            }
-            
-            Spacer()
-            
-            Text("설정")
-                .applyCertiFont(.sub_semibold_20)
-                .foregroundStyle(.grayscale600)
-                .frame(height: 25)
-            
-            Spacer()
-            
-            Rectangle()
-                .foregroundStyle(.clear)
-                .frame(width: 36)
-        }
-        .padding(.horizontal, 20)
-        .frame(height: 68)
-    }
-    
     @ViewBuilder
     private var notificationSetting: some View {
         Button {

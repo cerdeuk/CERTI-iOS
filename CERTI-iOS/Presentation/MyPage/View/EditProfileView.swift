@@ -24,8 +24,14 @@ struct EditProfileView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            headerView
             
+            MyPageHeader(style: .save, title: "개인정보 수정") {
+                // TODO: - 저장로직 연결
+                viewModel.myPageViewRoutePop()
+            } backButtonAction: {
+                viewModel.myPageViewRoutePop()
+            }
+                        
             ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: 0) {
                     
@@ -53,38 +59,6 @@ struct EditProfileView: View {
 }
 
 extension EditProfileView {
-    @ViewBuilder
-    private var headerView: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Button {
-                viewModel.myPageViewRoutePop()
-            } label: {
-                Image(.iconArrowleft36)
-            }
-            
-            Spacer()
-            
-            Text("개인정보 수정")
-                .applyCertiFont(.sub_semibold_20)
-                .foregroundStyle(.grayscale600)
-                .frame(height: 25)
-            
-            Spacer()
-            
-            Button {
-                // TODO: - 저장
-                viewModel.myPageViewRoutePop()
-            } label: {
-                Text("저장")
-                    .applyCertiFont(.body_semibold_18)
-                    .foregroundStyle(.grayscale400)
-                    .frame(width: 36, height: 25)
-            }
-        }
-        .padding(.horizontal, 20)
-        .frame(height: 68)
-    }
-    
     @ViewBuilder
     private var imageView: some View {
         HStack(alignment: .center, spacing: 0) {

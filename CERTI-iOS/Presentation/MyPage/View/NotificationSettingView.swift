@@ -26,7 +26,11 @@ struct NotificationSettingView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
-                headerView
+                MyPageHeader(style: .normal, title: "알림 설정") {
+                    nil
+                } backButtonAction: {
+                    viewModel.myPageViewRoutePop()
+                }
                 
                 agreeToggleButton
                     .padding(.top, 20)
@@ -95,32 +99,6 @@ struct NotificationSettingView: View {
 }
 
 extension NotificationSettingView {
-    @ViewBuilder
-    private var headerView: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Button {
-                viewModel.myPageViewRoutePop()
-            } label: {
-                Image(.iconArrowleft36)
-            }
-            
-            Spacer()
-            
-            Text("알림 설정")
-                .applyCertiFont(.sub_semibold_20)
-                .foregroundStyle(.grayscale600)
-                .frame(height: 25)
-            
-            Spacer()
-            
-            Rectangle()
-                .foregroundStyle(.clear)
-                .frame(width: 36)
-        }
-        .padding(.horizontal, 20)
-        .frame(height: 68)
-    }
-    
     @ViewBuilder
     private var agreeToggleButton: some View {
         let toggleBinding = Binding<Bool>(
