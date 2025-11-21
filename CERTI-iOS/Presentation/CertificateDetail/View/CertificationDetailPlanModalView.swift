@@ -22,6 +22,9 @@ struct CertificationDetailPlanModalView: View {
       }
     
     let certificationName: String
+    let placeMenuOptions = ["서울", "경기" ,"인천", "강원", "충남", "충북"]
+    let placeMenuOptions2 = ["강북구", "마포구" ,"용산구", "성북구"]
+
     
     var body: some View {
         ScrollView(.vertical) {
@@ -87,7 +90,7 @@ extension CertificationDetailPlanModalView {
                                 .foregroundStyle(.black)
                         } else {
                             Text("시험 날짜를 선택해주세요.")
-                                .applyCertiFont(.caption_semibold_14)
+                                .applyCertiFont(.caption_semibold_12)
                                 .foregroundStyle(.grayscale300)
                         }
                         
@@ -100,10 +103,11 @@ extension CertificationDetailPlanModalView {
                     .padding(.leading, 12)
                     .padding(.trailing, 8)
                 }
-                .background(.grayscale0)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .frame(height: 40)
+                .background(.clear)
+                .clipShape(RoundedRectangle(cornerRadius: 4))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: 4)
                         .stroke(.grayscale200, lineWidth: 1)
                 )
                 .padding(.horizontal, 20)
@@ -148,7 +152,20 @@ extension CertificationDetailPlanModalView {
             .frame(width: 88, height: 24)
             .padding(.leading, 20)
             .padding(.trailing, 267)
+            
+            HStack(alignment: .center, spacing: 0) {
+                DropdownMenu(options: placeMenuOptions, menuPlaceholder: "시/도")
+                
+                Spacer()
+                
+                DropdownMenu(options: placeMenuOptions2, menuPlaceholder: "구/시")
+            }
+            .padding(.top, 12)
+            .padding(.horizontal, 20)
+
         }
+        .padding(.top, 25)
+        .zIndex(2)
     }
     
     @ViewBuilder
@@ -166,9 +183,14 @@ extension CertificationDetailPlanModalView {
             .frame(width: 88, height: 24)
             .padding(.leading, 20)
             .padding(.trailing, 267)
+            
+            
         }
+        .padding(.top, 25)
+        .zIndex(1)
     }
 }
+
 #Preview {
     CertificationDetailPlanModalView(viewModel: CertificateDetailViewModel(
         fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),

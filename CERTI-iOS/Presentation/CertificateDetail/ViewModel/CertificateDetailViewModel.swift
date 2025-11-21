@@ -30,6 +30,7 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var showFailToBeAcquired: Bool = false
     @Published var showCompleteModal = false
     @Published var CertificationPlanDate: Date? = nil
+    @Published var CertificationPlanPlace: String? = nil
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
