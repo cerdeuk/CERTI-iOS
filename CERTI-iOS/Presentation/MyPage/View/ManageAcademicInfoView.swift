@@ -15,7 +15,11 @@ struct ManageAcademicInfoView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            headerView
+            MyPageHeader(style: .normal, title: "학사정보 및 희망직무 관리") {
+                nil
+            } backButtonAction: {
+                viewModel.myPageViewRoutePop()
+            }
             
             Text("학사정보")
                 .applyCertiFont(.body_semibold_16)
@@ -121,33 +125,5 @@ struct ManageAcademicInfoView: View {
                 .presentationDragIndicator(.hidden)
         }
          */
-    }
-}
-
-extension ManageAcademicInfoView {
-    @ViewBuilder
-    private var headerView: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Button {
-                viewModel.myPageViewRoutePop()
-            } label: {
-                Image(.iconArrowleft36)
-            }
-            
-            Spacer()
-                        
-            Text("학사정보 및 희망직무 관리")
-                .applyCertiFont(.sub_semibold_20)
-                .foregroundStyle(.grayscale600)
-                .frame(height: 25)
-            
-            Spacer()
-            
-            Rectangle()
-                .foregroundStyle(.clear)
-                .frame(width: 36)
-        }
-        .padding(.horizontal, 20)
-        .frame(height: 68)
     }
 }
