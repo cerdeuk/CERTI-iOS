@@ -13,6 +13,9 @@ struct CertificationDetailPlanModalView: View {
     @EnvironmentObject var tabRouter: CertiTabCoordinator
     
     @State private var isCalendarVisible: Bool = false
+    @State var isAM = true
+    @State var hour = 1
+    @State var minute = 0
     
     private var dateFormatter: DateFormatter {
           let formatter = DateFormatter()
@@ -35,6 +38,8 @@ struct CertificationDetailPlanModalView: View {
         }
         .scrollIndicators(.hidden)
         //.background(.yellow)
+        Spacer()
+        bottomButtonView
     }
 }
 
@@ -184,10 +189,47 @@ extension CertificationDetailPlanModalView {
             .padding(.leading, 20)
             .padding(.trailing, 267)
             
-            
+            CertiTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
+                .padding(.horizontal, 20)
         }
         .padding(.top, 25)
         .zIndex(1)
+    }
+    
+    @ViewBuilder
+    private var bottomButtonView: some View {
+        VStack(alignment: .center, spacing: 0) {
+            Button {
+                print("나중에 입력하기 클릭")
+            } label: {
+                VStack(alignment: .center, spacing: 0) {
+                    Text("나중에 입력하기")
+                        .applyCertiFont(.caption_semibold_12)
+                        .foregroundStyle(.grayscale300)
+                    
+                    Rectangle()
+                        .frame(width: 97, height: 1)
+                        .foregroundStyle(.grayscale200)
+                        .padding(.top, 4)
+                }
+            }
+            
+            Button {
+                print("적용하기 클릭")
+            } label: {
+                ZStack {
+                    Rectangle()
+                        .frame(width: 335, height: 56)
+                        .foregroundStyle(.purpleblue)
+                        .cornerRadius(12)
+                    
+                    Text("적용하기")
+                        .applyCertiFont(.body_semibold_16)
+                        .foregroundStyle(.white)
+                }
+            }
+            .padding(.top, 12)
+        }
     }
 }
 

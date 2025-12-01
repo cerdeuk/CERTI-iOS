@@ -124,7 +124,7 @@ private extension CertiPickerView {
     }
 }
 
-struct CertiTimePicker: UIViewRepresentable {
+struct CustomTimePicker: UIViewRepresentable {
     @Binding var isAM: Bool
     @Binding var hour: Int
     @Binding var minute: Int
@@ -147,7 +147,7 @@ struct CertiTimePicker: UIViewRepresentable {
     }
 
     class Coordinator: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
-        var parent: CertiTimePicker
+        var parent: CustomTimePicker
 
         static let ampm: [String] = ["오전", "오후"]
         static let hours: [Int] = Array(1...12)
@@ -155,12 +155,13 @@ struct CertiTimePicker: UIViewRepresentable {
         static let hoursInfinite: [Int] = Array(repeating: hours, count: 100).flatMap { $0 }
         static let minutesInfinite: [Int] = Array(repeating: minutes, count: 100).flatMap { $0 }
 
-
-        init(_ parent: CertiTimePicker) {
+        init(_ parent: CustomTimePicker) {
             self.parent = parent
         }
 
-        func numberOfComponents(in pickerView: UIPickerView) -> Int { 3 }
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 3
+        }
 
         func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
             switch component {
@@ -178,8 +179,8 @@ struct CertiTimePicker: UIViewRepresentable {
 
             let label = UILabel()
             label.textAlignment = .center
-            label.font = UIFont(name: "Pretendard-SemiBold", size: 14) ?? UIFont.systemFont(ofSize: 14, weight: .semibold)
-            label.textColor = .black
+            label.font = UIFont(name: "Pretendard-SemiBold", size: 14)
+            label.textColor = UIColor(named: "grayscale600")
 
             switch component {
             case 0: label.text = Self.ampm[row]
@@ -218,17 +219,29 @@ struct CertiTimePicker: UIViewRepresentable {
     }
 }
 
+struct CertiTimePicker: View {
+    @Binding var isAM: Bool
+    @Binding var hour: Int
+    @Binding var minute: Int
+    
+    var body: some View {
+        ZStack {
+            CustomTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
+                .frame(height: 180)
+            
+            Text(":")
+                .applyCertiFont(.caption_semibold_14)
+                .foregroundColor(.grayscale600)
+                .offset(x: 49, y: 0)
+        }
+    }
+}
+
 #Preview {
     @State var isAM = true
     @State var hour = 1
     @State var minute = 0
-    ZStack {
-        CertiTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
-            .frame(height: 180)
-     
-        Text(":")
-            .applyCertiFont(.caption_semibold_14)
-            .offset(x: 49, y: 0)
-    }
+
+    CertiTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
 }
 
