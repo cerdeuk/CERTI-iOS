@@ -26,7 +26,7 @@ final class CertiPickerView: UIPickerView {
     ]
     
     private let lineSpacing: [CGFloat] = [12, 10]
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLines()
@@ -66,10 +66,10 @@ private extension CertiPickerView {
     func hideIndicator() {
         for sub in subviews {
             let isIndicator =
-                sub.subviews.isEmpty &&
-                sub.bounds.height > 5 &&
-                sub.bounds.height < 60
-
+            sub.subviews.isEmpty &&
+            sub.bounds.height > 5 &&
+            sub.bounds.height < 60
+            
             if isIndicator {
                 sub.isHidden = true
                 sub.alpha = 0
@@ -79,7 +79,7 @@ private extension CertiPickerView {
     
     func layoutLines() {
         let totalContentWidth =
-            layouts.map { $0.textWidth }.reduce(0, +) + lineSpacing.reduce(0, +)
+        layouts.map { $0.textWidth }.reduce(0, +) + lineSpacing.reduce(0, +)
         
         var xOffset: CGFloat = (bounds.width - totalContentWidth) / 2
         
@@ -123,41 +123,41 @@ struct CustomTimePicker: UIViewRepresentable {
     @Binding var isAM: Bool
     @Binding var hour: Int
     @Binding var minute: Int
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
+    
     func makeUIView(context: Context) -> UIPickerView {
         let picker = CertiPickerView()
         picker.delegate = context.coordinator
         picker.dataSource = context.coordinator
         return picker
     }
-
+    
     func updateUIView(_ uiView: UIPickerView, context: Context) {
         uiView.selectRow(isAM ? 0 : 1, inComponent: 0, animated: false)
         uiView.selectRow(hour - 1, inComponent: 1, animated: false)
         uiView.selectRow(minute / 5, inComponent: 2, animated: false)
     }
-
+    
     class Coordinator: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
         var parent: CustomTimePicker
-
+        
         static let ampm: [String] = ["오전", "오후"]
         static let hours: [Int] = Array(1...12)
         static let minutes: [Int] = Array(stride(from: 0, to: 60, by: 5))
         static let hoursInfinite: [Int] = Array(repeating: hours, count: 100).flatMap { $0 }
         static let minutesInfinite: [Int] = Array(repeating: minutes, count: 100).flatMap { $0 }
-
+        
         init(_ parent: CustomTimePicker) {
             self.parent = parent
         }
-
+        
         func numberOfComponents(in pickerView: UIPickerView) -> Int {
             return 3
         }
-
+        
         func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
             switch component {
             case 0: return Self.ampm.count
@@ -166,17 +166,17 @@ struct CustomTimePicker: UIViewRepresentable {
             default: return 0
             }
         }
-
+        
         func pickerView(_ pickerView: UIPickerView,
                         viewForRow row: Int,
                         forComponent component: Int,
                         reusing view: UIView?) -> UIView {
-
+            
             let label = UILabel()
             label.textAlignment = .center
             label.font = UIFont(name: "Pretendard-SemiBold", size: 14)
             label.textColor = UIColor(named: "grayscale600")
-
+            
             switch component {
             case 0: label.text = Self.ampm[row]
             case 1: label.text = "\(Self.hoursInfinite[row % 12])"
@@ -186,7 +186,7 @@ struct CustomTimePicker: UIViewRepresentable {
             
             return label
         }
-
+        
         func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
             switch component {
             case 0: return 45
@@ -233,10 +233,15 @@ struct CertiTimePicker: View {
 }
 
 #Preview {
-    @State var isAM = true
-    @State var hour = 1
-    @State var minute = 0
-
-    CertiTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
+    struct PreviewWrapper: View {
+        @State var isAM = true
+        @State var hour = 1
+        @State var minute = 0
+        
+        var body: some View {
+            CertiTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
+        }
+    }
+    return PreviewWrapper()
 }
 
