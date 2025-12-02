@@ -9,7 +9,8 @@ import SwiftUI
 
 struct DropdownMenu: View {
     @State private var isOpen = false
-    @State private var selected: String? = nil
+    
+    @Binding var selectedPlace: String?
 
     let options: [String]
     let menuPlaceholder: String
@@ -21,9 +22,9 @@ struct DropdownMenu: View {
             }
         } label: {
             HStack {
-                Text(selected ?? menuPlaceholder)
+                Text(selectedPlace ?? menuPlaceholder)
                     .applyCertiFont(.caption_semibold_12)
-                    .foregroundColor(selected == nil ? .grayscale300 : .grayscale600)
+                    .foregroundColor(selectedPlace == nil ? .grayscale300 : .grayscale600)
                     .padding(.leading, 12)
                     .padding(.vertical, 11)
                 
@@ -43,7 +44,7 @@ struct DropdownMenu: View {
                     VStack(alignment: .center, spacing: 0) {
                         ForEach(options, id: \.self) { item in
                             Button {
-                                selected = item
+                                selectedPlace = item
                                 withAnimation {
                                     isOpen = false
                                 }
@@ -74,29 +75,36 @@ struct DropdownMenu: View {
 }
 
 #Preview {
-    VStack {
-        HStack(alignment: .center, spacing: 0) {
-            Image(.iconCheck24)
-                .frame(width: 24, height: 24)
-            
-            Text("시험 장소")
-                .applyCertiFont(.body_semibold_16)
-                .foregroundStyle(.grayscale600)
-                .frame(height: 22)
-        }
+    struct PreviewWrapper: View {
+        @State private var selectedPlace: String? = nil
         
-        DropdownMenu(options: ["서울", "경기", "인천", "강원", "충남", "충북"], menuPlaceholder: "시/도")
-            .zIndex(2)
-        
-        HStack(alignment: .center, spacing: 0) {
-            Image(.iconCheck24)
-                .frame(width: 24, height: 24)
-            
-            Text("시험 시간")
-                .applyCertiFont(.body_semibold_16)
-                .foregroundStyle(.grayscale600)
-                .frame(height: 22)
+        var body: some View {
+            VStack {
+                HStack(alignment: .center, spacing: 0) {
+                    Image(.iconCheck24)
+                        .frame(width: 24, height: 24)
+                    
+                    Text("시험 장소")
+                        .applyCertiFont(.body_semibold_16)
+                        .foregroundStyle(.grayscale600)
+                        .frame(height: 22)
+                }
+                
+                DropdownMenu(selectedPlace: $selectedPlace, options: ["서울", "경기", "인천", "강원", "충남", "충북"], menuPlaceholder: "시/도")
+                    .zIndex(2)
+                
+                HStack(alignment: .center, spacing: 0) {
+                    Image(.iconCheck24)
+                        .frame(width: 24, height: 24)
+                    
+                    Text("시험 시간")
+                        .applyCertiFont(.body_semibold_16)
+                        .foregroundStyle(.grayscale600)
+                        .frame(height: 22)
+                }
+                .zIndex(1)
+            }
         }
-        .zIndex(1)
-    }
+        }
+    return PreviewWrapper()
 }

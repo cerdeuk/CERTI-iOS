@@ -60,7 +60,7 @@ final class CertiPickerView: UIPickerView {
 }
 
 
-// MARK: - Private Layout Methods
+// MARK: - Layout Methods
 
 private extension CertiPickerView {
     func hideIndicator() {
@@ -78,11 +78,9 @@ private extension CertiPickerView {
     }
     
     func layoutLines() {
-        // 전체 폭 계산
         let totalContentWidth =
             layouts.map { $0.textWidth }.reduce(0, +) + lineSpacing.reduce(0, +)
         
-        // 왼쪽 여백: picker 중앙에 맞추기 위한 offset
         var xOffset: CGFloat = (bounds.width - totalContentWidth) / 2
         
         let rowHeight = rowSize(forComponent: 0).height
@@ -93,11 +91,9 @@ private extension CertiPickerView {
         for i in 0..<layouts.count {
             let layout = layouts[i]
             
-            // 각 컴포넌트의 중앙 X
             var centerX = xOffset + layout.textWidth / 2
             centerX += layout.lineLocationValue
             
-            // 라인 X 계산
             let lineX = centerX - layout.lineWidth / 2
             
             topLines[i].frame = CGRect(
@@ -114,7 +110,6 @@ private extension CertiPickerView {
                 height: lineHeight
             )
             
-            // 다음 컴포넌트 시작점 이동
             if i < lineSpacing.count {
                 xOffset += layout.textWidth + lineSpacing[i]
             } else {

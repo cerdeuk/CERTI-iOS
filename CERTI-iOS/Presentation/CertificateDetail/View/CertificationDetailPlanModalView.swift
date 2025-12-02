@@ -15,22 +15,15 @@ struct CertificationDetailPlanModalView: View {
     @Binding var certificationId: Int
     @Binding var isShowingSheet: Bool
     
-    @State private var isCalendarVisible: Bool = false
     @State var isAM = true
     @State var hour = 1
     @State var minute = 0
     
-    private var dateFormatter: DateFormatter {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "yyyy.MM.dd"
-          formatter.locale = Locale(identifier: "ko_KR")
-          return formatter
-      }
-    
     let certificationName: String
+    
+    // TODO: - API 연결하면 지우기
     let placeMenuOptions = ["서울", "경기" ,"인천", "강원", "충남", "충북"]
     let placeMenuOptions2 = ["강북구", "마포구" ,"용산구", "성북구"]
-
     
     var body: some View {
         ScrollView(.vertical) {
@@ -87,62 +80,7 @@ extension CertificationDetailPlanModalView {
             .padding(.leading, 20)
             .padding(.trailing, 267)
             
-            VStack(alignment: .leading, spacing: 0) {
-                Button {
-                    withAnimation(.easeInOut(duration: 0.2)){
-                        isCalendarVisible.toggle()
-                    }
-                } label: {
-                    HStack(alignment: .center, spacing: 0) {
-                        if viewModel.CertificationPlanDate != nil {
-                            Text(dateFormatter.string(from: viewModel.CertificationPlanDate!))
-                                .applyCertiFont(.caption_regular_14)
-                                .foregroundStyle(.black)
-                        } else {
-                            Text("시험 날짜를 선택해주세요.")
-                                .applyCertiFont(.caption_semibold_12)
-                                .foregroundStyle(.grayscale300)
-                        }
-                        
-                        Spacer()
-                        
-                        Image(.iconArrowdown24)
-                            .foregroundStyle(.grayscale400)
-                    }
-                    .padding(.vertical, 11)
-                    .padding(.leading, 12)
-                    .padding(.trailing, 8)
-                }
-                .frame(height: 40)
-                .background(.clear)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 4)
-                        .stroke(.grayscale200, lineWidth: 1)
-                )
-                .padding(.horizontal, 20)
-                
-                if isCalendarVisible {
-                    DatePicker("", selection: Binding<Date>(
-                        get: { self.viewModel.CertificationPlanDate ?? Date() },
-                        set: {
-                            self.viewModel.CertificationPlanDate = $0
-                            withAnimation {
-                                self.isCalendarVisible = false
-                            }
-                        }
-                    ), displayedComponents: .date)
-                        .datePickerStyle(.graphical)
-                        .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(.white)
-                                    .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
-                            )
-                        .environment(\.locale, Locale(identifier: "ko_KR"))
-                        .padding(.horizontal, 8)
-                        .padding(.top, 11)
-                }
-            }
+            DatePickerBox(selectedDate: $viewModel.CertificationPlanDate)
             .padding(.top, 12)
         }
         .padding(.top, 32)
@@ -165,11 +103,11 @@ extension CertificationDetailPlanModalView {
             .padding(.trailing, 267)
             
             HStack(alignment: .center, spacing: 0) {
-                DropdownMenu(options: placeMenuOptions, menuPlaceholder: "시/도")
+                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceDo, options: placeMenuOptions, menuPlaceholder: "시/도")
                 
                 Spacer()
                 
-                DropdownMenu(options: placeMenuOptions2, menuPlaceholder: "구/시")
+                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceSi, options: placeMenuOptions2, menuPlaceholder: "구/시")
             }
             .padding(.top, 12)
             .padding(.horizontal, 20)
@@ -206,6 +144,7 @@ extension CertificationDetailPlanModalView {
     private var bottomButtonView: some View {
         VStack(alignment: .center, spacing: 0) {
             Button {
+            // TODO: - API 연결하기
 //                Task {
 //                    await viewModel.appendPreCertification(certificationId: certificationId)
 //                }
@@ -224,6 +163,7 @@ extension CertificationDetailPlanModalView {
             }
             
             Button {
+            // TODO: - API 연결하기
 //                Task {
 //                    await viewModel.appendPreCertification(certificationId: certificationId)
 //                }
@@ -246,13 +186,18 @@ extension CertificationDetailPlanModalView {
 }
 
 #Preview {
+    struct PreviewWrapper: View {
     @State var certificationId = 1
     @State var isShowingSheet = true
-    
+        
+        var body: some View {
     CertificationDetailPlanModalView(viewModel: CertificateDetailViewModel(
         fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
         addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
         addAcquisitionUseCase: PreviewAddAcquisitionUseCase()),
                                      certificationId: $certificationId, isShowingSheet: $isShowingSheet, certificationName: "GTQ 1급 (그래픽기술자격)")
+        }
+    }
+    return PreviewWrapper()
 }
 
