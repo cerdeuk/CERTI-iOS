@@ -11,13 +11,13 @@ struct DatePickerBox: View {
     @State private var isCalendarVisible: Bool = false
     
     @Binding var selectedDate: Date?
-
+    
     private var dateFormatter: DateFormatter {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "yyyy.MM.dd"
-          formatter.locale = Locale(identifier: "ko_KR")
-          return formatter
-      }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -65,18 +65,18 @@ struct DatePickerBox: View {
                         }
                     }
                 ), displayedComponents: .date)
-                    .datePickerStyle(.graphical)
-                    .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(.white)
-                                .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
-                        )
-                    .environment(\.locale, Locale(identifier: "ko_KR"))
-                    .padding(.horizontal, 8)
-                    .padding(.top, 11)
+                .datePickerStyle(.graphical)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(.white)
+                        .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
+                )
+                .environment(\.locale, Locale(identifier: "ko_KR"))
+                .padding(.horizontal, 8)
+                .padding(.top, 11)
             }
         }
-
+        
     }
 }
 
@@ -95,7 +95,6 @@ struct DatePickerBox: View {
                         .foregroundStyle(.grayscale600)
                         .frame(height: 22)
                 }
-                
                 DatePickerBox(selectedDate: $selectedDate)
             }
         }

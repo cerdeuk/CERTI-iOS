@@ -11,10 +11,10 @@ struct DropdownMenu: View {
     @State private var isOpen = false
     
     @Binding var selectedPlace: String?
-
+    
     let options: [String]
     let menuPlaceholder: String
-
+    
     var body: some View {
         Button {
             withAnimation {
@@ -105,6 +105,6 @@ struct DropdownMenu: View {
                 .zIndex(1)
             }
         }
-        }
+    }
     return PreviewWrapper()
 }

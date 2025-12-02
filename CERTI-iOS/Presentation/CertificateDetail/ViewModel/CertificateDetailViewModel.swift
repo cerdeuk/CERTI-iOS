@@ -32,6 +32,9 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var CertificationPlanDate: Date? = nil
     @Published var CertificationPlanPlaceDo: String? = nil
     @Published var CertificationPlanPlaceSi: String? = nil
+    @Published var isAM = true
+    @Published var hour = 1
+    @Published var minute = 0
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     

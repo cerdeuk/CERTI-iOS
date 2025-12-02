@@ -15,10 +15,6 @@ struct CertificationDetailPlanModalView: View {
     @Binding var certificationId: Int
     @Binding var isShowingSheet: Bool
     
-    @State var isAM = true
-    @State var hour = 1
-    @State var minute = 0
-    
     let certificationName: String
     
     // TODO: - API 연결하면 지우기
@@ -33,9 +29,9 @@ struct CertificationDetailPlanModalView: View {
             timeView
         }
         .scrollIndicators(.hidden)
-
+        
         Spacer()
-
+        
         bottomButtonView
     }
 }
@@ -44,7 +40,7 @@ extension CertificationDetailPlanModalView {
     @ViewBuilder
     private var headerView: some View {
         VStack(alignment: .leading, spacing: 0) {
-
+            
             Text("자격증 시험 정보를 입력해주세요")
                 .applyCertiFont(.body_bold_18)
                 .foregroundStyle(.grayscale600)
@@ -58,7 +54,7 @@ extension CertificationDetailPlanModalView {
                 .frame(width: 149, height: 20)
                 .padding(.leading, 20)
                 .padding(.trailing, 206)
-
+            
         }
         .padding(.top, 60)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -81,7 +77,7 @@ extension CertificationDetailPlanModalView {
             .padding(.trailing, 267)
             
             DatePickerBox(selectedDate: $viewModel.CertificationPlanDate)
-            .padding(.top, 12)
+                .padding(.top, 12)
         }
         .padding(.top, 32)
     }
@@ -111,7 +107,7 @@ extension CertificationDetailPlanModalView {
             }
             .padding(.top, 12)
             .padding(.horizontal, 20)
-
+            
         }
         .padding(.top, 25)
         .zIndex(2)
@@ -133,8 +129,8 @@ extension CertificationDetailPlanModalView {
             }
             .frame(height: 24)
             .padding(.leading, 20)
-
-            CertiTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
+            
+            CertiTimePicker(isAM: $viewModel.isAM, hour: $viewModel.hour, minute: $viewModel.minute)
         }
         .padding(.top, 25)
         .zIndex(1)
@@ -144,10 +140,10 @@ extension CertificationDetailPlanModalView {
     private var bottomButtonView: some View {
         VStack(alignment: .center, spacing: 0) {
             Button {
-            // TODO: - API 연결하기
-//                Task {
-//                    await viewModel.appendPreCertification(certificationId: certificationId)
-//                }
+                // TODO: - API 연결하기
+                //                Task {
+                //                    await viewModel.appendPreCertification(certificationId: certificationId)
+                //                }
                 isShowingSheet.toggle()
             } label: {
                 VStack(alignment: .center, spacing: 0) {
@@ -163,10 +159,10 @@ extension CertificationDetailPlanModalView {
             }
             
             Button {
-            // TODO: - API 연결하기
-//                Task {
-//                    await viewModel.appendPreCertification(certificationId: certificationId)
-//                }
+                // TODO: - API 연결하기
+                //                Task {
+                //                    await viewModel.appendPreCertification(certificationId: certificationId)
+                //                }
                 isShowingSheet.toggle()
             } label: {
                 ZStack {
@@ -187,15 +183,15 @@ extension CertificationDetailPlanModalView {
 
 #Preview {
     struct PreviewWrapper: View {
-    @State var certificationId = 1
-    @State var isShowingSheet = true
+        @State var certificationId = 1
+        @State var isShowingSheet = true
         
         var body: some View {
-    CertificationDetailPlanModalView(viewModel: CertificateDetailViewModel(
-        fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
-        addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
-        addAcquisitionUseCase: PreviewAddAcquisitionUseCase()),
-                                     certificationId: $certificationId, isShowingSheet: $isShowingSheet, certificationName: "GTQ 1급 (그래픽기술자격)")
+            CertificationDetailPlanModalView(viewModel: CertificateDetailViewModel(
+                fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
+                addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
+                addAcquisitionUseCase: PreviewAddAcquisitionUseCase()),
+                                             certificationId: $certificationId, isShowingSheet: $isShowingSheet, certificationName: "GTQ 1급 (그래픽기술자격)")
         }
     }
     return PreviewWrapper()
