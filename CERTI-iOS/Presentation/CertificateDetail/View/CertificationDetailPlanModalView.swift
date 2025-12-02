@@ -12,6 +12,9 @@ struct CertificationDetailPlanModalView: View {
     
     @EnvironmentObject var tabRouter: CertiTabCoordinator
     
+    @Binding var certificationId: Int
+    @Binding var isShowingSheet: Bool
+    
     @State private var isCalendarVisible: Bool = false
     @State var isAM = true
     @State var hour = 1
@@ -37,8 +40,9 @@ struct CertificationDetailPlanModalView: View {
             timeView
         }
         .scrollIndicators(.hidden)
-        //.background(.yellow)
+
         Spacer()
+
         bottomButtonView
     }
 }
@@ -63,6 +67,7 @@ extension CertificationDetailPlanModalView {
                 .padding(.trailing, 206)
 
         }
+        .padding(.top, 60)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
@@ -128,13 +133,14 @@ extension CertificationDetailPlanModalView {
                         }
                     ), displayedComponents: .date)
                         .datePickerStyle(.graphical)
+                        .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(.white)
+                                    .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
+                            )
                         .environment(\.locale, Locale(identifier: "ko_KR"))
-                        .background(Color.white)
                         .padding(.horizontal, 8)
                         .padding(.top, 11)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .shadow(color: .black.opacity(0.08), radius: 20, x: 4, y: 4)
-
                 }
             }
             .padding(.top, 12)
@@ -175,7 +181,7 @@ extension CertificationDetailPlanModalView {
     
     @ViewBuilder
     private var timeView: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .center, spacing: 0) {
             HStack(alignment: .center, spacing: 0) {
                 Image(.iconCheck24)
                     .frame(width: 24, height: 24)
@@ -184,13 +190,13 @@ extension CertificationDetailPlanModalView {
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 22)
+                
+                Spacer()
             }
-            .frame(width: 88, height: 24)
+            .frame(height: 24)
             .padding(.leading, 20)
-            .padding(.trailing, 267)
-            
+
             CertiTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
-                .padding(.horizontal, 20)
         }
         .padding(.top, 25)
         .zIndex(1)
@@ -200,7 +206,10 @@ extension CertificationDetailPlanModalView {
     private var bottomButtonView: some View {
         VStack(alignment: .center, spacing: 0) {
             Button {
-                print("나중에 입력하기 클릭")
+//                Task {
+//                    await viewModel.appendPreCertification(certificationId: certificationId)
+//                }
+                isShowingSheet.toggle()
             } label: {
                 VStack(alignment: .center, spacing: 0) {
                     Text("나중에 입력하기")
@@ -215,7 +224,10 @@ extension CertificationDetailPlanModalView {
             }
             
             Button {
-                print("적용하기 클릭")
+//                Task {
+//                    await viewModel.appendPreCertification(certificationId: certificationId)
+//                }
+                isShowingSheet.toggle()
             } label: {
                 ZStack {
                     Rectangle()
@@ -234,10 +246,13 @@ extension CertificationDetailPlanModalView {
 }
 
 #Preview {
+    @State var certificationId = 1
+    @State var isShowingSheet = true
+    
     CertificationDetailPlanModalView(viewModel: CertificateDetailViewModel(
         fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
         addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
         addAcquisitionUseCase: PreviewAddAcquisitionUseCase()),
-                                     certificationName: "GTQ 1급 (그래픽기술자격)")
+                                     certificationId: $certificationId, isShowingSheet: $isShowingSheet, certificationName: "GTQ 1급 (그래픽기술자격)")
 }
 
