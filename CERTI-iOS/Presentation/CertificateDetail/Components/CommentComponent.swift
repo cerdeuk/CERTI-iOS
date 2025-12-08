@@ -9,8 +9,8 @@ import SwiftUI
 
 struct CommentComponent: View {
     enum CertificationType {
-            case completed(date: String, score: String?)
-            case expected(location: String, time: String)
+            case completed
+            case expected
 
             var text: String {
                 switch self {
@@ -27,18 +27,41 @@ struct CommentComponent: View {
             }
         }
     
-    enum haertState {
-        case heartOn
-        case heartCancle
+    enum UserType {
+        case unknown
+        case normal(userName: String)
+        
+        var name: String {
+            switch self {
+            case .unknown: return "(알수없음)"
+            case .normal(userName: let userName): return userName
+            }
+        }
+        
+        var isUnknown: Bool {
+            if case .unknown = self { return true }
+            return false
+        }
     }
+    
+    // MARK: - Property Wrappers
+    
+    @State private var heartOn: Bool = false
     
     // MARK: - Properties
     
-    let userName: String
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }
+    
     let certificationState: CertificationType
-    let userInfo: String
+    let userName: UserType
+    let major: String
+    let job: String
     let commentContent: String
-    let heartCount: String
     let likeCount: Int
     
     // MARK: - Main Body
@@ -49,11 +72,21 @@ struct CommentComponent: View {
             userInfomation
                 .padding(.top, 8)
             
-            Text(commentContent)
+            Text(commentContent.antiAppleBySangyup)
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale500)
-                .frame(height: 80)
+                .frame(width:329)
+                .lineLimit(4)
                 .padding(.top, 8)
+            
+            commentInfomation
+                .padding(.top, 8)
+            
+            Rectangle()
+                .foregroundStyle(.grayscale100)
+                .frame(width: 335, height: 1)
+                .padding(.top, 8)
+
         }
     }
 }
@@ -64,20 +97,23 @@ extension CommentComponent {
     @ViewBuilder
     private var userInfomation: some View {
         HStack(alignment: .center, spacing: 0) {
-            Text(userName)
+            Text(userName.name)
                 .applyCertiFont(.caption_semibold_14)
-                .foregroundStyle(.black)
+                .foregroundStyle(userName.isUnknown ? .grayscale300 : .black)
             
-            Text(certificationState.text)
+            Text(userName.isUnknown ? "" : certificationState.text)
                 .applyCertiFont(.caption_semibold_12)
                 .foregroundStyle(certificationState.color)
                 .padding(.leading, 8)
             
-            Text(userInfo)
+            Text(userName.isUnknown ? "" : "(\(major), \(job))")
                 .applyCertiFont(.caption_semibold_12)
                 .foregroundStyle(.grayscale400)
                 .padding(.leading, 8)
+            
+            Spacer()
         }
+        .frame(width: 335)
     }
     
     @ViewBuilder
@@ -85,31 +121,63 @@ extension CommentComponent {
         HStack(alignment: .center, spacing: 0) {
             Button {
                 // TODO: CommentLikeUseCase
+                heartOn.toggle()
             } label: {
-                Image(.iconCommentHeartDefault12)
+                Image(heartOn ? .iconCommentHeartFilled12 : .iconCommentHeartDefault12)
             }
             
-            Text("좋아요")
+            Text("좋아요 \(likeCount)")
                 .applyCertiFont(.caption_semibold_12)
                 .foregroundStyle(.grayscale400)
-            
-            Text("\(likeCount)")
-                .applyCertiFont(.caption_semibold_12)
-                .foregroundStyle(.grayscale400)
+                .padding(.leading, 4)
             
             Rectangle()
+                .foregroundStyle(.grayscale300)
+                .frame(width: 1, height: 12)
+                .padding(.leading, 8)
             
-            Text("신고")
+            Button {
+                // TODO: 신고하기 UseCase
+            } label: {
+                Text("신고")
+                    .applyCertiFont(.caption_semibold_12)
+                    .foregroundStyle(.grayscale400)
+            }
+                .padding(.leading, 8)
+            
+            Text(dateFormatter.string(from: Date()))
                 .applyCertiFont(.caption_semibold_12)
                 .foregroundStyle(.grayscale400)
+                .padding(.leading, 8)
             
-            Text("2025.08.01")
-                .applyCertiFont(.caption_semibold_12)
-                .foregroundStyle(.grayscale400)
+            Spacer()
         }
+        .frame(width: 335)
     }
 }
 
 #Preview {
-    CommentComponent()
+    VStack(alignment: .center, spacing: 12) {
+        CommentComponent(certificationState: .completed,
+                         userName: .normal(userName: "김서티"),
+                         major: "컴퓨터공학",
+                         job: "경영사무",
+                         commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
+                         likeCount: 110)
+        
+        CommentComponent(certificationState: .expected,
+                         userName: .normal(userName: "김서티"),
+                         major: "컴퓨터공학",
+                         job: "경영사무",
+                         commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
+                         likeCount: 110)
+        
+        CommentComponent(certificationState: .expected,
+                         userName: .unknown,
+                         major: "컴퓨터공학",
+                         job: "경영사무",
+                         commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
+                         likeCount: 110)
+    }
 }
+
