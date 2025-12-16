@@ -1,5 +1,5 @@
 //
-//  MyCertificationComponent.swift
+//  MyCertificationItem.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 11/23/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MyCertificationComponent: View {
+struct MyCertificationItem: View {
     
     enum CertificationType {
         case completed(date: String, score: String?)
@@ -76,7 +76,7 @@ struct MyCertificationComponent: View {
 
 // MARK: - Subviews
 
-extension MyCertificationComponent {
+extension MyCertificationItem {
     @ViewBuilder
     private var topBadge: some View {
         HStack(alignment: .center, spacing: 0) {
@@ -173,7 +173,7 @@ extension MyCertificationComponent {
     VStack(spacing: 20) {
         
         // case 1: 취득 예정, 버튼 없음
-        MyCertificationComponent(
+        MyCertificationItem(
             type: .expected(location: "고양시", time: "09:00"),
             title: "정보처리기사",
             category: "국가기술자격",
@@ -182,7 +182,7 @@ extension MyCertificationComponent {
         )
         
         // case 2: 취득 예정, 버튼 있음
-        MyCertificationComponent(
+        MyCertificationItem(
             type: .expected(location: "서울시", time: "14:00"),
             title: "정보보안기사",
             category: "국가기술자격",
@@ -195,7 +195,7 @@ extension MyCertificationComponent {
         )
         
         // case 3: 취득 완료, 버튼 없음, 점수 있음
-        MyCertificationComponent(
+        MyCertificationItem(
             type: .completed(date: "2023. 11. 23", score: "IM3"),
             title: "OPIC",
             category: "어학",
@@ -204,7 +204,7 @@ extension MyCertificationComponent {
         )
         
         // case 4: 취득 완료, 버튼 있음, 점수 없음
-        MyCertificationComponent(
+        MyCertificationItem(
             type: .completed(date: "2023. 11. 23", score: nil),
             title: "OPIC",
             category: "어학",
