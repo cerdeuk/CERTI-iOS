@@ -28,7 +28,7 @@ struct MyCertificationItem: View {
         }
     }
     
-    enum ActionConfig {
+    enum EditType {
         case viewOnly                                           // 수정, 삭제 ㄴㄴ
         case editable(onEdit: () -> Void, onDelete: () -> Void) // 수정, 삭제 ㅇㅇ
     }
@@ -40,7 +40,7 @@ struct MyCertificationItem: View {
     let title: String
     let category: String
     let description: String
-    let actionConfig: ActionConfig
+    let actionConfig: EditType
     
     
     // MARK: - Main Body
