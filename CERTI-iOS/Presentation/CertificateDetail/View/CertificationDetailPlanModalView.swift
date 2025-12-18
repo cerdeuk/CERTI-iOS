@@ -54,7 +54,6 @@ extension CertificationDetailPlanModalView {
                 .frame(width: 149, height: 20)
                 .padding(.leading, 20)
                 .padding(.trailing, 206)
-            
         }
         .padding(.top, 60)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
