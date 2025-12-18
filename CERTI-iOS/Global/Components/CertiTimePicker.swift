@@ -8,6 +8,8 @@
 import SwiftUI
 import UIKit
 
+// MARK: - UIKit View
+
 final class CertiPickerView: UIPickerView {
     
     private var topLines: [UIView] = []
@@ -119,6 +121,8 @@ private extension CertiPickerView {
     }
 }
 
+// MARK: - UIViewRepresentable
+
 struct CustomTimePicker: UIViewRepresentable {
     @Binding var isAM: Bool
     @Binding var hour: Int
@@ -140,7 +144,11 @@ struct CustomTimePicker: UIViewRepresentable {
         uiView.selectRow(hour - 1, inComponent: 1, animated: false)
         uiView.selectRow(minute / 5, inComponent: 2, animated: false)
     }
-    
+}
+
+// MARK: - Coordinator
+
+extension CustomTimePicker {
     class Coordinator: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
         var parent: CustomTimePicker
         
@@ -213,6 +221,8 @@ struct CustomTimePicker: UIViewRepresentable {
         }
     }
 }
+
+// MARK: - SwiftUI Component
 
 struct CertiTimePicker: View {
     @Binding var isAM: Bool
