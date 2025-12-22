@@ -35,6 +35,8 @@ final class HomeViewModel: ObservableObject {
     @Published var homeStateModel = HomeStateModel()
     @Published var selectedLicenseId: Int = 0
     @Published var homeViewRoute: HomeViewRoute?
+    @Published var currentDate: Date = Date()
+    @Published var currentMonth: Int = 0
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "HOME")
     
@@ -203,5 +205,27 @@ extension HomeViewModel {
     func toggleFavorite(id: Int) {
         guard let index = homeStateModel.favoriteLicenses.firstIndex(where: { $0.certificationId == id }) else { return }
         homeStateModel.favoriteLicenses[index].isFavorite.toggle()
+    }
+    
+    func getYearAndMonthString(currentDate: Date) -> [String] {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월"
+        formatter.locale = Locale(identifier: "ko_kr")
+        let date = formatter.string(from: currentDate)
+        return date.components(separatedBy: " ")
+    }
+    
+    func extractDate() -> [DateValueModel] {
+        let calendar = Calendar.current
+        
+        // 현재 달 가져오기
+        guard let currentMonth = calendar.date(byAdding: .month, value: self.currentMonth, to: Date()) else {
+            return []
+        }
+        
+        return currentMonth.getAllDates().compactMap { date -> DateValueModel in
+            let day = calendar.component(.day, from: date)
+            return DateValueModel(day: day, date: date)
+        }
     }
 }
