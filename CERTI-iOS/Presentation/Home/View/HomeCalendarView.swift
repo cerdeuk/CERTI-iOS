@@ -100,15 +100,23 @@ extension HomeCalendarView {
         let calendar = Calendar.current
         let currentMonth = getCurrentMonth()
         
-        var days = currentMonth.getAllDates().compactMap { date -> DateValueModel in
+        let currentMonthDays = currentMonth.getAllDates().compactMap { date -> DateValueModel in
             let day = calendar.component(.day, from: date)
-            return DateValueModel(day: day, date: date)
+            return DateValueModel(day: day, date: date, isCurrentMonth: true)
         }
         
-        let firstWeekday = calendar.component(.weekday, from: days.first?.date ?? Date())
+        var days = currentMonthDays
         
-        for _ in 0..<firstWeekday - 1 {
-            days.insert(DateValueModel(day: -1, date: Date()), at: 0)
+        let firstWeekday = calendar.component(.weekday, from: currentMonthDays.first!.date)
+        
+        if let prevMonth = calendar.date(byAdding: .month, value: -1, to: currentMonth) {
+            let prevMonthDays = prevMonth.getAllDates()
+            let prefixDays = prevMonthDays.suffix(firstWeekday - 1)
+            
+            let prevMonthValues = prefixDays.map { date in
+                DateValueModel(day: calendar.component(.day, from: date), date: date, isCurrentMonth: false)
+            }
+            days.insert(contentsOf: prevMonthValues, at: 0)
         }
         
         return days
@@ -131,7 +139,7 @@ extension HomeCalendarView {
             if value.day != -1 {
                 Text("\(value.day)")
                     .applyCertiFont(.caption_regular_14)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(value.isCurrentMonth ? .black : .grayscale200)
             }
         }
     }

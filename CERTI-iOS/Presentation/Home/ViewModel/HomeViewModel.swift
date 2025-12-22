@@ -207,25 +207,25 @@ extension HomeViewModel {
         homeStateModel.favoriteLicenses[index].isFavorite.toggle()
     }
     
-    func getYearAndMonthString(currentDate: Date) -> [String] {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MM월"
-        formatter.locale = Locale(identifier: "ko_kr")
-        let date = formatter.string(from: currentDate)
-        return date.components(separatedBy: " ")
-    }
-    
-    func extractDate() -> [DateValueModel] {
-        let calendar = Calendar.current
-        
-        // 현재 달 가져오기
-        guard let currentMonth = calendar.date(byAdding: .month, value: self.currentMonth, to: Date()) else {
-            return []
-        }
-        
-        return currentMonth.getAllDates().compactMap { date -> DateValueModel in
-            let day = calendar.component(.day, from: date)
-            return DateValueModel(day: day, date: date)
-        }
-    }
+//    func getYearAndMonthString(currentDate: Date) -> [String] {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy년 MM월"
+//        formatter.locale = Locale(identifier: "ko_kr")
+//        let date = formatter.string(from: currentDate)
+//        return date.components(separatedBy: " ")
+//    }
+//    
+//    func extractDate() -> [DateValueModel] {
+//        let calendar = Calendar.current
+//        
+//        // 현재 달 가져오기
+//        guard let currentMonth = calendar.date(byAdding: .month, value: self.currentMonth, to: Date()) else {
+//            return []
+//        }
+//        
+//        return currentMonth.getAllDates().compactMap { date -> DateValueModel in
+//            let day = calendar.component(.day, from: date)
+//            return DateValueModel(day: day, date: date)
+//        }
+//    }
 }
