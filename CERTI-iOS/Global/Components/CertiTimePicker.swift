@@ -8,6 +8,26 @@
 import SwiftUI
 import UIKit
 
+// MARK: - SwiftUI Component
+
+struct CertiTimePicker: View {
+    @Binding var isAM: Bool
+    @Binding var hour: Int
+    @Binding var minute: Int
+    
+    var body: some View {
+        ZStack {
+            CustomTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
+                .frame(height: 180)
+            
+            Text(":")
+                .applyCertiFont(.caption_semibold_14)
+                .foregroundColor(.grayscale600)
+                .offset(x: 49, y: 0)
+        }
+    }
+}
+
 // MARK: - UIKit View
 
 final class CertiPickerView: UIPickerView {
@@ -42,12 +62,12 @@ final class CertiPickerView: UIPickerView {
     private func setupLines() {
         for _ in 0..<3 {
             let topLine = UIView()
-            topLine.backgroundColor = UIColor(Color.purpleblue)
+            topLine.backgroundColor = .purpleblue
             addSubview(topLine)
             topLines.append(topLine)
             
             let bottomLine = UIView()
-            bottomLine.backgroundColor = UIColor(Color.purpleblue)
+            bottomLine.backgroundColor = .purpleblue
             addSubview(bottomLine)
             bottomLines.append(bottomLine)
         }
@@ -218,26 +238,6 @@ extension CustomTimePicker {
                 parent.minute = Self.minutesInfinite[row % 12]
             default: break
             }
-        }
-    }
-}
-
-// MARK: - SwiftUI Component
-
-struct CertiTimePicker: View {
-    @Binding var isAM: Bool
-    @Binding var hour: Int
-    @Binding var minute: Int
-    
-    var body: some View {
-        ZStack {
-            CustomTimePicker(isAM: $isAM, hour: $hour, minute: $minute)
-                .frame(height: 180)
-            
-            Text(":")
-                .applyCertiFont(.caption_semibold_14)
-                .foregroundColor(.grayscale600)
-                .offset(x: 49, y: 0)
         }
     }
 }
