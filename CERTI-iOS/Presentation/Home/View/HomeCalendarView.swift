@@ -7,12 +7,21 @@
 
 import SwiftUI
 
+enum CalendarDayState {
+    case today
+    case selected
+    case todaySelected
+    case normal
+    case otherMonth
+}
+
 struct HomeCalendarView: View {
 //    @ObservedObject var viewModel: HomeViewModel
     let columns = Array(repeating: GridItem(.flexible()), count: 7)
     // 너도! dkfo enro
     @State private var currentDate: Date = Date()
     @State private var currentMonth: Int = 0
+    private let today = Date()
     
     private let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
     
@@ -81,6 +90,15 @@ extension HomeCalendarView {
         LazyVGrid(columns: columns, spacing: 16) {
             ForEach(extractDate()) { value in
                 CardView(value: value)
+                    .background {
+                        Circle()
+                            .fill(isSameDay(day1: value.date, day2: today) ? .mainblue : .grayscale100)
+                            .frame(width: 30,height: 30)
+                            .opacity(isSameDay(day1: value.date, day2: currentDate)||isSameDay(day1: value.date, day2: today) ? 1 : 0)
+                    }
+                    .onTapGesture {
+                        currentDate = value.date
+                    }
             }
         }
     }
@@ -135,13 +153,55 @@ extension HomeCalendarView {
     
     @ViewBuilder
     func CardView(value: DateValueModel) -> some View {
-        VStack(spacing: 0) {
-            if value.day != -1 {
-                Text("\(value.day)")
-                    .applyCertiFont(.caption_regular_14)
-                    .foregroundStyle(value.isCurrentMonth ? .black : .grayscale200)
+        let state = value.state(today: today, selectedDate: currentDate)
+        let hasTodo = tasks.contains { isSameDay(day1: $0.todoDate, day2: value.date) }
+
+        Text("\(value.day)")
+            .applyCertiFont(.caption_regular_14)
+            .foregroundStyle(textColor(for: state))
+            .background {
+                Circle()
+                    .fill(backgroundColor(for: state))
+                    .frame(width: 30, height: 30)
+                    .opacity(state == .selected || state == .todaySelected ? 1 : 0)
             }
+            .overlay(alignment: .topTrailing) {
+                if hasTodo && state != .today && state != .selected {
+                    Circle()
+                        .fill(.purpleblue)
+                        .frame(width: 5, height: 5)
+                        .offset(x: 7, y: -4)
+                }
+            }
+    }
+    
+    func textColor(for state: CalendarDayState) -> Color {
+        switch state {
+        case .today, .todaySelected:
+            return .white
+        case .otherMonth:
+            return .grayscale200
+        default:
+            return .black
         }
+    }
+
+    func backgroundColor(for state: CalendarDayState) -> Color {
+        switch state {
+        case .today:
+            return .mainblue
+        case .todaySelected:
+            return .mainblue
+        case .selected:
+            return .grayscale100
+        default:
+            return .clear
+        }
+    }
+    
+    func isSameDay(day1: Date, day2: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(day1, inSameDayAs: day2)
     }
 }
 
