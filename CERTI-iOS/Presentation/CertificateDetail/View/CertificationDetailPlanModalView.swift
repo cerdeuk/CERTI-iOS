@@ -96,11 +96,11 @@ extension CertificationDetailPlanModalView {
             .padding(.trailing, 267)
             
             HStack(alignment: .center, spacing: 0) {
-                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceDo, options: placeMenuOptions, menuPlaceholder: "시/도")
+                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceProvince, options: placeMenuOptions, menuPlaceholder: "시/도")
                 
                 Spacer()
                 
-                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceSi, options: placeMenuOptions2, menuPlaceholder: "구/시")
+                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceCity, options: placeMenuOptions2, menuPlaceholder: "구/시")
             }
             .padding(.top, 12)
             .padding(.horizontal, 20)
