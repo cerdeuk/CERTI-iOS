@@ -9,9 +9,7 @@ import SwiftUI
 
 struct CertificationDetailPlanModalView: View {
     @ObservedObject var viewModel: CertificateDetailViewModel
-    
-    @EnvironmentObject var tabRouter: CertiTabCoordinator
-    
+        
     @Binding var certificationId: Int
     @Binding var isShowingSheet: Bool
     
