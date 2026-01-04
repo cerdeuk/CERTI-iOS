@@ -34,6 +34,8 @@ final class CertiPickerView: UIPickerView {
     
     private var topLines: [UIView] = []
     private var bottomLines: [UIView] = []
+    private var didHideIndicator = false
+    private var lastBounds: CGRect = .zero
     
     private struct ComponentLayout {
         let textWidth: CGFloat
@@ -76,17 +78,23 @@ final class CertiPickerView: UIPickerView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        hideIndicator()
-        layoutLines()
+        if !didHideIndicator {
+            hideIndicator()
+            didHideIndicator = true
+        }
+        
+        if bounds != lastBounds {
+            layoutLines()
+            lastBounds = bounds
+        }
     }
 }
-
 
 // MARK: - Layout Methods
 
 private extension CertiPickerView {
     func hideIndicator() {
-        for sub in subviews {
+        for sub in subviews {            
             let isIndicator =
             sub.subviews.isEmpty &&
             sub.bounds.height > 5 &&
@@ -100,8 +108,7 @@ private extension CertiPickerView {
     }
     
     func layoutLines() {
-        let totalContentWidth =
-        layouts.map { $0.textWidth }.reduce(0, +) + lineSpacing.reduce(0, +)
+        let totalContentWidth = layouts.map { $0.textWidth }.reduce(0, +) + lineSpacing.reduce(0, +)
         
         var xOffset: CGFloat = (bounds.width - totalContentWidth) / 2
         
@@ -156,13 +163,42 @@ struct CustomTimePicker: UIViewRepresentable {
         let picker = CertiPickerView()
         picker.delegate = context.coordinator
         picker.dataSource = context.coordinator
+        
+        let middleHourIndex = Coordinator.hoursInfinite.count / 2
+        let middleMinuteIndex = Coordinator.minutesInfinite.count / 2
+        
+        picker.selectRow(isAM ? 0 : 1, inComponent: 0, animated: false)
+        picker.selectRow(middleHourIndex + (hour - 1), inComponent: 1, animated: false)
+        picker.selectRow(middleMinuteIndex + (minute / 5), inComponent: 2, animated: false)
+        
+        context.coordinator.currentHourRow = middleHourIndex + (hour - 1)
+        context.coordinator.currentMinuteRow = middleMinuteIndex + (minute / 5)
+        
         return picker
     }
     
     func updateUIView(_ uiView: UIPickerView, context: Context) {
-        uiView.selectRow(isAM ? 0 : 1, inComponent: 0, animated: false)
-        uiView.selectRow(hour - 1, inComponent: 1, animated: false)
-        uiView.selectRow(minute / 5, inComponent: 2, animated: false)
+        let meridiemRow = isAM ? 0 : 1
+        
+        if uiView.selectedRow(inComponent: 0) != meridiemRow {
+            uiView.selectRow(meridiemRow, inComponent: 0, animated: false)
+        }
+        
+        let currentHourRow = uiView.selectedRow(inComponent: 1)
+        let currentDisplayedHour = Coordinator.hoursInfinite[currentHourRow]
+        
+        if currentDisplayedHour != hour {
+            let middleIndex = Coordinator.hoursInfinite.count / 2
+            uiView.selectRow(middleIndex + (hour - 1), inComponent: 1, animated: false)
+        }
+        
+        let currentMinuteRow = uiView.selectedRow(inComponent: 2)
+        let currentDisplayedMinute = Coordinator.minutesInfinite[currentMinuteRow]
+        
+        if currentDisplayedMinute != minute {
+            let middleIndex = Coordinator.minutesInfinite.count / 2
+            uiView.selectRow(middleIndex + (minute / 5), inComponent: 2, animated: false)
+        }
     }
 }
 
@@ -170,13 +206,16 @@ struct CustomTimePicker: UIViewRepresentable {
 
 extension CustomTimePicker {
     class Coordinator: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
-        var parent: CustomTimePicker
+        private var parent: CustomTimePicker
+        
+        fileprivate var currentHourRow: Int?
+        fileprivate var currentMinuteRow: Int?
         
         static let ampm: [String] = ["오전", "오후"]
         static let hours: [Int] = Array(1...12)
         static let minutes: [Int] = Array(stride(from: 0, to: 60, by: 5))
-        static let hoursInfinite: [Int] = Array(repeating: hours, count: 100).flatMap { $0 }
-        static let minutesInfinite: [Int] = Array(repeating: minutes, count: 100).flatMap { $0 }
+        static let hoursInfinite: [Int] = Array(repeating: hours, count: 30).flatMap { $0 }
+        static let minutesInfinite: [Int] = Array(repeating: minutes, count: 30).flatMap { $0 }
         
         init(_ parent: CustomTimePicker) {
             self.parent = parent
@@ -200,15 +239,20 @@ extension CustomTimePicker {
                         forComponent component: Int,
                         reusing view: UIView?) -> UIView {
             
-            let label = UILabel()
-            label.textAlignment = .center
-            label.font = UIFont(name: "Pretendard-SemiBold", size: 14)
-            label.textColor = UIColor(named: "grayscale600")
+            let label: UILabel
+            if let reused = view as? UILabel {
+                label = reused
+            } else {
+                label = UILabel()
+                label.textAlignment = .center
+                label.font = UIFont(name: "Pretendard-SemiBold", size: 14)
+                label.textColor = UIColor(named: "grayscale600")
+            }
             
             switch component {
             case 0: label.text = Self.ampm[row]
-            case 1: label.text = "\(Self.hoursInfinite[row % 12])"
-            case 2: label.text = String(format: "%02d", Self.minutesInfinite[row % 12])
+            case 1: label.text = "\(Self.hoursInfinite[row])"
+            case 2: label.text = String(format: "%02d", Self.minutesInfinite[row])
             default: break
             }
             
@@ -233,9 +277,11 @@ extension CustomTimePicker {
             case 0:
                 parent.isAM = (row == 0)
             case 1:
-                parent.hour = Self.hoursInfinite[row % 12]
+                currentHourRow = row
+                parent.hour = Self.hoursInfinite[row]
             case 2:
-                parent.minute = Self.minutesInfinite[row % 12]
+                currentMinuteRow = row
+                parent.minute = Self.minutesInfinite[row]
             default: break
             }
         }
