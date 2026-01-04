@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum CertiTabRoute: Int, CaseIterable, Hashable {
-    case home, category, recommend, resume
+    case home, category, recommend, resume, mypage
 
     var title: String {
         switch self {
@@ -20,6 +20,8 @@ enum CertiTabRoute: Int, CaseIterable, Hashable {
             return "추천"
         case .resume:
             return "이력서"
+        case .mypage:
+            return "마이페이지"
         }
     }
 
@@ -33,6 +35,8 @@ enum CertiTabRoute: Int, CaseIterable, Hashable {
             return .iconRecommendation
         case .resume:
             return .iconResume
+        case .mypage:
+            return UIImage(systemName: "person")!
         }
     }
 }
@@ -49,6 +53,7 @@ class CertiTabCoordinator: ObservableObject {
     let categoryCoordinator = CategoryCoordinator()
     let recommendCoordinator = RecommendCoordinator()
     let resumeCoordinator = ResumeCoordinator()
+    let mypageCoordinator = MyPageCoordinator()
 
     //MARK: - Method
     
