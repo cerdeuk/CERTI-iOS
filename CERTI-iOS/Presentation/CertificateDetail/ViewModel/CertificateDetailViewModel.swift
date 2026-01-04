@@ -104,3 +104,17 @@ extension CertificateDetailViewModel {
         }
     }
 }
+
+ // MARK: - Func
+
+extension CertificateDetailViewModel {
+    func resetPlanModalInput() {
+        CertificationPlanDate = nil
+        CertificationPlanPlaceProvince = nil
+        CertificationPlanPlaceCity = nil
+        
+        isAM = true
+        hour = 1
+        minute = 0
+    }
+}

@@ -327,7 +327,9 @@ struct CertificateDetailView: View {
             }
             .padding(.horizontal, 20)
         }
-        .sheet(isPresented: $isShowingSheet) {
+        .sheet(isPresented: $isShowingSheet,
+               onDismiss: { viewModel.resetPlanModalInput()
+        }) {
             CertificationDetailPlanModalView(viewModel: viewModel, certificationId: $certificationId, isShowingSheet: $isShowingSheet, certificationName: viewModel.certificateDetailModel.certificationName)
                 .presentationDetents([.height(663)])
                 .presentationCornerRadius(40)
