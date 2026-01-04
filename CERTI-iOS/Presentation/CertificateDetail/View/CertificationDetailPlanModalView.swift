@@ -37,25 +37,25 @@ struct CertificationDetailPlanModalView: View {
 extension CertificationDetailPlanModalView {
     @ViewBuilder
     private var headerView: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        HStack(alignment: .center , spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("자격증 시험 정보를 입력해주세요")
+                    .applyCertiFont(.body_bold_18)
+                    .foregroundStyle(.grayscale600)
+                    .frame(height: 25)
+                
+                Text(certificationName)
+                    .applyCertiFont(.caption_semibold_14)
+                    .foregroundStyle(.grayscale400)
+                    .frame(height: 20)
+            }
+            .padding(.top, 60)
+            .padding(.leading, 20)
             
-            Text("자격증 시험 정보를 입력해주세요")
-                .applyCertiFont(.body_bold_18)
-                .foregroundStyle(.grayscale600)
-                .frame(width: 229, height: 25)
-                .padding(.leading, 20)
-                .padding(.trailing, 126)
-            
-            Text(certificationName)
-                .applyCertiFont(.caption_semibold_14)
-                .foregroundStyle(.grayscale400)
-                .frame(width: 149, height: 20)
-                .padding(.leading, 20)
-                .padding(.trailing, 206)
+            Spacer()
         }
-        .padding(.top, 60)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
+    
     
     @ViewBuilder
     private var dateView: some View {
