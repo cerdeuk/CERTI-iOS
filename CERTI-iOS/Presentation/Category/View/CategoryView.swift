@@ -29,15 +29,8 @@ struct CategoryView: View {
             CategoryLicenseCardList(viewModel: viewModel)
                 .padding(.horizontal, 20)
         }
-        .onAppear {
-            Task {
-                await viewModel.getCategoryList()
-            }
-        }
-        .onChange(of: viewModel.selectedCategory) { _ in
-            Task{
-                await viewModel.getCategoryList()
-            }
+        .task(id: viewModel.selectedCategory) {
+            await viewModel.getCategoryList()
         }
     }
 }
