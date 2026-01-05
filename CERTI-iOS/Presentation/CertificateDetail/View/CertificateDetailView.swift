@@ -134,10 +134,8 @@ struct CertificateDetailView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .onAppear {
-            Task {
-                await viewModel.fetchCertificateDetail(certificationId: certificationId)
-            }
+        .task {
+            await viewModel.fetchCertificateDetail(certificationId: certificationId)
         }
     }
     
@@ -327,7 +325,9 @@ struct CertificateDetailView: View {
             }
             .padding(.horizontal, 20)
         }
-        .sheet(isPresented: $isShowingSheet) {
+        .sheet(isPresented: $isShowingSheet,
+               onDismiss: { viewModel.resetPlanModalInput()
+        }) {
             CertificationDetailPlanModalView(viewModel: viewModel, certificationId: $certificationId, isShowingSheet: $isShowingSheet, certificationName: viewModel.certificateDetailModel.certificationName)
                 .presentationDetents([.height(663)])
                 .presentationCornerRadius(40)

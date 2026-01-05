@@ -28,18 +28,11 @@ struct RecommendView: View {
                 .presentationCornerRadius(40)
                 .presentationDragIndicator(.hidden)
         }
-        .onAppear {
-            Task {
-                await viewModel.getRecommendCertificationList()
-                await viewModel.getJobList()
-            }
+        .task(id: viewModel.selectedJobField) {
+            async let recommendCertificationList: () = viewModel.getRecommendCertificationList()
+            async let jobList: () = viewModel.getJobList()
+            _ = await (recommendCertificationList, jobList)
         }
-        .onChange(of: viewModel.selectedJobField, perform: { _ in
-            Task {
-                await viewModel.getRecommendCertificationList()
-                await viewModel.getJobList()
-            }
-        })
         .overlay {
             if viewModel.isShowLoading {
                 CertiLoadingView(name: AuthManager.shared.nickname)

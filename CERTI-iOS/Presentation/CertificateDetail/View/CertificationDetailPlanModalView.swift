@@ -9,9 +9,7 @@ import SwiftUI
 
 struct CertificationDetailPlanModalView: View {
     @ObservedObject var viewModel: CertificateDetailViewModel
-    
-    @EnvironmentObject var tabRouter: CertiTabCoordinator
-    
+        
     @Binding var certificationId: Int
     @Binding var isShowingSheet: Bool
     
@@ -39,26 +37,25 @@ struct CertificationDetailPlanModalView: View {
 extension CertificationDetailPlanModalView {
     @ViewBuilder
     private var headerView: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        HStack(alignment: .center , spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("자격증 시험 정보를 입력해주세요")
+                    .applyCertiFont(.body_bold_18)
+                    .foregroundStyle(.grayscale600)
+                    .frame(height: 25)
+                
+                Text(certificationName)
+                    .applyCertiFont(.caption_semibold_14)
+                    .foregroundStyle(.grayscale400)
+                    .frame(height: 20)
+            }
+            .padding(.top, 60)
+            .padding(.leading, 20)
             
-            Text("자격증 시험 정보를 입력해주세요")
-                .applyCertiFont(.body_bold_18)
-                .foregroundStyle(.grayscale600)
-                .frame(width: 229, height: 25)
-                .padding(.leading, 20)
-                .padding(.trailing, 126)
-            
-            Text(certificationName)
-                .applyCertiFont(.caption_semibold_14)
-                .foregroundStyle(.grayscale400)
-                .frame(width: 149, height: 20)
-                .padding(.leading, 20)
-                .padding(.trailing, 206)
-            
+            Spacer()
         }
-        .padding(.top, 60)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
+    
     
     @ViewBuilder
     private var dateView: some View {
@@ -99,11 +96,11 @@ extension CertificationDetailPlanModalView {
             .padding(.trailing, 267)
             
             HStack(alignment: .center, spacing: 0) {
-                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceDo, options: placeMenuOptions, menuPlaceholder: "시/도")
+                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceProvince, options: placeMenuOptions, menuPlaceholder: "시/도")
                 
                 Spacer()
                 
-                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceSi, options: placeMenuOptions2, menuPlaceholder: "구/시")
+                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceCity, options: placeMenuOptions2, menuPlaceholder: "구/시")
             }
             .padding(.top, 12)
             .padding(.horizontal, 20)
