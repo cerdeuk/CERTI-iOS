@@ -64,9 +64,7 @@ extension HomeCalendarView {
             .padding(.trailing, 21)
             
             Button {
-                withAnimation {
-                    currentMonth += 1
-                }
+                currentMonth += 1
             } label: {
                 Image(.iconCalendarArrowLeft)
                     .frame(width: 16, height: 16)
