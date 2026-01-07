@@ -8,24 +8,12 @@
 import SwiftUI
 
 struct CertificateDetailTabContainerView: View {
+    @ObservedObject var viewModel: CertificateDetailViewModel
+
     @State private var selectedTab: DetailTab = .detailInformation
-    @Binding private var certificationId: Int
     
-    @StateObject private var viewModel: CertificateDetailViewModel
-
-       init(
-           certificationId: Binding<Int>,
-           onBack: @escaping () -> Void
-       ) {
-           self._certificationId = certificationId
-           self.onBack = onBack
-
-           _viewModel = StateObject(wrappedValue: CertificateDetailViewModel(
-               fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
-               addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
-               addAcquisitionUseCase: PreviewAddAcquisitionUseCase()
-           ))
-       }
+    @Binding var certificationId: Int
+    
     let onBack: () -> Void
 
     var body: some View {
@@ -48,6 +36,7 @@ struct CertificateDetailTabContainerView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -57,7 +46,10 @@ struct CertificateDetailTabContainerView: View {
 
         var body: some View {
             CertificateDetailTabContainerView(
-                certificationId: $certificationId,
+                viewModel: CertificateDetailViewModel(
+                    fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
+                    addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
+                    addAcquisitionUseCase: PreviewAddAcquisitionUseCase()), certificationId: $certificationId,
                 onBack: { }
             )
         }
