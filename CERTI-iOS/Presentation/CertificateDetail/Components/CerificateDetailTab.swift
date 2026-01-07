@@ -21,6 +21,7 @@ enum DetailTab: CaseIterable {
 
 struct CertificateDetailTab: View {
     @Namespace private var animation
+    
     @Binding var selectedTab: DetailTab
     
     var body: some View {
@@ -51,6 +52,8 @@ struct CertificateDetailTab: View {
                     }
                 }
             }
+            
+            Spacer()
         }
     }
 }

@@ -11,9 +11,7 @@ struct CertificateDetailView: View {
     @ObservedObject var viewModel: CertificateDetailViewModel
 
     @Binding var certificationId: Int
-    
-    let onBack: () -> Void
-    
+        
     @State private var opacity: Double = 1.0
     @State private var isShowingSheet = false
     
@@ -21,10 +19,6 @@ struct CertificateDetailView: View {
         
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
-                BackButton {
-                    onBack()
-                }
-                
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
                         Text(viewModel.certificateDetailModel.certificationName)
