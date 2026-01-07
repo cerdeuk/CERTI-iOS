@@ -34,8 +34,7 @@ struct HomeCalendarView: View {
                 .padding(.top, 16)
         }
         .padding(.horizontal, 20)
-        .onChange(of: currentMonth) { newValue in
-            currentDate = getCurrentMonth()
+        .onChange(of: currentMonth) { _ in
         }
     }
 }
@@ -45,7 +44,7 @@ extension HomeCalendarView {
         HStack(alignment: .center, spacing: 0) {
 //            Text("\(viewModel.getYearAndMonthString(currentDate: viewModel.currentDate)[0]) \(viewModel.getYearAndMonthString(currentDate: viewModel.currentDate)[1])")
             // 너도 뷰 모델 뜨면 위에걸로 바꿔라잉
-            Text("\(getYearAndMonthString(currentDate: currentDate)[0]) \(getYearAndMonthString(currentDate: currentDate)[1])")
+            Text("\(getYearAndMonthString(currentDate: getCurrentMonth())[0]) \(getYearAndMonthString(currentDate: getCurrentMonth())[1])")
                 .applyCertiFont(.body_semibold_16)
                 .foregroundStyle(.black)
                 .frame(height: 22)
