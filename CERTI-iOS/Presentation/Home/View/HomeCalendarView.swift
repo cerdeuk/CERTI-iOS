@@ -19,7 +19,7 @@ struct HomeCalendarView: View {
 //    @ObservedObject var viewModel: HomeViewModel
     let columns = Array(repeating: GridItem(.flexible()), count: 7)
     // 너도! dkfo enro
-    @State private var currentDate: Date = Date()
+    @State private var currentDate: Date = .distantPast
     @State private var currentMonth: Int = 0
     private let today = Date()
     
@@ -89,7 +89,7 @@ extension HomeCalendarView {
                 CardView(value: value)
                     .background {
                         Circle()
-                            .fill(isSameDay(day1: value.date, day2: today) ? .mainblue : .grayscale100)
+                            .fill(isSameDay(day1: value.date, day2: today) ? .grayscale100 : .mainblue)
                             .frame(width: 30,height: 30)
                             .opacity(isSameDay(day1: value.date, day2: currentDate)||isSameDay(day1: value.date, day2: today) ? 1 : 0)
                     }
@@ -99,6 +99,8 @@ extension HomeCalendarView {
             }
         }
     }
+    
+//    private var
 }
 
 // 뷰모델 플뷰에 넣기 싫어서.. 추후에 삭제할것
@@ -174,7 +176,7 @@ extension HomeCalendarView {
     
     func textColor(for state: CalendarDayState) -> Color {
         switch state {
-        case .today, .todaySelected:
+        case .selected, .todaySelected:
             return .white
         case .otherMonth:
             return .grayscale200
@@ -186,11 +188,9 @@ extension HomeCalendarView {
     func backgroundColor(for state: CalendarDayState) -> Color {
         switch state {
         case .today:
-            return .mainblue
-        case .todaySelected:
-            return .mainblue
-        case .selected:
             return .grayscale100
+        case .selected, .todaySelected:
+            return .mainblue
         default:
             return .clear
         }
