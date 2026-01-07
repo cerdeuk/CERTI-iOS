@@ -101,7 +101,7 @@ struct OnboardingJobCategoryView: View {
                 HStack(alignment: .center, spacing: 17) {
                     Button {
                         selectedJob = ""
-                        viewModel.navigateToInfo()
+                        viewModel.navigateToNickName()
                     } label: {
                         Text("건너뛰기")
                             .applyCertiFont(.body_semibold_16)
@@ -115,7 +115,7 @@ struct OnboardingJobCategoryView: View {
                         if step == 3 {
                             viewModel.selectedJobCategory.append(selectedJob)
                             selectedJob = ""
-                            viewModel.navigateToInfo()
+                            viewModel.navigateToNickName()
                         } else {
                             viewModel.selectedJobCategory.append(selectedJob)
                             selectedJob = ""

@@ -29,6 +29,12 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var showFailAcquired: Bool = false
     @Published var showFailToBeAcquired: Bool = false
     @Published var showCompleteModal = false
+    @Published var CertificationPlanDate: Date? = nil
+    @Published var CertificationPlanPlaceProvince: String? = nil
+    @Published var CertificationPlanPlaceCity: String? = nil
+    @Published var isAM = true
+    @Published var hour = 1
+    @Published var minute = 0
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
@@ -96,5 +102,19 @@ extension CertificateDetailViewModel {
         case .failure(let error):
             logger.error("appendAcquisition failed: \(error.localizedDescription)")
         }
+    }
+}
+
+ // MARK: - Func
+
+extension CertificateDetailViewModel {
+    func resetPlanModalInput() {
+        CertificationPlanDate = nil
+        CertificationPlanPlaceProvince = nil
+        CertificationPlanPlaceCity = nil
+        
+        isAM = true
+        hour = 1
+        minute = 0
     }
 }

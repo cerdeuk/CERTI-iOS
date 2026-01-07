@@ -29,6 +29,8 @@ struct CertiTabBarCoordinatorView: View {
                     RecommendCoordinatorView(recommendCoordinator: tabCoordinator.recommendCoordinator, recommendFactory: appDIContainer.makeRecommendFactory(), certificateDetailFactory: appDIContainer.makeCertificateDetailFactory())
                 case .resume:
                     ResumeCoordinatorView(resumeCoordinator: tabCoordinator.resumeCoordinator, resumeFactory: appDIContainer.makeResumeFactory())
+                case .mypage:
+                    MyPageCoordinatorView(myPageCoordinator: tabCoordinator.mypageCoordinator, myPageFactory: appDIContainer.makeMyPageFactory())
                 }
             }
             .id(tabCoordinator.selectedTab)
@@ -48,6 +50,8 @@ struct CertiTabBarCoordinatorView: View {
                 tabCoordinator.recommendCoordinator.reset()
             case .resume:
                 tabCoordinator.resumeCoordinator.reset()
+            case .mypage:
+                tabCoordinator.mypageCoordinator.reset()
             }
         }
     }

@@ -15,7 +15,7 @@ struct CertificateDetailView: View {
     let onBack: () -> Void
     
     @State private var opacity: Double = 1.0
-    
+    @State private var isShowingSheet = false
     
     var body: some View {
         
@@ -134,10 +134,8 @@ struct CertificateDetailView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .onAppear {
-            Task {
-                await viewModel.fetchCertificateDetail(certificationId: certificationId)
-            }
+        .task {
+            await viewModel.fetchCertificateDetail(certificationId: certificationId)
         }
     }
     
@@ -308,10 +306,9 @@ struct CertificateDetailView: View {
     
     private var ToBeAcquiredButton: some View {
         Button {
-            Task {
-                await viewModel.appendPreCertification(certificationId: certificationId)
-            }
-        } label: {
+            isShowingSheet.toggle()
+        }
+        label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundStyle(.bluewhite)
@@ -327,6 +324,14 @@ struct CertificateDetailView: View {
                     .frame(height: 22)
             }
             .padding(.horizontal, 20)
+        }
+        .sheet(isPresented: $isShowingSheet,
+               onDismiss: { viewModel.resetPlanModalInput()
+        }) {
+            CertificationDetailPlanModalView(viewModel: viewModel, certificationId: $certificationId, isShowingSheet: $isShowingSheet, certificationName: viewModel.certificateDetailModel.certificationName)
+                .presentationDetents([.height(663)])
+                .presentationCornerRadius(40)
+                .presentationDragIndicator(.visible)
         }
         .padding(.bottom, 12)
     }

@@ -223,4 +223,8 @@ extension AppDIContainer {
             fetchActivityListUseCase: makeFetchActivityListUseCase()
         )
     }
+    
+    func makeMyPageFactory() -> MyPageFactory {
+        return DefaultMyPageFactory()
+    }
 }
