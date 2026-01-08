@@ -35,7 +35,7 @@ final class HomeViewModel: ObservableObject {
     @Published var homeStateModel = HomeStateModel()
     @Published var selectedLicenseId: Int = 0
     @Published var homeViewRoute: HomeViewRoute?
-    @Published var currentDate: Date = Date()
+    @Published var currentDate: Date = .distantPast
     @Published var currentMonth: Int = 0
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "HOME")

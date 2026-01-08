@@ -34,6 +34,8 @@ struct CalendarView: View {
 
     private var textColor: Color {
         switch state {
+        case .selected, .todaySelected:
+            return .white
         case .otherMonth:
             return .grayscale200
         default:
