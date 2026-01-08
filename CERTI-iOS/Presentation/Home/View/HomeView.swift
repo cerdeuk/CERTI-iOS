@@ -115,7 +115,8 @@ extension HomeView {
             }
             .applyCertiFont(.body_semibold_16)
             .foregroundStyle(.grayscale600)
-            .padding(.bottom, 12)
+            .padding(.top, 20)
+            .padding(.bottom, 36)
         }
     }
     
@@ -142,8 +143,7 @@ extension HomeView {
         .frame(height: 36)
         .foregroundStyle(.grayscale600)
         .applyCertiFont(.sub_semibold_20)
-        .padding(.top, 20)
-        .padding(.bottom, 36)
+        .padding(.bottom, 16)
     }
     
     private var recommendLicenseList: some View {
