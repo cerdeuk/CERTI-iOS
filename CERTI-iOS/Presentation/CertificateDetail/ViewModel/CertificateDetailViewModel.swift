@@ -35,6 +35,8 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var isAM = true
     @Published var hour = 1
     @Published var minute = 0
+    @Published var isSelectedPopularity = false
+
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
