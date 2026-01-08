@@ -207,25 +207,85 @@ extension HomeViewModel {
         homeStateModel.favoriteLicenses[index].isFavorite.toggle()
     }
     
-//    func getYearAndMonthString(currentDate: Date) -> [String] {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy년 MM월"
-//        formatter.locale = Locale(identifier: "ko_kr")
-//        let date = formatter.string(from: currentDate)
-//        return date.components(separatedBy: " ")
-//    }
-//    
-//    func extractDate() -> [DateValueModel] {
-//        let calendar = Calendar.current
-//        
-//        // 현재 달 가져오기
-//        guard let currentMonth = calendar.date(byAdding: .month, value: self.currentMonth, to: Date()) else {
-//            return []
-//        }
-//        
-//        return currentMonth.getAllDates().compactMap { date -> DateValueModel in
-//            let day = calendar.component(.day, from: date)
-//            return DateValueModel(day: day, date: date)
-//        }
-//    }
+    func getYearAndMonthString(currentDate: Date) -> [String] {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월"
+        formatter.locale = Locale(identifier: "ko_kr")
+        let date = formatter.string(from: currentDate)
+        return date.components(separatedBy: " ")
+    }
+    
+    func extractDate() -> [DateValueModel] {
+        let calendar = Calendar.current
+        let currentMonth = getCurrentMonth()
+        
+        let currentMonthDays = currentMonth.getAllDates().compactMap { date -> DateValueModel in
+            let day = calendar.component(.day, from: date)
+            return DateValueModel(day: day, date: date, isCurrentMonth: true)
+        }
+        
+        var days = currentMonthDays
+        
+        let firstWeekday = calendar.component(.weekday, from: currentMonthDays.first!.date)
+        
+        if let prevMonth = calendar.date(byAdding: .month, value: -1, to: currentMonth) {
+            let prevMonthDays = prevMonth.getAllDates()
+            let prefixDays = prevMonthDays.suffix(firstWeekday - 1)
+            
+            let prevMonthValues = prefixDays.map { date in
+                DateValueModel(day: calendar.component(.day, from: date), date: date, isCurrentMonth: false)
+            }
+            days.insert(contentsOf: prevMonthValues, at: 0)
+        }
+        
+        return days
+    }
+    
+    func getCurrentMonth() -> Date {
+        let calendar = Calendar.current
+        
+        // 현재 달 가져오기
+        guard let currentMonth = calendar.date(byAdding: .month, value: self.currentMonth, to: Date()) else {
+            return Date()
+        }
+        
+        return currentMonth
+    }
+    
+    func isSameDay(day1: Date, day2: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(day1, inSameDayAs: day2)
+    }
+    
+    func dayState(for value: DateValueModel) -> CalendarDayState {
+        if !value.isCurrentMonth {
+            return .otherMonth
+        }
+        
+        let isToday = Calendar.current.isDate(value.date, inSameDayAs: Date())
+        let isSelected = currentDate != .distantPast && Calendar.current.isDate(value.date, inSameDayAs:currentDate)
+        
+        switch (isToday, isSelected) {
+        case (true, true):
+            return .todaySelected
+        case (true, false):
+            return .today
+        case (false, true):
+            return .selected
+        default:
+            return .normal
+        }
+    }
+    
+    func hasPreLicenses(on date: Date) -> Bool {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return homeStateModel.preLicenses.contains { preLicense in
+            guard let preLicenseDate = formatter.date(from: preLicense.testDate) else {
+                return false
+            }
+            return isSameDay(day1: preLicenseDate, day2: date)
+        }
+    }
 }

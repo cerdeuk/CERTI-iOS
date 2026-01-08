@@ -23,8 +23,7 @@ struct HomeView: View {
                     profileSection
                         .padding(.horizontal, 20)
 
-                    progressSection
-                        .padding(.horizontal, 20)
+                    HomeCalendarView(viewModel: viewModel)
 
                     recommendLicenseTitle
                         .padding(.horizontal, 20)
@@ -92,17 +91,6 @@ extension HomeView {
     private var profileSection: some View {
         Group {
             HStack(alignment: .center, spacing: 0) {
-                Text("안녕하세요, ")
-                Text(viewModel.homeStateModel.username.trimmedUsername())
-                Text("님!")
-            }
-            .frame(height: 26)
-            .applyCertiFont(.sub_bold_20)
-            .foregroundStyle(.grayscale600)
-            .padding(.bottom, 24)
-            .padding(.top, 32)
-            
-            HStack(alignment: .center, spacing: 0) {
                 Image(.imageProfilePdf)
                     .resizable()
                     .scaledToFit()
@@ -131,41 +119,6 @@ extension HomeView {
         }
     }
     
-    private var progressSection: some View {
-        Group {
-            ProgressView(value: Double(viewModel.homeStateModel.progressValue) / 100.0)
-                .frame(height: 12)
-                .scaleEffect(x: 1, y: 1.3)
-                .tint(.purpleblue)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .padding(.bottom, 8)
-            
-            if viewModel.homeStateModel.progressValue == 0 {
-                Text("회원님의 이력서를 채워보세요!")
-                    .applyCertiFont(.caption_regular_14)
-                    .foregroundStyle(.grayscale600)
-                    .frame(height: 20)
-                    .padding(.bottom, 36)
-            } else {
-                HStack(alignment: .center, spacing: 0) {
-                    Group {
-                        Text("회원님의 이력서가 ")
-                            .applyCertiFont(.caption_regular_14)
-                            .foregroundStyle(.grayscale600)
-                        Text("\(viewModel.homeStateModel.progressValue)% ")
-                            .applyCertiFont(.caption_semibold_14)
-                            .foregroundStyle(.mainblue)
-                        Text("채워졌어요!")
-                            .applyCertiFont(.caption_regular_14)
-                            .foregroundStyle(.grayscale600)
-                    }
-                    .frame(height: 20)
-                    .padding(.bottom, 36)
-                }
-            }
-        }
-    }
-    
     private var recommendLicenseTitle: some View {
         HStack(alignment: .center, spacing: 0) {
             Text(viewModel.homeStateModel.username.trimmedUsername())
@@ -189,7 +142,8 @@ extension HomeView {
         .frame(height: 36)
         .foregroundStyle(.grayscale600)
         .applyCertiFont(.sub_semibold_20)
-        .padding(.bottom, 16)
+        .padding(.top, 20)
+        .padding(.bottom, 36)
     }
     
     private var recommendLicenseList: some View {
