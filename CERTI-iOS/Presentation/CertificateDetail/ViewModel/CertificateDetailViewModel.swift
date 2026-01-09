@@ -36,7 +36,10 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var hour = 1
     @Published var minute = 0
     @Published var isSelectedPopularity = false
-
+    @Published var commentCount = 0
+    @Published var paginationComments: [PaginationCommentModel] = PaginationCommentModel.dummy()
+    @Published var isLastPage: Bool = false
+    @Published var currentPage: Int = 0
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     

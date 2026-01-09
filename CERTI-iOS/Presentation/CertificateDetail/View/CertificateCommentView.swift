@@ -8,59 +8,43 @@
 import SwiftUI
 
 struct CertificateCommentView: View {
+    @ObservedObject var viewModel: CertificateDetailViewModel
+
     @Binding var isSelectedPopularity: Bool
+    @Binding var CommentCount: Int
     
     var body: some View {
-        VStack(alignment: .center, spacing: 12) {
-            HStack {
-                CommentSortButton(isSelectedPopularity: isSelectedPopularity){
-                    isSelectedPopularity.toggle()
-                    //                Task {
-                    //                    await viewModel.getCategoryList()
-                    //                }
+        ScrollView(.vertical) {
+                HStack(alignment: .center, spacing: 0) {
+                    CommentSortButton(isSelectedPopularity: isSelectedPopularity){
+                        isSelectedPopularity.toggle()
+                        // TODO: - 댓글조회 API
+                    }
+                    .padding(.leading, 20)
+                    
+                    Spacer()
+                    
+                    Text("댓글 (\(CommentCount))")
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale400)
+                        .padding(.trailing, 20)
                 }
-                .padding(.leading, 20)
+                .padding(.bottom, 12)
+                .padding(.top, 36)
                 
-                Spacer()
-                
-                Text("댓글 (00)")
-                    .applyCertiFont(.caption_regular_14)
-                    .foregroundStyle(.grayscale400)
-                    .padding(.trailing, 20)
+            ForEach(viewModel.paginationComments) { page in
+                ForEach(page.comments) { comment in
+                    CommentComponent(
+                        certificationState: comment.state == "취득 완료" ? .completed : .expected,
+                        userName: .normal(userName: comment.nickName),
+                        major: comment.userMajor,
+                        job: comment.userJob,
+                        commentContent: comment.content,
+                        likeCount: comment.likeCount
+                    )
+                    .padding(.horizontal, 20)
+                }
             }
-            CommentComponent(certificationState: .completed,
-                             userName: .normal(userName: "김서티"),
-                             major: "컴퓨터공학",
-                             job: "경영사무",
-                             commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
-                             likeCount: 110)
-            
-            CommentComponent(certificationState: .expected,
-                             userName: .normal(userName: "김서티"),
-                             major: "컴퓨터공학",
-                             job: "경영사무",
-                             commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
-                             likeCount: 110)
-            
-            CommentComponent(certificationState: .expected,
-                             userName: .unknown,
-                             major: "컴퓨터공학",
-                             job: "경영사무",
-                             commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
-                             likeCount: 110)
-        }
-        .frame(width: .infinity)
-    }
-}
-
-#Preview {
-    struct PreviewWrapper: View {
-        
-        @State var isSelectedPopularity = true
-        var body: some View {
-            CertificateCommentView(isSelectedPopularity: $isSelectedPopularity)
         }
     }
-    return PreviewWrapper()
-    
 }
