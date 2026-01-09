@@ -61,6 +61,8 @@ struct OnboardingNickNameView: View {
                         let nextIndex = (currentIndex + 1) % allCases.count
                         viewModel.nickNameValid = allCases[nextIndex]
                     }
+                    
+                    AuthManager.shared.nickname = viewModel.nickname
                 } else {
                     viewModel.nickNameValid = allCases.first
                 }

@@ -9,13 +9,8 @@ import Foundation
 
 import Moya
 
-enum AuthResponseEntity {
-    case success(LoginSuccessResponseEntity)
-    case needSignUp(SignupRequiredResponseEntity)
-}
-
 final class DefaultAuthRepository: AuthRepository {
-    
+
     private let service: AuthServiceProtocol
 
     public init(service: AuthServiceProtocol) {
@@ -26,38 +21,44 @@ final class DefaultAuthRepository: AuthRepository {
         return await service.withDraw()
     }
     
-    func signUp(request: SignupRequestEntity, preSignUpToken: String) async -> Result<SignupSuccessUserDataEntity, NetworkError> {
-        let result = await service.signUp(request: request.toSignupRequestDTO(), preSignUpToken: preSignUpToken)
+    func login(type: String, accessToken: String) async -> Result<LoginResponseEntity, NetworkError> {
+        let result = await service.login(type: type, accessToken: accessToken)
         
         switch result {
-        case .success(let dto):
-            guard let entity = dto.data?.toSignupSuccessUserDataEntity() else {
-                return .failure(.decodingError)
-            }
-            return .success(entity)
+        case .success(let response):
+            guard let data = response.data else { return .failure(.decodingError) }
+            return .success(data.toDomain())
         case .failure(let error):
             return .failure(error)
         }
     }
     
-
-    func login(type: SocialLoginType, authorizationCode: String) async -> Result<AuthResponseEntity, NetworkError> {
-        let result = await service.login(type: type, authorizationCode: authorizationCode)
-
+    func signUp(request: SignupRequestEntity, preSignUpToken: String) async -> Result<SignupResponseEntity, NetworkError> {
+        let requestDTO = SignupRequestDTO(
+            userInformation: .init(
+                socialID: request.userInformation.socialID,
+                name: request.userInformation.name,
+                socialType: request.userInformation.socialType,
+                email: request.userInformation.email,
+                profileImageURL: request.userInformation.profileImageURL
+            ),
+            university: request.university,
+            grade: request.grade,
+            track: request.track,
+            major: request.major,
+            nickname: request.nickname,
+            jobs: request.jobs
+        )
+        
+        let result = await service.signUp(request: requestDTO, preSignUpToken: preSignUpToken)
+        
         switch result {
         case .success(let response):
-            guard let data = response.data else {return .failure(.decodingError)}
-            
-            if data.needSignUp {
-                guard let entity = data.signupRequired?.toSignupRequiredResponseEntity() else {return .failure(.decodingError)}
-                return .success(.needSignUp(entity))
-            } else {
-                guard let entity = data.loginSuccess?.toLoginSuccessResponseEntity() else {return .failure(.decodingError)}
-                return .success(.success(entity))
-            }
-            
+            guard let data = response.data else { return .failure(.decodingError) }
+            return .success(data.toDomain())
         case .failure(let error):
             return .failure(error)
         }
     }
+
 }

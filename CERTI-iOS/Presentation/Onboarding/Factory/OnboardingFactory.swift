@@ -14,20 +14,24 @@ protocol OnboardingFactory {
 final class DefaultOnboardingFactory: OnboardingFactory {
     let fetchMajorListUseCase: FetchMajorListUseCase
     let fetchUnivListUseCase: FetchUnivListUseCase
+    let signupUseCase: SignUpUseCase
 
     init(
         fetchMajorListUseCase: FetchMajorListUseCase,
-        fetchUnivListUseCase: FetchUnivListUseCase
+        fetchUnivListUseCase: FetchUnivListUseCase,
+        signupUseCase: SignUpUseCase
     ) {
         self.fetchMajorListUseCase = fetchMajorListUseCase
         self.fetchUnivListUseCase = fetchUnivListUseCase
+        self.signupUseCase = signupUseCase
     }
 
     @MainActor
     func makeOnboardingViewModel() -> OnboardingViewModel {
         OnboardingViewModel(
             fetchMajorListUseCase: fetchMajorListUseCase,
-            fetchUnivListUseCase: fetchUnivListUseCase
+            fetchUnivListUseCase: fetchUnivListUseCase,
+            signupUseCase: signupUseCase
         )
     }
 }

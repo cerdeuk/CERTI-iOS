@@ -2,12 +2,14 @@
 //  TokenRefreshService.swift
 //  CERTI-iOS
 //
-//  Created by OneTen on 7/5/25.
+//  Created by OneTen on 1/9/26.
 //
 
 import Foundation
 
 import Moya
+
+typealias TokenResponseDTO = BaseResponseDTO<TokenResponseData>
 
 protocol TokenRefreshServiceProtocol {
     func refresh() async -> Result<TokenResponseDTO, NetworkError>

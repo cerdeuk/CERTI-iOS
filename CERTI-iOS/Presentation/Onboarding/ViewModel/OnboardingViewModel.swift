@@ -40,30 +40,19 @@ final class OnboardingViewModel: ObservableObject {
     @Published var onboardingViewRoute: OnboardingViewRoute?
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Onboarding")
-    private let authManager = AuthManager.shared
     
     private let fetchMajorListUseCase: FetchMajorListUseCase
     private let fetchUnivListUseCase: FetchUnivListUseCase
+    private let signupUseCase: SignUpUseCase
     
     init(
         fetchMajorListUseCase: FetchMajorListUseCase,
-        fetchUnivListUseCase: FetchUnivListUseCase
+        fetchUnivListUseCase: FetchUnivListUseCase,
+        signupUseCase: SignUpUseCase
     ) {
         self.fetchMajorListUseCase = fetchMajorListUseCase
         self.fetchUnivListUseCase = fetchUnivListUseCase
-    }
-    
-    @MainActor
-    func completeSignUp() async -> Bool {
-        AuthManager.shared.applyOnboardingData(from: self)
-        let result = await AuthManager.shared.signUp()
-
-        switch result {
-        case .success:
-            return true
-        case .failure:
-            return false
-        }
+        self.signupUseCase = signupUseCase
     }
     
 }
@@ -76,7 +65,7 @@ extension OnboardingViewModel {
     func navigateToGrade() {
         onboardingViewRoute = .navigateToGrade
     }
-
+    
     func navigateToTrack() {
         onboardingViewRoute = .navigateToTrack
     }
@@ -112,7 +101,7 @@ extension OnboardingViewModel {
     func onboardingViewRouteReset() {
         onboardingViewRoute = .onboardingViewRouteReset
     }
-        
+    
 }
 
 
@@ -120,7 +109,8 @@ extension OnboardingViewModel {
 
 extension OnboardingViewModel {
     func getUnivList(keyword: String) async {
-        let result = await fetchUnivListUseCase.execute(keyword: keyword, preSignUpToken: authManager.getPreSignupToken())
+        guard let authManger = AuthManager.shared.temporarySignUpData else {return}
+        let result = await fetchUnivListUseCase.execute(keyword: keyword, preSignUpToken: authManger.preSignupToken)
         
         switch result {
         case .success(let data):
@@ -133,7 +123,8 @@ extension OnboardingViewModel {
     }
     
     func getMajorList(keyword: String) async {
-        let result = await fetchMajorListUseCase.execute(keyword: keyword, preSignUpToken: authManager.getPreSignupToken())
+        guard let authManger = AuthManager.shared.temporarySignUpData else {return}
+        let result = await fetchMajorListUseCase.execute(keyword: keyword, preSignUpToken: authManger.preSignupToken)
         
         switch result {
         case .success(let data):
@@ -143,7 +134,39 @@ extension OnboardingViewModel {
             logger.error("getMajorList failed: \(error.localizedDescription)")
         }
     }
-
+    
+    func signUp() async -> Bool {
+        guard let authManger = AuthManager.shared.temporarySignUpData else { return false }
+        
+        let requestData = SignupRequestEntity(
+            userInformation: authManger.userInformation,
+            university: userUniversity,
+            grade: selectedGrade,
+            track: selectedTrack,
+            major: userMajor,
+            nickname: nickname,
+            jobs: selectedJobCategory
+        )
+        
+        let result = await signupUseCase.execute(request: requestData, preSignUpToken: authManger.preSignupToken)
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ 회원가입 성공, 유저 ID: \(response.userID)")
+            
+            let accessToken = response.jwtResponse.accessToken
+            let refreshToken = response.jwtResponse.refreshToken
+            
+            _ = TokenManager.shared.saveTokens(
+                accessToken: accessToken,
+                refreshToken: refreshToken
+            )
+            return true
+        case .failure(let error):
+            logger.error("signUp failed: \(error.localizedDescription)")
+            return false
+        }
+    }
 }
 
 
@@ -153,14 +176,14 @@ extension OnboardingViewModel {
     func searchUnivValidate() -> Bool {
         let searchTextValid = !searchUnivText.trimmingCharacters(in: .whitespaces).isEmpty
         let userUniversityValid = !userUniversity.trimmingCharacters(in: .whitespaces).isEmpty
-
+        
         return searchTextValid && userUniversityValid
     }
     
     func searchMajorValidate() -> Bool {
         let searchTextValid = !searchMajorText.trimmingCharacters(in: .whitespaces).isEmpty
         let userMajorValid = !userMajor.trimmingCharacters(in: .whitespaces).isEmpty
-
+        
         return searchTextValid && userMajorValid
     }
 }

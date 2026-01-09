@@ -20,7 +20,7 @@ struct AppCoordinatorView: View {
             OnboardingCoordinatorView(onboardingCoordinator: appCoordinator.onboardingCoordinator, onboardingFactory: appDIContainer.makeOnboardingFactory())
                 .environmentObject(appCoordinator)
         case .auth:
-            LoginView()
+            LoginView(factory: appDIContainer.makeLoginFactory())
                 .environmentObject(appCoordinator)
         case .main:
             CertiTabBarCoordinatorView(tabCoordinator: appCoordinator.tabCoordinator, appDIContainer: appDIContainer)
