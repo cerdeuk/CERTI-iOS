@@ -10,6 +10,12 @@ struct SignupRequiredResponseDTO: Decodable {
     let preSignupToken: String
     let userInformation: UserInformation
     
+    enum CodingKeys: String, CodingKey {
+        case needSignUp
+        case preSignupToken
+        case userInformation
+    }
+    
     func toSignupRequiredResponseEntity() -> SignupRequiredResponseEntity {
         return SignupRequiredResponseEntity(
             needSignUp: needSignUp,
@@ -21,13 +27,19 @@ struct SignupRequiredResponseDTO: Decodable {
 
 struct UserInformation: Decodable {
     let email: String
-    let nickname: String
+    let name: String?
     let profileImageUrl: String
+    
+    enum CodingKeys: String, CodingKey {
+        case email
+        case name
+        case profileImageUrl
+    }
     
     func toUserInformationEntityData() -> UserInformationEntityData {
         return UserInformationEntityData(
             email: email,
-            nickname: nickname,
+            nickname: name ?? "",
             profileImageUrl: profileImageUrl
         )
     }
