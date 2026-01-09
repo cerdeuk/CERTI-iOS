@@ -75,8 +75,6 @@ struct CommentComponent: View {
             Text(commentContent.antiAppleBySangyup)
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale500)
-                .frame(width:329)
-                .lineLimit(4)
                 .padding(.top, 8)
             
             commentInfomation
@@ -84,7 +82,7 @@ struct CommentComponent: View {
             
             Rectangle()
                 .foregroundStyle(.grayscale100)
-                .frame(width: 335, height: 1)
+                .frame(height: 1)
                 .padding(.top, 8)
 
         }
@@ -113,7 +111,6 @@ extension CommentComponent {
             
             Spacer()
         }
-        .frame(width: 335)
     }
     
     @ViewBuilder
@@ -152,7 +149,6 @@ extension CommentComponent {
             
             Spacer()
         }
-        .frame(width: 335)
     }
 }
 
@@ -162,7 +158,7 @@ extension CommentComponent {
                          userName: .normal(userName: "김서티"),
                          major: "컴퓨터공학",
                          job: "경영사무",
-                         commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
+                         commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
                          likeCount: 110)
         
         CommentComponent(certificationState: .expected,

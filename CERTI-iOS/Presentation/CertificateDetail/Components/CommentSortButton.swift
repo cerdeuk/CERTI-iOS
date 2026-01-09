@@ -44,8 +44,6 @@ struct CommentSortButton: View {
                         )
                 }
             }
-            .padding(.leading, 20)
-            .padding(.vertical, 12)
         }
     }
 }
