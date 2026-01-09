@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 final class DefaultUserRepository: UserRepository {
-
+    
     private let service: UserServiceProtocol
 
     public init(service: UserServiceProtocol) {
@@ -26,6 +26,17 @@ final class DefaultUserRepository: UserRepository {
                 return .failure(.decodingError)
             }
             return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func checkNickName(nickname: String) async -> Result<String, NetworkError> {
+        let result = await service.checkNickName(nickname: nickname)
+        
+        switch result {
+        case .success(let response):
+            return .success(response.message)
         case .failure(let error):
             return .failure(error)
         }

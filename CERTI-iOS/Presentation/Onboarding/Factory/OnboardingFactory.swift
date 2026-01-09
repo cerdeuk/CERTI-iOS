@@ -15,15 +15,18 @@ final class DefaultOnboardingFactory: OnboardingFactory {
     let fetchMajorListUseCase: FetchMajorListUseCase
     let fetchUnivListUseCase: FetchUnivListUseCase
     let signupUseCase: SignUpUseCase
+    let checkNickNameUseCase: CheckNickNameUseCase
 
     init(
         fetchMajorListUseCase: FetchMajorListUseCase,
         fetchUnivListUseCase: FetchUnivListUseCase,
-        signupUseCase: SignUpUseCase
+        signupUseCase: SignUpUseCase,
+        checkNickNameUseCase: CheckNickNameUseCase
     ) {
         self.fetchMajorListUseCase = fetchMajorListUseCase
         self.fetchUnivListUseCase = fetchUnivListUseCase
         self.signupUseCase = signupUseCase
+        self.checkNickNameUseCase = checkNickNameUseCase
     }
 
     @MainActor
@@ -31,7 +34,8 @@ final class DefaultOnboardingFactory: OnboardingFactory {
         OnboardingViewModel(
             fetchMajorListUseCase: fetchMajorListUseCase,
             fetchUnivListUseCase: fetchUnivListUseCase,
-            signupUseCase: signupUseCase
+            signupUseCase: signupUseCase,
+            checkNickNameUseCase: checkNickNameUseCase
         )
     }
 }

@@ -11,4 +11,5 @@ import Moya
 
 protocol UserRepository {
     func getUserInfo() async -> Result<UserInfoEntity, NetworkError>
+    func checkNickName(nickname: String) async -> Result<String, NetworkError>
 }

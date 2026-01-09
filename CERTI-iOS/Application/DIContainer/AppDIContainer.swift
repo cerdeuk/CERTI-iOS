@@ -158,6 +158,10 @@ extension AppDIContainer {
     func makeFetchActivityListUseCase() -> FetchActivityListUseCase {
         return DefaultFetchActivityListUseCase(repository: activityRepository)
     }
+    
+    func makeCheckNickNameUseCase() -> CheckNickNameUseCase {
+        return DefaultCheckNickNameUseCase(repository: userRepository)
+    }
 }
 
 
@@ -181,7 +185,8 @@ extension AppDIContainer {
         return DefaultOnboardingFactory(
             fetchMajorListUseCase: makeFetchMajorListUseCase(),
             fetchUnivListUseCase: makeFetchUnivListUseCase(),
-            signupUseCase: makeSignUpUseCase()
+            signupUseCase: makeSignUpUseCase(),
+            checkNickNameUseCase: makeCheckNickNameUseCase()
         )
     }
     

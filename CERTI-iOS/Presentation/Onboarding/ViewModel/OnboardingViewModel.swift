@@ -44,15 +44,18 @@ final class OnboardingViewModel: ObservableObject {
     private let fetchMajorListUseCase: FetchMajorListUseCase
     private let fetchUnivListUseCase: FetchUnivListUseCase
     private let signupUseCase: SignUpUseCase
+    private let checkNickNameUseCase: CheckNickNameUseCase
     
     init(
         fetchMajorListUseCase: FetchMajorListUseCase,
         fetchUnivListUseCase: FetchUnivListUseCase,
-        signupUseCase: SignUpUseCase
+        signupUseCase: SignUpUseCase,
+        checkNickNameUseCase: CheckNickNameUseCase
     ) {
         self.fetchMajorListUseCase = fetchMajorListUseCase
         self.fetchUnivListUseCase = fetchUnivListUseCase
         self.signupUseCase = signupUseCase
+        self.checkNickNameUseCase = checkNickNameUseCase
     }
     
 }
@@ -165,6 +168,38 @@ extension OnboardingViewModel {
         case .failure(let error):
             logger.error("signUp failed: \(error.localizedDescription)")
             return false
+        }
+    }
+    
+    func checkNickNameValidate() async {
+        let result = await checkNickNameUseCase.execute(nickname: nickname)
+        
+        switch result {
+        case .success(let response):
+            logger.debug("✅ checkNickNameValidate success: \(response.description)")
+            AuthManager.shared.nickname = nickname
+            nickNameValid = .valid
+        case .failure(let error):
+            var errorMessage = ""
+            
+            switch error {
+            case .apiError(let message):
+                errorMessage = message
+            default:
+                errorMessage = error.localizedDescription
+            }
+            
+            logger.error("닉네임 검증 실패: \(errorMessage)")
+            
+            if errorMessage.contains("이미 사용중") {
+                nickNameValid = .duplicate
+            } else if errorMessage.contains("비속어") {
+                nickNameValid = .abuse
+            } else if errorMessage.contains("공백") {
+                nickNameValid = .empty
+            } else {
+                logger.error("처리되지 않은 에러 메시지: \(errorMessage)")
+            }
         }
     }
 }
