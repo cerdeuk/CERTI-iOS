@@ -119,7 +119,7 @@ extension HomeViewModel {
             AuthManager.shared.nickname = response.name
             
         case .failure(let error):
-            logger.error("❌ 탈퇴 실패: \(error.localizedDescription)")
+            logger.error("❌ 유저 정보 조회: \(error.localizedDescription)")
         }
     }
     
