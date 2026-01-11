@@ -40,13 +40,11 @@ struct MyPageCoordinatorView: View {
                         myPageCoordinator.push(next: .settings)
                     case .navigateToNotificationSettings:
                         myPageCoordinator.push(next: .notificationSettings)
+                    case .navigateToManageCertificates:
+                        myPageCoordinator.push(next: .manageCertificates)
                         
                     case .myPageViewRoutePop:
                         myPageCoordinator.pop()
-                        
-                    // case 다 만들면 지우기
-                    default:
-                        myPageCoordinator.reset()
                     }
                     myPageViewModel.myPageViewRoute = nil
                 }
@@ -76,9 +74,9 @@ struct MyPageCoordinatorView: View {
                         NotificationSettingView(viewModel: myPageViewModel)
                             .navigationBarBackButtonHidden()
 
-                    // case 다 만들면 지우기
-                    default:
-                        EmptyView()
+                    case .manageCertificates:
+                        ManageCertificateView(viewModel: myPageViewModel)
+                            .navigationBarBackButtonHidden()
                     }
                 }
         }
@@ -94,6 +92,6 @@ struct MyPageCoordinatorView: View {
     @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
 
 //    MyPageMajorView(viewModel: viewModel)
-    SettingView(viewModel: viewModel)
+    ManageCertificateView(viewModel: viewModel)
 //    NotificationSettingView(viewModel: viewModel)
 }
