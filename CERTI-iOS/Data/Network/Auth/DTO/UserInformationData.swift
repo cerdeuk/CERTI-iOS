@@ -18,7 +18,7 @@ struct UserInformationData: Codable {
         case profileImageURL = "profileImageUrl"
     }
     
-    func toDomain() -> UserInformationEntity {
+    func toUserInformationEntity() -> UserInformationEntity {
         return UserInformationEntity(
             socialID: socialID,
             socialType: socialType,

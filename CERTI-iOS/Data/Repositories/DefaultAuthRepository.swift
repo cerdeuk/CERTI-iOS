@@ -27,7 +27,7 @@ final class DefaultAuthRepository: AuthRepository {
         switch result {
         case .success(let response):
             guard let data = response.data else { return .failure(.decodingError) }
-            return .success(data.toDomain())
+            return .success(data.toLoginResponseEntity())
         case .failure(let error):
             return .failure(error)
         }
@@ -55,7 +55,7 @@ final class DefaultAuthRepository: AuthRepository {
         switch result {
         case .success(let response):
             guard let data = response.data else { return .failure(.decodingError) }
-            return .success(data.toDomain())
+            return .success(data.toSignupResponseEntity())
         case .failure(let error):
             return .failure(error)
         }

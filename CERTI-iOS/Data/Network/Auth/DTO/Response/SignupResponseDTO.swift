@@ -20,7 +20,7 @@ struct SignupResponseData: Codable {
         case nickName, university, trackType, major, jobs, jwtResponse
     }
     
-    func toDomain() -> SignupResponseEntity {
+    func toSignupResponseEntity() -> SignupResponseEntity {
         return SignupResponseEntity(
             userID: userID,
             nickName: nickName,
@@ -28,7 +28,7 @@ struct SignupResponseData: Codable {
             trackType: trackType,
             major: major,
             jobs: jobs,
-            jwtResponse: jwtResponse.toDomain()
+            jwtResponse: jwtResponse.toJwtResponseEntity()
         )
     }
 }
@@ -36,7 +36,7 @@ struct SignupResponseData: Codable {
 struct JwtResponseData: Codable {
     let accessToken, refreshToken: String
     
-    func toDomain() -> JwtResponseEntity {
+    func toJwtResponseEntity() -> JwtResponseEntity {
         return JwtResponseEntity(accessToken: accessToken, refreshToken: refreshToken)
     }
 }

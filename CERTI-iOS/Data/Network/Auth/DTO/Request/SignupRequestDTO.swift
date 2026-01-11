@@ -13,9 +13,9 @@ struct SignupRequestDTO: Codable {
     let nickname: String
     let jobs: [String]
     
-    func toDomain() -> SignupRequestEntity {
+    func toSignupRequestEntity() -> SignupRequestEntity {
         return SignupRequestEntity(
-            userInformation: userInformation.toDomain(),
+            userInformation: userInformation.toUserInformationEntity(),
             university: university,
             grade: grade,
             track: track,

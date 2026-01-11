@@ -18,11 +18,11 @@ struct LoginResponseData: Codable {
         case needSignUp, preSignupToken, userInformation
     }
     
-    func toDomain() -> LoginResponseEntity {
+    func toLoginResponseEntity() -> LoginResponseEntity {
         return LoginResponseEntity(
             needSignUp: needSignUp,
             preSignupToken: preSignupToken,
-            userInformation: userInformation.toDomain()
+            userInformation: userInformation.toUserInformationEntity()
         )
     }
 }
@@ -30,7 +30,7 @@ struct LoginResponseData: Codable {
 struct TokenResponseData: Codable {
     let accessToken, refreshToken: String
     
-    func toDomain() -> TokenResponseEntity {
+    func toTokenResponseEntity() -> TokenResponseEntity {
         return TokenResponseEntity(accessToken: accessToken, refreshToken: refreshToken)
     }
 }
