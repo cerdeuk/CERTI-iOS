@@ -96,7 +96,7 @@ private extension ManageCertificateView {
         VStack(alignment: .trailing) {
             HStack(alignment: .center) {
                 Button {
-                    // TODO: - 취득 예정 자격증 편집으로 이동
+                    viewModel.navigateToEditExpectedCertificate()
                 } label: {
                     Text("편집")
                         .applyCertiFont(.body_semibold_16)
@@ -122,7 +122,7 @@ private extension ManageCertificateView {
         VStack(alignment: .trailing) {
             HStack(alignment: .center) {
                 Button {
-                    // TODO: - 취득 완료 자격증 편집으로 이동
+                    viewModel.navigateToEditCompletedCertificate()
                 } label: {
                     Text("편집")
                         .applyCertiFont(.body_semibold_16)

@@ -15,6 +15,8 @@ enum MyPageRoute: Hashable {
     case manageCertificates
     case settings
     case notificationSettings
+    case editExpectedCertificate
+    case editCompletedCertificate
 }
 
 final class MyPageCoordinator: ObservableObject {

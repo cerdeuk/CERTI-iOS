@@ -42,6 +42,10 @@ struct MyPageCoordinatorView: View {
                         myPageCoordinator.push(next: .notificationSettings)
                     case .navigateToManageCertificates:
                         myPageCoordinator.push(next: .manageCertificates)
+                    case .navigateToEditExpectedCertificate:
+                        myPageCoordinator.push(next: .editExpectedCertificate)   
+                    case .navigateToEditCompletedCertificate:
+                        myPageCoordinator.push(next: .editCompletedCertificate)
                         
                     case .myPageViewRoutePop:
                         myPageCoordinator.pop()
@@ -77,6 +81,14 @@ struct MyPageCoordinatorView: View {
                     case .manageCertificates:
                         ManageCertificateView(viewModel: myPageViewModel)
                             .navigationBarBackButtonHidden()
+                        
+                    case .editExpectedCertificate:
+                        EditCertificateView(viewModel: myPageViewModel, target: .expected)
+                            .navigationBarBackButtonHidden()
+                        
+                    case .editCompletedCertificate:
+                        EditCertificateView(viewModel: myPageViewModel, target: .completed)
+                            .navigationBarBackButtonHidden()
                     }
                 }
         }
@@ -92,6 +104,7 @@ struct MyPageCoordinatorView: View {
     @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
 
 //    MyPageMajorView(viewModel: viewModel)
-    ManageCertificateView(viewModel: viewModel)
+//    ManageCertificateView(viewModel: viewModel)
+    EditCertificateView(viewModel: viewModel, target: .expected)
 //    NotificationSettingView(viewModel: viewModel)
 }
