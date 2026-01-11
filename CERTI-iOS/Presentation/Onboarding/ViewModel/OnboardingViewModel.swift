@@ -191,7 +191,7 @@ extension OnboardingViewModel {
             
             logger.error("닉네임 검증 실패: \(errorMessage)")
             
-            if errorMessage.contains("이미 사용중") {
+            if errorMessage.contains("존재하는") {
                 nickNameValid = .duplicate
             } else if errorMessage.contains("비속어") {
                 nickNameValid = .abuse
