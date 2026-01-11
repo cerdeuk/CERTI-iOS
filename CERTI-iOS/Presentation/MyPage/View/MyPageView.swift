@@ -24,10 +24,9 @@ struct MyPageView: View {
                 
                 // 회색 배경 영역
                 VStack(alignment: .center, spacing: 16) {
-                    
                     // 자격증 관리
                     Button {
-                        
+                        viewModel.navigateToManageCertificates()
                     } label: {
                         VStack(alignment: .center, spacing: 0) {
                             HStack(alignment: .center, spacing: 0){
@@ -114,12 +113,6 @@ struct MyPageView: View {
                     // 학사정보 관리
                     myPageViewButton(icon: tabIconList[1], title: tabList[1], description: tabDescriptionList[1], action: {
                         viewModel.navigateToManageAcademicInfo()
-                    })
-                    .padding(.horizontal, 20)
-                    
-                    // 자격증 관리로 이동
-                    myPageViewButton(icon: tabIconList[2], title: tabList[2], description: tabDescriptionList[2], action: {
-                        viewModel.navigateToManageCertificates()
                     })
                     .padding(.horizontal, 20)
                     
