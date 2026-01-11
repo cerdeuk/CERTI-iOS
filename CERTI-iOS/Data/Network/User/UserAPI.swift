@@ -11,12 +11,15 @@ import Moya
 
 enum UserAPI {
     case getUserInfo
+    case checkNickname(nickname: String)
 }
 
 extension UserAPI: BaseTargetType {
     var headerType: HeaderType {
         switch self {
         case .getUserInfo:
+            return .accessTokenHeader
+        case .checkNickname(nickname: let nickname):
             return .accessTokenHeader
         }
     }
@@ -25,12 +28,16 @@ extension UserAPI: BaseTargetType {
         switch self {
         case .getUserInfo:
             return "user"
+        case .checkNickname:
+            return "user/validation"
         }
     }
     
     var method: Moya.Method {
         switch self {
         case .getUserInfo:
+            return .get
+        case .checkNickname:
             return .get
         }
     }
@@ -39,6 +46,11 @@ extension UserAPI: BaseTargetType {
         switch self {
         case .getUserInfo:
             return .requestPlain
+        case .checkNickname(nickname: let nickname):
+            return .requestParameters(
+                parameters: ["keyword": nickname],
+                encoding: URLEncoding.queryString
+            )
         }
     }
     

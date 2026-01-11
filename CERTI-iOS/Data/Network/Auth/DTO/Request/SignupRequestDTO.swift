@@ -2,30 +2,26 @@
 //  SignupRequestDTO.swift
 //  CERTI-iOS
 //
-//  Created by OneTen on 7/13/25.
+//  Created by OneTen on 1/9/26.
 //
 
 import Foundation
 
-struct SignupRequestDTO: Encodable {
+struct SignupRequestDTO: Codable {
     let userInformation: UserInformationData
-    let university: String
-    let grade: String
-    let track: String
-    let major: String
-    let jobs: [String]
-}
-
-struct UserInformationData: Encodable {
-    let email: String
+    let university, grade, track, major: String
     let nickname: String
-    let profileImageUrl: String
+    let jobs: [String]
     
-    func toUserInformationEntityData() -> UserInformationEntityData {
-        return UserInformationEntityData(
-            email: email,
+    func toSignupRequestEntity() -> SignupRequestEntity {
+        return SignupRequestEntity(
+            userInformation: userInformation.toUserInformationEntity(),
+            university: university,
+            grade: grade,
+            track: track,
+            major: major,
             nickname: nickname,
-            profileImageUrl: profileImageUrl
+            jobs: jobs
         )
     }
 }

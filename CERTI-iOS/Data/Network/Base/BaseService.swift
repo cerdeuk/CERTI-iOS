@@ -53,7 +53,11 @@ class BaseService {
                                 continuation.resume(returning: .failure(.decodingError))
                             }
                         case 400:
-                            continuation.resume(returning: .failure(.badRequest))
+                            if let apiError = try? JSONDecoder().decode(ErrorResponseDTO.self, from: response.data) {
+                                continuation.resume(returning: .failure(.apiError(message: apiError.message)))
+                            } else {
+                                continuation.resume(returning: .failure(.badRequest))
+                            }
                         case 401 where retry:
                             RefreshTask.detached {
                                 let refreshResult = await TokenRefresher.shared.refresh()
