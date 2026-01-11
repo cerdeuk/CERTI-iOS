@@ -12,7 +12,7 @@ struct CertificateCommentView: View {
     
     @Binding var isSelectedPopularity: Bool
     @Binding var totalCommentCount: Int
-    
+        
     var body: some View {
         ScrollView(.vertical) {
             HStack(alignment: .center, spacing: 0) {
@@ -43,24 +43,30 @@ struct CertificateCommentView: View {
                             }
                         })
                     .padding(.horizontal, 20)
-                }
-                if !viewModel.isLastPage {
-                    HStack {
-                        Spacer()
-                        ProgressView()
-                        Spacer()
-                    }
-                    .padding(.vertical, 16)
-                    
-                    // TODO: - 댓글 조회 UseCase 호출
-                    .task(id: viewModel.currentIndex) {
-                        await viewModel.loadNextComments()
+                    .onAppear {
+                        // TODO: - 댓글 조회 useCase 호출
+                        if !viewModel.isLastPage {
+                            guard viewModel.commentList.count == viewModel.commentIndex  else {
+                                viewModel.countAppearComment()
+                                return
+                            }
+                            Task {
+                                await viewModel.loadNextComments()
+                                viewModel.countAppearComment()
+                            }
+                        }
                     }
                 }
             }
+            }
+        .onAppear {
+              Task {
+                await viewModel.loadNextComments()
+              }
+            }
         }
     }
-}
+
 
 #Preview {
     struct PreviewWrapper: View {

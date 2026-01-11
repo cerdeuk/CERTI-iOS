@@ -53,9 +53,10 @@ final class CertificateDetailViewModel: ObservableObject {
     )
     @Published var isLoadingComments: Bool = false
     @Published var isLastPage: Bool = false
+    @Published var commentIndex = 1
     
     private var dummyPages: [PaginationCommentModel] = PaginationCommentModel.dummy()
-    var currentIndex: Int = 0
+    var currentPageIndex: Int = 0
     
     var commentList: [Comment] {
         paginationComments.flatMap { $0.content }
@@ -132,7 +133,7 @@ extension CertificateDetailViewModel {
     // UI 확인용 더미
     func loadNextComments() async {
         guard !isLoadingComments && !isLastPage else { return }
-        guard currentIndex < dummyPages.count else {
+        guard currentPageIndex < dummyPages.count else {
             isLastPage = true
             return
         }
@@ -141,9 +142,9 @@ extension CertificateDetailViewModel {
         
         try? await Task.sleep(nanoseconds: 600_000_000)
         
-        let nextPage = dummyPages[currentIndex]
+        let nextPage = dummyPages[currentPageIndex]
         paginationComments.append(nextPage)
-        currentIndex += 1
+        currentPageIndex += 1
         
         commentCount = paginationComments
             .flatMap { $0.content }
@@ -165,5 +166,9 @@ extension CertificateDetailViewModel {
         isAM = true
         hour = 1
         minute = 0
+    }
+    
+    func countAppearComment() {
+        commentIndex += 1
     }
 }
