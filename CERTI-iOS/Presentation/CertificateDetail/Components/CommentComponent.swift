@@ -44,10 +44,6 @@ struct CommentComponent: View {
         }
     }
     
-    // MARK: - Property Wrappers
-    
-    @State private var heartOn: Bool = false
-    
     // MARK: - Properties
     
     private var dateFormatter: DateFormatter {
@@ -57,12 +53,10 @@ struct CommentComponent: View {
         return formatter
     }
     
+    let model: Comment
     let certificationState: CertificationType
     let userName: UserType
-    let major: String
-    let job: String
-    let commentContent: String
-    let likeCount: Int
+    let onTapLike: () -> Void
     
     // MARK: - Main Body
     
@@ -72,7 +66,7 @@ struct CommentComponent: View {
             userInfomation
                 .padding(.top, 8)
             
-            Text(commentContent.antiAppleBySangyup)
+            Text(model.content.antiAppleBySangyup)
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale500)
                 .padding(.top, 8)
@@ -104,7 +98,7 @@ extension CommentComponent {
                 .foregroundStyle(certificationState.color)
                 .padding(.leading, 8)
             
-            Text(userName.isUnknown ? "" : "(\(major), \(job))")
+            Text(userName.isUnknown ? "" : "(\(model.userMajor), \(model.userJob))")
                 .applyCertiFont(.caption_semibold_12)
                 .foregroundStyle(.grayscale400)
                 .padding(.leading, 8)
@@ -118,12 +112,12 @@ extension CommentComponent {
         HStack(alignment: .center, spacing: 0) {
             Button {
                 // TODO: CommentLikeUseCase
-                heartOn.toggle()
+                onTapLike()
             } label: {
-                Image(heartOn ? .iconCommentHeartFilled12 : .iconCommentHeartDefault12)
+                Image(model.isLike ? .iconCommentHeartFilled12 : .iconCommentHeartDefault12)
             }
             
-            Text("좋아요 \(likeCount)")
+            Text("좋아요 \(model.likeCount)")
                 .applyCertiFont(.caption_semibold_12)
                 .foregroundStyle(.grayscale400)
                 .padding(.leading, 4)
@@ -153,27 +147,51 @@ extension CommentComponent {
 }
 
 #Preview {
-    VStack(alignment: .center, spacing: 12) {
-        CommentComponent(certificationState: .completed,
-                         userName: .normal(userName: "김서티"),
-                         major: "컴퓨터공학",
-                         job: "경영사무",
-                         commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
-                         likeCount: 110)
+    let dummyComment = Comment(
+        commentId: 1,
+        userId: 1,
+        nickName: "김서티",
+        content: "댓글 텍스트 댓글 텍스트 댓글 텍스트",
+        userMajor: "컴퓨터공학",
+        userJob: "경영사무",
+        state: "취득 완료",
+        likeCount: 12,
+        createdTime: "2026-01-11",
+        lastModifiedTime: "2026-01-11",
+        isLike: true
+    )
+    
+    VStack(spacing: 12) {
+        CommentComponent(
+            model: dummyComment,
+            certificationState: .completed,
+            userName: .normal(userName: "김서티"),
+            onTapLike: {
+                print("❤️ 좋아요 탭")
+            }
+        )
         
-        CommentComponent(certificationState: .expected,
-                         userName: .normal(userName: "김서티"),
-                         major: "컴퓨터공학",
-                         job: "경영사무",
-                         commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
-                         likeCount: 110)
-        
-        CommentComponent(certificationState: .expected,
-                         userName: .unknown,
-                         major: "컴퓨터공학",
-                         job: "경영사무",
-                         commentContent: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
-                         likeCount: 110)
+        CommentComponent(
+            model: Comment(
+                commentId: 2,
+                userId: 0,
+                nickName: nil,
+                content: "댓글 텍스트 댓글 텍스트 댓글 텍스트댓글 텍스트 댓글 텍스트 댓글 텍스트댓글 텍스트 댓글 텍스트 댓글 텍스트댓글 텍스트 댓글 텍스트 댓글 텍스트",
+                userMajor: "",
+                userJob: "",
+                state: "취득 예정",
+                likeCount: 0,
+                createdTime: "2026-01-11",
+                lastModifiedTime: "2026-01-11",
+                isLike: false
+            ),
+            certificationState: .expected,
+            userName: .unknown,
+            onTapLike: {
+                print("❤️ 익명 좋아요")
+            }
+        )
     }
+    .padding()
 }
 

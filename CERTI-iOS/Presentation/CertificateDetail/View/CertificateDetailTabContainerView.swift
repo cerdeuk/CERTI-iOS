@@ -31,7 +31,7 @@ struct CertificateDetailTabContainerView: View {
                 CertificateDetailView(viewModel: viewModel, certificationId: $certificationId)
                     .tag(DetailTab.detailInformation)
                 
-                CertificateCommentView(viewModel: viewModel, isSelectedPopularity: $viewModel.isSelectedPopularity, CommentCount: $viewModel.commentCount)
+                CertificateCommentView(viewModel: viewModel, isSelectedPopularity: $viewModel.isSelectedPopularity, totalCommentCount: $viewModel.commentCount)
                     .tag(DetailTab.comment)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))

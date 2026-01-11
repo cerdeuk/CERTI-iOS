@@ -9,42 +9,83 @@ import SwiftUI
 
 struct CertificateCommentView: View {
     @ObservedObject var viewModel: CertificateDetailViewModel
-
+    
     @Binding var isSelectedPopularity: Bool
-    @Binding var CommentCount: Int
+    @Binding var totalCommentCount: Int
     
     var body: some View {
         ScrollView(.vertical) {
-                HStack(alignment: .center, spacing: 0) {
-                    CommentSortButton(isSelectedPopularity: isSelectedPopularity){
-                        isSelectedPopularity.toggle()
-                        // TODO: - 댓글조회 API
-                    }
-                    .padding(.leading, 20)
-                    
-                    Spacer()
-                    
-                    Text("댓글 (\(CommentCount))")
-                        .applyCertiFont(.caption_regular_14)
-                        .foregroundStyle(.grayscale400)
-                        .padding(.trailing, 20)
+            HStack(alignment: .center, spacing: 0) {
+                CommentSortButton(isSelectedPopularity: isSelectedPopularity) {
+                    isSelectedPopularity.toggle()
                 }
-                .padding(.bottom, 12)
-                .padding(.top, 36)
+                .padding(.leading, 20)
                 
-            ForEach(viewModel.paginationComments) { page in
-                ForEach(page.comments) { comment in
+                Spacer()
+                
+                Text("댓글 (\(totalCommentCount))")
+                    .applyCertiFont(.caption_regular_14)
+                    .foregroundStyle(.grayscale400)
+                    .padding(.trailing, 20)
+            }
+            .padding(.bottom, 12)
+            .padding(.top, 36)
+            
+            LazyVStack(spacing: 0) {
+                ForEach(viewModel.commentList) { comment in
                     CommentComponent(
+                        model: comment,
                         certificationState: comment.state == "취득 완료" ? .completed : .expected,
-                        userName: .normal(userName: comment.nickName),
-                        major: comment.userMajor,
-                        job: comment.userJob,
-                        commentContent: comment.content,
-                        likeCount: comment.likeCount
-                    )
+                        userName: comment.nickName == nil ? .unknown : .normal(userName:comment.nickName!),
+                        onTapLike: {
+                            Task{
+                                // TODO: - 댓글 좋아요 useCase 호출
+                            }
+                        })
                     .padding(.horizontal, 20)
+                }
+                if !viewModel.isLastPage {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
+                    .padding(.vertical, 16)
+                    
+                    // TODO: - 댓글 조회 UseCase 호출
+                    .task(id: viewModel.currentIndex) {
+                        await viewModel.loadNextComments()
+                    }
                 }
             }
         }
     }
+}
+
+#Preview {
+    struct PreviewWrapper: View {
+        @State private var isSelectedPopularity: Bool = false
+        @State private var totalCommentCount: Int = 2
+        
+        @StateObject private var viewModel = CertificateDetailViewModel(
+            fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
+            addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
+            addAcquisitionUseCase: PreviewAddAcquisitionUseCase()
+        )
+        
+        var body: some View {
+            CertificateCommentView(
+                viewModel: viewModel,
+                isSelectedPopularity: $isSelectedPopularity,
+                totalCommentCount: $totalCommentCount
+            )
+            .onAppear {
+                Task {
+                    await viewModel.loadNextComments()
+                }
+            }
+        }
+    }
+    
+    return PreviewWrapper()
 }

@@ -10,62 +10,112 @@ import Foundation
 struct Comment: Identifiable, Decodable {
     let commentId: Int
     let userId: Int
-    let nickName: String
+    let nickName: String?
     let content: String
     let userMajor: String
     let userJob: String
     let state: String
     let likeCount: Int
-    let createdTime: Date
-    let lastModifiedTime: Date
+    let createdTime: String
+    let lastModifiedTime: String
     var isLike: Bool
     
     var id: Int { commentId }
 }
 
 struct PaginationCommentModel: Identifiable {
-  let page: Int
-  let isLast: Bool
-  let comments: [Comment]
+    let totalPages: Int
+    let totalElements: Int
+    let isLast: Bool
+    let content: [Comment]
     
-  var id: Int { page }
+    var id: Int { totalPages }
 }
 
 extension PaginationCommentModel {
     static func dummy() -> [PaginationCommentModel] {
-        let calendar = Calendar(identifier: .gregorian)
-                let createdDate = calendar.date(
-                    from: DateComponents(
-                        year: 2025,
-                        month: 11,
-                        day: 15,
-                        hour: 23,
-                        minute: 0,
-                        second: 53
-                    )
-                )!
-        
         return [
-            PaginationCommentModel(
-                page: 1,
+                PaginationCommentModel(
+                totalPages: 4,
+                totalElements: 24,
                 isLast: false,
-                comments: [
-                    .init(commentId: 1, userId: 1, nickName: "김서티",
-                          content: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
-                          userMajor: "컴퓨터공학", userJob: "경영사무", state: "취득 완료",
-                          likeCount: 1,
-                          createdTime:createdDate, lastModifiedTime: createdDate, isLike: false),
-                    .init(commentId: 2, userId: 2, nickName: "김서티",
-                          content: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
-                          userMajor: "컴퓨터공학", userJob: "경영사무", state: "취득 완료",
-                          likeCount: 1,
-                          createdTime:createdDate, lastModifiedTime: createdDate, isLike: false),
-                    .init(commentId: 3, userId: 3, nickName: "김서티",
-                          content: "댓글 텍스트댓글 텍스트댓글 텍스트댓글 텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓텍스트댓글텍스트댓글텍스트댓글텍스트댓글텍스트댓",
-                          userMajor: "컴퓨터공학", userJob: "경영사무", state: "취득 완료",
-                          likeCount: 1,
-                          createdTime:createdDate, lastModifiedTime: createdDate, isLike: false),])
-            ]
+                content: (1...6).map { id in
+                    Comment(
+                        commentId: id,
+                        userId: id,
+                        nickName: "서티_페이지1",
+                        content: "페이지 1 댓글 \(id)",
+                        userMajor: "컴퓨터공학",
+                        userJob: "경영사무",
+                        state: "취득 완료",
+                        likeCount: id,
+                        createdTime: "2026-01-11",
+                        lastModifiedTime: "2026-01-11",
+                        isLike: false
+                    )
+                }
+            ),
+                PaginationCommentModel(
+                totalPages: 4,
+                totalElements: 24,
+                isLast: false,
+                content: (7...12).map { id in
+                    Comment(
+                        commentId: id,
+                        userId: id,
+                        nickName: "서티_페이지2",
+                        content: "페이지 2 댓글 \(id)",
+                        userMajor: "전자공학",
+                        userJob: "개발자",
+                        state: "취득 예정",
+                        likeCount: id,
+                        createdTime: "2026-01-11",
+                        lastModifiedTime: "2026-01-11",
+                        isLike: id % 2 == 0
+                    )
+                }
+            ),
+                PaginationCommentModel(
+                totalPages: 4,
+                totalElements: 24,
+                isLast: false,
+                content: (13...18).map { id in
+                    Comment(
+                        commentId: id,
+                        userId: id,
+                        nickName: id % 2 == 0 ? nil : "서티_페이지3",
+                        content: "페이지 3 댓글 \(id)",
+                        userMajor: "산업공학",
+                        userJob: "기획자",
+                        state: "취득 완료",
+                        likeCount: id,
+                        createdTime: "2026-01-11",
+                        lastModifiedTime: "2026-01-11",
+                        isLike: false
+                    )
+                }
+            ),
+            PaginationCommentModel(
+                totalPages: 4,
+                totalElements: 24,
+                isLast: true,
+                content: (19...24).map { id in
+                    Comment(
+                        commentId: id,
+                        userId: id,
+                        nickName: "서티_페이지4",
+                        content: "페이지 4 댓글 \(id)",
+                        userMajor: "컴퓨터공학",
+                        userJob: "디자이너",
+                        state: "취득 예정",
+                        likeCount: id,
+                        createdTime: "2026-01-11",
+                        lastModifiedTime: "2026-01-11",
+                        isLike: true
+                    )
+                }
+            )
+        ]
     }
 }
 
