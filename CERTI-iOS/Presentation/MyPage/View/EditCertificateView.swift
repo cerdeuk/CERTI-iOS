@@ -14,15 +14,15 @@ struct EditCertificateView: View {
     }
     
     //MARK: - Property Wrappers
-
+    
     @ObservedObject var viewModel: MyPageViewModel
     
     //MARK: - Properties
-
+    
     let target: EditTarget
     
     //MARK: - Main Body
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
@@ -47,6 +47,15 @@ struct EditCertificateView: View {
             }
         }
         .background(.white)
+        .sheet(item: $viewModel.editingExpectedItem) { item in
+            EditExpectedCertificationModal(
+                viewModel: viewModel,
+                item: item
+            )
+            .presentationDetents([.height(663)])
+            .presentationCornerRadius(40)
+            .presentationDragIndicator(.visible)
+        }
     }
 }
 
@@ -65,10 +74,8 @@ private extension EditCertificateView {
                 category: item.agencyName,
                 description: item.description,
                 actionConfig: .editable(onEdit: {
-                    print("취득 예정 수정: \(item.id)")
-                    // TODO: 수정 화면 이동 로직
+                    viewModel.editingExpectedItem = item
                 }, onDelete: {
-                    print("취득 예정 삭제: \(item.id)")
                     viewModel.deleteExpectedCertificate(id: item.id)
                 })
             )
@@ -90,7 +97,6 @@ private extension EditCertificateView {
                     print("취득 완료 수정: \(item.id)")
                     // TODO: 수정 화면 이동 로직
                 }, onDelete: {
-                    print("취득 완료 삭제: \(item.id)")
                     viewModel.deleteCompletedCertificate(id: item.id)
                 })
             )

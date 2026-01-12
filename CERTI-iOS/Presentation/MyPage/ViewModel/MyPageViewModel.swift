@@ -33,6 +33,8 @@ final class MyPageViewModel: ObservableObject {
     @Published var userBirth: Date? = nil
     
     @Published var expectedList: [ExpectedItem] = []
+    @Published var editingExpectedItem: ExpectedItem? = nil
+    
     @Published var completedList: [CompletedItem] = []
     @Published var favoriteList: [FavoriteItem] = []
     
