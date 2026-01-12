@@ -84,6 +84,15 @@ struct EditCertificateView: View {
             .presentationCornerRadius(40)
             .presentationDragIndicator(.visible)
         }
+        .sheet(item: $viewModel.editingCompletedItem) { item in
+            EditCompletedCertificationModal(
+                viewModel: viewModel,
+                item: item
+            )
+            .presentationDetents([.height(482)])
+            .presentationCornerRadius(40)
+            .presentationDragIndicator(.visible)
+        }
     }
 }
 
@@ -123,8 +132,7 @@ private extension EditCertificateView {
                 description: item.description,
                 
                 actionConfig: .editable(onEdit: {
-                    print("취득 완료 수정: \(item.id)")
-                    // TODO: 수정 화면 이동 로직
+                    viewModel.editingCompletedItem = item
                 }, onDelete: {
                     deleteTargetID = item.id
                     showDeleteAlert = true
@@ -136,5 +144,5 @@ private extension EditCertificateView {
 
 #Preview {
     let vm = MyPageViewModel()
-    return EditCertificateView(viewModel: vm, target: .expected)
+    return EditCertificateView(viewModel: vm, target: .completed)
 }

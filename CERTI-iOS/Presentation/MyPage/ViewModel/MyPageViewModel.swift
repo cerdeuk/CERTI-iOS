@@ -36,6 +36,8 @@ final class MyPageViewModel: ObservableObject {
     @Published var editingExpectedItem: ExpectedItem? = nil
     
     @Published var completedList: [CompletedItem] = []
+    @Published var editingCompletedItem: CompletedItem? = nil
+    
     @Published var favoriteList: [FavoriteItem] = []
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "MyPage")
