@@ -12,6 +12,7 @@ import Moya
 protocol UserServiceProtocol {
     func getuserInfo() async -> Result<UserInfoResponseDTO, NetworkError>
     func checkNickName(nickname: String) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func getMyPageInfo() async -> Result<MyPageResponseDTO, NetworkError>
 }
 
 final class UserService: BaseService, UserServiceProtocol {
@@ -24,5 +25,9 @@ final class UserService: BaseService, UserServiceProtocol {
     
     func checkNickName(nickname: String) async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
         return await requestDecodable(provider, .checkNickname(nickname: nickname))
+    }
+    
+    func getMyPageInfo() async -> Result<MyPageResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getMyPageInfo)
     }
 }

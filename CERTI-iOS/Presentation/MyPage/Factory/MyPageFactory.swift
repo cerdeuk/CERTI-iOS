@@ -12,9 +12,14 @@ protocol MyPageFactory {
 }
 
 final class DefaultMyPageFactory: MyPageFactory {
-
+    let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
+    
+    init(fetchMyPageInfoUseCase: FetchMyPageInfoUseCase) {
+        self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
+    }
+    
     @MainActor
     func makeMyPageViewModel() -> MyPageViewModel {
-        MyPageViewModel()
+        MyPageViewModel(fetchMyPageInfoUseCase: fetchMyPageInfoUseCase)
     }
 }

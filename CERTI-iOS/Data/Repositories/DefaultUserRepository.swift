@@ -12,7 +12,7 @@ import Moya
 final class DefaultUserRepository: UserRepository {
     
     private let service: UserServiceProtocol
-
+    
     public init(service: UserServiceProtocol) {
         self.service = service
     }
@@ -42,4 +42,17 @@ final class DefaultUserRepository: UserRepository {
         }
     }
     
+    func getMyPageInfo() async -> Result<MyPageEntity, NetworkError> {
+        let result = await service.getMyPageInfo()
+        
+        switch result {
+        case .success(let response):
+            guard let entity = response.data?.toMyPageEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
 }

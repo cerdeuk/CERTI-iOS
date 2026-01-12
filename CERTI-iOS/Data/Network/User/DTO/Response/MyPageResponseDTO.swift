@@ -13,8 +13,24 @@ struct MyPageResponseData: Codable {
     let nickname, profileImageURL, email: String
     let jobResponse: JobResponseData
     let upCount, acCount, fCount: Int
+    
+    func toMyPageEntity() -> MyPageEntity {
+        return MyPageEntity(
+            nickname: nickname,
+            profileImageURL: profileImageURL,
+            email: email,
+            jobResponse: jobResponse.toJobEntity(),
+            upCount: upCount,
+            acCount: acCount,
+            fCount: fCount
+        )
+    }
 }
 
 struct JobResponseData: Codable {
     let jobList: [String]
+    
+    func toJobEntity() -> JobEntity {
+        return JobEntity(jobs: jobList)
+    }
 }

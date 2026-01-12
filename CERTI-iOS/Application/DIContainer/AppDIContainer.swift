@@ -12,7 +12,9 @@ final class AppDIContainer {
     static let shared = AppDIContainer()
     
     private init() { }
-    
+
+    /// TODO: - 매번 API 연결할 때마다 service랑 repository에 case 만들고 usecase 만들고 DIContainer에서 생성해서 일일이 의존성 주입해주려니 너무 귀찮음;;
+    /// 여유될 때 방법을 좀 모색해보자
     
     // MARK: - Services
     
@@ -162,6 +164,10 @@ extension AppDIContainer {
     func makeCheckNickNameUseCase() -> CheckNickNameUseCase {
         return DefaultCheckNickNameUseCase(repository: userRepository)
     }
+    
+    func makeFetchMyPageInfoUseCase() -> FetchMyPageInfoUseCase {
+        return DefaultFetchMyPageInfoUseCase(repository: userRepository)
+    }
 }
 
 
@@ -231,7 +237,7 @@ extension AppDIContainer {
     }
     
     func makeMyPageFactory() -> MyPageFactory {
-        return DefaultMyPageFactory()
+        return DefaultMyPageFactory(fetchMyPageInfoUseCase: makeFetchMyPageInfoUseCase())
     }
     
     func makeLoginFactory() -> LoginFactory {

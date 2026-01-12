@@ -141,8 +141,3 @@ private extension EditCertificateView {
         }
     }
 }
-
-#Preview {
-    let vm = MyPageViewModel()
-    return EditCertificateView(viewModel: vm, target: .completed)
-}

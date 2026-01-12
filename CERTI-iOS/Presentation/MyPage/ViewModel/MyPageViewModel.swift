@@ -25,11 +25,20 @@ enum MyPageViewRoute {
 
 @MainActor
 final class MyPageViewModel: ObservableObject {
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "MyPage")
+    
+    //MARK: - Property Wrappers
+    
     @Published var myPageViewRoute: MyPageViewRoute?
     @Published var userName: String = "김한열"
     @Published var userNickName: String = "김서티"
     @Published var userEmail: String = "certification@gmail.com"
+    @Published var profileImageURL: String = ""
     @Published var jobCategoryList: [JobCategory] = [.business, .construction, .design]
+    @Published var upCertificationCount: Int = 0
+    @Published var acCertificationCount: Int = 0
+    @Published var fCertificationCount: Int = 0
+    
     @Published var userBirth: Date? = nil
     
     @Published var expectedList: [ExpectedItem] = []
@@ -40,10 +49,37 @@ final class MyPageViewModel: ObservableObject {
     
     @Published var favoriteList: [FavoriteItem] = []
     
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "MyPage")
+    //MARK: - Properties
     
-    init() {
+    let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
+    
+    // MARK: - init
+    
+    init(fetchMyPageInfoUseCase: FetchMyPageInfoUseCase) {
+        self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
+        
         loadDummyData()
+    }
+    
+    func fetchMyPageInfo() async {
+        let result = await fetchMyPageInfoUseCase.execute()
+        
+        switch result {
+        case .success(let response):
+            convertToMyPageInfo(entity: response)
+        case .failure(let error):
+            logger.error("❌ fetchMyPageInfo failed: \(error.localizedDescription)")
+        }
+    }
+    
+    private func convertToMyPageInfo(entity: MyPageEntity) {
+        self.userNickName = entity.nickname
+        self.profileImageURL = entity.profileImageURL
+        self.userEmail = entity.email
+        self.jobCategoryList = entity.jobResponse.jobs.compactMap { JobCategory(rawValue: $0) }
+        self.upCertificationCount = entity.upCount
+        self.acCertificationCount = entity.acCount
+        self.fCertificationCount = entity.fCount
     }
     
     private func loadDummyData() {
@@ -66,6 +102,12 @@ final class MyPageViewModel: ObservableObject {
         ]
     }
     
+}
+
+
+// MARK: - Func
+
+extension MyPageViewModel {
     func deleteCompletedCertificate(id: UUID) {
         print("취득 완료 삭제: \(id)")
         completedList.removeAll { $0.id == id }
@@ -90,7 +132,6 @@ final class MyPageViewModel: ObservableObject {
     func updateJobCategories(_ categories: [JobCategory]) {
         self.jobCategoryList = categories
     }
-    
 }
 
 
