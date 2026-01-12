@@ -11,7 +11,6 @@ import Kingfisher
 struct EditProfileView: View {
     @ObservedObject var viewModel: MyPageViewModel
     
-    @State private var nicknameValidate: nickNameValidateCase? = nil
     @State private var isCalendarVisible: Bool = false
     
     private var dateFormatter: DateFormatter {
@@ -32,7 +31,7 @@ struct EditProfileView: View {
             } backButtonAction: {
                 viewModel.myPageViewRoutePop()
             }
-                        
+            
             ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: 0) {
                     
@@ -114,28 +113,18 @@ extension EditProfileView {
             Spacer()
             
             Button {
-                // TODO: - UI 확인용, 추후 검증 요청 API로 대체
-                
-                let allCases = nickNameValidateCase.allCases
-                
-                if let currentCase = nicknameValidate {
-                    if let currentIndex = allCases.firstIndex(of: currentCase) {
-                        let nextIndex = (currentIndex + 1) % allCases.count
-                        nicknameValidate = allCases[nextIndex]
-                    }
-                } else {
-                    nicknameValidate = allCases.first
+                Task {
+                    await viewModel.checkNickNameValidate()
                 }
-                
             } label: {
                 Text("중복 확인")
                     .applyCertiFont(.caption_regular_12)
-                    .foregroundStyle(.grayscale300)
+                    .foregroundStyle(viewModel.nickNameValid == .valid ? .grayscale300 : .grayscale600)
                     .padding(.vertical, 4)
                     .padding(.horizontal, 12)
                     .overlay {
                         Capsule()
-                            .stroke(.grayscale200, lineWidth: 1)
+                            .stroke(viewModel.nickNameValid == .valid ? .grayscale200 : .grayscale300, lineWidth: 1)
                     }
             }
         }
@@ -164,16 +153,16 @@ extension EditProfileView {
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .overlay(content: {
             RoundedRectangle(cornerRadius: 8)
-                .stroke(nicknameValidate == .none ? .grayscale200 : nicknameValidate == .valid ? .mainblue : .error, lineWidth: 1)
+                .stroke(viewModel.nickNameValid == .none ? .grayscale200 : viewModel.nickNameValid == .valid ? .mainblue : .error, lineWidth: 1)
         })
         .padding(.horizontal, 20)
-        .padding(.bottom, nicknameValidate == nil ? 24 : 8)
+        .padding(.bottom, viewModel.nickNameValid == nil ? 24 : 8)
         
     }
     
     @ViewBuilder
     private var nicknameValidateCaseView: some View {
-        switch nicknameValidate {
+        switch viewModel.nickNameValid {
         case .valid:
             Text("사용 가능한 닉네임입니다.")
                 .applyCertiFont(.caption_regular_14)

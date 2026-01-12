@@ -32,6 +32,8 @@ final class MyPageViewModel: ObservableObject {
     @Published var myPageViewRoute: MyPageViewRoute?
     @Published var userName: String = "김한열"
     @Published var userNickName: String = "김서티"
+    @Published var nickNameValid: nickNameValidateCase? = nil
+
     @Published var userEmail: String = "certification@gmail.com"
     @Published var profileImageURL: String = ""
     @Published var jobCategoryList: [JobCategory] = [.business, .construction, .design]
@@ -51,17 +53,20 @@ final class MyPageViewModel: ObservableObject {
     
     //MARK: - Properties
     
-    let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
-    let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
-    
+    private let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
+    private let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
+    private let checkNickNameUseCase: CheckNickNameUseCase
+
     // MARK: - init
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
-        fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
+        fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase,
+        checkNickNameUseCase: CheckNickNameUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
+        self.checkNickNameUseCase = checkNickNameUseCase
         
         loadDummyData()
     }
@@ -95,6 +100,38 @@ extension MyPageViewModel {
             convertToEditProfileInfo(entity: response)
         case .failure(let error):
             logger.error("❌ fetchMyPageInfo failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func checkNickNameValidate() async {
+        let result = await checkNickNameUseCase.execute(nickname: userNickName)
+        
+        switch result {
+        case .success(let response):
+            logger.debug("✅ checkNickNameValidate success: \(response.description)")
+            AuthManager.shared.nickname = userNickName
+            nickNameValid = .valid
+        case .failure(let error):
+            var errorMessage = ""
+            
+            switch error {
+            case .apiError(let message):
+                errorMessage = message
+            default:
+                errorMessage = error.localizedDescription
+            }
+            
+            logger.error("닉네임 검증 실패: \(errorMessage)")
+            
+            if errorMessage.contains("존재하는") {
+                nickNameValid = .duplicate
+            } else if errorMessage.contains("비속어") {
+                nickNameValid = .abuse
+            } else if errorMessage.contains("공백") {
+                nickNameValid = .empty
+            } else {
+                logger.error("처리되지 않은 에러 메시지: \(errorMessage)")
+            }
         }
     }
     

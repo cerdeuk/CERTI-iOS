@@ -243,7 +243,8 @@ extension AppDIContainer {
     func makeMyPageFactory() -> MyPageFactory {
         return DefaultMyPageFactory(
             fetchMyPageInfoUseCase: makeFetchMyPageInfoUseCase(),
-            fetchEditProfileInfoUseCase: makeFetchEditProfileInfoUseCase()
+            fetchEditProfileInfoUseCase: makeFetchEditProfileInfoUseCase(),
+            checkNickNameUseCase: makeCheckNickNameUseCase()
         )
     }
     

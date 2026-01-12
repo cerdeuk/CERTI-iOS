@@ -12,22 +12,26 @@ protocol MyPageFactory {
 }
 
 final class DefaultMyPageFactory: MyPageFactory {
-    let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
-    let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
+    private let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
+    private let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
+    private let checkNickNameUseCase: CheckNickNameUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
-        fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
+        fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase,
+        checkNickNameUseCase: CheckNickNameUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
+        self.checkNickNameUseCase = checkNickNameUseCase
     }
     
     @MainActor
     func makeMyPageViewModel() -> MyPageViewModel {
         MyPageViewModel(
             fetchMyPageInfoUseCase: fetchMyPageInfoUseCase,
-            fetchEditProfileInfoUseCase: fetchEditProfileInfoUseCase
+            fetchEditProfileInfoUseCase: fetchEditProfileInfoUseCase,
+            checkNickNameUseCase: checkNickNameUseCase
         )
     }
 }
