@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum AuthAPI {
-    case login(type: SocialLoginType, code: String)
+    case login(type: String, accessToken: String)
     case signUp(request: SignupRequestDTO, preSignUpToken: String)
     case logout
     case refresh
@@ -33,8 +33,8 @@ extension AuthAPI: BaseTargetType {
     
     var path: String {
         switch self {
-        case let .login(type, _):
-            return type.loginPath
+        case .login:
+            return "auth/sign-in"
         case .refresh:
             return "auth/reissue"
         case .logout:
@@ -48,7 +48,7 @@ extension AuthAPI: BaseTargetType {
     
     var method: Moya.Method {
         switch self {
-        case .login(let type, let code):
+        case .login:
             return .post
         case .logout:
             return .post
@@ -63,10 +63,10 @@ extension AuthAPI: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
-        case let .login(type, code):
+        case let .login(type, accessToken):
             let bodyParameters: [String: Any] = [
-                type.authorizationQueryKey: code,
-                "socialType": type.rawValue
+                "accessToken": accessToken,
+                "socialType": type
             ]
             return .requestParameters(parameters: bodyParameters, encoding: JSONEncoding.default)
         case .refresh:

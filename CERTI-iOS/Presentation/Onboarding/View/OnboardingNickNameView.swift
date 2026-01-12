@@ -53,18 +53,20 @@ struct OnboardingNickNameView: View {
                 .padding(.bottom, 16)
             
             Button {
-                // UI 확인용, 추후 검증 요청 API로 대체
-                let allCases = nickNameValidateCase.allCases
-                
-                if let currentCase = viewModel.nickNameValid {
-                    if let currentIndex = allCases.firstIndex(of: currentCase) {
-                        let nextIndex = (currentIndex + 1) % allCases.count
-                        viewModel.nickNameValid = allCases[nextIndex]
-                    }
-                } else {
-                    viewModel.nickNameValid = allCases.first
+//                // UI 확인용, 추후 검증 요청 API로 대체
+//                let allCases = nickNameValidateCase.allCases
+//                
+//                if let currentCase = viewModel.nickNameValid {
+//                    if let currentIndex = allCases.firstIndex(of: currentCase) {
+//                        let nextIndex = (currentIndex + 1) % allCases.count
+//                        viewModel.nickNameValid = allCases[nextIndex]
+//                    }
+//                } else {
+//                    viewModel.nickNameValid = allCases.first
+//                }
+                Task {
+                    await viewModel.checkNickNameValidate()
                 }
-                
             } label: {
                 Text("닉네임 중복 확인")
                     .applyCertiFont(.caption_regular_14)
