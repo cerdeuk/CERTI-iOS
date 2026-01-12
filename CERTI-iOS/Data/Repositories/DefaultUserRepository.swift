@@ -55,4 +55,18 @@ final class DefaultUserRepository: UserRepository {
             return .failure(error)
         }
     }
+    
+    func getEditProfileInfo() async -> Result<EditProfileEntity, NetworkError> {
+        let result = await service.getEditProfileInfo()
+        
+        switch result {
+        case .success(let response):
+            guard let entity = response.data?.toEditProfileEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
 }

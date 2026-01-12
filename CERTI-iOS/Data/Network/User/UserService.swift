@@ -13,6 +13,7 @@ protocol UserServiceProtocol {
     func getuserInfo() async -> Result<UserInfoResponseDTO, NetworkError>
     func checkNickName(nickname: String) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
     func getMyPageInfo() async -> Result<MyPageResponseDTO, NetworkError>
+    func getEditProfileInfo() async -> Result<EditProfileResponseDTO, NetworkError>
 }
 
 final class UserService: BaseService, UserServiceProtocol {
@@ -29,5 +30,9 @@ final class UserService: BaseService, UserServiceProtocol {
     
     func getMyPageInfo() async -> Result<MyPageResponseDTO, NetworkError> {
         return await requestDecodable(provider, .getMyPageInfo)
+    }
+    
+    func getEditProfileInfo() async -> Result<EditProfileResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getEditProfileInfo)
     }
 }

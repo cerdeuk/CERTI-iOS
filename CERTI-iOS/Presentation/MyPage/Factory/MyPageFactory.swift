@@ -13,13 +13,21 @@ protocol MyPageFactory {
 
 final class DefaultMyPageFactory: MyPageFactory {
     let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
+    let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
     
-    init(fetchMyPageInfoUseCase: FetchMyPageInfoUseCase) {
+    init(
+        fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
+        fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
+    ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
+        self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
     }
     
     @MainActor
     func makeMyPageViewModel() -> MyPageViewModel {
-        MyPageViewModel(fetchMyPageInfoUseCase: fetchMyPageInfoUseCase)
+        MyPageViewModel(
+            fetchMyPageInfoUseCase: fetchMyPageInfoUseCase,
+            fetchEditProfileInfoUseCase: fetchEditProfileInfoUseCase
+        )
     }
 }

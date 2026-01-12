@@ -52,15 +52,30 @@ final class MyPageViewModel: ObservableObject {
     //MARK: - Properties
     
     let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
+    let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
     
     // MARK: - init
     
-    init(fetchMyPageInfoUseCase: FetchMyPageInfoUseCase) {
+    init(
+        fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
+        fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
+    ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
+        self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
         
         loadDummyData()
     }
     
+
+    
+
+    
+}
+
+
+// MARK: - Func
+
+extension MyPageViewModel {
     func fetchMyPageInfo() async {
         let result = await fetchMyPageInfoUseCase.execute()
         
@@ -72,42 +87,17 @@ final class MyPageViewModel: ObservableObject {
         }
     }
     
-    private func convertToMyPageInfo(entity: MyPageEntity) {
-        self.userNickName = entity.nickname
-        self.profileImageURL = entity.profileImageURL
-        self.userEmail = entity.email
-        self.jobCategoryList = entity.jobResponse.jobs.compactMap { JobCategory(rawValue: $0) }
-        self.upCertificationCount = entity.upCount
-        self.acCertificationCount = entity.acCount
-        self.fCertificationCount = entity.fCount
+    func fetchEditProfileInfo() async {
+        let result = await fetchEditProfileInfoUseCase.execute()
+        
+        switch result {
+        case .success(let response):
+            convertToEditProfileInfo(entity: response)
+        case .failure(let error):
+            logger.error("❌ fetchMyPageInfo failed: \(error.localizedDescription)")
+        }
     }
     
-    private func loadDummyData() {
-        expectedList = [
-            ExpectedItem(certificationName: "정보처리기사", agencyName: "국가기술자격", averagePeriod: "3개월", description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...", city: "고양시", state: "일산동구", formattedTime: "09:00"),
-            ExpectedItem(certificationName: "SQLD", agencyName: "데이터자격", averagePeriod: "1개월", description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...", city: "서울시", state: "강남구", formattedTime: "13:00"),
-            ExpectedItem(certificationName: "ADsP", agencyName: "데이터자격", averagePeriod: "2주", description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...", city: "성남시", state: "분당구", formattedTime: "10:00")
-        ]
-        
-        completedList = [
-            CompletedItem(name: "정보처리기사", categoryText: "국가기술자격", description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...", formattedDate: "2025. 11. 23", grade: "합격"),
-            CompletedItem(name: "OPIC", categoryText: "어학", description: "영어 말하기 시험", formattedDate: "2025. 10. 10", grade: "IM3"),
-            CompletedItem(name: "한국사능력검정", categoryText: "국가자격", description: "한국사 능력을 평가하는 시험", formattedDate: "2024. 08. 15", grade: "1급")
-        ]
-        
-        favoriteList = [
-            FavoriteItem(certificationName: "정보보안기사", certificationType: "국가기술자격", testType: "필기형", agencyName: "KISA", isFavorite: true),
-            FavoriteItem(certificationName: "AWS SAA", certificationType: "해외자격", testType: "CBT", agencyName: "Amazon", isFavorite: true),
-            FavoriteItem(certificationName: "컴퓨터활용능력 1급", certificationType: "국가기술자격", testType: "실기형", agencyName: "대한상공회의소", isFavorite: true)
-        ]
-    }
-    
-}
-
-
-// MARK: - Func
-
-extension MyPageViewModel {
     func deleteCompletedCertificate(id: UUID) {
         print("취득 완료 삭제: \(id)")
         completedList.removeAll { $0.id == id }
@@ -177,6 +167,49 @@ extension MyPageViewModel {
     
     func myPageViewRoutePop() {
         myPageViewRoute = .myPageViewRoutePop
+    }
+}
+
+
+// MARK: - Private Func
+
+extension MyPageViewModel {
+    private func convertToMyPageInfo(entity: MyPageEntity) {
+        self.userNickName = entity.nickname
+        self.profileImageURL = entity.profileImageURL
+        self.userEmail = entity.email
+        self.jobCategoryList = entity.jobResponse.jobs.compactMap { JobCategory(rawValue: $0) }
+        self.upCertificationCount = entity.upCount
+        self.acCertificationCount = entity.acCount
+        self.fCertificationCount = entity.fCount
+    }
+    
+    private func convertToEditProfileInfo(entity: EditProfileEntity) {
+        self.userNickName = entity.nickName
+        self.userName = entity.name
+        self.profileImageURL = entity.profileImageURL
+        self.userEmail = entity.email
+        self.userBirth = entity.birthDate?.convertToDate()
+    }
+    
+    private func loadDummyData() {
+        expectedList = [
+            ExpectedItem(certificationName: "정보처리기사", agencyName: "국가기술자격", averagePeriod: "3개월", description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...", city: "고양시", state: "일산동구", formattedTime: "09:00"),
+            ExpectedItem(certificationName: "SQLD", agencyName: "데이터자격", averagePeriod: "1개월", description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...", city: "서울시", state: "강남구", formattedTime: "13:00"),
+            ExpectedItem(certificationName: "ADsP", agencyName: "데이터자격", averagePeriod: "2주", description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...", city: "성남시", state: "분당구", formattedTime: "10:00")
+        ]
+        
+        completedList = [
+            CompletedItem(name: "정보처리기사", categoryText: "국가기술자격", description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...", formattedDate: "2025. 11. 23", grade: "합격"),
+            CompletedItem(name: "OPIC", categoryText: "어학", description: "영어 말하기 시험", formattedDate: "2025. 10. 10", grade: "IM3"),
+            CompletedItem(name: "한국사능력검정", categoryText: "국가자격", description: "한국사 능력을 평가하는 시험", formattedDate: "2024. 08. 15", grade: "1급")
+        ]
+        
+        favoriteList = [
+            FavoriteItem(certificationName: "정보보안기사", certificationType: "국가기술자격", testType: "필기형", agencyName: "KISA", isFavorite: true),
+            FavoriteItem(certificationName: "AWS SAA", certificationType: "해외자격", testType: "CBT", agencyName: "Amazon", isFavorite: true),
+            FavoriteItem(certificationName: "컴퓨터활용능력 1급", certificationType: "국가기술자격", testType: "실기형", agencyName: "대한상공회의소", isFavorite: true)
+        ]
     }
 }
 

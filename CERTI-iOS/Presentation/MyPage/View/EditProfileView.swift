@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct EditProfileView: View {
     @ObservedObject var viewModel: MyPageViewModel
@@ -55,6 +56,9 @@ struct EditProfileView: View {
             .scrollIndicators(.hidden)
             
         }
+        .task {
+            await viewModel.fetchEditProfileInfo()
+        }
     }
 }
 
@@ -65,12 +69,28 @@ extension EditProfileView {
             Spacer()
             
             ZStack(alignment: .bottomTrailing) {
-                ZStack(alignment: .center) {
-                    Circle()
+                if viewModel.profileImageURL.isEmpty {
+                    ZStack(alignment: .center) {
+                        Circle()
+                            .frame(width: 100, height: 100)
+                            .foregroundStyle(.grayscale100)
+                        Image(.iconImage24)
+                            .foregroundStyle(.grayscale300)
+                    }
+                } else {
+                    KFImage(URL(string: viewModel.profileImageURL))
+                        .resizable()
+                        .placeholder {
+                            Color.grayscale100
+                        }
+                        .retry(maxCount: 3, interval: .seconds(5))
+                        .onFailure { error in
+                            print("failure: \(error.localizedDescription)")
+                        }
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 100, height: 100)
-                        .foregroundStyle(.grayscale100)
-                    Image(.iconImage24)
-                        .foregroundStyle(.grayscale300)
+                        .clipShape(.circle)
+                        .clipped()
                 }
                 
                 Button {

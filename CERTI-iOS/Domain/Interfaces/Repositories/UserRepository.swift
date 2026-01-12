@@ -13,4 +13,5 @@ protocol UserRepository {
     func getUserInfo() async -> Result<UserInfoEntity, NetworkError>
     func checkNickName(nickname: String) async -> Result<String, NetworkError>
     func getMyPageInfo() async -> Result<MyPageEntity, NetworkError>
+    func getEditProfileInfo() async -> Result<EditProfileEntity, NetworkError>
 }

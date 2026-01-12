@@ -13,6 +13,7 @@ enum UserAPI {
     case getUserInfo
     case checkNickname(nickname: String)
     case getMyPageInfo
+    case getEditProfileInfo
 }
 
 extension UserAPI: BaseTargetType {
@@ -35,6 +36,8 @@ extension UserAPI: BaseTargetType {
             return "user/validation"
         case .getMyPageInfo:
             return "user/mypage"
+        case .getEditProfileInfo:
+            return "user/pinfo"
         }
     }
     
@@ -45,6 +48,8 @@ extension UserAPI: BaseTargetType {
         case .checkNickname:
             return .get
         case .getMyPageInfo:
+            return .get
+        case .getEditProfileInfo:
             return .get
         }
     }
@@ -59,6 +64,8 @@ extension UserAPI: BaseTargetType {
                 encoding: URLEncoding.queryString
             )
         case .getMyPageInfo:
+            return .requestPlain
+        case .getEditProfileInfo:
             return .requestPlain
         }
     }

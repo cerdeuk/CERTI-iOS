@@ -168,6 +168,10 @@ extension AppDIContainer {
     func makeFetchMyPageInfoUseCase() -> FetchMyPageInfoUseCase {
         return DefaultFetchMyPageInfoUseCase(repository: userRepository)
     }
+    
+    func makeFetchEditProfileInfoUseCase() -> FetchEditProfileInfoUseCase {
+        return DefaultFetchEditProfileInfoUseCase(repository: userRepository)
+    }
 }
 
 
@@ -237,7 +241,10 @@ extension AppDIContainer {
     }
     
     func makeMyPageFactory() -> MyPageFactory {
-        return DefaultMyPageFactory(fetchMyPageInfoUseCase: makeFetchMyPageInfoUseCase())
+        return DefaultMyPageFactory(
+            fetchMyPageInfoUseCase: makeFetchMyPageInfoUseCase(),
+            fetchEditProfileInfoUseCase: makeFetchEditProfileInfoUseCase()
+        )
     }
     
     func makeLoginFactory() -> LoginFactory {
