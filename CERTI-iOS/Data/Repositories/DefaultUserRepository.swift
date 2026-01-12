@@ -69,4 +69,16 @@ final class DefaultUserRepository: UserRepository {
             return .failure(error)
         }
     }
+    
+    func putEditProfileInfo(profileInfo: EditProfileEntity) async -> Result<Void, NetworkError> {
+        let dto = EditProfileRequestDTO(entity: profileInfo)
+        let result = await service.putEditProfileInfo(profileInfo: dto)
+        
+        switch result {
+        case .success:
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
 }

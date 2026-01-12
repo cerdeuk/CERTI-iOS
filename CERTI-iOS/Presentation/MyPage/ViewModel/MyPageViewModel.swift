@@ -31,7 +31,13 @@ final class MyPageViewModel: ObservableObject {
     
     @Published var myPageViewRoute: MyPageViewRoute?
     @Published var userName: String = "김한열"
-    @Published var userNickName: String = "김서티"
+    @Published var userNickName: String = "김서티" {
+        didSet {
+            if oldValue != userNickName {
+                nickNameValid = nil
+            }
+        }
+    }
     @Published var nickNameValid: nickNameValidateCase? = nil
 
     @Published var userEmail: String = "certification@gmail.com"
@@ -51,12 +57,15 @@ final class MyPageViewModel: ObservableObject {
     
     @Published var favoriteList: [FavoriteItem] = []
     
-    //MARK: - Properties
+    //MARK: - UseCases
     
     private let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
     private let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
     private let checkNickNameUseCase: CheckNickNameUseCase
+    private let updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase
     
+    //MARK: - Properties
+
     private var initialProfile: ProfileSnapshot?
     
     private struct ProfileSnapshot: Equatable {
@@ -80,24 +89,34 @@ final class MyPageViewModel: ObservableObject {
         
         return initial != current
     }
+    
+    var isProfileSaveEnabled: Bool {
+        guard isProfileModified else { return false }
+        
+        guard let initial = initialProfile else { return false }
+        
+        if userNickName != initial.nickName {
+            return nickNameValid == .valid
+        } else {
+            return true
+        }
+    }
 
     // MARK: - init
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
         fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase,
-        checkNickNameUseCase: CheckNickNameUseCase
+        checkNickNameUseCase: CheckNickNameUseCase,
+        updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
         self.checkNickNameUseCase = checkNickNameUseCase
-        
+        self.updateEditProfileInfoUseCase = updateEditProfileInfoUseCase
+
         loadDummyData()
     }
-    
-
-    
-
     
 }
 
@@ -110,6 +129,7 @@ extension MyPageViewModel {
         
         switch result {
         case .success(let response):
+            logger.debug("✅ fetchMyPageInfo success: 닉네임 - \(response.nickname)")
             convertToMyPageInfo(entity: response)
         case .failure(let error):
             logger.error("❌ fetchMyPageInfo failed: \(error.localizedDescription)")
@@ -118,9 +138,10 @@ extension MyPageViewModel {
     
     func fetchEditProfileInfo() async {
         let result = await fetchEditProfileInfoUseCase.execute()
-        
+
         switch result {
         case .success(let response):
+            logger.debug("✅ fetchEditProfileInfo success: 이름 - \(response.name)")
             convertToEditProfileInfo(entity: response)
         case .failure(let error):
             logger.error("❌ fetchMyPageInfo failed: \(error.localizedDescription)")
@@ -156,6 +177,18 @@ extension MyPageViewModel {
             } else {
                 logger.error("처리되지 않은 에러 메시지: \(errorMessage)")
             }
+        }
+    }
+    
+    func editProfileInfo() async {
+        let result = await updateEditProfileInfoUseCase.execute(info: convertToEditProfileEntity())
+        
+        switch result {
+        case .success:
+            logger.debug("✅ editProfileInfo success")
+            await fetchMyPageInfo()
+        case .failure(let error):
+            logger.error("❌ fetchMyPageInfo failed: \(error.localizedDescription)")
         }
     }
     
@@ -257,6 +290,16 @@ extension MyPageViewModel {
             email: entity.email,
             birth: self.userBirth,
             profileImageURL: entity.profileImageURL
+        )
+    }
+    
+    private func convertToEditProfileEntity() -> EditProfileEntity {
+        return EditProfileEntity(
+            nickName: userNickName,
+            name: userName,
+            email: userEmail,
+            birthDate: userBirth?.toServerFormatString(),
+            profileImageURL: profileImageURL
         )
     }
     

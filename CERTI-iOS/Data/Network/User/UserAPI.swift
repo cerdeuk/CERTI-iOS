@@ -14,6 +14,7 @@ enum UserAPI {
     case checkNickname(nickname: String)
     case getMyPageInfo
     case getEditProfileInfo
+    case putEditProfileInfo(request: EditProfileRequestDTO)
 }
 
 extension UserAPI: BaseTargetType {
@@ -38,6 +39,8 @@ extension UserAPI: BaseTargetType {
             return "user/mypage"
         case .getEditProfileInfo:
             return "user/pinfo"
+        case .putEditProfileInfo:
+            return "user/pinfo"
         }
     }
     
@@ -51,6 +54,8 @@ extension UserAPI: BaseTargetType {
             return .get
         case .getEditProfileInfo:
             return .get
+        case .putEditProfileInfo:
+            return .put
         }
     }
     
@@ -67,8 +72,9 @@ extension UserAPI: BaseTargetType {
             return .requestPlain
         case .getEditProfileInfo:
             return .requestPlain
+        case .putEditProfileInfo(let request):
+            return .requestJSONEncodable(request)
         }
     }
-    
     
 }

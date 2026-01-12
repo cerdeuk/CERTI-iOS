@@ -25,14 +25,16 @@ struct EditProfileView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            MyPageHeader(style: .save, title: "개인정보 수정", isActionEnabled: viewModel.isProfileModified) {
+            MyPageHeader(style: .save, title: "개인정보 수정", isActionEnabled: viewModel.isProfileSaveEnabled) {
                 if viewModel.isProfileModified {
-                    
-                    // TODO: - 수정 요청 API 연결
-                    
-                    viewModel.myPageViewRoutePop()
+                    Task {
+                        await viewModel.editProfileInfo()
+                        viewModel.nickNameValid = nil
+                        viewModel.myPageViewRoutePop()
+                    }
                 }
             } backButtonAction: {
+                viewModel.nickNameValid = nil
                 viewModel.myPageViewRoutePop()
             }
             

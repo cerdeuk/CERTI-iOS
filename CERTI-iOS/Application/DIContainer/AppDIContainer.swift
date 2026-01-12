@@ -172,6 +172,11 @@ extension AppDIContainer {
     func makeFetchEditProfileInfoUseCase() -> FetchEditProfileInfoUseCase {
         return DefaultFetchEditProfileInfoUseCase(repository: userRepository)
     }
+    
+    func makeUpdateEditProfileInfoUseCase() -> UpdateEditProfileInfoUseCase {
+        return DefaultUpdateEditProfileInfoUseCase(repository: userRepository)
+    }
+    
 }
 
 
@@ -244,7 +249,8 @@ extension AppDIContainer {
         return DefaultMyPageFactory(
             fetchMyPageInfoUseCase: makeFetchMyPageInfoUseCase(),
             fetchEditProfileInfoUseCase: makeFetchEditProfileInfoUseCase(),
-            checkNickNameUseCase: makeCheckNickNameUseCase()
+            checkNickNameUseCase: makeCheckNickNameUseCase(),
+            updateEditProfileInfoUseCase: makeUpdateEditProfileInfoUseCase()
         )
     }
     

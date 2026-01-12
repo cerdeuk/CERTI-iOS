@@ -15,15 +15,18 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
     private let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
     private let checkNickNameUseCase: CheckNickNameUseCase
+    private let updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
         fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase,
-        checkNickNameUseCase: CheckNickNameUseCase
+        checkNickNameUseCase: CheckNickNameUseCase,
+        updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
         self.checkNickNameUseCase = checkNickNameUseCase
+        self.updateEditProfileInfoUseCase = updateEditProfileInfoUseCase
     }
     
     @MainActor
@@ -31,7 +34,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         MyPageViewModel(
             fetchMyPageInfoUseCase: fetchMyPageInfoUseCase,
             fetchEditProfileInfoUseCase: fetchEditProfileInfoUseCase,
-            checkNickNameUseCase: checkNickNameUseCase
+            checkNickNameUseCase: checkNickNameUseCase,
+            updateEditProfileInfoUseCase: updateEditProfileInfoUseCase
         )
     }
 }
