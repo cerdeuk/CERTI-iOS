@@ -54,6 +54,7 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var isLoadingComments: Bool = false
     @Published var isLastPage: Bool = false
     @Published var commentIndex = 1
+    @Published var commentText = ""
     
     private var dummyPages: [PaginationCommentModel] = PaginationCommentModel.dummy()
     var currentPageIndex: Int = 0

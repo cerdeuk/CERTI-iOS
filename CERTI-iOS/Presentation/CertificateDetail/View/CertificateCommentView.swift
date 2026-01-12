@@ -12,59 +12,64 @@ struct CertificateCommentView: View {
     
     @Binding var isSelectedPopularity: Bool
     @Binding var totalCommentCount: Int
-        
+    
     var body: some View {
-        ScrollView(.vertical) {
-            HStack(alignment: .center, spacing: 0) {
-                CommentSortButton(isSelectedPopularity: isSelectedPopularity) {
-                    isSelectedPopularity.toggle()
+        VStack(alignment: .center, spacing: 0) {
+            ScrollView(.vertical) {
+                HStack(alignment: .center, spacing: 0) {
+                    CommentSortButton(isSelectedPopularity: isSelectedPopularity) {
+                        isSelectedPopularity.toggle()
+                    }
+                    .padding(.leading, 20)
+                    
+                    Spacer()
+                    
+                    Text("댓글 (\(totalCommentCount))")
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale400)
+                        .padding(.trailing, 20)
                 }
-                .padding(.leading, 20)
+                .padding(.bottom, 12)
+                .padding(.top, 36)
                 
-                Spacer()
-                
-                Text("댓글 (\(totalCommentCount))")
-                    .applyCertiFont(.caption_regular_14)
-                    .foregroundStyle(.grayscale400)
-                    .padding(.trailing, 20)
-            }
-            .padding(.bottom, 12)
-            .padding(.top, 36)
-            
-            LazyVStack(spacing: 0) {
-                ForEach(viewModel.commentList) { comment in
-                    CommentComponent(
-                        model: comment,
-                        certificationState: comment.state == "취득 완료" ? .completed : .expected,
-                        userName: comment.nickName == nil ? .unknown : .normal(userName:comment.nickName!),
-                        onTapLike: {
-                            Task{
-                                // TODO: - 댓글 좋아요 useCase 호출
-                            }
-                        })
-                    .padding(.horizontal, 20)
-                    .onAppear {
-                        // TODO: - 댓글 조회 useCase 호출
-                        if !viewModel.isLastPage {
-                            guard viewModel.commentList.count == viewModel.commentIndex  else {
-                                viewModel.countAppearComment()
-                                return
-                            }
-                            Task {
-                                await viewModel.loadNextComments()
-                                viewModel.countAppearComment()
+                LazyVStack(spacing: 0) {
+                    ForEach(viewModel.commentList) { comment in
+                        CommentComponent(
+                            model: comment,
+                            certificationState: comment.state == "취득 완료" ? .completed : .expected,
+                            userName: comment.nickName == nil ? .unknown : .normal(userName:comment.nickName!),
+                            onTapLike: {
+                                Task{
+                                    // TODO: - 댓글 좋아요 useCase 호출
+                                }
+                            })
+                        .padding(.horizontal, 20)
+                        .onAppear {
+                            // TODO: - 댓글 조회 useCase 호출
+                            if !viewModel.isLastPage {
+                                guard viewModel.commentList.count == viewModel.commentIndex  else {
+                                    viewModel.countAppearComment()
+                                    return
+                                }
+                                Task {
+                                    await viewModel.loadNextComments()
+                                    viewModel.countAppearComment()
+                                }
                             }
                         }
                     }
                 }
             }
+            .onAppear {
+                Task {
+                    await viewModel.loadNextComments()
+                }
             }
-        .onAppear {
-              Task {
-                await viewModel.loadNextComments()
-              }
-            }
+            
+            CommentTextField(commentText: $viewModel.commentText, onSendTapped: { }, textFieldState: !viewModel.showFailToBeAcquired || !viewModel.showFailAcquired ? .fieldOn : .fieldLock)
+                .padding(.top, 20)
         }
+    }
     }
 
 
