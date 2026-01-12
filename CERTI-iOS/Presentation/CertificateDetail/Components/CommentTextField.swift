@@ -24,14 +24,18 @@ struct CommentTextField: View {
         }
     }
     
+    // MARK: - Property Wrapper
+    
     @Binding var commentText: String
-
+    
     // MARK: - Properties
+    
     var onSendTapped: () -> Void
     
     let textFieldState : TextFieldState
     
     // MARK: - Main Body
+    
     var body: some View {
         HStack {
             if textFieldState.isLocked {
