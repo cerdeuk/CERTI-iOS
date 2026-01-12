@@ -71,8 +71,8 @@ extension AppDIContainer {
     
     // MARK: - AuthUseCase
     
-    func makeLoginUseCase() -> LoginUseCase {
-        return DefaultLoginUseCase(repository: authRepository)
+    func makeKakaoLoginUseCase() -> KakaoLoginUseCase {
+        return DefaultKakaoLoginUseCase(repository: authRepository)
     }
     
     func makeSignUpUseCase() -> SignUpUseCase {
@@ -158,6 +158,10 @@ extension AppDIContainer {
     func makeFetchActivityListUseCase() -> FetchActivityListUseCase {
         return DefaultFetchActivityListUseCase(repository: activityRepository)
     }
+    
+    func makeCheckNickNameUseCase() -> CheckNickNameUseCase {
+        return DefaultCheckNickNameUseCase(repository: userRepository)
+    }
 }
 
 
@@ -180,7 +184,9 @@ extension AppDIContainer {
     func makeOnboardingFactory() -> OnboardingFactory {
         return DefaultOnboardingFactory(
             fetchMajorListUseCase: makeFetchMajorListUseCase(),
-            fetchUnivListUseCase: makeFetchUnivListUseCase()
+            fetchUnivListUseCase: makeFetchUnivListUseCase(),
+            signupUseCase: makeSignUpUseCase(),
+            checkNickNameUseCase: makeCheckNickNameUseCase()
         )
     }
     
@@ -226,5 +232,9 @@ extension AppDIContainer {
     
     func makeMyPageFactory() -> MyPageFactory {
         return DefaultMyPageFactory()
+    }
+    
+    func makeLoginFactory() -> LoginFactory {
+        return DefaultLoginFactory(kakoLoginUseCase: makeKakaoLoginUseCase())
     }
 }

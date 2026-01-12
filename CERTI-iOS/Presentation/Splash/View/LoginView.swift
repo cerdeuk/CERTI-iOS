@@ -13,11 +13,20 @@ struct LoginView: View {
     
     @EnvironmentObject private var appCoordinator: AppCoordinator
     
-    @StateObject private var viewModel = LoginViewModel()
+    @StateObject private var viewModel: LoginViewModel
+    
+    private let factory: LoginFactory
 
     //MARK: - Properties
 
     @State var isAnimating: Bool = false
+    
+    //MARK: - init
+    
+    init(factory: LoginFactory) {
+        self.factory = factory
+        _viewModel = StateObject(wrappedValue: factory.makeLoginViewModel())
+    }
 
     //MARK: - Main Body
     
@@ -53,7 +62,7 @@ struct LoginView: View {
             
             Button {
                 Task {
-                    await viewModel.kakaoLogin() ? appCoordinator.completeLogin() : nil
+                    await viewModel.kakaoLoginButtonTapped() ? appCoordinator.completeLogin() : nil
                 }
             } label: {
                 Image(.imageSocialLoginKakao)

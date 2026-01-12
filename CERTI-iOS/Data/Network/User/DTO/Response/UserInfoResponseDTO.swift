@@ -10,7 +10,7 @@ import Foundation
 typealias UserInfoResponseDTO = BaseResponseDTO<UserInfoData>
 
 struct UserInfoData: Decodable {
-    let name: String
+    let nickname: String
     let university: String
     let major: String
     let percentage: Int
@@ -18,6 +18,6 @@ struct UserInfoData: Decodable {
 
 extension UserInfoData {
     func toUserInfoEntity() -> UserInfoEntity {
-        return UserInfoEntity(name: name, university: university, major: major, percentage: percentage)
+        return UserInfoEntity(name: nickname, university: university, major: major, percentage: percentage)
     }
 }

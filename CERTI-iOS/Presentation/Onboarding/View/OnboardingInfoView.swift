@@ -88,7 +88,8 @@ struct OnboardingInfoView: View {
                 Button {
                     isShowLoadingView = true
                     Task {
-                        let success = await viewModel.completeSignUp()
+                        let success = await viewModel.signUp()
+                        
                         if success {
                             try await Task.sleep(for: .seconds(2))
                             viewModel.onboardingViewRouteReset()
