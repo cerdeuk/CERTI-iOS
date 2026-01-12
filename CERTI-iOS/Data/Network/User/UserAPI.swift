@@ -12,6 +12,7 @@ import Moya
 enum UserAPI {
     case getUserInfo
     case checkNickname(nickname: String)
+    case getMyPageInfo
 }
 
 extension UserAPI: BaseTargetType {
@@ -19,7 +20,9 @@ extension UserAPI: BaseTargetType {
         switch self {
         case .getUserInfo:
             return .accessTokenHeader
-        case .checkNickname(nickname: let nickname):
+        case .checkNickname:
+            return .accessTokenHeader
+        default:
             return .accessTokenHeader
         }
     }
@@ -30,6 +33,8 @@ extension UserAPI: BaseTargetType {
             return "user"
         case .checkNickname:
             return "user/validation"
+        case .getMyPageInfo:
+            return "user/mypage"
         }
     }
     
@@ -38,6 +43,8 @@ extension UserAPI: BaseTargetType {
         case .getUserInfo:
             return .get
         case .checkNickname:
+            return .get
+        case .getMyPageInfo:
             return .get
         }
     }
@@ -51,6 +58,8 @@ extension UserAPI: BaseTargetType {
                 parameters: ["keyword": nickname],
                 encoding: URLEncoding.queryString
             )
+        case .getMyPageInfo:
+            return .requestPlain
         }
     }
     
