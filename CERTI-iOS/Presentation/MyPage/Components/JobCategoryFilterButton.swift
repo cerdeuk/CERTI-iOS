@@ -21,7 +21,7 @@ struct JobCategoryFilterButton: View {
         Button(action: action) {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? .lightblue : Color.clear)
+                    .fill(isSelected ? .lightblue : .clear)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(isSelected ? .skyblue : .lightpurple, lineWidth: 1)
@@ -40,6 +40,8 @@ struct JobCategoryFilterButton: View {
                                 .foregroundColor(.white)
                         }
                     }
+                    
+                    // TODO: - 미니 기종만 분기처리 할 건지 논의 필요
                     
                     if isMarketing && isSelected {
                         VStack(spacing: 2) {
