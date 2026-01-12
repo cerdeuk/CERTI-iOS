@@ -25,9 +25,13 @@ struct EditProfileView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            MyPageHeader(style: .save, title: "개인정보 수정") {
-                // TODO: - 저장로직 연결
-                viewModel.myPageViewRoutePop()
+            MyPageHeader(style: .save, title: "개인정보 수정", isActionEnabled: viewModel.isProfileModified) {
+                if viewModel.isProfileModified {
+                    
+                    // TODO: - 수정 요청 API 연결
+                    
+                    viewModel.myPageViewRoutePop()
+                }
             } backButtonAction: {
                 viewModel.myPageViewRoutePop()
             }

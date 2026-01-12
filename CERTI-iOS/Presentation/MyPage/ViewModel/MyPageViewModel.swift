@@ -56,6 +56,30 @@ final class MyPageViewModel: ObservableObject {
     private let fetchMyPageInfoUseCase: FetchMyPageInfoUseCase
     private let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
     private let checkNickNameUseCase: CheckNickNameUseCase
+    
+    private var initialProfile: ProfileSnapshot?
+    
+    private struct ProfileSnapshot: Equatable {
+        let nickName: String
+        let name: String
+        let email: String
+        let birth: Date?
+        let profileImageURL: String
+    }
+    
+    var isProfileModified: Bool {
+        guard let initial = initialProfile else { return false }
+        
+        let current = ProfileSnapshot(
+            nickName: userNickName,
+            name: userName,
+            email: userEmail,
+            birth: userBirth,
+            profileImageURL: profileImageURL
+        )
+        
+        return initial != current
+    }
 
     // MARK: - init
     
@@ -227,6 +251,13 @@ extension MyPageViewModel {
         self.profileImageURL = entity.profileImageURL
         self.userEmail = entity.email
         self.userBirth = entity.birthDate?.convertToDate()
+        self.initialProfile = ProfileSnapshot(
+            nickName: entity.nickName,
+            name: entity.name,
+            email: entity.email,
+            birth: self.userBirth,
+            profileImageURL: entity.profileImageURL
+        )
     }
     
     private func loadDummyData() {
