@@ -41,8 +41,6 @@ struct JobCategoryFilterButton: View {
                         }
                     }
                     
-                    // TODO: - 미니 기종만 분기처리 할 건지 논의 필요
-                    
                     if isMarketing && isSelected {
                         VStack(spacing: 2) {
                             Text("마케팅/")
@@ -61,6 +59,7 @@ struct JobCategoryFilterButton: View {
                             .foregroundStyle(.purpleblue)
                     }
                 }
+                
             }
         }
     }
