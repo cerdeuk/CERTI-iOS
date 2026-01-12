@@ -13,6 +13,10 @@ struct JobCategoryFilterButton: View {
     let selectedIndex: Int?
     let action: () -> Void
     
+    private var isMarketing: Bool {
+        return category.description == "마케팅/광고/홍보"
+    }
+    
     var body: some View {
         Button(action: action) {
             ZStack {
@@ -24,22 +28,36 @@ struct JobCategoryFilterButton: View {
                     )
                     .frame(height: 42)
                 
-                HStack(alignment: .center, spacing: 3) {
+                HStack(spacing: (isMarketing && isSelected) ? 6 : 4) {
                     if let index = selectedIndex {
-                        Circle()
-                            .fill(.mainblue)
-                            .frame(width: 15, height: 15)
-                            .overlay(
-                                Text("\(index)")
-                                    .applyCertiFont(.caption_semibold_10)
-                                    .foregroundColor(.white)
-                            )
+                        ZStack {
+                            Circle()
+                                .fill(.mainblue)
+                                .frame(width: 15, height: 15)
+                            
+                            Text("\(index)")
+                                .applyCertiFont(.caption_semibold_10)
+                                .foregroundColor(.white)
+                        }
                     }
                     
-                    Text(category.description)
-                        .applyCertiFont(.caption_semibold_12)
-                        .foregroundStyle(.purpleblue)
-                    
+                    if isMarketing && isSelected {
+                        VStack(spacing: 2) {
+                            Text("마케팅/")
+                                .applyCertiFont(.caption_semibold_12)
+                                .foregroundStyle(.purpleblue)
+                                .frame(height: 14)
+                            
+                            Text("광고/홍보")
+                                .applyCertiFont(.caption_semibold_12)
+                                .foregroundStyle(.purpleblue)
+                                .frame(height: 14)
+                        }
+                    } else {
+                        Text(category.description)
+                            .applyCertiFont(.caption_semibold_12)
+                            .foregroundStyle(.purpleblue)
+                    }
                 }
             }
         }
