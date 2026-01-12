@@ -105,6 +105,7 @@ struct MyPageCoordinatorView: View {
 
 //    MyPageMajorView(viewModel: viewModel)
 //    ManageCertificateView(viewModel: viewModel)
-    EditCertificateView(viewModel: viewModel, target: .expected)
+    ManageAcademicInfoView(viewModel: viewModel)
+//    EditCertificateView(viewModel: viewModel, target: .expected)
 //    NotificationSettingView(viewModel: viewModel)
 }

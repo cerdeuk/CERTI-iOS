@@ -87,6 +87,10 @@ final class MyPageViewModel: ObservableObject {
         }
     }
     
+    func updateJobCategories(_ categories: [JobCategory]) {
+        self.jobCategoryList = categories
+    }
+    
 }
 
 
