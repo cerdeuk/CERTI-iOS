@@ -17,6 +17,9 @@ struct EditCertificateView: View {
     
     @ObservedObject var viewModel: MyPageViewModel
     
+    @State private var showDeleteAlert: Bool = false
+    @State private var deleteTargetID: UUID? = nil
+    
     //MARK: - Properties
     
     let target: EditTarget
@@ -24,29 +27,54 @@ struct EditCertificateView: View {
     //MARK: - Main Body
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            MyPageHeader(style: .normal, title: "자격증 편집") {
-                nil
-            } backButtonAction: {
-                viewModel.myPageViewRoutePop()
-            }
-            .padding(.bottom, 8)
-            
-            ScrollView {
-                LazyVStack(spacing: 16) {
-                    switch target {
-                    case .expected:
-                        expectedList
-                    case .completed:
-                        completedList
-                    }
+        ZStack {
+            VStack(alignment: .leading, spacing: 0) {
+                
+                MyPageHeader(style: .normal, title: "자격증 편집") {
+                    nil
+                } backButtonAction: {
+                    viewModel.myPageViewRoutePop()
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 40)
+                .padding(.bottom, 8)
+                
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        switch target {
+                        case .expected:
+                            expectedList
+                        case .completed:
+                            completedList
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 40)
+                }
+            }
+            .background(.white)
+            
+            if showDeleteAlert {
+                CertiDeleteAlertView(
+                    onConfirm: {
+                        //TODO: - 비동기처리
+                        if let id = deleteTargetID {
+                            switch target {
+                            case .expected:
+                                viewModel.deleteExpectedCertificate(id: id)
+                            case .completed:
+                                viewModel.deleteCompletedCertificate(id: id)
+                            }
+                        }
+                        deleteTargetID = nil
+                        showDeleteAlert = false
+                    },
+                    onCancel: {
+                        deleteTargetID = nil
+                        showDeleteAlert = false
+                    }
+                )
+                .zIndex(2)
             }
         }
-        .background(.white)
         .sheet(item: $viewModel.editingExpectedItem) { item in
             EditExpectedCertificationModal(
                 viewModel: viewModel,
@@ -76,7 +104,8 @@ private extension EditCertificateView {
                 actionConfig: .editable(onEdit: {
                     viewModel.editingExpectedItem = item
                 }, onDelete: {
-                    viewModel.deleteExpectedCertificate(id: item.id)
+                    deleteTargetID = item.id
+                    showDeleteAlert = true
                 })
             )
         }
@@ -97,7 +126,8 @@ private extension EditCertificateView {
                     print("취득 완료 수정: \(item.id)")
                     // TODO: 수정 화면 이동 로직
                 }, onDelete: {
-                    viewModel.deleteCompletedCertificate(id: item.id)
+                    deleteTargetID = item.id
+                    showDeleteAlert = true
                 })
             )
         }
