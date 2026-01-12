@@ -65,9 +65,12 @@ struct CertificateCommentView: View {
                     await viewModel.loadNextComments()
                 }
             }
+            .onTapGesture {
+                hideKeyboard()
+            }
             
             CommentTextField(commentText: $viewModel.commentText, onSendTapped: { }, textFieldState: !viewModel.showFailToBeAcquired || !viewModel.showFailAcquired ? .fieldOn : .fieldLock)
-                .padding(.top, 20)
+                .padding(.vertical, 20)
         }
     }
     }

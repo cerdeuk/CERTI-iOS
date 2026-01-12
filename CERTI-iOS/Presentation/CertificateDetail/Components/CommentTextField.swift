@@ -70,6 +70,7 @@ struct CommentTextField: View {
             RoundedRectangle(cornerRadius: 18)
                 .fill(.grayscale100))
         .padding(.horizontal, 20)
+        .blackCursor()
         
     }
 }
