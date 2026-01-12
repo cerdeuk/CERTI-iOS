@@ -278,14 +278,7 @@ extension HomeViewModel {
     }
     
     func hasPreLicenses(on date: Date) -> Bool {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
-        formatter.locale = Locale(identifier: "ko_KR")
-        return homeStateModel.preLicenses.contains { preLicense in
-            guard let preLicenseDate = formatter.date(from: preLicense.testDate) else {
-                return false
-            }
-            return isSameDay(day1: preLicenseDate, day2: date)
-        }
+        // 추후 api 연동
+        return false
     }
 }

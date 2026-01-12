@@ -25,12 +25,6 @@ struct HomeView: View {
 
                     HomeCalendarView(viewModel: viewModel)
 
-                    recommendLicenseTitle
-                        .padding(.horizontal, 20)
-
-                    recommendLicenseList
-                        .padding(.horizontal, 20)
-
                     preLicenseTitle
                         .padding(.horizontal, 20)
                     
@@ -51,6 +45,11 @@ struct HomeView: View {
                         favoriteLicenseList
                     }
                     
+                    recommendLicenseTitle
+                        .padding(.horizontal, 20)
+
+                    recommendLicenseList
+                        .padding(.horizontal, 20)
                 }
             }
             .scrollIndicators(.hidden)
@@ -120,48 +119,6 @@ extension HomeView {
         }
     }
     
-    private var recommendLicenseTitle: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Text(viewModel.homeStateModel.username.trimmedUsername())
-                .frame(height: 26)
-            
-            Text("님에게 추천하는 자격증")
-                .frame(height: 26)
-            
-            Spacer()
-            
-            Button {
-                // 추천 자격증 항목 이동
-                viewModel.switchToRecommendTab()
-            } label: {
-                Image(.iconArrowright36)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 36, height: 36)
-            }
-        }
-        .frame(height: 36)
-        .foregroundStyle(.grayscale600)
-        .applyCertiFont(.sub_semibold_20)
-        .padding(.bottom, 16)
-    }
-    
-    private var recommendLicenseList: some View {
-        LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(viewModel.homeStateModel.recommendLicenses.prefix(3)) { item in
-                RecommendLicenseCard(licenseCard: item)
-                    .frame(maxWidth: .infinity)
-                    .onTapGesture {
-                        viewModel.selectedLicenseId = item.id
-                        viewModel.navigateToCertificateDetail()
-                    }
-                
-            }
-        }
-        .frame(height: 264)
-        .padding(.bottom, 36)
-    }
-    
     private var preLicenseTitle: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("취득 예정 자격증")
@@ -180,7 +137,8 @@ extension HomeView {
         }
         .frame(height: 36)
         .foregroundStyle(.grayscale600)
-        .applyCertiFont(.sub_semibold_20)
+        .applyCertiFont(.body_semibold_16)
+        .padding(.top, 16)
         .padding(.bottom, 16)
     }
     
@@ -271,5 +229,47 @@ extension HomeView {
         }
         .padding(.top, 44)
         .padding(.bottom, 98)
+    }
+    
+    private var recommendLicenseTitle: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text(viewModel.homeStateModel.username.trimmedUsername())
+                .frame(height: 26)
+            
+            Text("님에게 추천하는 자격증")
+                .frame(height: 26)
+            
+            Spacer()
+            
+            Button {
+                // 추천 자격증 항목 이동
+                viewModel.switchToRecommendTab()
+            } label: {
+                Image(.iconArrowright36)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 36, height: 36)
+            }
+        }
+        .frame(height: 36)
+        .foregroundStyle(.grayscale600)
+        .applyCertiFont(.sub_semibold_20)
+        .padding(.bottom, 16)
+    }
+    
+    private var recommendLicenseList: some View {
+        LazyVGrid(columns: columns, spacing: 12) {
+            ForEach(viewModel.homeStateModel.recommendLicenses.prefix(3)) { item in
+                RecommendLicenseCard(licenseCard: item)
+                    .frame(maxWidth: .infinity)
+                    .onTapGesture {
+                        viewModel.selectedLicenseId = item.id
+                        viewModel.navigateToCertificateDetail()
+                    }
+                
+            }
+        }
+        .frame(height: 264)
+        .padding(.bottom, 36)
     }
 }
