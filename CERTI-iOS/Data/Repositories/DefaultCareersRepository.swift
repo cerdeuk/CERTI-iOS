@@ -38,4 +38,9 @@ final class DefaultCareersRepository: CareersRepository {
         let requestDTO = request.toAddCareerRequestDTO()
         return await service.addCareer(request: requestDTO)
     }
+    
+    func editCareer(request: CareersEntity) async -> Result<Bool, NetworkError> {
+        let requestDTO = request.toEditCareerRequestDTO()
+        return await service.editCareer(request: requestDTO)
+    }
 }

@@ -13,6 +13,7 @@ protocol CareersServiceProtocol {
     func fetchCareersList() async -> Result<CareersListResponseDTO, NetworkError>
     func deledteCareers(id: Int) async -> Result<Void, NetworkError>
     func addCareer(request: AddCareerRequestDTO) async -> Result<Bool, NetworkError>
+    func editCareer(request: EditCareerRequestDTO) async -> Result<Bool, NetworkError>
 }
 
 final class CareersService: BaseService, CareersServiceProtocol {
@@ -28,5 +29,9 @@ final class CareersService: BaseService, CareersServiceProtocol {
     
     func addCareer(request: AddCareerRequestDTO) async -> Result<Bool, NetworkError> {
         return await requestDecodable(provider, .addCareer(request: request))
+    }
+    
+    func editCareer(request: EditCareerRequestDTO) async -> Result<Bool, NetworkError> {
+        return await requestDecodable(provider, .editCareer(request: request))
     }
 }
