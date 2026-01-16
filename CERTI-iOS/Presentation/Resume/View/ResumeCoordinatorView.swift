@@ -47,7 +47,7 @@ struct ResumeCoordinatorView: View {
                     case .myCertificateEdit:
                         MyCertificateEditView(viewModel: resumeViewModel)
                     case .myCareerEdit:
-                        MyCareerEditView(viewModel: resumeViewModel)
+                        MyCareerManageView(viewModel: resumeViewModel)
                     case .myCareerWriteView:
                         MyCareerWriteView(viewModel: resumeViewModel)
                     case .myExtracurricularActivityEditView:

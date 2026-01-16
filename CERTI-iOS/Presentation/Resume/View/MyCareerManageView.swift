@@ -1,13 +1,13 @@
 //
-//  MyCareerEditView.swift
+//  MyCareerManageView.swift
 //  CERTI-iOS
 //
-//  Created by 이상엽 on 7/12/25.
+//  Created by 이상엽 on 1/15/26.
 //
 
 import SwiftUI
 
-struct MyCareerEditView: View {
+struct MyCareerManageView: View {
     @ObservedObject var viewModel: ResumeViewModel
     
     @State var isDeleteAlertPresented = false
@@ -84,10 +84,8 @@ struct MyCareerEditView: View {
                         await viewModel.deleteCareers(id: deleteIndex)
                     }
                     isDeleteAlertPresented = false
-                    print("확인 버튼 클릭")
                 } onCancel: {
                     isDeleteAlertPresented = false
-                    print("취소버튼 클릭")
                 }
             }
         }
