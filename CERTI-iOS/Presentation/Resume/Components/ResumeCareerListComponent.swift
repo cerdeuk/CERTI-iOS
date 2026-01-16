@@ -1,14 +1,14 @@
 //
-//  ResumeActivityListComponent.swift
+//  ResumeCareerListComponent.swift
 //  CERTI-iOS
 //
-//  Created by 이상엽 on 7/12/25.
+//  Created by 이상엽 on 1/17/26.
 //
 
 import SwiftUI
 
-struct ResumeActivityListComponent: View {
-    let model: ActivityModel
+struct ResumeCareerListComponent: View {
+    let model: CareerModel
     
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
@@ -48,12 +48,12 @@ struct ResumeActivityListComponent: View {
 }
 
 #Preview {
-    ResumeActivityListComponent(model: ActivityModel(
-        activityId: 1,
+    ResumeCareerListComponent(model: CareerModel(
+        careerId: 1,
         startAt: "2021.11",
         endAt: "2022.01",
-        name: "sopt",
-        place: "동아리 36기 기획",
-        description: "서비스 기획 및 아이디어 도출"
+        name: "패션디자이너 인턴",
+        place: "서티그룹",
+        description: "트렌드 리서치 및 소재 조사"
     ))
 }

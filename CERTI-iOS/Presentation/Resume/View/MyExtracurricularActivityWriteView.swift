@@ -22,8 +22,8 @@ struct MyExtracurricularActivityWriteView: View {
                         activityPeriodView
                         PeriodInputComponent(
                             isFilled: $viewModel.isPeriodFilled,
-                            startAt: $viewModel.resumeModel.startAt,
-                            endAt: $viewModel.resumeModel.endAt
+                            startAt: $viewModel.activityWriteModel.startAt,
+                            endAt: $viewModel.activityWriteModel.endAt
                         )
                         organizeView
                         activityView
@@ -31,18 +31,17 @@ struct MyExtracurricularActivityWriteView: View {
                         ResumeWriteButton(
                             action: {
                                 Task {
-                                    await viewModel.addActivity(resumeModel: viewModel.resumeModel)
-                                    viewModel.clearResumeModel()
+                                    await viewModel.addActivity(activityWriteModel: viewModel.activityWriteModel)
                                     viewModel.resumeViewRoutePop()
                                 }
                             },
-                            textEmpty: .constant(viewModel.isWriteButtonEnabled)
+                            textEmpty: .constant(viewModel.isActivityWriteButtonEnabled)
                         )
                         .padding(.top, 40)
                     }
                 }
                 .onAppear{
-                    viewModel.clearResumeModel()
+                    viewModel.clearActivityWriteModel()
                 }
                 .navigationBarBackButtonHidden()
                 .scrollIndicators(.hidden)
@@ -105,7 +104,7 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.name, maxLength: 10)
+            CharLimitTextField(text: $viewModel.activityWriteModel.name, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -128,7 +127,7 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.place, maxLength: 10)
+            CharLimitTextField(text: $viewModel.activityWriteModel.place, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -151,7 +150,7 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.description, maxLength: 16)
+            CharLimitTextField(text: $viewModel.activityWriteModel.description, maxLength: 16)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 16)
         }

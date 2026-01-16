@@ -53,7 +53,7 @@ struct MyExtracurricularActivityEditView: View {
                             .padding(.leading, 20)
                         
                         LazyVGrid(columns: columns, spacing: 36) {
-                            ForEach(viewModel.activityList) { item in
+                            ForEach(viewModel.activitiesList) { item in
                                 HStack(alignment: .center, spacing: 0) {
                                     ResumeActivityListComponent(model: item)
                                         .frame(height: 50)

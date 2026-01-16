@@ -25,20 +25,19 @@ final class ResumeViewModel: ObservableObject {
     @Published var jobList: [String] = []
     @Published var acquisitionList: [CertificatedModel] = []
     @Published var acquisitionDetail: CertificatedDetailModel? = nil
-    @Published var careersList: [ResumeModel] = []
-    @Published var activityList: [ResumeModel] = []
+    @Published var careersList: [CareerModel] = []
+    @Published var activitiesList: [ActivityModel] = []
     @Published var isPeriodFilled: Bool = false
-    @Published var resumeModel = ResumeModel(
-        startAt: "",
-        endAt: "",
-        name: "",
-        place: "",
-        description: ""
-    )
+    @Published var careerWriteModel = CareerWriteModel()
+    @Published var activityWriteModel = ActivityWriteModel()
     @Published var isCardDetailPresented = false
     
-    var isWriteButtonEnabled: Bool {
-        !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.description.isBlank && isPeriodFilled
+    var isCareerWriteButtonEnabled: Bool {
+        !careerWriteModel.name.isBlank && !careerWriteModel.place.isBlank && !careerWriteModel.description.isBlank && isPeriodFilled
+    }
+    
+    var isActivityWriteButtonEnabled: Bool {
+        !activityWriteModel.name.isBlank && !activityWriteModel.place.isBlank && !activityWriteModel.description.isBlank && isPeriodFilled
     }
     
     private let fetchJobUseCase: FetchJobUseCase
@@ -79,8 +78,8 @@ final class ResumeViewModel: ObservableObject {
         self.fetchActivityListUseCase = fetchActivityListUseCase
     }
 
-    func clearResumeModel() {
-        resumeModel = ResumeModel(
+    func clearCareerWriteModel() {
+        careerWriteModel = CareerWriteModel(
             startAt: "",
             endAt: "",
             name: "",
@@ -89,6 +88,18 @@ final class ResumeViewModel: ObservableObject {
         )
         isPeriodFilled = false
     }
+    
+    func clearActivityWriteModel() {
+        activityWriteModel = ActivityWriteModel(
+            startAt: "",
+            endAt: "",
+            name: "",
+            place: "",
+            description: ""
+        )
+        isPeriodFilled = false
+    }
+    
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "resume")
 }
 
@@ -192,8 +203,8 @@ extension ResumeViewModel {
         }
     }
     
-    func addCareer(resumeModel: ResumeModel) async {
-        let result = await addCareersUseCase.execute(request: resumeModel.toCareersEntity())
+    func addCareer(careerWriteModel: CareerWriteModel) async {
+        let result = await addCareersUseCase.execute(request: careerWriteModel.toCareersEntity())
 
         switch result {
         case .success:
@@ -222,7 +233,7 @@ extension ResumeViewModel {
         
         switch result {
         case .success(let response):
-            self.activityList = response.toResumeModel()
+            self.activitiesList = response.toResumeModel()
             logger.debug("✅ 대내외활동 조회 성공")
             
         case .failure(let error):
@@ -237,15 +248,15 @@ extension ResumeViewModel {
         switch result {
         case .success(_):
             logger.info("✅ 대내외 활동 삭제 성공")
-            activityList.removeAll { $0.activityId == id }
+            activitiesList.removeAll { $0.activityId == id }
 
         case .failure(let error):
             logger.error("대내외 활동 삭제 failed: \(error.localizedDescription)")
         }
     }
 
-    func addActivity(resumeModel: ResumeModel) async {
-        let result = await addActivityUseCase.execute(request: resumeModel.toActivityEntity())
+    func addActivity(activityWriteModel: ActivityWriteModel) async {
+        let result = await addActivityUseCase.execute(request: activityWriteModel.toActivityEntity())
 
         switch result {
         case .success:

@@ -22,8 +22,8 @@ struct MyCareerWriteView: View {
                         workingPeriodView
                         PeriodInputComponent(
                             isFilled: $viewModel.isPeriodFilled,
-                            startAt: $viewModel.resumeModel.startAt,
-                            endAt: $viewModel.resumeModel.endAt
+                            startAt: $viewModel.careerWriteModel.startAt,
+                            endAt: $viewModel.careerWriteModel.endAt
                         )
                         workingCompany
                         dutyView
@@ -31,17 +31,17 @@ struct MyCareerWriteView: View {
                         ResumeWriteButton(
                             action: {
                                 Task {
-                                    await viewModel.addCareer(resumeModel: viewModel.resumeModel)
+                                    await viewModel.addCareer(careerWriteModel: viewModel.careerWriteModel)
                                     viewModel.resumeViewRoutePop()
                                 }
                             },
-                            textEmpty: .constant(viewModel.isWriteButtonEnabled)
+                            textEmpty: .constant(viewModel.isCareerWriteButtonEnabled)
                         )
                         .padding(.top, 40)
                     }
                 }
                 .onAppear{
-                    viewModel.clearResumeModel()
+                    viewModel.clearCareerWriteModel()
                 }
                 .scrollIndicators(.hidden)
                 .navigationBarBackButtonHidden()
@@ -101,7 +101,7 @@ extension MyCareerWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.name, maxLength: 10)
+            CharLimitTextField(text: $viewModel.careerWriteModel.name, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -123,7 +123,7 @@ extension MyCareerWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.place, maxLength: 10)
+            CharLimitTextField(text: $viewModel.careerWriteModel.place, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -145,7 +145,7 @@ extension MyCareerWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.description, maxLength: 16)
+            CharLimitTextField(text: $viewModel.careerWriteModel.description, maxLength: 16)
                 .padding(.horizontal, 20)
         }
     }
