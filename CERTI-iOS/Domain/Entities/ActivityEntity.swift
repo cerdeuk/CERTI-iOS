@@ -8,7 +8,7 @@
 import Foundation
 
 struct ActivityEntity {
-    let activityId: Int
+    let activityId: Int?
     let startAt: String
     let endAt: String
     let name: String
@@ -29,8 +29,10 @@ extension ActivityEntity {
         )
     }
     
-    func toActivityModel() -> ActivityModel {
-        ActivityModel(
+    func toActivityModel() -> ActivityModel? {
+        guard let activityId else { return nil }
+
+        return ActivityModel(
             activityId: activityId,
             startAt: startAt,
             endAt: endAt,

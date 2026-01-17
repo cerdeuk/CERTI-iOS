@@ -17,21 +17,3 @@ struct ActivityModel: Identifiable {
     
     var id: Int { activityId }
 }
-
-extension ActivityModel {
-    
-    
-    // MARK: - Func
-        
-    func toActivityEntity() -> ActivityEntity {
-        return ActivityEntity(
-            data: ResumeEntityData(
-            startAt: startAt,
-            endAt: endAt,
-            name: name,
-            place: place,
-            description: description
-            )
-        )
-    }
-}

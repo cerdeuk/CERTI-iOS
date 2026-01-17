@@ -17,3 +17,19 @@ struct CareerModel: Identifiable {
     
     var id: Int { careerId }
 }
+
+
+// MARK: - Func
+
+extension CareerModel {
+    func toCareersEntity() -> CareerEntity {
+        CareerEntity(
+            careerId: careerId,
+            startAt: startAt,
+            endAt: endAt,
+            name: name,
+            place: place,
+            description: description
+        )
+    }
+}

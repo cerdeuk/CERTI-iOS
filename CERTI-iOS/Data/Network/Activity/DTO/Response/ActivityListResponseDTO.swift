@@ -16,7 +16,7 @@ struct ActivityListData: Decodable {
 extension ActivityListData {
     func toActivityListEntity() -> ActivityListEntity {
         return ActivityListEntity(
-            list: activityDetailResponses.map{ $0.toResumeEntityData() }
+            list: activityDetailResponses.map{ $0.toActivityEntity() }
         )
     }
 }
@@ -31,8 +31,8 @@ struct Activity: Decodable, Identifiable {
     let description: String
     let place: String
     
-    func toResumeEntityData() -> ResumeEntityData {
-        return ResumeEntityData(
+    func toActivityEntity() -> ActivityEntity {
+        return ActivityEntity(
             activityId: activityId,
             startAt: startAt,
             endAt: endAt,

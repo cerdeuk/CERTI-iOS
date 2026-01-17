@@ -13,6 +13,6 @@ struct ActivityListEntity {
 
 extension ActivityListEntity {
     func toActivityModels() -> [ActivityModel] {
-        list.map { $0.toActivityModel() }
+        list.compactMap { $0.toActivityModel() }
     }
 }

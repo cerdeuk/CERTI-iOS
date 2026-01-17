@@ -13,6 +13,6 @@ struct CareerListEntity {
 
 extension CareerListEntity {
     func toCareerModels() -> [CareerModel] {
-        list.map { $0.toCareerModel() }
+        list.compactMap { $0.toCareerModel() }
     }
 }

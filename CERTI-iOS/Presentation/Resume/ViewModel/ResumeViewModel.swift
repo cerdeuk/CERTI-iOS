@@ -195,7 +195,7 @@ extension ResumeViewModel {
         
         switch result {
         case .success(let response):
-            self.careersList = response.toResumeModel()
+            self.careersList = response.toCareerModels()
             logger.debug("✅ 경력사항 조회 성공")
             
         case .failure(let error):
@@ -204,7 +204,7 @@ extension ResumeViewModel {
     }
     
     func addCareer(careerWriteModel: CareerWriteModel) async {
-        let result = await addCareersUseCase.execute(request: careerWriteModel.toCareersEntity())
+        let result = await addCareersUseCase.execute(request: careerWriteModel.toCareerEntity())
 
         switch result {
         case .success:
@@ -233,7 +233,7 @@ extension ResumeViewModel {
         
         switch result {
         case .success(let response):
-            self.activitiesList = response.toResumeModel()
+            self.activitiesList = response.toActivityModels()
             logger.debug("✅ 대내외활동 조회 성공")
             
         case .failure(let error):

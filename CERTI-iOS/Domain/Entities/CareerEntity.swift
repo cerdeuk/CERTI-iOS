@@ -8,7 +8,7 @@
 import Foundation
 
 struct CareerEntity {
-    let careerId: Int
+    let careerId: Int?
     let startAt: String
     let endAt: String
     let name: String
@@ -39,8 +39,10 @@ extension CareerEntity {
         )
     }
     
-    func toCareerModel() -> CareerModel {
-        CareerModel(
+    func toCareerModel() -> CareerModel? {
+        guard let careerId else { return nil }
+        
+        return CareerModel(
             careerId: careerId,
             startAt: startAt,
             endAt: endAt,

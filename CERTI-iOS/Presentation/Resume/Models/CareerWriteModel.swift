@@ -16,19 +16,18 @@ struct CareerWriteModel {
 }
 
 extension CareerWriteModel {
-
+    
     
     // MARK: - Func
-
-    func toCareersEntity() -> CareersEntity {
-        CareersEntity(
-            data: ResumeEntityData(
-                startAt: startAt,
-                endAt: endAt,
-                name: name,
-                place: place,
-                description: description
-            )
+    
+    func toCareerEntity() -> CareerEntity {
+        CareerEntity(
+            careerId: nil,
+            startAt: startAt,
+            endAt: endAt,
+            name: name,
+            place: place,
+            description: description
         )
     }
 }

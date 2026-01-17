@@ -21,14 +21,13 @@ extension ActivityWriteModel {
     // MARK: - Func
         
     func toActivityEntity() -> ActivityEntity {
-        return ActivityEntity(
-            data: ResumeEntityData(
+        ActivityEntity(
+            activityId: nil,
             startAt: startAt,
             endAt: endAt,
             name: name,
             place: place,
             description: description
-            )
         )
     }
 }

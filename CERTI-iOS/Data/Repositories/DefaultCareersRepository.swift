@@ -17,7 +17,7 @@ final class DefaultCareersRepository: CareersRepository {
         self.service = service
     }
     
-    func fetchCareersList() async -> Result<CareersListEntity, NetworkError> {
+    func fetchCareersList() async -> Result<CareerListEntity, NetworkError> {
         let result = await service.fetchCareersList()
         switch result {
         case .success(let dto):
@@ -34,12 +34,12 @@ final class DefaultCareersRepository: CareersRepository {
         return await service.deledteCareers(id: id)
     }
     
-    func addCareer(request: CareersEntity) async -> Result<Bool, NetworkError> {
+    func addCareer(request: CareerEntity) async -> Result<Bool, NetworkError> {
         let requestDTO = request.toAddCareerRequestDTO()
         return await service.addCareer(request: requestDTO)
     }
     
-    func editCareer(request: CareersEntity) async -> Result<Bool, NetworkError> {
+    func editCareer(request: CareerEntity) async -> Result<Bool, NetworkError> {
         let requestDTO = request.toEditCareerRequestDTO()
         return await service.editCareer(request: requestDTO)
     }
