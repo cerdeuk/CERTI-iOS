@@ -13,5 +13,5 @@ protocol CareersRepository {
     func fetchCareersList() async -> Result<CareerListEntity, NetworkError>
     func deleteCareers(id: Int) async -> Result<Void, NetworkError>
     func addCareer(request: CareerEntity) async -> Result<Bool, NetworkError>
-    func editCareer(request: CareerEntity) async -> Result<Bool, NetworkError>
+    func editCareer(careerId:Int, request: CareerEntity) async -> Result<Bool, NetworkError>
 }

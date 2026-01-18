@@ -9,44 +9,55 @@ import SwiftUI
 
 struct MyCareerWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
+    let mode: CareerWriteMode
     
     var body: some View {
-            VStack (alignment: .leading, spacing: 0) {
-                BackButton() {
-                    viewModel.resumeViewRoutePop()
-                }
-                
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        MyCareerWriteTitleView
-                        workingPeriodView
-                        PeriodInputComponent(
-                            isFilled: $viewModel.isPeriodFilled,
-                            startAt: $viewModel.careerWriteModel.startAt,
-                            endAt: $viewModel.careerWriteModel.endAt
-                        )
-                        workingCompany
-                        dutyView
-                        dutyDetailView
-                        ResumeWriteButton(
-                            action: {
-                                Task {
-                                    await viewModel.addCareer(careerWriteModel: viewModel.careerWriteModel)
-                                    viewModel.resumeViewRoutePop()
-                                }
-                            },
-                            textEmpty: .constant(viewModel.isCareerWriteButtonEnabled)
-                        )
-                        .padding(.top, 40)
-                    }
-                }
-                .onAppear{
-                    viewModel.clearCareerWriteModel()
-                }
-                .scrollIndicators(.hidden)
-                .navigationBarBackButtonHidden()
-                .scrollDismissesKeyboard(.immediately)
+        VStack (alignment: .leading, spacing: 0) {
+            BackButton() {
+                viewModel.resumeViewRoutePop()
             }
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    MyCareerWriteTitleView
+                    workingPeriodView
+                    PeriodInputComponent(
+                        isFilled: $viewModel.isPeriodFilled,
+                        startAt: $viewModel.careerWriteModel.startAt,
+                        endAt: $viewModel.careerWriteModel.endAt
+                    )
+                    workingCompany
+                    dutyView
+                    dutyDetailView
+                    ResumeWriteButton(
+                        action: {
+                            Task {
+                                switch mode {
+                                case .add:
+                                    await viewModel.addCareer(careerWriteModel: viewModel.careerWriteModel)
+                                case .edit(let careerId):
+                                    await viewModel.editCareer(careerId: viewModel.selectCareerId, careerWriteModel: viewModel.careerWriteModel)
+                                }
+                                viewModel.resumeViewRoutePop()
+                            }
+                        },
+                        textEmpty: .constant(viewModel.isCareerWriteButtonEnabled)
+                    )
+                    .padding(.top, 40)
+                }
+            }
+            .onAppear{
+                switch mode {
+                case .add:
+                    viewModel.clearCareerWriteModel()
+                case .edit(let careerId):
+                    viewModel.prepareCareerEdit(careerId: careerId)
+                }
+            }
+            .scrollIndicators(.hidden)
+            .navigationBarBackButtonHidden()
+            .scrollDismissesKeyboard(.immediately)
+        }
     }
 }
 

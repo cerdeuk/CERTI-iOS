@@ -70,9 +70,15 @@ struct PreviewAddCareersUseCase: AddCareersUseCase {
     }
 }
 
-struct PreviewDeleteCareersUserCase: DeleteCareersUseCase {
+struct PreviewDeleteCareersUseCase: DeleteCareersUseCase {
     func execute(id: Int) async -> Result<Void, NetworkError> {
         return .success(())
+    }
+}
+
+struct PreviewEditCareerUseCase: EditCareersUseCase {
+    func execute(careerId: Int, request: CareerEntity) async -> Result<Bool, NetworkError> {
+        .success(true)
     }
 }
 

@@ -54,7 +54,10 @@ struct MyCareerManageView: View {
                         LazyVGrid(columns: columns, spacing: 36) {
                             ForEach(viewModel.careersList) { item in
                                 HStack(alignment: .center, spacing: 0) {
-                                    ResumeCareerListComponent(model: item)
+                                    ResumeCareerListComponent(model: item, onTapCard: {
+                                        viewModel.selectCareer(id: item.careerId)
+                                        viewModel.navigateToCareerEdit2()
+                                    })
                                         .frame(height: 50)
                                     
                                     Button {

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ResumeCareerListComponent: View {
     let model: CareerModel
-    
+    let onTapCard: () -> Void
+
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
@@ -44,6 +45,9 @@ struct ResumeCareerListComponent: View {
             
             Spacer()
         }
+        .onTapGesture {
+            onTapCard()
+        }
     }
 }
 
@@ -55,5 +59,5 @@ struct ResumeCareerListComponent: View {
         name: "패션디자이너 인턴",
         place: "서티그룹",
         description: "트렌드 리서치 및 소재 조사"
-    ))
+    ), onTapCard: {})
 }

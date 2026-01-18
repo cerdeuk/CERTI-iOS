@@ -238,7 +238,7 @@ extension ResumeView {
                                 .padding(.top, 20.5)
                                 .padding(.bottom, 29.5)
                             
-                            ResumeCareerListComponent(model: item)
+                            ResumeCareerListComponent(model: item, onTapCard: {})
                                 .frame(height: 74)
                         }
                         .padding(.horizontal, 20)
@@ -319,8 +319,9 @@ extension ResumeView {
             fetchAcquisitionDetailUseCase: PreviewFetchAcquisitionDetailUseCase(),
             deleteAcquisitionUseCase: PreviewDeleteAcquisitionUseCase(),
             addCareersUseCase: PreviewAddCareersUseCase(),
-            deleteCareersUseCase: PreviewDeleteCareersUserCase(),
+            deleteCareersUseCase: PreviewDeleteCareersUseCase(),
             fetchCareersListUseCase: PreviewFetchCareersListUseCase(),
+            editCareerUseCase: PreviewEditCareerUseCase(),
             addActivityUseCase: PreviewAddActivityUseCase(),
             deleteActivityUseCase: PreviewDeleteActivityUseCase(),
             fetchActivityListUseCase: PreviewFetchActivityListUseCase()

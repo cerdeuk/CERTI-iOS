@@ -29,8 +29,8 @@ struct ResumeCoordinatorView: View {
                     switch route {
                     case .navigateToActivityEdit:
                         resumeCoordinator.push(next: .myExtracurricularActivityEditView)
-                    case .navigateToCareerWrite:
-                        resumeCoordinator.push(next: .myCareerWriteView)
+                    case .navigateToCareerWrite(let mode):
+                        resumeCoordinator.push(next: .myCareerWriteView(mode: mode))
                     case .navigateToActivityWrite:
                         resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
                     case .navigateToCertificatedEdit:
@@ -48,8 +48,8 @@ struct ResumeCoordinatorView: View {
                         MyCertificateEditView(viewModel: resumeViewModel)
                     case .myCareerEdit:
                         MyCareerManageView(viewModel: resumeViewModel)
-                    case .myCareerWriteView:
-                        MyCareerWriteView(viewModel: resumeViewModel)
+                    case .myCareerWriteView(let mode):
+                        MyCareerWriteView(viewModel: resumeViewModel, mode: mode)
                     case .myExtracurricularActivityEditView:
                         MyExtracurricularActivityEditView(viewModel: resumeViewModel)
                     case .myExtracurricularActivityWriteView:

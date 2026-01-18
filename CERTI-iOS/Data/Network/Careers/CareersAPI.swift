@@ -13,7 +13,7 @@ enum CareersAPI {
     case fetchCareersList
     case deleteCareers(id: Int)
     case addCareer(request: AddCareerRequestDTO)
-    case editCareer(request: EditCareerRequestDTO)
+    case editCareer(careerId:Int, request: EditCareerRequestDTO)
 }
 
 extension CareersAPI: BaseTargetType {
@@ -32,7 +32,7 @@ extension CareersAPI: BaseTargetType {
             return "careers/\(id)"
         case .addCareer:
             return "careers"
-        case .editCareer(let careerId):
+        case .editCareer(let careerId, _):
             return "careers/\(careerId)"
         }
     }
@@ -58,7 +58,7 @@ extension CareersAPI: BaseTargetType {
             return .requestPlain
         case .addCareer(let request):
             return .requestJSONEncodable(request)
-        case .editCareer(let request):
+        case .editCareer(_, let request):
             return .requestJSONEncodable(request)
         }
     }
