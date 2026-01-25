@@ -15,7 +15,7 @@ struct PeriodInputComponent: View {
     @Binding var isFilled: Bool
     @Binding var startAt: String
     @Binding var endAt: String
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .center, spacing: 0) {
@@ -25,14 +25,14 @@ struct PeriodInputComponent: View {
                     placeholder: "시작일"
                 )
                 .padding(.leading, 20)
-
+                
                 Text("부터")
                     .applyCertiFont(.caption_semibold_14)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 20)
                     .padding(.leading, 8)
                     .padding(.trailing, 10)
-
+                
                 customDatePicker(
                     selectedDate: $endDate,
                     isExpanded: $isEndDateExpanded,
@@ -109,6 +109,17 @@ struct PeriodInputComponent: View {
                 .padding(.trailing, 55)
             }
         }
+        .onAppear {
+            if startDate == nil, !startAt.isEmpty {
+                startDate = Date.stringToDate(startAt)
+            }
+            
+            if endDate == nil, !endAt.isEmpty {
+                endDate = Date.stringToDate(endAt)
+            }
+            
+            isFilled = startDate != nil && endDate != nil
+        }
     }
     
     private var dateFormatter: DateFormatter {
@@ -145,7 +156,7 @@ extension PeriodInputComponent {
                 }
             } label: {
                 HStack(alignment: .center, spacing: 0) {
-                    Text(selectedDate.wrappedValue != nil ? dateFormatter.string(from: selectedDate.wrappedValue!) : placeholder)
+                    Text(selectedDate.wrappedValue != nil ? formatDateToString(selectedDate.wrappedValue!) : placeholder)
                         .applyCertiFont(.caption_semibold_12)
                         .frame(width: 72,height: 18, alignment: .leading)
                         .foregroundColor(selectedDate.wrappedValue != nil ? .grayscale600 : .grayscale300)

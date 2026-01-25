@@ -36,7 +36,7 @@ struct MyCareerWriteView: View {
                                 case .add:
                                     await viewModel.addCareer(careerWriteModel: viewModel.careerWriteModel)
                                 case .edit(let careerId):
-                                    await viewModel.editCareer(careerId: viewModel.selectCareerId, careerWriteModel: viewModel.careerWriteModel)
+                                    await viewModel.editCareer(careerId: careerId, careerWriteModel: viewModel.careerWriteModel)
                                 }
                                 viewModel.resumeViewRoutePop()
                             }
@@ -65,7 +65,7 @@ extension MyCareerWriteView {
     private var MyCareerWriteTitleView: some View {
         Group {
             HStack(alignment: .center, spacing: 0) {
-                Text("경력사항 추가")
+                Text(mode == .add ? "경력사항 추가" : "경력사항 수정")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 26)
