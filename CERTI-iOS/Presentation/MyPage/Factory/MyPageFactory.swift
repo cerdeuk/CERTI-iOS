@@ -23,6 +23,7 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let editUnivUseCase: EditUnivUseCase
     private let getPreCertificationUseCase: GetPreCertificationUseCase
     private let getFavoriteCertificationUseCase: GetFavoriteCertificationUseCase
+    private let withDrawUseCase: WithDrawUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
@@ -35,7 +36,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         editMajorUseCase: EditMajorUseCase,
         editUnivUseCase: EditUnivUseCase,
         getPreCertificationUseCase: GetPreCertificationUseCase,
-        getFavoriteCertificationUseCase: GetFavoriteCertificationUseCase
+        getFavoriteCertificationUseCase: GetFavoriteCertificationUseCase,
+        withDrawUseCase: WithDrawUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -48,6 +50,7 @@ final class DefaultMyPageFactory: MyPageFactory {
         self.editUnivUseCase = editUnivUseCase
         self.getPreCertificationUseCase = getPreCertificationUseCase
         self.getFavoriteCertificationUseCase = getFavoriteCertificationUseCase
+        self.withDrawUseCase = withDrawUseCase
     }
     
     @MainActor
@@ -63,7 +66,8 @@ final class DefaultMyPageFactory: MyPageFactory {
             editMajorUseCase: editMajorUseCase,
             editUnivUseCase: editUnivUseCase,
             getPreCertificationsUseCase: getPreCertificationUseCase,
-            getFavoriteCertificationsUseCase: getFavoriteCertificationUseCase
+            getFavoriteCertificationsUseCase: getFavoriteCertificationUseCase,
+            withDrawUseCase: withDrawUseCase
         )
     }
 }

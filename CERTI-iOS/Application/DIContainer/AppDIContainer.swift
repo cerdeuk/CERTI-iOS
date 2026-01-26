@@ -272,7 +272,8 @@ extension AppDIContainer {
             editMajorUseCase: makeEditMajorUseCase(),
             editUnivUseCase: makeEditUnivUseCase(),
             getPreCertificationUseCase: makeGetPreCertificationUseCase(),
-            getFavoriteCertificationUseCase: makeGetFavoritePreCertificationUseCase()
+            getFavoriteCertificationUseCase: makeGetFavoritePreCertificationUseCase(),
+            withDrawUseCase: makeWithDrawUseCase()
         )
     }
     

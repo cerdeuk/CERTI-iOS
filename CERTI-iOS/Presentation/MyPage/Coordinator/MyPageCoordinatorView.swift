@@ -49,6 +49,8 @@ struct MyPageCoordinatorView: View {
                         myPageCoordinator.push(next: .editCompletedCertificate)
                     case .withDraw:
                         appCoordinator.withDraw()
+                        myPageCoordinator.reset()
+                        tabCoordinator.switchTab(tab: .home)
                         
                     case .myPageViewRoutePop:
                         myPageCoordinator.pop()
