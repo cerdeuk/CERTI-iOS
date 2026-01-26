@@ -23,8 +23,8 @@ struct ResumeView: View {
                 ResumeMyCertificateView
                 ResumeMyCareerTitleView
                 ResumeMyCareerView
-                ResumeMyExtracurricularActivityTitleView
-                ResumeMyExtracurricularActivityView
+                ResumeMyActivityTitleView
+                ResumeMyActivityView
             }
         }
         .scrollIndicators(.hidden)
@@ -254,7 +254,7 @@ extension ResumeView {
         }
     }
     
-    private var ResumeMyExtracurricularActivityTitleView: some View {
+    private var ResumeMyActivityTitleView: some View {
         HStack(alignment: .center, spacing: 0){
             Text("대내외 활동")
                 .applyCertiFont(.sub_semibold_20)
@@ -274,7 +274,7 @@ extension ResumeView {
         .padding(.bottom, 16)
     }
     
-    private var ResumeMyExtracurricularActivityView: some View {
+    private var ResumeMyActivityView: some View {
         VStack(alignment: .leading, spacing: 0) {
             if viewModel.activitiesList.isEmpty {
                 VStack(alignment: .center, spacing: 0) {
@@ -299,7 +299,7 @@ extension ResumeView {
                                 .padding(.top, 20.5)
                                 .padding(.bottom, 29.5)
                             
-                            ResumeActivityListComponent(model: item)
+                            ResumeActivityListComponent(model: item, onTapCard: {})
                                 .frame(height: 74)
                         }
                         .padding(.horizontal, 20)

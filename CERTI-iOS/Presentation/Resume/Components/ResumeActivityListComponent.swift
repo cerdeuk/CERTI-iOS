@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ResumeActivityListComponent: View {
     let model: ActivityModel
-    
+    let onTapCard: () -> Void
+
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
@@ -44,6 +45,9 @@ struct ResumeActivityListComponent: View {
             
             Spacer()
         }
+        .onTapGesture {
+            onTapCard()
+        }
     }
 }
 
@@ -55,5 +59,5 @@ struct ResumeActivityListComponent: View {
         name: "sopt",
         place: "동아리 36기 기획",
         description: "서비스 기획 및 아이디어 도출"
-    ))
+    ), onTapCard: {})
 }

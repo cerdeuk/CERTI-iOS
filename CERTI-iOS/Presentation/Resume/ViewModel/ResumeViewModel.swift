@@ -130,11 +130,15 @@ extension ResumeViewModel {
         resumeViewRoute = .navigateToCareerWrite(mode: .add)
     }
     
-    func navigateToCareerEdit2() {
+    func navigateToCareerEdit() {
         resumeViewRoute = .navigateToCareerWrite(mode: .edit(careerId: selectCareerId))
     }
     
     func navigateToActivityWrite() {
+        resumeViewRoute = .navigateToActivityWrite(mode: .add)
+    }
+    
+    func navigateToActivityEdit() {
         resumeViewRoute = .navigateToActivityWrite(mode: .edit(activityId: selectActivityId))
     }
     
@@ -336,5 +340,26 @@ extension ResumeViewModel {
     
     func selectCareer(id: Int) {
         selectCareerId = id
+    }
+    
+    func prepareActivityEdit(activityId: Int) {
+        guard let activity = activitiesList.first(where: { $0.activityId == activityId }) else {
+            return
+        }
+        
+        activityWriteModel = ActivityWriteModel(
+            startAt: activity.startAt,
+            endAt: activity.endAt,
+            name: activity.name,
+            place: activity.place,
+            description: activity.description
+        )
+        
+        isPeriodFilled = true
+        selectActivityId = activityId
+    }
+    
+    func selectActivity(id: Int) {
+        selectActivityId = id
     }
 }

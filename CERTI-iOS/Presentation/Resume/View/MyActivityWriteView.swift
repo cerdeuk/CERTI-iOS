@@ -31,7 +31,6 @@ struct MyActivityWriteView: View {
                         activityDetailView
                         ResumeWriteButton(
                             action: {
-
                                 Task {
                                     switch mode {
                                     case .add:
@@ -48,7 +47,12 @@ struct MyActivityWriteView: View {
                     }
                 }
                 .onAppear{
-                    viewModel.clearActivityWriteModel()
+                    switch mode {
+                    case .add:
+                        viewModel.clearActivityWriteModel()
+                    case .edit(let activityId):
+                        viewModel.prepareActivityEdit(activityId: activityId)
+                    }
                 }
                 .navigationBarBackButtonHidden()
                 .scrollIndicators(.hidden)
@@ -61,7 +65,7 @@ extension MyActivityWriteView {
     private var MyExtracurricularActivityTitleView: some View {
         Group {
             HStack(alignment: .center, spacing: 0) {
-                Text("대내외 활동 추가")
+                Text(mode == .add ? "대내외 활동 추가" : "대내외 활동 수정")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 26)
@@ -161,9 +165,5 @@ extension MyActivityWriteView {
                 .padding(.horizontal, 20)
                 .padding(.bottom, 16)
         }
-    }
-    
-    private func testButtonClicked() {
-        print("testButtonClicked")
     }
 }

@@ -56,7 +56,7 @@ struct MyCareerManageView: View {
                                 HStack(alignment: .center, spacing: 0) {
                                     ResumeCareerListComponent(model: item, onTapCard: {
                                         viewModel.selectCareer(id: item.careerId)
-                                        viewModel.navigateToCareerEdit2()
+                                        viewModel.navigateToCareerEdit()
                                     })
                                         .frame(height: 50)
                                     
