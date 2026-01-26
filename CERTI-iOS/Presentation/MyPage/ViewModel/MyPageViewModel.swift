@@ -59,6 +59,8 @@ final class MyPageViewModel: ObservableObject {
     @Published var favoriteList: [FavoriteItem] = []
     @Published var universityList: [String] = []
     @Published var majorList: [String] = []
+    @Published var agreeState: Bool = false
+
     
     //MARK: - UseCases
     
@@ -74,6 +76,8 @@ final class MyPageViewModel: ObservableObject {
     private let getPreCertificationsUseCase: GetPreCertificationUseCase
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
     private let withDrawUseCase: WithDrawUseCase
+    private let getNotificationSettingUseCase: GetNotificationSettingUseCase
+    private let toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
 
     
     //MARK: - Properties
@@ -129,6 +133,8 @@ final class MyPageViewModel: ObservableObject {
         getPreCertificationsUseCase: GetPreCertificationUseCase,
         getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
         withDrawUseCase: WithDrawUseCase,
+        getNotificationSettingUseCase: GetNotificationSettingUseCase,
+        toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -142,6 +148,8 @@ final class MyPageViewModel: ObservableObject {
         self.getPreCertificationsUseCase = getPreCertificationsUseCase
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
         self.withDrawUseCase = withDrawUseCase
+        self.getNotificationSettingUseCase = getNotificationSettingUseCase
+        self.toggleNotificationSettingUseCase = toggleNotificationSettingUseCase
     }
     
 }
@@ -345,6 +353,30 @@ extension MyPageViewModel {
             logger.debug("✅ editMajor success")
         case .failure(let error):
             logger.error("editMajor failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func getNotificationSetting() async {
+        let result = await getNotificationSettingUseCase.execute()
+        
+        switch result {
+        case .success(let response):
+            logger.debug("✅ getNotificationSetting success")
+            self.agreeState = response
+        case .failure(let error):
+            logger.error("getNotificationSetting failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func toggleNotificationSetting() async {
+        let result = await toggleNotificationSettingUseCase.execute()
+        
+        switch result {
+        case .success:
+            logger.debug("✅ toggleNotificationSetting success")
+            agreeState.toggle()
+        case .failure(let error):
+            logger.error("getNotificationSetting failed: \(error.localizedDescription)")
         }
     }
     

@@ -192,6 +192,14 @@ extension AppDIContainer {
     func makeEditUnivUseCase() -> DefaultEditUnivUseCase {
         return DefaultEditUnivUseCase(repository: userRepository)
     }
+    
+    func makeToggleNotificationSettingUseCase() -> DefaultToggleNotificationSettingUseCase {
+        return DefaultToggleNotificationSettingUseCase(repository: userRepository)
+    }
+    
+    func makeGetNotificationSettingUseCase() -> DefaultGetNotificationSettingUseCase {
+        return DefaultGetNotificationSettingUseCase(repository: userRepository)
+    }
 }
 
 
@@ -273,7 +281,9 @@ extension AppDIContainer {
             editUnivUseCase: makeEditUnivUseCase(),
             getPreCertificationUseCase: makeGetPreCertificationUseCase(),
             getFavoriteCertificationUseCase: makeGetFavoritePreCertificationUseCase(),
-            withDrawUseCase: makeWithDrawUseCase()
+            withDrawUseCase: makeWithDrawUseCase(),
+            getNotificationSettingUseCase: makeGetNotificationSettingUseCase(),
+            toggleNotificationSettingUseCase: makeToggleNotificationSettingUseCase()
         )
     }
     

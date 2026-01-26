@@ -19,6 +19,8 @@ enum UserAPI {
     case searchMajor(keyword: String)
     case editUniv(request: EditUnivRequestDTO)
     case editMajor(request: EditMajorRequestDTO)
+    case toggleNotificationSetting
+    case getNotificationSetting
 }
 
 extension UserAPI: BaseTargetType {
@@ -53,6 +55,10 @@ extension UserAPI: BaseTargetType {
             return "user/university"
         case .editMajor:
             return "user/major"
+        case .getNotificationSetting:
+            return "user/marketing-agreement"
+        case .toggleNotificationSetting:
+            return "user/marketing-agreement"
         }
     }
     
@@ -76,6 +82,10 @@ extension UserAPI: BaseTargetType {
             return .put
         case .editMajor:
             return .put
+        case .getNotificationSetting:
+            return .get
+        case .toggleNotificationSetting:
+            return .patch
         }
     }
     
@@ -106,6 +116,12 @@ extension UserAPI: BaseTargetType {
             
         case .editMajor(request: let request):
             return .requestJSONEncodable(request)
+            
+        case .getNotificationSetting:
+            return .requestPlain
+            
+        case .toggleNotificationSetting:
+            return .requestPlain
         }
     }
     

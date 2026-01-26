@@ -24,6 +24,8 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let getPreCertificationUseCase: GetPreCertificationUseCase
     private let getFavoriteCertificationUseCase: GetFavoriteCertificationUseCase
     private let withDrawUseCase: WithDrawUseCase
+    private let getNotificationSettingUseCase: GetNotificationSettingUseCase
+    private let toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
@@ -37,7 +39,9 @@ final class DefaultMyPageFactory: MyPageFactory {
         editUnivUseCase: EditUnivUseCase,
         getPreCertificationUseCase: GetPreCertificationUseCase,
         getFavoriteCertificationUseCase: GetFavoriteCertificationUseCase,
-        withDrawUseCase: WithDrawUseCase
+        withDrawUseCase: WithDrawUseCase,
+        getNotificationSettingUseCase: GetNotificationSettingUseCase,
+        toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -51,6 +55,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         self.getPreCertificationUseCase = getPreCertificationUseCase
         self.getFavoriteCertificationUseCase = getFavoriteCertificationUseCase
         self.withDrawUseCase = withDrawUseCase
+        self.getNotificationSettingUseCase = getNotificationSettingUseCase
+        self.toggleNotificationSettingUseCase = toggleNotificationSettingUseCase
     }
     
     @MainActor
@@ -67,7 +73,9 @@ final class DefaultMyPageFactory: MyPageFactory {
             editUnivUseCase: editUnivUseCase,
             getPreCertificationsUseCase: getPreCertificationUseCase,
             getFavoriteCertificationsUseCase: getFavoriteCertificationUseCase,
-            withDrawUseCase: withDrawUseCase
+            withDrawUseCase: withDrawUseCase,
+            getNotificationSettingUseCase: getNotificationSettingUseCase,
+            toggleNotificationSettingUseCase: toggleNotificationSettingUseCase
         )
     }
 }

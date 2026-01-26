@@ -135,4 +135,26 @@ final class DefaultUserRepository: UserRepository {
             return .failure(error)
         }
     }
+    
+    func getNotificationSetting() async -> Result<Bool, NetworkError> {
+        let result = await service.getNotificationSetting()
+        
+        switch result {
+        case .success(let response):
+            return .success(response.data!.isAdAgreed)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func toggleNotificationSetting() async -> Result<Void, NetworkError> {
+        let result = await service.toggleNotificationSetting()
+        
+        switch result {
+        case .success(let success):
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
 }

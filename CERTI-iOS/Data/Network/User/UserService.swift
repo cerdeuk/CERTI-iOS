@@ -19,6 +19,8 @@ protocol UserServiceProtocol {
     func getSearchMajor(keyword: String) async -> Result<MajorListResponseDTO, NetworkError>
     func editUniv(request: EditUnivRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
     func editMajor(request: EditMajorRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func getNotificationSetting() async -> Result<NotificationSettingResponseDTO, NetworkError>
+    func toggleNotificationSetting() async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
 }
 
 final class UserService: BaseService, UserServiceProtocol {
@@ -59,5 +61,13 @@ final class UserService: BaseService, UserServiceProtocol {
     
     func editMajor(request: EditMajorRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
         return await requestDecodable(provider, .editMajor(request: request))
+    }
+    
+    func getNotificationSetting() async -> Result<NotificationSettingResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getNotificationSetting)
+    }
+    
+    func toggleNotificationSetting() async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
+        return await requestDecodable(provider, .toggleNotificationSetting)
     }
 }

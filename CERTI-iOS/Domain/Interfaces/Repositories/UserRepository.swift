@@ -19,4 +19,6 @@ protocol UserRepository {
     func getSearchMajor(keyword: String) async -> Result<MajorListEntity, NetworkError>
     func editUniv(request: String) async -> Result<Void, NetworkError>
     func editMajor(request: String) async -> Result<Void, NetworkError>
+    func getNotificationSetting() async -> Result<Bool, NetworkError>
+    func toggleNotificationSetting() async -> Result<Void, NetworkError>
 }
