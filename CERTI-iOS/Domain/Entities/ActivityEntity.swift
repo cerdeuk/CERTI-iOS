@@ -29,6 +29,16 @@ extension ActivityEntity {
         )
     }
     
+    func toEditActivityRequestDTO() -> EditActivityRequestDTO {
+        EditActivityRequestDTO(
+            startAt: startAt,
+            endAt: endAt,
+            place: place,
+            name: name,
+            description: description
+        )
+    }
+    
     func toActivityModel() -> ActivityModel? {
         guard let activityId else { return nil }
 

@@ -12,7 +12,7 @@ enum ResumeRoute: Hashable {
     case myCareerManageView
     case myCareerWriteView(mode: CareerWriteMode)
     case myActivityManageView
-    case myActivityWriteView
+    case myActivityWriteView(mode: ActivityWriteMode)
 }
 
 final class ResumeCoordinator: ObservableObject {

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MyActivityWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
-    
+    let mode: ActivityWriteMode
+
     var body: some View {
             VStack (alignment: .leading, spacing: 0) {
                 BackButton() {
@@ -30,8 +31,14 @@ struct MyActivityWriteView: View {
                         activityDetailView
                         ResumeWriteButton(
                             action: {
+
                                 Task {
-                                    await viewModel.addActivity(activityWriteModel: viewModel.activityWriteModel)
+                                    switch mode {
+                                    case .add:
+                                        await viewModel.addActivity(activityWriteModel: viewModel.activityWriteModel)
+                                    case .edit(let activityId):
+                                        await viewModel.editActivity(activityId: activityId, activityWriteModel: viewModel.activityWriteModel)
+                                    }
                                     viewModel.resumeViewRoutePop()
                                 }
                             },

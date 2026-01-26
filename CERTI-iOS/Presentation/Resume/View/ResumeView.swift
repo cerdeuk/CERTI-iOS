@@ -310,21 +310,3 @@ extension ResumeView {
         }
     }
 }
-
-#Preview {
-    ResumeView(
-        viewModel: ResumeViewModel(
-            fetchJobUseCase: PreviewFetchJobUseCase(),
-            fetchAcquisitionListUseCase: PreviewFetchAcquisitionListUseCase(),
-            fetchAcquisitionDetailUseCase: PreviewFetchAcquisitionDetailUseCase(),
-            deleteAcquisitionUseCase: PreviewDeleteAcquisitionUseCase(),
-            addCareersUseCase: PreviewAddCareersUseCase(),
-            deleteCareersUseCase: PreviewDeleteCareersUseCase(),
-            fetchCareersListUseCase: PreviewFetchCareersListUseCase(),
-            editCareerUseCase: PreviewEditCareerUseCase(),
-            addActivityUseCase: PreviewAddActivityUseCase(),
-            deleteActivityUseCase: PreviewDeleteActivityUseCase(),
-            fetchActivityListUseCase: PreviewFetchActivityListUseCase()
-        )
-    )
-}

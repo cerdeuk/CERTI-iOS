@@ -159,6 +159,10 @@ extension AppDIContainer {
         return DefaultDeleteActivityUseCase(repository: activityRepository)
     }
     
+    func makeEditActivityUseCase() -> EditActivityUseCase {
+        return DefaultEditActivityUseCase(repository: activityRepository)
+    }
+    
     func makeFetchActivityListUseCase() -> FetchActivityListUseCase {
         return DefaultFetchActivityListUseCase(repository: activityRepository)
     }
@@ -231,7 +235,8 @@ extension AppDIContainer {
             editCareerUseCase: makeEditCareerUseCase(),
             addActivityUseCase: makeAddActivityUseCase(),
             deleteActivityUseCase: makeDeleteActivityUseCase(),
-            fetchActivityListUseCase: makeFetchActivityListUseCase()
+            fetchActivityListUseCase: makeFetchActivityListUseCase(),
+            editActivityUseCase: makeEditActivityUseCase()
         )
     }
     

@@ -31,8 +31,8 @@ struct ResumeCoordinatorView: View {
                         resumeCoordinator.push(next: .myActivityManageView)
                     case .navigateToCareerWrite(let mode):
                         resumeCoordinator.push(next: .myCareerWriteView(mode: mode))
-                    case .navigateToActivityWrite:
-                        resumeCoordinator.push(next: .myActivityWriteView)
+                    case .navigateToActivityWrite(let mode):
+                        resumeCoordinator.push(next: .myActivityWriteView(mode: mode))
                     case .navigateToCertificatedEdit:
                         resumeCoordinator.push(next: .myCertificateEdit)
                     case .navigateToCareerManage:
@@ -52,8 +52,8 @@ struct ResumeCoordinatorView: View {
                         MyCareerWriteView(viewModel: resumeViewModel, mode: mode)
                     case .myActivityManageView:
                         MyActivityManageView(viewModel: resumeViewModel)
-                    case .myActivityWriteView:
-                        MyActivityWriteView(viewModel: resumeViewModel)
+                    case .myActivityWriteView(let mode):
+                        MyActivityWriteView(viewModel: resumeViewModel, mode: mode)
                     }
                 }
         }

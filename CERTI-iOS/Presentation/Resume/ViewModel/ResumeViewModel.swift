@@ -11,7 +11,7 @@ import os
 
 enum ResumeViewRoute: Equatable {
     case navigateToCareerWrite(mode: CareerWriteMode)
-    case navigateToActivityWrite
+    case navigateToActivityWrite(mode: ActivityWriteMode)
     case navigateToCertificatedEdit
     case navigateToCareerManage
     case navigateToActivityManage
@@ -22,6 +22,11 @@ enum ResumeViewRoute: Equatable {
 enum CareerWriteMode: Hashable {
     case add
     case edit(careerId: Int)
+}
+
+enum ActivityWriteMode: Hashable {
+    case add
+    case edit(activityId: Int)
 }
 
 @MainActor
@@ -37,6 +42,7 @@ final class ResumeViewModel: ObservableObject {
     @Published var activityWriteModel = ActivityWriteModel()
     @Published var isCardDetailPresented = false
     @Published var selectCareerId: Int = 0
+    @Published var selectActivityId: Int = 0
     
     var isCareerWriteButtonEnabled: Bool {
         !careerWriteModel.name.isBlank && !careerWriteModel.place.isBlank && !careerWriteModel.description.isBlank && isPeriodFilled
@@ -60,6 +66,7 @@ final class ResumeViewModel: ObservableObject {
     private let addActivityUseCase: AddActivityUseCase
     private let deleteActivityUseCase: DeleteActivityUseCase
     private let fetchActivityListUseCase: FetchActivityListUseCase
+    private let editActivityUseCase: EditActivityUseCase
     
     init(
         fetchJobUseCase: FetchJobUseCase,
@@ -72,7 +79,8 @@ final class ResumeViewModel: ObservableObject {
         editCareerUseCase: EditCareersUseCase,
         addActivityUseCase: AddActivityUseCase,
         deleteActivityUseCase: DeleteActivityUseCase,
-        fetchActivityListUseCase: FetchActivityListUseCase
+        fetchActivityListUseCase: FetchActivityListUseCase,
+        editActivityUseCase: EditActivityUseCase
     ) {
         self.fetchJobUseCase = fetchJobUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
@@ -85,6 +93,7 @@ final class ResumeViewModel: ObservableObject {
         self.addActivityUseCase = addActivityUseCase
         self.deleteActivityUseCase = deleteActivityUseCase
         self.fetchActivityListUseCase = fetchActivityListUseCase
+        self.editActivityUseCase = editActivityUseCase
     }
     
     func clearCareerWriteModel() {
@@ -126,7 +135,7 @@ extension ResumeViewModel {
     }
     
     func navigateToActivityWrite() {
-        resumeViewRoute = .navigateToActivityWrite
+        resumeViewRoute = .navigateToActivityWrite(mode: .edit(activityId: selectActivityId))
     }
     
     func navigateToCertificatedEdit() {
@@ -287,6 +296,18 @@ extension ResumeViewModel {
             logger.info("✅ 활동 추가 성공")
         case .failure(let error):
             logger.error("❌ 활동 추가 실패: \(error.localizedDescription)")
+        }
+    }
+    
+    func editActivity(activityId: Int, activityWriteModel: ActivityWriteModel) async {
+        let result = await editActivityUseCase.execute(activityId: activityId, request: activityWriteModel.toActivityEntity())
+        
+        switch result {
+        case .success(_):
+            logger.info("✅ 대내외활동 수정 성공")
+            
+        case .failure(let error):
+            logger.error("❌ 대내외활동 수정 실패: \(error.localizedDescription)")
         }
     }
 }
