@@ -32,7 +32,7 @@ extension String {
         // 숫자만 남기기
         let filteredPrice = self.filter { $0.isNumber }
         guard let price = Int(filteredPrice) else { return 0 }
-    
+        
         return price
     }
     
@@ -48,11 +48,11 @@ extension String {
         guard let date = inputFormatter.date(from: self) else {
             return self
         }
-
+        
         let outputFormatter = DateFormatter()
         outputFormatter.locale = Locale(identifier: "ko_KR")
         outputFormatter.dateFormat = "yyyy년 M월 d일"
-
+        
         return "\(outputFormatter.string(from: date))"
     }
     
@@ -71,5 +71,20 @@ extension String {
             return "\(self.prefix(count))..."
         }
     }
-
+    
+    func toYearMonth() -> String {
+        let toDateFormatter = DateFormatter()
+        toDateFormatter.locale = Locale(identifier: "ko_KR")
+        toDateFormatter.dateFormat = "yyyy.MM.dd"
+        
+        let yearMonthFormatter = DateFormatter()
+        yearMonthFormatter.locale = Locale(identifier: "ko_KR")
+        yearMonthFormatter.dateFormat = "yyyy.MM"
+        
+        guard let date = toDateFormatter.date(from: self) else {
+            return self
+        }
+        
+        return yearMonthFormatter.string(from: date)
+    }
 }

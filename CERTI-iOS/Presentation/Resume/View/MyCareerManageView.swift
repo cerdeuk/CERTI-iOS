@@ -41,14 +41,14 @@ struct MyCareerManageView: View {
                             .background(.purplewhite)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
-                        .padding(.top, 44)
+                        .padding(.top, 16)
                         .padding(.leading, 20)
                         
                         Text("경력사항 수정")
                             .applyCertiFont(.sub_semibold_20)
                             .foregroundStyle(.grayscale600)
                             .frame(height: 26)
-                            .padding(.top, 32)
+                            .padding(.top, 56)
                             .padding(.leading, 20)
                         
                         LazyVGrid(columns: columns, spacing: 36) {

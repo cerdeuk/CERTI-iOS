@@ -14,8 +14,9 @@ struct ResumeActivityListComponent: View {
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
-                Text("\(model.startAt) ~ \(model.endAt)")
-                    .applyCertiFont(.caption_regular_12)
+                let periodText = "\(model.startAt.toYearMonth()) ~ \(model.endAt.toYearMonth())"
+
+                Text(periodText)                    .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
                     .frame(height: 18)
                 
