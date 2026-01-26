@@ -13,8 +13,8 @@ enum ResumeViewRoute: Equatable {
     case navigateToCareerWrite(mode: CareerWriteMode)
     case navigateToActivityWrite
     case navigateToCertificatedEdit
-    case navigateToCareerEdit
-    case navigateToActivityEdit
+    case navigateToCareerManage
+    case navigateToActivityManage
     
     case resumeViewRoutePop
 }
@@ -133,12 +133,12 @@ extension ResumeViewModel {
         resumeViewRoute = .navigateToCertificatedEdit
     }
     
-    func navigateToCareerEdit() {
-        resumeViewRoute = .navigateToCareerEdit
+    func navigateToCareerManage() {
+        resumeViewRoute = .navigateToCareerManage
     }
     
-    func navigateToActivityEdit() {
-        resumeViewRoute = .navigateToActivityEdit
+    func navigateToActivityManage() {
+        resumeViewRoute = .navigateToActivityManage
     }
     
     func resumeViewRoutePop() {

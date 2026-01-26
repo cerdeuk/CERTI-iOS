@@ -1,5 +1,5 @@
 //
-//  MyExtracurricularActivityWriteView.swift
+//  MyActivityWriteView.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 7/13/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MyExtracurricularActivityWriteView: View {
+struct MyActivityWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
     
     var body: some View {
@@ -50,7 +50,7 @@ struct MyExtracurricularActivityWriteView: View {
     }
 }
 
-extension MyExtracurricularActivityWriteView {
+extension MyActivityWriteView {
     private var MyExtracurricularActivityTitleView: some View {
         Group {
             HStack(alignment: .center, spacing: 0) {

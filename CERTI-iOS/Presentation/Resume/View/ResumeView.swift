@@ -203,7 +203,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                viewModel.navigateToCareerEdit()
+                viewModel.navigateToCareerManage()
             } label: {
                 Image(.iconArrowright36)
             }
@@ -264,7 +264,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                viewModel.navigateToActivityEdit()
+                viewModel.navigateToActivityManage()
             } label: {
                 Image(.iconArrowright36)
             }

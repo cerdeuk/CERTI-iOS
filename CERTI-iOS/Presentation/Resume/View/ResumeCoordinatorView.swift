@@ -27,16 +27,16 @@ struct ResumeCoordinatorView: View {
                 .onChange(of: resumeViewModel.resumeViewRoute) { route in
                     guard let route = route else { return }
                     switch route {
-                    case .navigateToActivityEdit:
-                        resumeCoordinator.push(next: .myExtracurricularActivityEditView)
+                    case .navigateToActivityManage:
+                        resumeCoordinator.push(next: .myActivityManageView)
                     case .navigateToCareerWrite(let mode):
                         resumeCoordinator.push(next: .myCareerWriteView(mode: mode))
                     case .navigateToActivityWrite:
-                        resumeCoordinator.push(next: .myExtracurricularActivityWriteView)
+                        resumeCoordinator.push(next: .myActivityWriteView)
                     case .navigateToCertificatedEdit:
                         resumeCoordinator.push(next: .myCertificateEdit)
-                    case .navigateToCareerEdit:
-                        resumeCoordinator.push(next: .myCareerEdit)
+                    case .navigateToCareerManage:
+                        resumeCoordinator.push(next: .myCareerManageView)
                     case .resumeViewRoutePop:
                         resumeCoordinator.pop()
                     }
@@ -46,14 +46,14 @@ struct ResumeCoordinatorView: View {
                     switch route {
                     case .myCertificateEdit:
                         MyCertificateEditView(viewModel: resumeViewModel)
-                    case .myCareerEdit:
+                    case .myCareerManageView:
                         MyCareerManageView(viewModel: resumeViewModel)
                     case .myCareerWriteView(let mode):
                         MyCareerWriteView(viewModel: resumeViewModel, mode: mode)
-                    case .myExtracurricularActivityEditView:
-                        MyExtracurricularActivityEditView(viewModel: resumeViewModel)
-                    case .myExtracurricularActivityWriteView:
-                        MyExtracurricularActivityWriteView(viewModel: resumeViewModel)
+                    case .myActivityManageView:
+                        MyActivityManageView(viewModel: resumeViewModel)
+                    case .myActivityWriteView:
+                        MyActivityWriteView(viewModel: resumeViewModel)
                     }
                 }
         }

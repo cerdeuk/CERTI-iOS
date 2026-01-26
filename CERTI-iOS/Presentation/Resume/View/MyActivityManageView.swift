@@ -1,5 +1,5 @@
 //
-//  MyExtracurricularActivityEditView.swift
+//  MyActivityManageView.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 7/13/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MyExtracurricularActivityEditView: View {
+struct MyActivityManageView: View {
     @ObservedObject var viewModel: ResumeViewModel
     @State var isDeleteAlertPresented = false
     @State var selectedActivityIndex : Int? = nil
