@@ -15,6 +15,8 @@ protocol UserServiceProtocol {
     func getMyPageInfo() async -> Result<MyPageResponseDTO, NetworkError>
     func getEditProfileInfo() async -> Result<EditProfileResponseDTO, NetworkError>
     func putEditProfileInfo(profileInfo: EditProfileRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func getSearchUniv(keyword: String) async -> Result<UnivListResponseDTO, NetworkError>
+    func getSearchMajor(keyword: String) async -> Result<MajorListResponseDTO, NetworkError>
 }
 
 final class UserService: BaseService, UserServiceProtocol {
@@ -39,5 +41,13 @@ final class UserService: BaseService, UserServiceProtocol {
     
     func putEditProfileInfo(profileInfo: EditProfileRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
         return await requestDecodable(provider, .putEditProfileInfo(request: profileInfo))
+    }
+    
+    func getSearchUniv(keyword: String) async -> Result<UnivListResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .searchUniv(keyword: keyword))
+    }
+    
+    func getSearchMajor(keyword: String) async -> Result<MajorListResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .searchMajor(keyword: keyword))
     }
 }

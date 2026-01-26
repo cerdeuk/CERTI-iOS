@@ -19,18 +19,6 @@ struct MyPageMajorView: View {
     @FocusState private var isSearchFieldFocused: Bool
     
     let columns = [GridItem(.flexible())]
-    let majorList = [
-        "컴퓨터 공학과1",
-        "컴퓨터 공학과2",
-        "컴퓨터 공학과3",
-        "컴퓨터 공학과4",
-        "컴퓨터 공학과5",
-        "컴퓨터 공학과6",
-        "컴퓨터 공학과7",
-        "컴퓨터 공학과8",
-        "컴퓨터 공학과9",
-        "컴퓨터 공학과10"
-    ]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -48,6 +36,10 @@ struct MyPageMajorView: View {
                 // 돋보기 누르면 대학 리스트 받아오기
                 majorListToggle = true
                 isSearchFieldFocused = false
+                
+                Task {
+                    await viewModel.getMajorList(keyword: searchMajorText)
+                }
             }
             .disabled(searchBarDisabled)
             .focused($isSearchFieldFocused)
@@ -62,7 +54,7 @@ struct MyPageMajorView: View {
             if majorListToggle {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns, alignment: .leading) {
-                        ForEach(majorList, id: \.self) { major in
+                        ForEach(viewModel.majorList, id: \.self) { major in
                             VStack(alignment: .leading, spacing: 0) {
                                 Text(major)
                                     .applyCertiFont(.body_regular_16)

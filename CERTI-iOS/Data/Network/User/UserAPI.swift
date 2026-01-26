@@ -15,6 +15,8 @@ enum UserAPI {
     case getMyPageInfo
     case getEditProfileInfo
     case putEditProfileInfo(request: EditProfileRequestDTO)
+    case searchUniv(keyword: String)
+    case searchMajor(keyword: String)
 }
 
 extension UserAPI: BaseTargetType {
@@ -41,6 +43,10 @@ extension UserAPI: BaseTargetType {
             return "user/pinfo"
         case .putEditProfileInfo:
             return "user/pinfo"
+        case .searchUniv:
+            return "university/search"
+        case .searchMajor:
+            return "major/search"
         }
     }
     
@@ -56,6 +62,10 @@ extension UserAPI: BaseTargetType {
             return .get
         case .putEditProfileInfo:
             return .put
+        case .searchUniv:
+            return .get
+        case .searchMajor:
+            return .get
         }
     }
     
@@ -74,6 +84,12 @@ extension UserAPI: BaseTargetType {
             return .requestPlain
         case .putEditProfileInfo(let request):
             return .requestJSONEncodable(request)
+            
+        case .searchUniv(let keyword):
+            return .requestParameters(parameters: ["keyword" : keyword], encoding: URLEncoding.queryString)
+
+        case .searchMajor(let keyword):
+            return .requestParameters(parameters: ["keyword" : keyword], encoding: URLEncoding.queryString)
         }
     }
     

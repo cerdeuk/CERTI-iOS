@@ -81,4 +81,34 @@ final class DefaultUserRepository: UserRepository {
             return .failure(error)
         }
     }
+    
+    func getSearchUniv(keyword: String) async -> Result<UniversityListEntity, NetworkError> {
+        let result = await service.getSearchUniv(keyword: keyword)
+        
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toUniversityListEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+        
+    }
+    
+    func getSearchMajor(keyword: String) async -> Result<MajorListEntity, NetworkError> {
+        let result = await service.getSearchMajor(keyword: keyword)
+        
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toMajorListEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+        
+    }
 }

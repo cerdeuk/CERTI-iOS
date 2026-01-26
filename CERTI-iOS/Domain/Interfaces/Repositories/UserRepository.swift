@@ -15,4 +15,6 @@ protocol UserRepository {
     func getMyPageInfo() async -> Result<MyPageEntity, NetworkError>
     func getEditProfileInfo() async -> Result<EditProfileEntity, NetworkError>
     func putEditProfileInfo(profileInfo: EditProfileEntity) async -> Result<Void, NetworkError>
+    func getSearchUniv(keyword: String) async -> Result<UniversityListEntity, NetworkError>
+    func getSearchMajor(keyword: String) async -> Result<MajorListEntity, NetworkError>
 }

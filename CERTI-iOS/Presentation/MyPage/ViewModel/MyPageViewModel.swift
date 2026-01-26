@@ -56,6 +56,8 @@ final class MyPageViewModel: ObservableObject {
     @Published var editingCompletedItem: CompletedItem? = nil
     
     @Published var favoriteList: [FavoriteItem] = []
+    @Published var universityList: [String] = []
+    @Published var majorList: [String] = []
     
     //MARK: - UseCases
     
@@ -64,7 +66,8 @@ final class MyPageViewModel: ObservableObject {
     private let checkNickNameUseCase: CheckNickNameUseCase
     private let updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase
     private let editJobUseCase: EditJobUseCase
-
+    private let fetchMajorListUseCase: FetchMyPageMajorListUseCase
+    private let fetchUnivListUseCase: FetchMyPageUnivListUseCase
     
     //MARK: - Properties
 
@@ -111,13 +114,17 @@ final class MyPageViewModel: ObservableObject {
         fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase,
         checkNickNameUseCase: CheckNickNameUseCase,
         updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase,
-        editJobUseCase: EditJobUseCase
+        editJobUseCase: EditJobUseCase,
+        fetchMajorListUseCase: FetchMyPageMajorListUseCase,
+        fetchUnivListUseCase: FetchMyPageUnivListUseCase,
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
         self.checkNickNameUseCase = checkNickNameUseCase
         self.updateEditProfileInfoUseCase = updateEditProfileInfoUseCase
         self.editJobUseCase = editJobUseCase
+        self.fetchMajorListUseCase = fetchMajorListUseCase
+        self.fetchUnivListUseCase = fetchUnivListUseCase
 
         loadDummyData()
     }
@@ -228,6 +235,30 @@ extension MyPageViewModel {
             logger.debug("✅ updateJobCategories success")
         case .failure(let error):
             logger.error("❌ updateJobCategories failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func getUnivList(keyword: String) async {
+        let result = await fetchUnivListUseCase.execute(keyword: keyword)
+        
+        switch result {
+        case .success(let data):
+            self.universityList = data.universityNameList
+            logger.debug("✅ getUnivList success: \(data.universityNameList)")
+        case .failure(let error):
+            logger.error("getUnivList failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func getMajorList(keyword: String) async {
+        let result = await fetchMajorListUseCase.execute(keyword: keyword)
+        
+        switch result {
+        case .success(let data):
+            self.majorList = data.majorNameList
+            logger.debug("✅ getMajorList success: \(data.majorNameList)")
+        case .failure(let error):
+            logger.error("getMajorList failed: \(error.localizedDescription)")
         }
     }
 }
