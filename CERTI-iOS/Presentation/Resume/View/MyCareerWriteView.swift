@@ -40,7 +40,7 @@ struct MyCareerWriteView: View {
                                 }
                                 viewModel.resumeViewRoutePop()
                             }
-                        },
+                        }, buttonText: mode == .add ? "추가하기" : "수정하기",
                         textEmpty: .constant(viewModel.isCareerWriteButtonEnabled)
                     )
                     .padding(.top, 40)
@@ -159,9 +159,5 @@ extension MyCareerWriteView {
             CharLimitTextField(text: $viewModel.careerWriteModel.description, maxLength: 16)
                 .padding(.horizontal, 20)
         }
-    }
-    
-    private func testButtonClicked() {
-        print("testButtonClicked")
     }
 }

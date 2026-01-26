@@ -40,7 +40,7 @@ struct MyActivityWriteView: View {
                                     }
                                     viewModel.resumeViewRoutePop()
                                 }
-                            },
+                            }, buttonText: mode == .add ? "추가하기" : "수정하기",
                             textEmpty: .constant(viewModel.isActivityWriteButtonEnabled)
                         )
                         .padding(.top, 40)
