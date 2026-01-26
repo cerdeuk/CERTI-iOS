@@ -250,7 +250,8 @@ extension AppDIContainer {
             fetchMyPageInfoUseCase: makeFetchMyPageInfoUseCase(),
             fetchEditProfileInfoUseCase: makeFetchEditProfileInfoUseCase(),
             checkNickNameUseCase: makeCheckNickNameUseCase(),
-            updateEditProfileInfoUseCase: makeUpdateEditProfileInfoUseCase()
+            updateEditProfileInfoUseCase: makeUpdateEditProfileInfoUseCase(),
+            editJobUseCase: makeEditJobUseCase()
         )
     }
     

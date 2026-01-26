@@ -16,17 +16,20 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
     private let checkNickNameUseCase: CheckNickNameUseCase
     private let updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase
+    private let editJobUseCase: EditJobUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
         fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase,
         checkNickNameUseCase: CheckNickNameUseCase,
-        updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase
+        updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase,
+        editJobUseCase: EditJobUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
         self.checkNickNameUseCase = checkNickNameUseCase
         self.updateEditProfileInfoUseCase = updateEditProfileInfoUseCase
+        self.editJobUseCase = editJobUseCase
     }
     
     @MainActor
@@ -35,7 +38,8 @@ final class DefaultMyPageFactory: MyPageFactory {
             fetchMyPageInfoUseCase: fetchMyPageInfoUseCase,
             fetchEditProfileInfoUseCase: fetchEditProfileInfoUseCase,
             checkNickNameUseCase: checkNickNameUseCase,
-            updateEditProfileInfoUseCase: updateEditProfileInfoUseCase
+            updateEditProfileInfoUseCase: updateEditProfileInfoUseCase,
+            editJobUseCase: editJobUseCase
         )
     }
 }

@@ -116,6 +116,7 @@ struct ManageAcademicInfoView: View {
             JobCategoryFilterModal(viewModel: viewModel)
                 .presentationDetents([.height(548)])
                 .presentationCornerRadius(40)
+                .presentationDragIndicator(.visible)
         }
     }
 }

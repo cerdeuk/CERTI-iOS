@@ -132,6 +132,8 @@ private extension JobCategoryFilterModal {
     }
     
     func saveChanges() {
-        viewModel.updateJobCategories(tempSelectedJobs)
+        Task {
+            await viewModel.updateJobCategories(tempSelectedJobs)
+        }
     }
 }

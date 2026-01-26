@@ -42,7 +42,7 @@ final class MyPageViewModel: ObservableObject {
 
     @Published var userEmail: String = "certification@gmail.com"
     @Published var profileImageURL: String = ""
-    @Published var jobCategoryList: [JobCategory] = [.business, .construction, .design]
+    @Published var jobCategoryList: [JobCategory] = []
     @Published var upCertificationCount: Int = 0
     @Published var acCertificationCount: Int = 0
     @Published var fCertificationCount: Int = 0
@@ -63,6 +63,8 @@ final class MyPageViewModel: ObservableObject {
     private let fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase
     private let checkNickNameUseCase: CheckNickNameUseCase
     private let updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase
+    private let editJobUseCase: EditJobUseCase
+
     
     //MARK: - Properties
 
@@ -108,12 +110,14 @@ final class MyPageViewModel: ObservableObject {
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
         fetchEditProfileInfoUseCase: FetchEditProfileInfoUseCase,
         checkNickNameUseCase: CheckNickNameUseCase,
-        updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase
+        updateEditProfileInfoUseCase: UpdateEditProfileInfoUseCase,
+        editJobUseCase: EditJobUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
         self.checkNickNameUseCase = checkNickNameUseCase
         self.updateEditProfileInfoUseCase = updateEditProfileInfoUseCase
+        self.editJobUseCase = editJobUseCase
 
         loadDummyData()
     }
@@ -213,8 +217,18 @@ extension MyPageViewModel {
         }
     }
     
-    func updateJobCategories(_ categories: [JobCategory]) {
+    func updateJobCategories(_ categories: [JobCategory]) async {
         self.jobCategoryList = categories
+
+        let request: JobEntity = JobEntity(jobs: jobCategoryList.map{ $0.description })
+        let result = await editJobUseCase.execute(jobNameList: request)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ updateJobCategories success")
+        case .failure(let error):
+            logger.error("❌ updateJobCategories failed: \(error.localizedDescription)")
+        }
     }
 }
 
