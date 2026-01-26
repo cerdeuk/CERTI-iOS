@@ -34,12 +34,12 @@ final class DefaultCareersRepository: CareersRepository {
         return await service.deledteCareers(id: id)
     }
     
-    func addCareer(request: CareerEntity) async -> Result<Bool, NetworkError> {
+    func addCareer(request: CareerEntity) async -> Result<Void, NetworkError> {
         let requestDTO = request.toAddCareerRequestDTO()
         return await service.addCareer(request: requestDTO)
     }
     
-    func editCareer(careerId: Int, request: CareerEntity) async -> Result<Bool, NetworkError> {
+    func editCareer(careerId: Int, request: CareerEntity) async -> Result<Void, NetworkError> {
         let requestDTO = request.toEditCareerRequestDTO()
         return await service.editCareer(careerId: careerId, request: requestDTO)
     }

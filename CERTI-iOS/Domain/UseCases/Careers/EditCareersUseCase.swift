@@ -8,7 +8,7 @@
 import Foundation
 
 protocol EditCareersUseCase {
-    func execute(careerId:Int, request: CareerEntity) async -> Result<Bool, NetworkError>
+    func execute(careerId:Int, request: CareerEntity) async -> Result<Void, NetworkError>
 }
 
 final class DefaultEditCareersUseCase: EditCareersUseCase {
@@ -18,7 +18,7 @@ final class DefaultEditCareersUseCase: EditCareersUseCase {
         self.repository = repository
     }
     
-    func execute(careerId: Int, request: CareerEntity) async -> Result<Bool, NetworkError> {
+    func execute(careerId: Int, request: CareerEntity) async -> Result<Void, NetworkError> {
         return await repository.editCareer(careerId: careerId, request: request)
     }
 }

@@ -65,8 +65,8 @@ struct PreviewFetchCareersListUseCase: FetchCareersListUseCase {
 }
 
 struct PreviewAddCareersUseCase: AddCareersUseCase {
-    func execute(request: CareerEntity) async -> Result<Bool, NetworkError> {
-        .success(true)
+    func execute(request: CareerEntity) async -> Result<Void, NetworkError> {
+        return .success(())
     }
 }
 
@@ -77,8 +77,8 @@ struct PreviewDeleteCareersUseCase: DeleteCareersUseCase {
 }
 
 struct PreviewEditCareerUseCase: EditCareersUseCase {
-    func execute(careerId: Int, request: CareerEntity) async -> Result<Bool, NetworkError> {
-        .success(true)
+    func execute(careerId: Int, request: CareerEntity) async -> Result<Void, NetworkError> {
+        return .success(())
     }
 }
 
