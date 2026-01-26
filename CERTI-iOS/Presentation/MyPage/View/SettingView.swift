@@ -74,7 +74,8 @@ struct SettingView: View {
                     style: .withdraw,
                     onConfirm: {
                         Task {
-                            //TODO: - 탈퇴 로직
+                            await viewModel.withDraw()
+                            viewModel.withDrawNavigate()
                             
                             withAnimation {
                                 showWithDrawAlert = false

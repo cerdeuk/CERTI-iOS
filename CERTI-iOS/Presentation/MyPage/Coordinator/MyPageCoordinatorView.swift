@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MyPageCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
+    @EnvironmentObject var appCoordinator: AppCoordinator
     
     @ObservedObject var myPageCoordinator: MyPageCoordinator
     
@@ -46,6 +47,8 @@ struct MyPageCoordinatorView: View {
                         myPageCoordinator.push(next: .editExpectedCertificate)   
                     case .navigateToEditCompletedCertificate:
                         myPageCoordinator.push(next: .editCompletedCertificate)
+                    case .withDraw:
+                        appCoordinator.withDraw()
                         
                     case .myPageViewRoutePop:
                         myPageCoordinator.pop()

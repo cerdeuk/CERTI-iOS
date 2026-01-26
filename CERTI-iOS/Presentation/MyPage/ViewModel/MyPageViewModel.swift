@@ -19,6 +19,7 @@ enum MyPageViewRoute {
     case navigateToNotificationSettings
     case navigateToEditExpectedCertificate
     case navigateToEditCompletedCertificate
+    case withDraw
     
     case myPageViewRoutePop
 }
@@ -72,6 +73,8 @@ final class MyPageViewModel: ObservableObject {
     private let editUnivUseCase: EditUnivUseCase
     private let getPreCertificationsUseCase: GetPreCertificationUseCase
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
+    private let withDrawUseCase: WithDrawUseCase
+
     
     //MARK: - Properties
 
@@ -125,6 +128,7 @@ final class MyPageViewModel: ObservableObject {
         editUnivUseCase: EditUnivUseCase,
         getPreCertificationsUseCase: GetPreCertificationUseCase,
         getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
+        withDrawUseCase: WithDrawUseCase,
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -137,6 +141,7 @@ final class MyPageViewModel: ObservableObject {
         self.editUnivUseCase = editUnivUseCase
         self.getPreCertificationsUseCase = getPreCertificationsUseCase
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
+        self.withDrawUseCase = withDrawUseCase
     }
     
 }
@@ -145,6 +150,19 @@ final class MyPageViewModel: ObservableObject {
 // MARK: - Func
 
 extension MyPageViewModel {
+    func withDraw() async {
+        let result = await withDrawUseCase.execute()
+
+        switch result {
+        case .success:
+            logger.info("✅ 탈퇴 성공")
+            AuthManager.shared.cleanUserInfo()
+            
+        case .failure(let error):
+            logger.error("❌ 탈퇴 실패: \(error.localizedDescription)")
+        }
+    }
+    
     func fetchMyPageInfo() async {
         let result = await fetchMyPageInfoUseCase.execute()
         
@@ -336,6 +354,9 @@ extension MyPageViewModel {
 // MARK: - Navigation Func
 
 extension MyPageViewModel {
+    func withDrawNavigate() {
+        myPageViewRoute = .withDraw
+    }
     
     func navigateToEditProfile() {
         myPageViewRoute = .navigateToEditProfile
