@@ -99,7 +99,9 @@ extension MyPageMajorView {
             Spacer()
             
             Button {
-                // TODO: - 저장
+                Task {
+                    await viewModel.editMajor(major: userMajor)
+                }
                 viewModel.myPageViewRoutePop()
             } label: {
                 Text("저장")

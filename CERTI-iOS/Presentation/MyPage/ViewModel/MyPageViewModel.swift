@@ -68,6 +68,8 @@ final class MyPageViewModel: ObservableObject {
     private let editJobUseCase: EditJobUseCase
     private let fetchMajorListUseCase: FetchMyPageMajorListUseCase
     private let fetchUnivListUseCase: FetchMyPageUnivListUseCase
+    private let editMajorUseCase: EditMajorUseCase
+    private let editUnivUseCase: EditUnivUseCase
     
     //MARK: - Properties
 
@@ -117,6 +119,8 @@ final class MyPageViewModel: ObservableObject {
         editJobUseCase: EditJobUseCase,
         fetchMajorListUseCase: FetchMyPageMajorListUseCase,
         fetchUnivListUseCase: FetchMyPageUnivListUseCase,
+        editMajorUseCase: EditMajorUseCase,
+        editUnivUseCase: EditUnivUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -125,6 +129,8 @@ final class MyPageViewModel: ObservableObject {
         self.editJobUseCase = editJobUseCase
         self.fetchMajorListUseCase = fetchMajorListUseCase
         self.fetchUnivListUseCase = fetchUnivListUseCase
+        self.editMajorUseCase = editMajorUseCase
+        self.editUnivUseCase = editUnivUseCase
 
         loadDummyData()
     }
@@ -250,6 +256,17 @@ extension MyPageViewModel {
         }
     }
     
+    func editUniv(univ: String) async {
+        let result = await editUnivUseCase.execute(request: univ)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ editUniv success")
+        case .failure(let error):
+            logger.error("editUniv failed: \(error.localizedDescription)")
+        }
+    }
+    
     func getMajorList(keyword: String) async {
         let result = await fetchMajorListUseCase.execute(keyword: keyword)
         
@@ -261,6 +278,18 @@ extension MyPageViewModel {
             logger.error("getMajorList failed: \(error.localizedDescription)")
         }
     }
+    
+    func editMajor(major: String) async {
+        let result = await editMajorUseCase.execute(request: major)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ editMajor success")
+        case .failure(let error):
+            logger.error("editMajor failed: \(error.localizedDescription)")
+        }
+    }
+    
 }
 
 

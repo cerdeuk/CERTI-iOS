@@ -185,6 +185,13 @@ extension AppDIContainer {
         return DefaultFetchMyPageMajorListUseCase(repository: userRepository)
     }
     
+    func makeEditMajorUseCase() -> DefaultEditMajorUseCase {
+        return DefaultEditMajorUseCase(repository: userRepository)
+    }
+    
+    func makeEditUnivUseCase() -> DefaultEditUnivUseCase {
+        return DefaultEditUnivUseCase(repository: userRepository)
+    }
 }
 
 
@@ -261,7 +268,9 @@ extension AppDIContainer {
             updateEditProfileInfoUseCase: makeUpdateEditProfileInfoUseCase(),
             editJobUseCase: makeEditJobUseCase(),
             fetchMajorListUseCase: makeFetchMyPageMajorListUseCase(),
-            fetchUnivListUseCase: makeFetchMyPageUnivListUseCase()
+            fetchUnivListUseCase: makeFetchMyPageUnivListUseCase(),
+            editMajorUseCase: makeEditMajorUseCase(),
+            editUnivUseCase: makeEditUnivUseCase()
         )
     }
     

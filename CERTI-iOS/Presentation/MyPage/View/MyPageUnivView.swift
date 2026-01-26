@@ -98,7 +98,9 @@ extension MyPageUnivView {
             Spacer()
             
             Button {
-                // TODO: - 저장
+                Task {
+                    await viewModel.editUniv(univ: userUniversity)
+                }
                 viewModel.myPageViewRoutePop()
             } label: {
                 Text("저장")

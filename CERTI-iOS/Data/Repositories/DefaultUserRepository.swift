@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 final class DefaultUserRepository: UserRepository {
-    
+
     private let service: UserServiceProtocol
     
     public init(service: UserServiceProtocol) {
@@ -110,5 +110,29 @@ final class DefaultUserRepository: UserRepository {
             return .failure(error)
         }
         
+    }
+    
+    func editUniv(request: String) async -> Result<Void, NetworkError> {
+        let dto = EditUnivRequestDTO(universityName: request)
+        let result = await service.editUniv(request: dto)
+        
+        switch result {
+        case .success:
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func editMajor(request: String) async -> Result<Void, NetworkError> {
+        let dto = EditMajorRequestDTO(majorName: request)
+        let result = await service.editMajor(request: dto)
+        
+        switch result {
+        case .success:
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
     }
 }
