@@ -270,7 +270,9 @@ extension AppDIContainer {
             fetchMajorListUseCase: makeFetchMyPageMajorListUseCase(),
             fetchUnivListUseCase: makeFetchMyPageUnivListUseCase(),
             editMajorUseCase: makeEditMajorUseCase(),
-            editUnivUseCase: makeEditUnivUseCase()
+            editUnivUseCase: makeEditUnivUseCase(),
+            getPreCertificationUseCase: makeGetPreCertificationUseCase(),
+            getFavoriteCertificationUseCase: makeGetFavoritePreCertificationUseCase()
         )
     }
     

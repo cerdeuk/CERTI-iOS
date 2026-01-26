@@ -21,6 +21,8 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let fetchUnivListUseCase: FetchMyPageUnivListUseCase
     private let editMajorUseCase: EditMajorUseCase
     private let editUnivUseCase: EditUnivUseCase
+    private let getPreCertificationUseCase: GetPreCertificationUseCase
+    private let getFavoriteCertificationUseCase: GetFavoriteCertificationUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
@@ -31,7 +33,9 @@ final class DefaultMyPageFactory: MyPageFactory {
         fetchMajorListUseCase: FetchMyPageMajorListUseCase,
         fetchUnivListUseCase: FetchMyPageUnivListUseCase,
         editMajorUseCase: EditMajorUseCase,
-        editUnivUseCase: EditUnivUseCase
+        editUnivUseCase: EditUnivUseCase,
+        getPreCertificationUseCase: GetPreCertificationUseCase,
+        getFavoriteCertificationUseCase: GetFavoriteCertificationUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -42,6 +46,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         self.fetchUnivListUseCase = fetchUnivListUseCase
         self.editMajorUseCase = editMajorUseCase
         self.editUnivUseCase = editUnivUseCase
+        self.getPreCertificationUseCase = getPreCertificationUseCase
+        self.getFavoriteCertificationUseCase = getFavoriteCertificationUseCase
     }
     
     @MainActor
@@ -55,7 +61,9 @@ final class DefaultMyPageFactory: MyPageFactory {
             fetchMajorListUseCase: fetchMajorListUseCase,
             fetchUnivListUseCase: fetchUnivListUseCase,
             editMajorUseCase: editMajorUseCase,
-            editUnivUseCase: editUnivUseCase
+            editUnivUseCase: editUnivUseCase,
+            getPreCertificationsUseCase: getPreCertificationUseCase,
+            getFavoriteCertificationsUseCase: getFavoriteCertificationUseCase
         )
     }
 }

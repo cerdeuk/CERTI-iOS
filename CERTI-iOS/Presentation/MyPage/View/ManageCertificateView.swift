@@ -15,13 +15,13 @@ struct ManageCertificateView: View {
     }
     
     //MARK: - Property Wrappers
-
+    
     @ObservedObject var viewModel: MyPageViewModel
     @State private var selectedTab: Tab = .expected
     @Namespace private var animation
     
     //MARK: - Main Body
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             MyPageHeader(style: .normal, title: "자격증 관리") {
@@ -51,15 +51,18 @@ struct ManageCertificateView: View {
             
         }
         .background(.white)
+        .task {
+            await viewModel.fetchExpectedCertificate()
+        }
     }
-        
+    
 }
 
 
 // MARK: - SubView
 
 private extension ManageCertificateView {
-
+    
     var tabBar: some View {
         HStack(alignment: .center, spacing: 0) {
             ForEach(Tab.allCases, id: \.self) { tab in
@@ -90,13 +93,17 @@ private extension ManageCertificateView {
             }
         }
     }
-        
+    
     @ViewBuilder
     var expectedListView: some View {
         VStack(alignment: .trailing) {
             HStack(alignment: .center) {
+                Spacer()
+                
                 Button {
-                    viewModel.navigateToEditExpectedCertificate()
+                    if !viewModel.expectedList.isEmpty {
+                        viewModel.navigateToEditExpectedCertificate()
+                    }
                 } label: {
                     Text("편집")
                         .applyCertiFont(.body_semibold_16)
@@ -104,13 +111,14 @@ private extension ManageCertificateView {
                 }
             }
             .frame(height: 38)
-
-            ForEach(0..<5) { _ in
+            .frame(maxWidth: .infinity)
+            
+            ForEach(viewModel.expectedList, id: \.id) {
                 MyCertificationItem(
-                    type: .expected(location: "고양시", time: "09:00"),
-                    title: "정보처리기사",
-                    category: "국가기술자격",
-                    description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...",
+                    type: .expected(location: $0.city, time: $0.formattedTime),
+                    title: $0.certificationName,
+                    category: $0.agencyName,
+                    description: $0.description,
                     actionConfig: .viewOnly
                 )
             }

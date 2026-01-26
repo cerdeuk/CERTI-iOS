@@ -18,7 +18,7 @@ struct EditCertificateView: View {
     @ObservedObject var viewModel: MyPageViewModel
     
     @State private var showDeleteAlert: Bool = false
-    @State private var deleteTargetID: UUID? = nil
+    @State private var deleteTargetID: Int? = nil
     
     //MARK: - Properties
     
