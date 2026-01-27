@@ -9,23 +9,23 @@ import SwiftUI
 
 struct CommentComponent: View {
     enum CertificationType {
-            case completed
-            case expected
-
-            var text: String {
-                switch self {
-                case .completed: return "취득 완료"
-                case .expected: return "취득 예정"
-                }
-            }
-
-            var color: Color {
-                switch self {
-                case .completed: return .purpleblue
-                case .expected: return .grayscale300
-                }
+        case completed
+        case expected
+        
+        var text: String {
+            switch self {
+            case .completed: return "취득 완료"
+            case .expected: return "취득 예정"
             }
         }
+        
+        var color: Color {
+            switch self {
+            case .completed: return .purpleblue
+            case .expected: return .grayscale300
+            }
+        }
+    }
     
     enum UserType {
         case unknown
@@ -78,7 +78,7 @@ struct CommentComponent: View {
                 .foregroundStyle(.grayscale100)
                 .frame(height: 1)
                 .padding(.top, 8)
-
+            
         }
     }
 }
@@ -134,7 +134,7 @@ extension CommentComponent {
                     .applyCertiFont(.caption_semibold_12)
                     .foregroundStyle(.grayscale400)
             }
-                .padding(.leading, 8)
+            .padding(.leading, 8)
             
             Text(dateFormatter.string(from: Date()))
                 .applyCertiFont(.caption_semibold_12)
