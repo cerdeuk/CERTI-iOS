@@ -283,7 +283,8 @@ extension AppDIContainer {
             getFavoriteCertificationUseCase: makeGetFavoritePreCertificationUseCase(),
             withDrawUseCase: makeWithDrawUseCase(),
             getNotificationSettingUseCase: makeGetNotificationSettingUseCase(),
-            toggleNotificationSettingUseCase: makeToggleNotificationSettingUseCase()
+            toggleNotificationSettingUseCase: makeToggleNotificationSettingUseCase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase()
         )
     }
     

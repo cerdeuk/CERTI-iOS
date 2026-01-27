@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct FavoriteCertificationItem: View {
+    let id: Int
     let title: String
     let category: String
     let testType: String
     let organization: String
     @State var isFavorite: Bool = true
+    
+    var onToggle: (Int) -> Void
 
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -49,8 +52,8 @@ struct FavoriteCertificationItem: View {
             Spacer()
             
             Button {
-                // TODO: 즐겨찾기 해제 로직 연결
                 isFavorite.toggle()
+                onToggle(id)
             } label: {
                 Image(isFavorite ? .iconStarYellow : .iconStar)
             }

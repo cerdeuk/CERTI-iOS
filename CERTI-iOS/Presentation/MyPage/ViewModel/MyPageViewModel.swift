@@ -78,6 +78,7 @@ final class MyPageViewModel: ObservableObject {
     private let withDrawUseCase: WithDrawUseCase
     private let getNotificationSettingUseCase: GetNotificationSettingUseCase
     private let toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
+    private let switchFavoriteUseCase: SwitchFavoriteUseCase
 
     
     //MARK: - Properties
@@ -134,7 +135,8 @@ final class MyPageViewModel: ObservableObject {
         getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
         withDrawUseCase: WithDrawUseCase,
         getNotificationSettingUseCase: GetNotificationSettingUseCase,
-        toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
+        toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase,
+        switchFavoriteUseCase: SwitchFavoriteUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -150,6 +152,7 @@ final class MyPageViewModel: ObservableObject {
         self.withDrawUseCase = withDrawUseCase
         self.getNotificationSettingUseCase = getNotificationSettingUseCase
         self.toggleNotificationSettingUseCase = toggleNotificationSettingUseCase
+        self.switchFavoriteUseCase = switchFavoriteUseCase
     }
     
 }
@@ -239,6 +242,7 @@ extension MyPageViewModel {
         }
     }
     
+    // TODO: - 등록 API 연결 후 연결
     func deleteCompletedCertificate(id: Int) {
         print("취득 완료 삭제: \(id)")
         completedList.removeAll { $0.id == id }
@@ -280,19 +284,51 @@ extension MyPageViewModel {
         }
     }
     
+    // TODO: - 등록 API 연결 후 연결
     func deleteExpectedCertificate(id: Int) {
         print("취득 예정 삭제: \(id)")
         expectedList.removeAll { $0.id == id }
     }
     
+    // TODO: - 등록 API 연결 후 연결
     func editCertificate(id: Int) {
         print("수정 요청: \(id)")
     }
     
-    func toggleFavorite(id: Int) {
-        if let index = favoriteList.firstIndex(where: { $0.id == id }) {
-            favoriteList[index].isFavorite.toggle()
-            print("즐겨찾기 토글: \(favoriteList[index].certificationName)")
+    func getFavoriteCertificates() async {
+        let result = await getFavoriteCertificationsUseCase.execute()
+        
+        switch result {
+        case .success(let response):
+            logger.debug("✅ getFavoriteCertificates success")
+            let list: [FavoriteItem] = response.certifications.compactMap{
+                FavoriteItem(
+                    id: $0.certificationId,
+                    certificationName: $0.certificationName,
+                    certificationType: $0.certificationType,
+                    testType: $0.testType,
+                    agencyName: $0.agencyName,
+                    isFavorite: $0.isFavorite
+                )
+            }
+
+            favoriteList = list
+        case .failure(let error):
+            logger.error("❌ getFavoriteCertificates failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func toggleFavorite(id: Int) async {
+        let result = await switchFavoriteUseCase.execute(id: id)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ toggleFavorite success")
+            if let index = favoriteList.firstIndex(where: { $0.id == id }) {
+                favoriteList[index].isFavorite.toggle()
+            }
+        case .failure(let error):
+            logger.error("❌ getFavoriteCertificates failed: \(error.localizedDescription)")
         }
     }
     

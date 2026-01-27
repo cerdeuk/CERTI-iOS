@@ -52,7 +52,9 @@ struct ManageCertificateView: View {
         }
         .background(.white)
         .task {
-            await viewModel.fetchExpectedCertificate()
+            async let favoriteList: () = viewModel.getFavoriteCertificates()
+            async let expectedList: () = viewModel.fetchExpectedCertificate()
+            _ = await (favoriteList, expectedList)
         }
     }
     
@@ -153,24 +155,21 @@ private extension ManageCertificateView {
     
     private var favoriteListView: some View {
         VStack(spacing: 16) {
-            FavoriteCertificationItem(
-                title: "정보처리기사",
-                category: "국가기술자격",
-                testType: "실기형",
-                organization: "한국산업인력공단"
-            )
-            FavoriteCertificationItem(
-                title: "정보처리기사",
-                category: "국가기술자격",
-                testType: "필기형",
-                organization: "한국산업인력공단"
-            )
-            FavoriteCertificationItem(
-                title: "정보처리기사",
-                category: "국가기술자격",
-                testType: "실기형",
-                organization: "한국산업인력공단"
-            )
+            ForEach(viewModel.favoriteList, id: \.id) {
+                FavoriteCertificationItem(
+                    id: $0.id,
+                    title: $0.certificationName,
+                    category: $0.certificationType,
+                    testType: $0.testType,
+                    organization: $0.agencyName,
+                    isFavorite: $0.isFavorite,
+                    onToggle: { id in
+                        Task {
+                            await viewModel.toggleFavorite(id: id)
+                        }
+                    }
+                )
+            }
         }
         .padding(.top, 24)
         
