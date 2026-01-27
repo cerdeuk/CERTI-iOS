@@ -7,10 +7,17 @@
 
 import Foundation
 
-typealias CommentListResponseDTO = BaseResponseDTO[CommentListData]
+typealias CommentListResponseDTO = BaseResponseDTO<CommentListData>
 
 struct CommentListData : Decodable {
     let data: [CommentInfo]
+}
+
+extension CommentListData {
+    func toCommentEntity() -> CommentEntity {
+        return CommentEntity(comments: data.map { $0.toCommentEntitydata() }
+        )
+    }
 }
 
 struct CommentInfo: Decodable {
@@ -25,4 +32,21 @@ struct CommentInfo: Decodable {
     let createdTime: String
     let lastModifiedTime: String
     let isLike: Bool
+}
+
+extension CommentInfo {
+    func toCommentEntitydata() -> CommentEntityData {
+        return CommentEntityData(commentId: commentId,
+                                 userId: userId,
+                                 nickName: nickName,
+                                 content: content,
+                                 userMajor: userMajor,
+                                 userJob: userJob,
+                                 state: state,
+                                 likeCount: likeCount,
+                                 createdTime: createdTime,
+                                lastModifiedTime: lastModifiedTime,
+                                 isLike: isLike
+        )
+    }
 }
