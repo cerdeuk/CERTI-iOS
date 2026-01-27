@@ -15,15 +15,18 @@ final class DefaultCertificationDetailFactory: CertificateDetailFactory {
     let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
     let addPreCertificationUseCase: AddPreCertificationUseCase
     let addAcquisitionUseCase: AddAcquisitionUseCase
+    let fetchCommentUseCase: FetchCommentUseCase
     
     init(
         fetchCertificationDetailUseCase: FetchCertificationDetailUseCase,
         addPreCertificationUseCase: AddPreCertificationUseCase,
-        addAcquisitionUseCase: AddAcquisitionUseCase
+        addAcquisitionUseCase: AddAcquisitionUseCase,
+        fetchCommentUseCase: FetchCommentUseCase
     ) {
         self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
         self.addPreCertificationUseCase = addPreCertificationUseCase
         self.addAcquisitionUseCase = addAcquisitionUseCase
+        self.fetchCommentUseCase = fetchCommentUseCase
     }
     
     @MainActor
@@ -31,7 +34,8 @@ final class DefaultCertificationDetailFactory: CertificateDetailFactory {
         CertificateDetailViewModel(
             fetchCertificationDetailUseCase: fetchCertificationDetailUseCase,
             addPreCertificationUseCase: addPreCertificationUseCase,
-            addAcquisitionUseCase: addAcquisitionUseCase
+            addAcquisitionUseCase: addAcquisitionUseCase,
+            fetchCommentUseCase: fetchCommentUseCase
         )
     }
 }

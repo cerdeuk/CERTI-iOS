@@ -26,7 +26,7 @@ final class AppDIContainer {
     private lazy var careersService: CareersServiceProtocol = CareersService()
     private lazy var activityService: ActivityServiceProtocol = ActivityService()
     /*private*/ lazy var tokenRefreshService: TokenRefreshServiceProtocol = TokenRefreshService()
-    
+    lazy var commentService: CommentServiceProtocol = CommentService()
     
     // MARK: - Repositories
     // UseCase 다 만들면 private 붙이기
@@ -40,7 +40,7 @@ final class AppDIContainer {
     private lazy var acquisitionRepository: AcquisitionRepository = DefaultAcquisitionRepository(service: acquisitionService)
     private lazy var careersRepository: CareersRepository = DefaultCareersRepository(service: careersService)
     private lazy var activityRepository: ActivityRepository = DefaultActivityRepository(service: activityService)
-    
+    lazy var commentRepository: CommentRepository = DefaultCommentRepository(service: commentService)
 }
 
 
@@ -162,6 +162,10 @@ extension AppDIContainer {
     func makeCheckNickNameUseCase() -> CheckNickNameUseCase {
         return DefaultCheckNickNameUseCase(repository: userRepository)
     }
+    
+    func makeFetchCommentUseCase() -> FetchCommentUseCase {
+        return DefaultFetchCommentUseCase(repository: commentRepository)
+    }
 }
 
 
@@ -211,7 +215,8 @@ extension AppDIContainer {
         return DefaultCertificationDetailFactory(
           fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase(),
           addPreCertificationUseCase: makeAddPreCertificationUseCase(),
-          addAcquisitionUseCase: makeAddAcquisitionUseCase()
+          addAcquisitionUseCase: makeAddAcquisitionUseCase(),
+          fetchCommentUseCase: makeFetchCommentUseCase()
         )
     }
   

@@ -68,15 +68,18 @@ final class CertificateDetailViewModel: ObservableObject {
     private let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
     private let addPreCertificationUseCase: AddPreCertificationUseCase
     private let addAcquisitionUseCase: AddAcquisitionUseCase
+    private let fetchCommentUseCase: FetchCommentUseCase
     
     init(
         fetchCertificationDetailUseCase: FetchCertificationDetailUseCase,
         addPreCertificationUseCase: AddPreCertificationUseCase,
-        addAcquisitionUseCase: AddAcquisitionUseCase
+        addAcquisitionUseCase: AddAcquisitionUseCase,
+        fetchCommentUseCase: FetchCommentUseCase
     ) {
         self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
         self.addPreCertificationUseCase = addPreCertificationUseCase
         self.addAcquisitionUseCase = addAcquisitionUseCase
+        self.fetchCommentUseCase = fetchCommentUseCase
     }
 }
 
@@ -130,7 +133,7 @@ extension CertificateDetailViewModel {
             logger.error("appendAcquisition failed: \(error.localizedDescription)")
         }
     }
-    
+        
     // UI 확인용 더미
     func loadNextComments() async {
         guard !isLoadingComments && !isLastPage else { return }
