@@ -79,6 +79,7 @@ final class MyPageViewModel: ObservableObject {
     private let getNotificationSettingUseCase: GetNotificationSettingUseCase
     private let toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
+    private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
 
     
     //MARK: - Properties
@@ -136,7 +137,8 @@ final class MyPageViewModel: ObservableObject {
         withDrawUseCase: WithDrawUseCase,
         getNotificationSettingUseCase: GetNotificationSettingUseCase,
         toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase,
-        switchFavoriteUseCase: SwitchFavoriteUseCase
+        switchFavoriteUseCase: SwitchFavoriteUseCase,
+        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -153,6 +155,7 @@ final class MyPageViewModel: ObservableObject {
         self.getNotificationSettingUseCase = getNotificationSettingUseCase
         self.toggleNotificationSettingUseCase = toggleNotificationSettingUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
+        self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
     }
     
 }
@@ -239,6 +242,29 @@ extension MyPageViewModel {
             await fetchMyPageInfo()
         case .failure(let error):
             logger.error("❌ fetchMyPageInfo failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchCompletedCertificate() async {
+        let result = await fetchAcquisitionListUseCase.execute()
+        
+        switch result {
+        case .success(let response):
+            logger.debug("✅ fetchCompletedCertificate success")
+            let list: [CompletedItem] = response.acquisitionList.map {
+                CompletedItem(
+                    id: $0.acquisitionID,
+                    name: $0.name,
+                    categoryText: $0.certificationType,
+                    description: $0.description,
+                    formattedDate: $0.acquisitionDate,
+                    grade: $0.grade
+                )
+            }
+            completedList = list
+            
+        case .failure(let error):
+            logger.error("❌ fetchCompletedCertificate failed: \(error.localizedDescription)")
         }
     }
     

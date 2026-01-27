@@ -54,7 +54,8 @@ struct ManageCertificateView: View {
         .task {
             async let favoriteList: () = viewModel.getFavoriteCertificates()
             async let expectedList: () = viewModel.fetchExpectedCertificate()
-            _ = await (favoriteList, expectedList)
+            async let completedList: () = viewModel.fetchCompletedCertificate()
+            _ = await (favoriteList, expectedList, completedList)
         }
     }
     
@@ -131,6 +132,8 @@ private extension ManageCertificateView {
     private var completedListView: some View {
         VStack(alignment: .trailing) {
             HStack(alignment: .center) {
+                Spacer()
+
                 Button {
                     viewModel.navigateToEditCompletedCertificate()
                 } label: {
@@ -141,12 +144,12 @@ private extension ManageCertificateView {
             }
             .frame(height: 38)
             
-            ForEach(0..<3) { _ in
+            ForEach(viewModel.completedList, id: \.id) {
                 MyCertificationItem(
-                    type: .completed(date: "2025. 11. 23", score: "IM3"),
-                    title: "정보처리기사",
-                    category: "국가기술자격",
-                    description: "소프트웨어 개발 관련 자격증으로, 계획수립, 분석, 설계, 구현...",
+                    type: .completed(date: $0.formattedDate, score: $0.grade),
+                    title: $0.name,
+                    category: $0.categoryText,
+                    description: $0.description,
                     actionConfig: .viewOnly
                 )
             }

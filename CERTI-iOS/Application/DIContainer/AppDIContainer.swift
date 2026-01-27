@@ -284,7 +284,8 @@ extension AppDIContainer {
             withDrawUseCase: makeWithDrawUseCase(),
             getNotificationSettingUseCase: makeGetNotificationSettingUseCase(),
             toggleNotificationSettingUseCase: makeToggleNotificationSettingUseCase(),
-            switchFavoriteUseCase: makeSwitchFavoriteUseCase()
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase()
         )
     }
     

@@ -27,6 +27,7 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let getNotificationSettingUseCase: GetNotificationSettingUseCase
     private let toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
+    private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
@@ -43,7 +44,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         withDrawUseCase: WithDrawUseCase,
         getNotificationSettingUseCase: GetNotificationSettingUseCase,
         toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase,
-        switchFavoriteUseCase: SwitchFavoriteUseCase
+        switchFavoriteUseCase: SwitchFavoriteUseCase,
+        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -60,6 +62,7 @@ final class DefaultMyPageFactory: MyPageFactory {
         self.getNotificationSettingUseCase = getNotificationSettingUseCase
         self.toggleNotificationSettingUseCase = toggleNotificationSettingUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
+        self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
     }
     
     @MainActor
@@ -79,7 +82,8 @@ final class DefaultMyPageFactory: MyPageFactory {
             withDrawUseCase: withDrawUseCase,
             getNotificationSettingUseCase: getNotificationSettingUseCase,
             toggleNotificationSettingUseCase: toggleNotificationSettingUseCase,
-            switchFavoriteUseCase: switchFavoriteUseCase
+            switchFavoriteUseCase: switchFavoriteUseCase,
+            fetchAcquisitionListUseCase: fetchAcquisitionListUseCase
         )
     }
 }
