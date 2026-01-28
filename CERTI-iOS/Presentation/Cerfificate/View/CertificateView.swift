@@ -28,7 +28,7 @@ struct CertificateView: View {
                         .padding(.bottom, 20)
                     
                     // 공학계열 TOP3
-                    majorRankingSection
+                    trackRankingSection
                         .padding(.bottom, 20)
                     
                     // 경영사무 TOP3
@@ -152,7 +152,7 @@ private extension CertificateView {
         )
     }
     
-    var majorRankingSection: some View {
+    var trackRankingSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .bottom) {
                 Text("\(track)계열 자격증 TOP3")
@@ -162,7 +162,7 @@ private extension CertificateView {
                 Spacer()
                 
                 Button {
-                    // 계열별 자격증 리스트 전환
+                    viewModel.navigateTotrackList()
                 } label: {
                     Text("계열별 자격증 더보기")
                         .applyCertiFont(.caption_regular_12)
@@ -188,7 +188,7 @@ private extension CertificateView {
                 Spacer()
                 
                 Button {
-                    // 직무별 자격증 전환
+                    viewModel.navigateTojobList()
                 } label: {
                     Text("직무별 자격증 더보기")
                         .applyCertiFont(.caption_regular_12)
@@ -206,9 +206,11 @@ private extension CertificateView {
 
 }
 
-// MARK: - Preview
 #Preview {
-    // 뷰모델 더미 생성
-    let viewModel = CertificateViewModel()
-    CertificateView(viewModel: viewModel)
+    let tabCoordinator = CertiTabCoordinator()
+    
+    CertiTabBarCoordinatorView(
+        tabCoordinator: tabCoordinator,
+        appDIContainer: AppDIContainer.shared
+    )
 }
