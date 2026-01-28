@@ -19,7 +19,18 @@ enum CertificateViewRoute {
 @MainActor
 final class CertificateViewModel: ObservableObject {
     @Published var certificateViewRoute: CertificateViewRoute?
-
+    
+//    @Published var licenseCards: [CertificateListTileModel] = []
+    @Published var licenseCards: [CertificateListTileModel] = CertificateListTileModel.dummyData
+    @Published var searchLicenseCards: [CertificateListTileModel] = []
+    @Published var inputText: String = ""
+    @Published var searchResult: SearchResultType? = nil
+    @Published var selectedCertificateId: Int = 0
+    
+    var trimmedInput: String {
+        inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
 }
 
 

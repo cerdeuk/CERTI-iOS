@@ -70,7 +70,7 @@ private extension CertificateView {
                 Spacer()
                 
                 Button {
-                    // 검색으로 이동
+                    viewModel.navigateToSearch()
                 } label: {
                     Image(.iconSearch24)
                 }

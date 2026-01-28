@@ -28,13 +28,6 @@ struct CertificateListView: View {
     @State private var selectedTrack: TrackList = .health   // 계열별
     @State private var isFavorite: Bool = false
     
-    let dummyData = [
-        (title: "정보처리기사", type: "국가기술자격", desc: "기업체 전산실, 소프트웨어 개발업체, SI업체 등...", tags: ["컴퓨터공학", "시각디자인", "경영"], test: "실기형", isFav: true),
-        (title: "정보처리기사", type: "국가기술자격", desc: "기업체 전산실, 소프트웨어 개발업체, SI업체 등...", tags: ["컴퓨터공학", "시각디자인", "경영"], test: "실기형", isFav: false),
-        (title: "정보처리기사", type: "국가기술자격", desc: "기업체 전산실, 소프트웨어 개발업체, SI업체 등...", tags: ["컴퓨터공학", "시각디자인", "경영"], test: "실기형", isFav: false),
-        (title: "정보처리기사", type: "국가기술자격", desc: "기업체 전산실, 소프트웨어 개발업체, SI업체 등...", tags: ["컴퓨터공학", "시각디자인", "경영"], test: "실기형", isFav: true)
-    ]
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
@@ -74,17 +67,15 @@ struct CertificateListView: View {
                     .foregroundStyle(.grayscale100)
                 
                 LazyVStack(alignment: .leading, spacing: 0) {
-                    ForEach(0..<dummyData.count, id: \.self) { index in
-                        let item = dummyData[index]
-                        
-                        if !isFavorite || (isFavorite && item.isFav) {
+                    ForEach(viewModel.licenseCards) { item in
+                        if !isFavorite || (isFavorite && item.isFavorite) {
                             CertificateListTile(
                                 title: item.title,
                                 type: item.type,
-                                description: item.desc,
+                                description: item.description,
                                 tags: item.tags,
-                                testType: item.test,
-                                isFavorite: item.isFav
+                                testType: item.testType,
+                                isFavorite: item.isFavorite
                             ) {
                                 // TODO: - 즐겨찾기 토글 API 연결
                             }
@@ -120,15 +111,11 @@ private extension CertificateListView {
             Spacer()
             
             Button {
-                // 검색탭 이동
+                viewModel.navigateToSearch()
             } label: {
                 Image(.iconSearch24)
             }
         }
         .frame(height: 56)
     }
-}
-
-#Preview {
-    CertificateListView(viewModel: CertificateViewModel(), viewType: .job)
 }

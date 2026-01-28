@@ -41,6 +41,9 @@ struct CertificateCoordinatorView: View {
                     case .navigateTotrackList:
                         certificateCoordinator.push(next: .trackList)
                         
+                    case .navigateToSearch:
+                        certificateCoordinator.push(next: .search)
+                        
                     default: certificateCoordinator.reset()
                     }
                     
@@ -56,6 +59,10 @@ struct CertificateCoordinatorView: View {
                         CertificateListView(viewModel: certificateViewModel, viewType: .track)
                             .navigationBarHidden(true)
                         
+                    case .search:
+                        CertificateSearchView(viewModel: certificateViewModel)
+                            .navigationBarHidden(true)
+
                         // 실질 화면전환
                     default: EmptyView()
                     }
