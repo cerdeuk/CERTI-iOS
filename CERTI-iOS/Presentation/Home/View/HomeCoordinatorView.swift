@@ -33,8 +33,6 @@ struct HomeCoordinatorView: View {
                 .onChange(of: homeViewModel.homeViewRoute) { route in
                     guard let route = route else { return }
                     switch route {
-                    case .switchToRecommendTab:
-                        tabCoordinator.switchTab(tab: .recommend)
                     case .withDraw:
                         appCoordinator.withDraw()
                     case .navigateToCertificateDetail:

@@ -24,7 +24,7 @@ struct CertiTabBarCoordinatorView: View {
                 case .home:
                     HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator, homeFactory: appDIContainer.makeHomeFactory(), certificateDetailFactory: appDIContainer.makeCertificateDetailFactory())
                 case .certificate:
-                    CertificateCoordinatorView(certificateCoordinator: tabCoordinator.certificateCoordinator)
+                    CertificateCoordinatorView(certificateCoordinator: tabCoordinator.certificateCoordinator, certificateFactory: appDIContainer.makeCertificateFactory())
                 case .resume:
                     ResumeCoordinatorView(resumeCoordinator: tabCoordinator.resumeCoordinator, resumeFactory: appDIContainer.makeResumeFactory())
                 case .mypage:

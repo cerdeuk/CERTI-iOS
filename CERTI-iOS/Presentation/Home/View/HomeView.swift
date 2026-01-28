@@ -119,6 +119,8 @@ extension HomeView {
         }
     }
     
+
+
     private var preLicenseTitle: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("취득 예정 자격증")
