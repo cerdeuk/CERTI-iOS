@@ -23,10 +23,8 @@ struct CertiTabBarCoordinatorView: View {
                 switch tabCoordinator.selectedTab {
                 case .home:
                     HomeCoordinatorView(homeCoordinator: tabCoordinator.homeCoordinator, homeFactory: appDIContainer.makeHomeFactory(), certificateDetailFactory: appDIContainer.makeCertificateDetailFactory())
-                case .category:
-                    CategoryCoordinatorView(categoryCoordinator: tabCoordinator.categoryCoordinator, categoryFactory: appDIContainer.makeCategoryFactory(), certificateDetailFactory: appDIContainer.makeCertificateDetailFactory())
-                case .recommend:
-                    RecommendCoordinatorView(recommendCoordinator: tabCoordinator.recommendCoordinator, recommendFactory: appDIContainer.makeRecommendFactory(), certificateDetailFactory: appDIContainer.makeCertificateDetailFactory())
+                case .certificate:
+                    CertificateCoordinatorView(certificateCoordinator: tabCoordinator.certificateCoordinator)
                 case .resume:
                     ResumeCoordinatorView(resumeCoordinator: tabCoordinator.resumeCoordinator, resumeFactory: appDIContainer.makeResumeFactory())
                 case .mypage:
@@ -44,10 +42,8 @@ struct CertiTabBarCoordinatorView: View {
             switch newTab {
             case .home:
                 tabCoordinator.homeCoordinator.reset()
-            case .category:
-                tabCoordinator.categoryCoordinator.reset()
-            case .recommend:
-                tabCoordinator.recommendCoordinator.reset()
+            case .certificate:
+                tabCoordinator.certificateCoordinator.reset()
             case .resume:
                 tabCoordinator.resumeCoordinator.reset()
             case .mypage:

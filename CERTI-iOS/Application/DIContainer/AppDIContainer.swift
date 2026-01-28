@@ -292,4 +292,8 @@ extension AppDIContainer {
     func makeLoginFactory() -> LoginFactory {
         return DefaultLoginFactory(kakoLoginUseCase: makeKakaoLoginUseCase())
     }
+    
+    func certificateFactory() -> CertificateFactory {
+        return DefaultCertificateFactory()
+    }
 }
