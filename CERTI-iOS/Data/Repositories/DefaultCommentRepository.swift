@@ -16,8 +16,8 @@ final class DefaultCommentRepository: CommentRepository {
         self.service = service
     }
     
-    func getComment() async -> Result<CommentEntity, NetworkError> {
-        let result = await service.getComment()
+    func getComment(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentEntity, NetworkError> {
+        let result = await service.getComment(certificationId: certificationId, page: page, size: size, sort: sort)
         
         switch result {
         case .success(let dto):

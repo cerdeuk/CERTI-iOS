@@ -10,5 +10,5 @@ import Foundation
 import Moya
 
 protocol CommentRepository {
-    func getComment() async -> Result<CommentEntity, NetworkError>
+    func getComment(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentEntity, NetworkError>
 }

@@ -31,29 +31,11 @@ struct CertificateDetailTabContainerView: View {
                 CertificateDetailView(viewModel: viewModel, certificationId: $certificationId)
                     .tag(DetailTab.detailInformation)
                 
-                CertificateCommentView(viewModel: viewModel, isSelectedPopularity: $viewModel.isSelectedPopularity, totalCommentCount: $viewModel.commentCount)
+                CertificateCommentView(viewModel: viewModel, isSelectedPopularity: $viewModel.isSelectedPopularity, totalCommentCount: $viewModel.commentCount, certificationId: $certificationId)
                     .tag(DetailTab.comment)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
         .navigationBarBackButtonHidden(true)
     }
-}
-
-#Preview {
-    struct PreviewWrapper: View {
-        @State private var certificationId = 1
-
-        var body: some View {
-            CertificateDetailTabContainerView(
-                viewModel: CertificateDetailViewModel(
-                    fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
-                    addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
-                    addAcquisitionUseCase: PreviewAddAcquisitionUseCase()), certificationId: $certificationId,
-                onBack: { }
-            )
-        }
-    }
-
-    return PreviewWrapper()
 }

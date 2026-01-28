@@ -12,6 +12,7 @@ struct CertificateCommentView: View {
     
     @Binding var isSelectedPopularity: Bool
     @Binding var totalCommentCount: Int
+    @Binding var certificationId: Int
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -44,25 +45,21 @@ struct CertificateCommentView: View {
                                 }
                             })
                         .padding(.horizontal, 20)
-                        .onAppear {
-                            // TODO: - 댓글 조회 useCase 호출
-                            if !viewModel.isLastPage {
-                                guard viewModel.commentList.count == viewModel.commentIndex  else {
-                                    viewModel.countAppearComment()
-                                    return
-                                }
-                                Task {
-                                    await viewModel.loadNextComments()
-                                    viewModel.countAppearComment()
-                                }
-                            }
-                        }
                     }
+                    if !viewModel.isLastPage {
+                            ProgressView()
+                                .padding(.vertical, 16)
+                                .onAppear {
+                                    Task {
+                                        await viewModel.fetchComment(certificationId: certificationId)
+                                    }
+                                }
+                        }
                 }
             }
             .onAppear {
                 Task {
-                    await viewModel.loadNextComments()
+                    await viewModel.fetchComment(certificationId: certificationId)
                 }
             }
             .onTapGesture {
@@ -73,33 +70,4 @@ struct CertificateCommentView: View {
                 .padding(.vertical, 20)
         }
     }
-    }
-
-
-#Preview {
-    struct PreviewWrapper: View {
-        @State private var isSelectedPopularity: Bool = false
-        @State private var totalCommentCount: Int = 2
-        
-        @StateObject private var viewModel = CertificateDetailViewModel(
-            fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
-            addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
-            addAcquisitionUseCase: PreviewAddAcquisitionUseCase()
-        )
-        
-        var body: some View {
-            CertificateCommentView(
-                viewModel: viewModel,
-                isSelectedPopularity: $isSelectedPopularity,
-                totalCommentCount: $totalCommentCount
-            )
-            .onAppear {
-                Task {
-                    await viewModel.loadNextComments()
-                }
-            }
-        }
-    }
-    
-    return PreviewWrapper()
 }

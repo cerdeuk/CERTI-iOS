@@ -38,24 +38,14 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var isSelectedPopularity = false
     @Published var commentCount = 0
     @Published var paginationComments: [PaginationCommentModel] = []
-    @Published var comments = Comment(
-        commentId: 0,
-        userId: 0,
-        nickName: nil,
-        content: "",
-        userMajor: "",
-        userJob: "",
-        state: "",
-        likeCount: 0,
-        createdTime: "",
-        lastModifiedTime: "",
-        isLike: false
-    )
-    @Published var isLoadingComments: Bool = false
-    @Published var isLastPage: Bool = false
+    @Published var comments: [Comment] = []
+    @Published var isLoadingComment = false
+    @Published var isLastPage = false
     @Published var commentIndex = 1
     @Published var commentText = ""
     
+    private var currentPage: Int = 0
+    private let pageSize: Int = 10
     private var dummyPages: [PaginationCommentModel] = PaginationCommentModel.dummy()
     var currentPageIndex: Int = 0
     
@@ -133,29 +123,30 @@ extension CertificateDetailViewModel {
             logger.error("appendAcquisition failed: \(error.localizedDescription)")
         }
     }
-        
-    // UI 확인용 더미
-    func loadNextComments() async {
-        guard !isLoadingComments && !isLastPage else { return }
-        guard currentPageIndex < dummyPages.count else {
-            isLastPage = true
-            return
+    
+    func fetchComment(certificationId: Int) async {
+        guard !isLoadingComment, !isLastPage else { return }
+
+        isLoadingComment = true
+
+        let result = await fetchCommentUseCase.execute(
+            certificationId: certificationId,
+            page: currentPage,
+            size: pageSize,
+            sort: isSelectedPopularity ? "likeCount" : ""
+        )
+
+        switch result {
+        case .success(let entity):
+            comments.append(contentsOf: entity.comments.map { $0.toComment() })
+            currentPage += 1
+            isLastPage = entity.isLast
+
+        case .failure(let error):
+            logger.error("❌ 댓글 조회 실패: \(error.localizedDescription)")
         }
-        
-        isLoadingComments = true
-        
-        try? await Task.sleep(nanoseconds: 600_000_000)
-        
-        let nextPage = dummyPages[currentPageIndex]
-        paginationComments.append(nextPage)
-        currentPageIndex += 1
-        
-        commentCount = paginationComments
-            .flatMap { $0.content }
-            .count
-        
-        isLastPage = nextPage.isLast
-        isLoadingComments = false
+
+        isLoadingComment = false
     }
 }
 
@@ -170,9 +161,5 @@ extension CertificateDetailViewModel {
         isAM = true
         hour = 1
         minute = 0
-    }
-    
-    func countAppearComment() {
-        commentIndex += 1
     }
 }

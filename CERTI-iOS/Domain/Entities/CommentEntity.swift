@@ -9,9 +9,28 @@ import Foundation
 
 struct CommentEntity {
     let comments: [CommentEntityData]
+    let totalPages: Int
+    let totalElements: Int
+    let isLast: Bool
     
-    init(comments: [CommentEntityData]) {
+    init(comments: [CommentEntityData], totalPages: Int, totalElements: Int, isLast: Bool) {
         self.comments = comments
+        self.totalPages = totalPages
+        self.totalElements = totalElements
+        self.isLast = isLast
+    }
+}
+
+
+// MARK: - Func
+
+extension CommentEntity {
+    func toPaginationCommentModel() -> PaginationCommentModel {
+        PaginationCommentModel(totalPages: totalPages,
+                               totalElements: totalElements,
+                               isLast: isLast,
+                               content: comments.map { $0.toComment() }
+        )
     }
 }
 
@@ -40,5 +59,23 @@ struct CommentEntityData {
         self.createdTime = createdTime
         self.lastModifiedTime = lastModifiedTime
         self.isLike = isLike
+    }
+}
+
+extension CommentEntityData {
+    func toComment() -> Comment {
+        Comment(
+            commentId: commentId,
+            userId: userId,
+            nickName: nickName,
+            content: content,
+            userMajor: userMajor,
+            userJob: userJob,
+            state: state,
+            likeCount: likeCount,
+            createdTime: createdTime,
+            lastModifiedTime: lastModifiedTime,
+            isLike: isLike
+        )
     }
 }

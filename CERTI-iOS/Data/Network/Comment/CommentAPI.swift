@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum CommentAPI {
-    case getComment
+    case getComment(certificationId: Int, page: Int, size: Int, sort: String)
 }
 
 extension CommentAPI: BaseTargetType {
@@ -37,8 +37,13 @@ extension CommentAPI: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
-        case .getComment:
-            return .requestPlain
+        case .getComment(let certificationId, let page, let size, let sort):
+            return .requestParameters(parameters: [
+                "certificationId": certificationId,
+                "page": page,
+                "size": size,
+                "sort": sort
+            ], encoding: URLEncoding.queryString)
         }
     }
 }

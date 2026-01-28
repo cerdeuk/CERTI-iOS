@@ -177,20 +177,3 @@ extension CertificationDetailPlanModalView {
         }
     }
 }
-
-#Preview {
-    struct PreviewWrapper: View {
-        @State var certificationId = 1
-        @State var isShowingSheet = true
-        
-        var body: some View {
-            CertificationDetailPlanModalView(viewModel: CertificateDetailViewModel(
-                fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
-                addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
-                addAcquisitionUseCase: PreviewAddAcquisitionUseCase()),
-                                             certificationId: $certificationId, isShowingSheet: $isShowingSheet, certificationName: "GTQ 1급 (그래픽기술자격)")
-        }
-    }
-    return PreviewWrapper()
-}
-

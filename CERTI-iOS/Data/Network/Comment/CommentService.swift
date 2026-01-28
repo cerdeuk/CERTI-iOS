@@ -10,13 +10,13 @@ import Foundation
 import Moya
 
 protocol CommentServiceProtocol {
-    func getComment() async -> Result<CommentListResponseDTO, NetworkError>
+    func getComment(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentListResponseDTO, NetworkError>
 }
 
 final class CommentService: BaseService, CommentServiceProtocol {
     private let provider = MoyaProvider<CommentAPI>.init(plugins: [MoyaPlugin()])
     
-    func getComment() async -> Result<CommentListResponseDTO, NetworkError> {
-        return await requestDecodable(provider, .getComment)
+    func getComment(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentListResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getComment(certificationId: certificationId, page: page, size: size, sort: sort))
     }
 }

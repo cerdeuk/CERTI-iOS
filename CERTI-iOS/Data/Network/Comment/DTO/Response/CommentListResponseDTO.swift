@@ -10,12 +10,17 @@ import Foundation
 typealias CommentListResponseDTO = BaseResponseDTO<CommentListData>
 
 struct CommentListData : Decodable {
-    let data: [CommentInfo]
+    let content: [CommentInfo]
+    let totalPages, totalElements: Int
+    let isLast: Bool
 }
 
 extension CommentListData {
     func toCommentEntity() -> CommentEntity {
-        return CommentEntity(comments: data.map { $0.toCommentEntitydata() }
+        return CommentEntity(comments: content.map { $0.toCommentEntityData() },
+                             totalPages: totalPages,
+                             totalElements: totalElements,
+                             isLast: isLast
         )
     }
 }
@@ -35,7 +40,7 @@ struct CommentInfo: Decodable {
 }
 
 extension CommentInfo {
-    func toCommentEntitydata() -> CommentEntityData {
+    func toCommentEntityData() -> CommentEntityData {
         return CommentEntityData(commentId: commentId,
                                  userId: userId,
                                  nickName: nickName,
