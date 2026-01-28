@@ -227,15 +227,7 @@ extension AppDIContainer {
             checkNickNameUseCase: makeCheckNickNameUseCase()
         )
     }
-    
-    func makeCategoryFactory() -> CategoryFactory {
-        return DefaultCategoryFactory(
-            fetchCategoryUseCase: makeFetchCategoryUseCase(),
-            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
-            searchCertificationUseCase: makeSearchCertificationUseCase()
-        )
-    }
-    
+        
     func makeCertificateDetailFactory() -> CertificateDetailFactory {
         return DefaultCertificationDetailFactory(
           fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase(),
