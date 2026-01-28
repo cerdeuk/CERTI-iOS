@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserInformationEntity: Codable {
-    let socialID: Int
+    let socialID: String
     let socialType, email, name, profileImageURL: String
 
     enum CodingKeys: String, CodingKey {
