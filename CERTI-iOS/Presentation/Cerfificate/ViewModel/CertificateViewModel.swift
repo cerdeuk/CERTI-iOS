@@ -31,6 +31,20 @@ final class CertificateViewModel: ObservableObject {
         inputText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
+    // MARK: - Usecases
+    
+    private let fetchRecommendUseCase: FetchRecommendUseCase
+    
+    
+    
+    // MARK: - init
+    
+    init(
+        fetchRecommendUseCase: FetchRecommendUseCase
+    ) {
+        self.fetchRecommendUseCase = fetchRecommendUseCase
+    }
+    
 }
 
 

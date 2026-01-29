@@ -13,17 +13,23 @@ protocol CertificateFactory {
 
 final class DefaultCertificateFactory: CertificateFactory {
     
+    // MARK: - Usecases
+
+    private let fetchRecommendUseCase: FetchRecommendUseCase
     
+    
+    // MARK: - init
+
     init(
-
+        fetchRecommendUseCase: FetchRecommendUseCase
     ) {
-
+        self.fetchRecommendUseCase = fetchRecommendUseCase
     }
     
     @MainActor
     func makeCertificateViewModel() -> CertificateViewModel {
         CertificateViewModel(
-            
+            fetchRecommendUseCase: fetchRecommendUseCase
         )
     }
 }

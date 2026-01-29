@@ -277,6 +277,8 @@ extension AppDIContainer {
     }
     
     func makeCertificateFactory() -> CertificateFactory {
-        return DefaultCertificateFactory()
+        return DefaultCertificateFactory(
+            fetchRecommendUseCase: makeFetchRecommendUseCase()
+        )
     }
 }
