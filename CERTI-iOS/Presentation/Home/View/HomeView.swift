@@ -242,8 +242,6 @@ extension HomeView {
             Spacer()
             
             Button {
-                // 추천 자격증 항목 이동
-                viewModel.switchToRecommendTab()
             } label: {
                 Image(.iconArrowright36)
                     .resizable()
