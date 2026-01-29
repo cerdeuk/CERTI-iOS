@@ -39,6 +39,8 @@ struct HomeCoordinatorView: View {
                         homeCoordinator.push(next: .certificateDetail)
                     case .navigateToPreLicenseEdit:
                         homeCoordinator.push(next: .preLicenseEdit)
+                    case .navigateToCertificateTab:
+                        tabCoordinator.switchTab(tab: .certificate)
                     case .homeViewRoutePop:
                         homeCoordinator.pop()
                     }

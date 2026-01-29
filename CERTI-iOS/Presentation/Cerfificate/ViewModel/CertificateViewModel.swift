@@ -22,6 +22,7 @@ final class CertificateViewModel: ObservableObject {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "CertificateViewModel")
 
     @Published var certificateViewRoute: CertificateViewRoute?
+    @Published var selectedLicenseId: Int = 0
 
     // 랭킹관련
     @Published var recommendCertificates: [RecommendCeritificateTileModel] = []

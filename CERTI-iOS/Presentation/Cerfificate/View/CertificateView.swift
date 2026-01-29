@@ -54,7 +54,7 @@ struct CertificateView: View {
             async let jobRank: () = viewModel.fetchJobRank()
             async let job: () = viewModel.fetchJob()
             async let track: () = viewModel.fetchTrack()
-
+            
             _ = await (recommend, trackRank, jobRank, job, track)
         }
     }
@@ -112,6 +112,10 @@ private extension CertificateView {
                 ForEach(viewModel.recommendCertificates) { item in
                     RecommendCeritificateTile(model: item)
                         .padding(.bottom, 16)
+                        .onTapGesture {
+                            viewModel.selectedLicenseId = item.id
+                            viewModel.navigateToCertificateDetail()
+                        }
                 }
             }
             
@@ -206,7 +210,7 @@ private extension CertificateView {
             }
         }
     }
-
+    
 }
 
 #Preview {

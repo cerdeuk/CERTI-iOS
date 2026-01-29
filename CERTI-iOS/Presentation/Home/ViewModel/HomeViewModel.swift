@@ -13,6 +13,7 @@ enum HomeViewRoute {
     case withDraw
     case navigateToPreLicenseEdit
     case navigateToCertificateDetail
+    case navigateToCertificateTab
     
     case homeViewRoutePop
 }
@@ -82,6 +83,10 @@ extension HomeViewModel {
 
     func navigateToCertificateDetail() {
         homeViewRoute = .navigateToCertificateDetail
+    }
+    
+    func navigateToCertificateTab() {
+        homeViewRoute = .navigateToCertificateTab
     }
     
     func homeViewRoutePop() {

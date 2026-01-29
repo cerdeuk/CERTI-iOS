@@ -28,6 +28,10 @@ struct CertificateSearchList: View {
                                 await viewModel.toggleFavorite(id: item.id)
                             }
                         }
+                        .onTapGesture {
+                            viewModel.selectedLicenseId = item.id
+                            viewModel.navigateToCertificateDetail()
+                        }
                     }
                     
                 }
