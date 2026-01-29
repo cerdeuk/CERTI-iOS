@@ -29,6 +29,7 @@ struct RecommendCertification: Decodable {
     let tags: [String]
     let recommendationScore: Int
     let isFavorite: Bool
+    let description: String
 }
 
 extension RecommendCertification {
@@ -40,7 +41,8 @@ extension RecommendCertification {
             tags: tags,
             testType: testType,
             isFavorite: isFavorite,
-            recommendScore: recommendationScore
+            recommendScore: recommendationScore,
+            desceiption: description
         )
     }
 }

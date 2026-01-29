@@ -16,20 +16,29 @@ final class DefaultCertificateFactory: CertificateFactory {
     // MARK: - Usecases
 
     private let fetchRecommendUseCase: FetchRecommendUseCase
+    private let getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase
+    private let getJobRankCertificationUsecase: GetJobRankCertificationUsecase
     
     
     // MARK: - init
 
     init(
-        fetchRecommendUseCase: FetchRecommendUseCase
+        fetchRecommendUseCase: FetchRecommendUseCase,
+        getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase,
+        getJobRankCertificationUsecase: GetJobRankCertificationUsecase,
     ) {
         self.fetchRecommendUseCase = fetchRecommendUseCase
+        self.getTrackRankCertificationUsecase = getTrackRankCertificationUsecase
+        self.getJobRankCertificationUsecase = getJobRankCertificationUsecase
     }
+    
     
     @MainActor
     func makeCertificateViewModel() -> CertificateViewModel {
         CertificateViewModel(
-            fetchRecommendUseCase: fetchRecommendUseCase
+            fetchRecommendUseCase: fetchRecommendUseCase,
+            getTrackRankCertificationUsecase: getTrackRankCertificationUsecase,
+            getJobRankCertificationUsecase: getJobRankCertificationUsecase
         )
     }
 }

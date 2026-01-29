@@ -8,26 +8,23 @@
 import SwiftUI
 
 struct RankCeritificateTile: View {
-
-    let rank: Int
-    let title: String
-    let type: String
+    let model: RankCeritificateTileModel
     
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
             
-            Text("\(rank)")
+            Text("\(model.rank)")
                 .applyCertiFont(.body_bold_18)
                 .foregroundStyle(.grayscale500)
             
             Spacer()
             
             HStack(alignment: .center, spacing: 8) {
-                Text(title)
+                Text(model.title)
                     .applyCertiFont(.body_semibold_18)
                     .foregroundStyle(.black)
                 
-                Text(type)
+                Text(model.type)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
             }

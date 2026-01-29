@@ -75,4 +75,38 @@ final class DefaultCertificationRepository: CertificationRepository {
             return .failure(error)
         }
     }
+    
+    func getTrackRankCertification() async -> Result<[RankCertificationEntity], NetworkError> {
+        let result = await service.getTrackRankCertification()
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                return .failure(.decodingError)
+            }
+            
+            let entities: [RankCertificationEntity] = data.map { $0.toRankCertificationEntity() }
+            
+            return .success(entities)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func getJobRankCertification() async -> Result<[RankCertificationEntity], NetworkError> {
+        let result = await service.getJobRankCertification()
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                return .failure(.decodingError)
+            }
+            
+            let entities: [RankCertificationEntity] = data.map { $0.toRankCertificationEntity() }
+            
+            return .success(entities)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
 }

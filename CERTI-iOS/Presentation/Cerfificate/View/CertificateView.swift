@@ -48,6 +48,13 @@ struct CertificateView: View {
                 }
             }
         }
+        .task {
+            async let recommend: () = viewModel.fetchRecommend()
+            async let trackRank: () = viewModel.fetchTrackRank()
+            async let jobRank: () = viewModel.fetchJobRank()
+
+            _ = await (recommend, trackRank, jobRank)
+        }
     }
 }
 
@@ -100,15 +107,9 @@ private extension CertificateView {
                 }
                 .padding(.bottom, 16)
                 
-                ForEach(0..<3) { _ in
-                    RecommendCeritificateTile(
-                        id: 1,
-                        title: "OPIc",
-                        score: 90,
-                        description: "실제 생활, 비즈니스 현장에서의 외국어 사용 능력을 측정하기 위한 시험입니다.",
-                        tags: ["컴퓨터공학", "재무/세무/IR", "컴퓨터공학"]
-                    )
-                    .padding(.bottom, 16)
+                ForEach(viewModel.recommendCertificates) { item in
+                    RecommendCeritificateTile(model: item)
+                        .padding(.bottom, 16)
                 }
             }
             
@@ -171,9 +172,9 @@ private extension CertificateView {
             }
             .padding(.bottom, 16)
             
-            ForEach(0..<3) { _ in
-                RankCeritificateTile(rank: 1, title: "정보처리기사", type: "국가기술자격")
-                .padding(.bottom, 16)
+            ForEach(viewModel.trackRankCertificates) { item in
+                RankCeritificateTile(model: item)
+                    .padding(.bottom, 16)
             }
         }
     }
@@ -197,9 +198,9 @@ private extension CertificateView {
             }
             .padding(.bottom, 16)
             
-            ForEach(0..<3) { _ in
-                RankCeritificateTile(rank: 1, title: "정보처리기사", type: "국가기술자격")
-                .padding(.bottom, 16)
+            ForEach(viewModel.jobRankCertificates) { item in
+                RankCeritificateTile(model: item)
+                    .padding(.bottom, 16)
             }
         }
     }

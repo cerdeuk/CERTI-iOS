@@ -200,6 +200,14 @@ extension AppDIContainer {
     func makeGetNotificationSettingUseCase() -> DefaultGetNotificationSettingUseCase {
         return DefaultGetNotificationSettingUseCase(repository: userRepository)
     }
+    
+    func makeGetTrackRankCertificationUsecase() -> DefaultGetTrackRankCertificationUsecase {
+        return DefaultGetTrackRankCertificationUsecase(repository: certificationRepository)
+    }
+    
+    func makeGetJobRankCertificationUsecase() -> DefaultGetJobRankCertificationUsecase {
+        return DefaultGetJobRankCertificationUsecase(repository: certificationRepository)
+    }
 }
 
 
@@ -278,7 +286,9 @@ extension AppDIContainer {
     
     func makeCertificateFactory() -> CertificateFactory {
         return DefaultCertificateFactory(
-            fetchRecommendUseCase: makeFetchRecommendUseCase()
+            fetchRecommendUseCase: makeFetchRecommendUseCase(),
+            getTrackRankCertificationUsecase: makeGetTrackRankCertificationUsecase(),
+            getJobRankCertificationUsecase: makeGetJobRankCertificationUsecase()
         )
     }
 }

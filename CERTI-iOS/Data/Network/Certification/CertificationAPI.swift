@@ -15,6 +15,8 @@ enum CertificationAPI {
     case searchCertification(keyword: String)
     case fetchCertificationDetail(certificationId: Int)
     case getRecommendCertification
+    case getTrackRankCertification
+    case getJobRankCertification
 }
 
 extension CertificationAPI: BaseTargetType {
@@ -37,6 +39,10 @@ extension CertificationAPI: BaseTargetType {
             return "certification/\(certificationId)"
         case .getRecommendCertification:
             return "certification/recommend"
+        case .getTrackRankCertification:
+            return "certification/track"
+        case .getJobRankCertification:
+            return "certification/job"
         }
     }
     
@@ -52,6 +58,10 @@ extension CertificationAPI: BaseTargetType {
             return .get
         case .getRecommendCertification:
             return .get
+        case .getTrackRankCertification:
+            return .get
+        case .getJobRankCertification:
+            return .get
         }
     }
     
@@ -66,6 +76,10 @@ extension CertificationAPI: BaseTargetType {
         case .fetchCertificationDetail:
             return .requestPlain
         case .getRecommendCertification:
+            return .requestPlain
+        case .getTrackRankCertification:
+            return .requestPlain
+        case .getJobRankCertification:
             return .requestPlain
         }
     }
