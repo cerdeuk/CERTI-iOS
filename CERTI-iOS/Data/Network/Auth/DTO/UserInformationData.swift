@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserInformationData: Codable {
-    let socialID: Int
+    let socialID: String
     let name: String?
     let socialType, email, profileImageURL: String
 
