@@ -12,6 +12,15 @@ import Moya
 protocol UserServiceProtocol {
     func getuserInfo() async -> Result<UserInfoResponseDTO, NetworkError>
     func checkNickName(nickname: String) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func getMyPageInfo() async -> Result<MyPageResponseDTO, NetworkError>
+    func getEditProfileInfo() async -> Result<EditProfileResponseDTO, NetworkError>
+    func putEditProfileInfo(profileInfo: EditProfileRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func getSearchUniv(keyword: String) async -> Result<UnivListResponseDTO, NetworkError>
+    func getSearchMajor(keyword: String) async -> Result<MajorListResponseDTO, NetworkError>
+    func editUniv(request: EditUnivRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func editMajor(request: EditMajorRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func getNotificationSetting() async -> Result<NotificationSettingResponseDTO, NetworkError>
+    func toggleNotificationSetting() async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
 }
 
 final class UserService: BaseService, UserServiceProtocol {
@@ -24,5 +33,41 @@ final class UserService: BaseService, UserServiceProtocol {
     
     func checkNickName(nickname: String) async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
         return await requestDecodable(provider, .checkNickname(nickname: nickname))
+    }
+    
+    func getMyPageInfo() async -> Result<MyPageResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getMyPageInfo)
+    }
+    
+    func getEditProfileInfo() async -> Result<EditProfileResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getEditProfileInfo)
+    }
+    
+    func putEditProfileInfo(profileInfo: EditProfileRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
+        return await requestDecodable(provider, .putEditProfileInfo(request: profileInfo))
+    }
+    
+    func getSearchUniv(keyword: String) async -> Result<UnivListResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .searchUniv(keyword: keyword))
+    }
+    
+    func getSearchMajor(keyword: String) async -> Result<MajorListResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .searchMajor(keyword: keyword))
+    }
+    
+    func editUniv(request: EditUnivRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
+        return await requestDecodable(provider, .editUniv(request: request))
+    }
+    
+    func editMajor(request: EditMajorRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
+        return await requestDecodable(provider, .editMajor(request: request))
+    }
+    
+    func getNotificationSetting() async -> Result<NotificationSettingResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getNotificationSetting)
+    }
+    
+    func toggleNotificationSetting() async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
+        return await requestDecodable(provider, .toggleNotificationSetting)
     }
 }

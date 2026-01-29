@@ -24,20 +24,24 @@ struct PreCertificationEntity {
 }
 
 struct PreCertificationEntityData {
-    let id: Int
-    let name: String
-    let averagePeriod: String
-    let nearestTestDate: String
-    let agencyName: String
+    let certificationID: Int
+    let certificationName, certificationType, description, averagePeriod: String
+    let nearestTestDate, agencyName: String
     let iconIndex: Int
+    let city, state, testDate: String
     
-    init(id: Int, name: String, averagePeriod: String, nearestTestDate: String, agencyName: String, iconIndex: Int) {
-        self.id = id
-        self.name = name
+    init(certificationID: Int, certificationName: String, certificationType: String, description: String, averagePeriod: String, nearestTestDate: String, agencyName: String, iconIndex: Int, city: String, state: String, testDate: String) {
+        self.certificationID = certificationID
+        self.certificationName = certificationName
+        self.certificationType = certificationType
+        self.description = description
         self.averagePeriod = averagePeriod
         self.nearestTestDate = nearestTestDate
         self.agencyName = agencyName
         self.iconIndex = iconIndex
+        self.city = city
+        self.state = state
+        self.testDate = testDate
     }
     
     
@@ -46,8 +50,8 @@ struct PreCertificationEntityData {
     func toPreLicenseCardModel() -> PreLicenseCardModel {
         return PreLicenseCardModel(
             imageIndex: iconIndex,
-            certificationId: id,
-            certificationName: name,
+            certificationId: certificationID,
+            certificationName: certificationName,
             averagePeriod: averagePeriod,
             testDate: nearestTestDate,
             agencyName: agencyName

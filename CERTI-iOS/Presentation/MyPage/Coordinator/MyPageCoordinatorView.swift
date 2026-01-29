@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MyPageCoordinatorView: View {
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
+    @EnvironmentObject var appCoordinator: AppCoordinator
     
     @ObservedObject var myPageCoordinator: MyPageCoordinator
     
@@ -40,13 +41,19 @@ struct MyPageCoordinatorView: View {
                         myPageCoordinator.push(next: .settings)
                     case .navigateToNotificationSettings:
                         myPageCoordinator.push(next: .notificationSettings)
+                    case .navigateToManageCertificates:
+                        myPageCoordinator.push(next: .manageCertificates)
+                    case .navigateToEditExpectedCertificate:
+                        myPageCoordinator.push(next: .editExpectedCertificate)   
+                    case .navigateToEditCompletedCertificate:
+                        myPageCoordinator.push(next: .editCompletedCertificate)
+                    case .withDraw:
+                        appCoordinator.withDraw()
+                        myPageCoordinator.reset()
+                        tabCoordinator.switchTab(tab: .home)
                         
                     case .myPageViewRoutePop:
                         myPageCoordinator.pop()
-                        
-                    // case 다 만들면 지우기
-                    default:
-                        myPageCoordinator.reset()
                     }
                     myPageViewModel.myPageViewRoute = nil
                 }
@@ -76,9 +83,17 @@ struct MyPageCoordinatorView: View {
                         NotificationSettingView(viewModel: myPageViewModel)
                             .navigationBarBackButtonHidden()
 
-                    // case 다 만들면 지우기
-                    default:
-                        EmptyView()
+                    case .manageCertificates:
+                        ManageCertificateView(viewModel: myPageViewModel)
+                            .navigationBarBackButtonHidden()
+                        
+                    case .editExpectedCertificate:
+                        EditCertificateView(viewModel: myPageViewModel, target: .expected)
+                            .navigationBarBackButtonHidden()
+                        
+                    case .editCompletedCertificate:
+                        EditCertificateView(viewModel: myPageViewModel, target: .completed)
+                            .navigationBarBackButtonHidden()
                     }
                 }
         }
@@ -94,6 +109,8 @@ struct MyPageCoordinatorView: View {
     @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
 
 //    MyPageMajorView(viewModel: viewModel)
-    SettingView(viewModel: viewModel)
+//    ManageCertificateView(viewModel: viewModel)
+    ManageAcademicInfoView(viewModel: viewModel)
+//    EditCertificateView(viewModel: viewModel, target: .expected)
 //    NotificationSettingView(viewModel: viewModel)
 }

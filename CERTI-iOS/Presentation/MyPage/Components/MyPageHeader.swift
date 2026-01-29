@@ -16,6 +16,7 @@ struct MyPageHeader: View {
     
     let style: MyPageHeaderStyle
     let title: String?
+    var isActionEnabled: Bool = true
     let action: () -> Void?
     let backButtonAction: () -> Void
     
@@ -49,9 +50,10 @@ struct MyPageHeader: View {
                 } label: {
                     Text("저장")
                         .applyCertiFont(.body_semibold_18)
-                        .foregroundStyle(.grayscale400)
+                        .foregroundStyle(isActionEnabled ? .mainblue : .grayscale400)
                         .frame(width: 36, height: 25)
                 }
+                .disabled(!isActionEnabled)
             }
         }
         .padding(.horizontal, 20)

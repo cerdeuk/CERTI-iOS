@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct EditProfileView: View {
     @ObservedObject var viewModel: MyPageViewModel
     
-    @State private var nicknameValidate: nickNameValidateCase? = nil
     @State private var isCalendarVisible: Bool = false
     
     private var dateFormatter: DateFormatter {
@@ -25,13 +25,19 @@ struct EditProfileView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            MyPageHeader(style: .save, title: "개인정보 수정") {
-                // TODO: - 저장로직 연결
-                viewModel.myPageViewRoutePop()
+            MyPageHeader(style: .save, title: "개인정보 수정", isActionEnabled: viewModel.isProfileSaveEnabled) {
+                if viewModel.isProfileModified {
+                    Task {
+                        await viewModel.editProfileInfo()
+                        viewModel.nickNameValid = nil
+                        viewModel.myPageViewRoutePop()
+                    }
+                }
             } backButtonAction: {
+                viewModel.nickNameValid = nil
                 viewModel.myPageViewRoutePop()
             }
-                        
+            
             ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: 0) {
                     
@@ -55,6 +61,9 @@ struct EditProfileView: View {
             .scrollIndicators(.hidden)
             
         }
+        .task {
+            await viewModel.fetchEditProfileInfo()
+        }
     }
 }
 
@@ -65,12 +74,28 @@ extension EditProfileView {
             Spacer()
             
             ZStack(alignment: .bottomTrailing) {
-                ZStack(alignment: .center) {
-                    Circle()
+                if viewModel.profileImageURL.isEmpty {
+                    ZStack(alignment: .center) {
+                        Circle()
+                            .frame(width: 100, height: 100)
+                            .foregroundStyle(.grayscale100)
+                        Image(.iconImage24)
+                            .foregroundStyle(.grayscale300)
+                    }
+                } else {
+                    KFImage(URL(string: viewModel.profileImageURL))
+                        .resizable()
+                        .placeholder {
+                            Color.grayscale100
+                        }
+                        .retry(maxCount: 3, interval: .seconds(5))
+                        .onFailure { error in
+                            print("failure: \(error.localizedDescription)")
+                        }
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 100, height: 100)
-                        .foregroundStyle(.grayscale100)
-                    Image(.iconImage24)
-                        .foregroundStyle(.grayscale300)
+                        .clipShape(.circle)
+                        .clipped()
                 }
                 
                 Button {
@@ -94,28 +119,18 @@ extension EditProfileView {
             Spacer()
             
             Button {
-                // TODO: - UI 확인용, 추후 검증 요청 API로 대체
-                
-                let allCases = nickNameValidateCase.allCases
-                
-                if let currentCase = nicknameValidate {
-                    if let currentIndex = allCases.firstIndex(of: currentCase) {
-                        let nextIndex = (currentIndex + 1) % allCases.count
-                        nicknameValidate = allCases[nextIndex]
-                    }
-                } else {
-                    nicknameValidate = allCases.first
+                Task {
+                    await viewModel.checkNickNameValidate()
                 }
-                
             } label: {
                 Text("중복 확인")
                     .applyCertiFont(.caption_regular_12)
-                    .foregroundStyle(.grayscale300)
+                    .foregroundStyle(viewModel.nickNameValid == .valid ? .grayscale300 : .grayscale600)
                     .padding(.vertical, 4)
                     .padding(.horizontal, 12)
                     .overlay {
                         Capsule()
-                            .stroke(.grayscale200, lineWidth: 1)
+                            .stroke(viewModel.nickNameValid == .valid ? .grayscale200 : .grayscale300, lineWidth: 1)
                     }
             }
         }
@@ -144,16 +159,16 @@ extension EditProfileView {
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .overlay(content: {
             RoundedRectangle(cornerRadius: 8)
-                .stroke(nicknameValidate == .none ? .grayscale200 : nicknameValidate == .valid ? .mainblue : .error, lineWidth: 1)
+                .stroke(viewModel.nickNameValid == .none ? .grayscale200 : viewModel.nickNameValid == .valid ? .mainblue : .error, lineWidth: 1)
         })
         .padding(.horizontal, 20)
-        .padding(.bottom, nicknameValidate == nil ? 24 : 8)
+        .padding(.bottom, viewModel.nickNameValid == nil ? 24 : 8)
         
     }
     
     @ViewBuilder
     private var nicknameValidateCaseView: some View {
-        switch nicknameValidate {
+        switch viewModel.nickNameValid {
         case .valid:
             Text("사용 가능한 닉네임입니다.")
                 .applyCertiFont(.caption_regular_14)
