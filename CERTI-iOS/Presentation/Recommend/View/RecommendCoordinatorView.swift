@@ -44,7 +44,7 @@ struct RecommendCoordinatorView: View {
                 .navigationDestination(for: RecommendRoute.self) { route in
                     switch route {
                     case .certificateDetail:
-                        CertificateDetailView(
+                        CertificateDetailTabContainerView(
                             viewModel: certificateDetailViewModel,
                             certificationId: $recommendViewModel.selectedCertificateId
                         ) {

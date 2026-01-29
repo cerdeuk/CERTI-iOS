@@ -52,7 +52,7 @@ struct HomeCoordinatorView: View {
                         PreLicenseEditView(viewModel: homeViewModel)
                             .navigationBarBackButtonHidden()
                     case .certificateDetail:
-                        CertificateDetailView(viewModel: certificateDetailViewModel, certificationId: $homeViewModel.selectedLicenseId) {
+                        CertificateDetailTabContainerView(viewModel: certificateDetailViewModel, certificationId: $homeViewModel.selectedLicenseId) {
                             homeCoordinator.pop()
                         }
                     }
