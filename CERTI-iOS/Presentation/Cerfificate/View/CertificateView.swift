@@ -52,8 +52,10 @@ struct CertificateView: View {
             async let recommend: () = viewModel.fetchRecommend()
             async let trackRank: () = viewModel.fetchTrackRank()
             async let jobRank: () = viewModel.fetchJobRank()
+            async let job: () = viewModel.fetchJob()
+            async let track: () = viewModel.fetchTrack()
 
-            _ = await (recommend, trackRank, jobRank)
+            _ = await (recommend, trackRank, jobRank, job, track)
         }
     }
 }

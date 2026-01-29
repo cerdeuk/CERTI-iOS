@@ -21,6 +21,8 @@ protocol UserServiceProtocol {
     func editMajor(request: EditMajorRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
     func getNotificationSetting() async -> Result<NotificationSettingResponseDTO, NetworkError>
     func toggleNotificationSetting() async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func getTrack() async -> Result<TrackResponseDTO, NetworkError>
+
 }
 
 final class UserService: BaseService, UserServiceProtocol {
@@ -69,5 +71,9 @@ final class UserService: BaseService, UserServiceProtocol {
     
     func toggleNotificationSetting() async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
         return await requestDecodable(provider, .toggleNotificationSetting)
+    }
+    
+    func getTrack() async -> Result<TrackResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getTrack)
     }
 }

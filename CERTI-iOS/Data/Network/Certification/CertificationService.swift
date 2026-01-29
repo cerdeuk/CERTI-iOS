@@ -17,6 +17,9 @@ protocol CertificationServiceProtocol {
     func getRecommend() async -> Result<RecommendCertificationResponseDTO, NetworkError>
     func getTrackRankCertification() async -> Result<RankCertificationResponseDTO, NetworkError>
     func getJobRankCertification() async -> Result<RankCertificationResponseDTO, NetworkError>
+    func getJobCertificationList(job: String) async -> Result<CertificationListResponseDTO, NetworkError>
+    func getTrackCertificationList(track: String) async -> Result<CertificationListResponseDTO, NetworkError>
+
 }
 
 final class CertificationService: BaseService, CertificationServiceProtocol {
@@ -52,5 +55,13 @@ final class CertificationService: BaseService, CertificationServiceProtocol {
     
     func getJobRankCertification() async -> Result<RankCertificationResponseDTO, NetworkError> {
         return await requestDecodable(provider, .getJobRankCertification)
+    }
+    
+    func getJobCertificationList(job: String) async -> Result<CertificationListResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getJobCertificationList(job: job))
+    }
+    
+    func getTrackCertificationList(track: String) async -> Result<CertificationListResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getTrackCertificationList(track: track))
     }
 }

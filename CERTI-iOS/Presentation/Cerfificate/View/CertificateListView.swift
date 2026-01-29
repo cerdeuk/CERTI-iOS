@@ -24,8 +24,6 @@ struct CertificateListView: View {
     
     let viewType: CertificateListViewType
     
-    @State private var selectedJob: JobCategory = .business // 직무별
-    @State private var selectedTrack: TrackList = .health   // 계열별
     @State private var isFavorite: Bool = false
     
     var body: some View {
@@ -36,9 +34,9 @@ struct CertificateListView: View {
             Group {
                 switch viewType {
                 case .job:
-                    JobCategorySegmentedControl(selectedCategory: $selectedJob)
+                    JobCategorySegmentedControl(selectedCategory: $viewModel.selectedJob)
                 case .track:
-                    TrackCategorySegmentedControl(selectedCategory: $selectedTrack)
+                    TrackCategorySegmentedControl(selectedCategory: $viewModel.selectedTrack)
                 }
             }
             .padding(.top, 12)
@@ -87,6 +85,14 @@ struct CertificateListView: View {
             .scrollIndicators(.hidden)
         }
         .background(.white)
+        .task(id: viewModel.selectedJob) {
+            guard viewType == .job else { return }
+            await viewModel.fetchJobList()
+        }
+        .task(id: viewModel.selectedTrack) {
+            guard viewType == .track else { return }
+            await viewModel.fetchTrackList()
+        }
     }
 }
 

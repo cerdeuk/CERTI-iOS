@@ -109,4 +109,37 @@ final class DefaultCertificationRepository: CertificationRepository {
             return .failure(error)
         }
     }
+    
+    func getJobCertificationList(job: String) async -> Result<CertificationListEntity, NetworkError> {
+        let result = await service.getJobCertificationList(job: job)
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                return .failure(.decodingError)
+            }
+            
+            let entity: CertificationListEntity = data.toCertificationListEntity()
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func getTrackCertificationList(track: String) async -> Result<CertificationListEntity, NetworkError> {
+        let result = await service.getTrackCertificationList(track: track)
+        
+        switch result {
+        case .success(let response):
+            guard let data = response.data else {
+                return .failure(.decodingError)
+            }
+            
+            let entity: CertificationListEntity = data.toCertificationListEntity()
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
 }

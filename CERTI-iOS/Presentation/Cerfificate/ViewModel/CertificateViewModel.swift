@@ -22,16 +22,26 @@ final class CertificateViewModel: ObservableObject {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CETRI", category: "CertificateViewModel")
 
     @Published var certificateViewRoute: CertificateViewRoute?
-    
-//    @Published var licenseCards: [CertificateListTileModel] = []
+
+    // 랭킹관련
     @Published var recommendCertificates: [RecommendCeritificateTileModel] = []
     @Published var trackRankCertificates: [RankCeritificateTileModel] = []
     @Published var jobRankCertificates: [RankCeritificateTileModel] = []
+    
+    
     @Published var licenseCards: [CertificateListTileModel] = CertificateListTileModel.dummyData
+
+    // 검색관련
     @Published var searchLicenseCards: [CertificateListTileModel] = []
     @Published var inputText: String = ""
     @Published var searchResult: SearchResultType? = nil
     @Published var selectedCertificateId: Int = 0
+    
+    // 직무별 관련
+    @Published var selectedJob: JobCategory = .business
+    
+    // 계열별 관련
+    @Published var selectedTrack: TrackList = .management
     
     var trimmedInput: String {
         inputText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -42,7 +52,10 @@ final class CertificateViewModel: ObservableObject {
     private let fetchRecommendUseCase: FetchRecommendUseCase
     private let getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase
     private let getJobRankCertificationUsecase: GetJobRankCertificationUsecase
-    
+    private let getJobCertificationListUsecase: GetJobCertificationListUsecase
+    private let getTrackCertificationListUsecase: GetTrackCertificationListUsecase
+    private let fetchJobUseCase: FetchJobUseCase
+    private let fetchTrackUsecase: FetchTrackUsecase
     
     
     // MARK: - init
@@ -51,10 +64,18 @@ final class CertificateViewModel: ObservableObject {
         fetchRecommendUseCase: FetchRecommendUseCase,
         getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase,
         getJobRankCertificationUsecase: GetJobRankCertificationUsecase,
+        getJobCertificationListUsecase: GetJobCertificationListUsecase,
+        getTrackCertificationListUsecase: GetTrackCertificationListUsecase,
+        fetchJobUseCase: FetchJobUseCase,
+        fetchTrackUsecase: FetchTrackUsecase,
     ) {
         self.fetchRecommendUseCase = fetchRecommendUseCase
         self.getTrackRankCertificationUsecase = getTrackRankCertificationUsecase
         self.getJobRankCertificationUsecase = getJobRankCertificationUsecase
+        self.getJobCertificationListUsecase = getJobCertificationListUsecase
+        self.getTrackCertificationListUsecase = getTrackCertificationListUsecase
+        self.fetchJobUseCase = fetchJobUseCase
+        self.fetchTrackUsecase = fetchTrackUsecase
     }
     
 }
@@ -125,6 +146,81 @@ extension CertificateViewModel {
             logger.error("❌ fetchJobRank failed: \(error.localizedDescription)")
         }
     }
+    
+    func fetchJob() async {
+        let fetchJobList = await fetchJobUseCase.execute()
+        
+        switch fetchJobList {
+        case .success(let response):
+            guard let data = response.jobs.first else { return }
+            self.selectedJob = JobCategory(rawValue: data)!
+        case .failure(let error):
+            logger.error("❌ fetchJobList failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchJobList() async {
+        let result = await getJobCertificationListUsecase.execute(job: selectedJob.description)
+        
+        switch result {
+        case .success(let response):
+            logger.debug("✅ fetchJobList success")
+            let jobList: [CertificateListTileModel] = response.certificationSimpleList.map {
+                CertificateListTileModel(
+                    id: $0.certificationID,
+                    title: $0.certificationName,
+                    type: $0.certificationType,
+                    description: $0.description,
+                    tags: $0.tags,
+                    testType: $0.testType,
+                    isFavorite: $0.isFavorite
+                )
+            }
+            self.licenseCards.removeAll()
+            self.licenseCards = jobList
+            
+        case .failure(let error):
+            logger.error("❌ fetchJobList failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchTrack() async {
+        let track = await fetchTrackUsecase.execute()
+        
+        switch track {
+        case .success(let response):
+            logger.debug("✅ fetchJobList success")
+            self.selectedTrack = TrackList(rawValue: response)!
+        case .failure(let error):
+            logger.error("❌ fetchTrack failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchTrackList() async {
+        let result = await getTrackCertificationListUsecase.execute(track: selectedTrack.description)
+        
+        switch result {
+        case .success(let response):
+            logger.debug("✅ fetchTrackList success")
+            let trackList: [CertificateListTileModel] = response.certificationSimpleList.map {
+                CertificateListTileModel(
+                    id: $0.certificationID,
+                    title: $0.certificationName,
+                    type: $0.certificationType,
+                    description: $0.description,
+                    tags: $0.tags,
+                    testType: $0.testType,
+                    isFavorite: $0.isFavorite
+                )
+            }
+            self.licenseCards.removeAll()
+            self.licenseCards = trackList
+            
+        case .failure(let error):
+            logger.error("❌ fetchTrackList failed: \(error.localizedDescription)")
+        }
+    }
+    
 }
 
 

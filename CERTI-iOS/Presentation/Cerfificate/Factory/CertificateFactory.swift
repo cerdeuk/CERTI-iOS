@@ -18,6 +18,10 @@ final class DefaultCertificateFactory: CertificateFactory {
     private let fetchRecommendUseCase: FetchRecommendUseCase
     private let getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase
     private let getJobRankCertificationUsecase: GetJobRankCertificationUsecase
+    private let getJobCertificationListUsecase: GetJobCertificationListUsecase
+    private let getTrackCertificationListUsecase: GetTrackCertificationListUsecase
+    private let fetchJobUseCase: FetchJobUseCase
+    private let fetchTrackUsecase: FetchTrackUsecase
     
     
     // MARK: - init
@@ -26,10 +30,18 @@ final class DefaultCertificateFactory: CertificateFactory {
         fetchRecommendUseCase: FetchRecommendUseCase,
         getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase,
         getJobRankCertificationUsecase: GetJobRankCertificationUsecase,
+        getJobCertificationListUsecase: GetJobCertificationListUsecase,
+        getTrackCertificationListUsecase: GetTrackCertificationListUsecase,
+        fetchJobUseCase: FetchJobUseCase,
+        fetchTrackUsecase: FetchTrackUsecase,
     ) {
         self.fetchRecommendUseCase = fetchRecommendUseCase
         self.getTrackRankCertificationUsecase = getTrackRankCertificationUsecase
         self.getJobRankCertificationUsecase = getJobRankCertificationUsecase
+        self.getJobCertificationListUsecase = getJobCertificationListUsecase
+        self.getTrackCertificationListUsecase = getTrackCertificationListUsecase
+        self.fetchJobUseCase = fetchJobUseCase
+        self.fetchTrackUsecase = fetchTrackUsecase
     }
     
     
@@ -38,7 +50,11 @@ final class DefaultCertificateFactory: CertificateFactory {
         CertificateViewModel(
             fetchRecommendUseCase: fetchRecommendUseCase,
             getTrackRankCertificationUsecase: getTrackRankCertificationUsecase,
-            getJobRankCertificationUsecase: getJobRankCertificationUsecase
+            getJobRankCertificationUsecase: getJobRankCertificationUsecase,
+            getJobCertificationListUsecase: getJobCertificationListUsecase,
+            getTrackCertificationListUsecase: getTrackCertificationListUsecase,
+            fetchJobUseCase: fetchJobUseCase,
+            fetchTrackUsecase: fetchTrackUsecase
         )
     }
 }

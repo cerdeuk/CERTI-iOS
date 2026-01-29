@@ -17,6 +17,8 @@ enum CertificationAPI {
     case getRecommendCertification
     case getTrackRankCertification
     case getJobRankCertification
+    case getTrackCertificationList(track: String)
+    case getJobCertificationList(job: String)
 }
 
 extension CertificationAPI: BaseTargetType {
@@ -43,6 +45,10 @@ extension CertificationAPI: BaseTargetType {
             return "certification/track"
         case .getJobRankCertification:
             return "certification/job"
+        case .getTrackCertificationList:
+            return "certification/tracks"
+        case .getJobCertificationList:
+            return "certification/jobs"
         }
     }
     
@@ -61,6 +67,10 @@ extension CertificationAPI: BaseTargetType {
         case .getTrackRankCertification:
             return .get
         case .getJobRankCertification:
+            return .get
+        case .getTrackCertificationList:
+            return .get
+        case .getJobCertificationList:
             return .get
         }
     }
@@ -81,6 +91,10 @@ extension CertificationAPI: BaseTargetType {
             return .requestPlain
         case .getJobRankCertification:
             return .requestPlain
+        case .getTrackCertificationList(let track):
+            return .requestParameters(parameters: ["isFavorite":false, "tracks":track], encoding: URLEncoding.queryString)
+        case .getJobCertificationList(let job):
+            return .requestParameters(parameters: ["isFavorite":false, "jobs":job], encoding: URLEncoding.queryString)
         }
     }
 }

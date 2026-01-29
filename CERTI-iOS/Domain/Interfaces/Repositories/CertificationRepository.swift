@@ -16,6 +16,6 @@ protocol CertificationRepository {
     func getRecommend() async -> Result<CertificationsEntity, NetworkError>
     func getTrackRankCertification() async -> Result<[RankCertificationEntity], NetworkError>
     func getJobRankCertification() async -> Result<[RankCertificationEntity], NetworkError>
+    func getJobCertificationList(job: String) async -> Result<CertificationListEntity, NetworkError>
+    func getTrackCertificationList(track: String) async -> Result<CertificationListEntity, NetworkError>
 }
-
-
