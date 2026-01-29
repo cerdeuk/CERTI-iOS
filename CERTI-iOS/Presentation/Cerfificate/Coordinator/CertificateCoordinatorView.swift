@@ -68,9 +68,10 @@ struct CertificateCoordinatorView: View {
                             .navigationBarHidden(true)
                         
                     case .certificateDetail:
-                        CertificateDetailView(viewModel: certificateDetailViewModel, certificationId: $certificateViewModel.selectedLicenseId) {
+                        CertificateDetailTabContainerView(viewModel: certificateDetailViewModel, certificationId: $certificateViewModel.selectedLicenseId) {
                             certificateCoordinator.pop()
                         }
+                        
                     }
                 }
         }
