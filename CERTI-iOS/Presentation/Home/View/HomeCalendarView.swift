@@ -52,7 +52,7 @@ extension HomeCalendarView {
                 }
 
             } label: {
-                Image(.iconCalendarArrowRight)
+                Image(.iconCalendarArrowLeft)
                     .frame(width: 16, height: 16)
             }
             .padding(.trailing, 21)
@@ -60,7 +60,7 @@ extension HomeCalendarView {
             Button {
                 viewModel.currentMonth += 1
             } label: {
-                Image(.iconCalendarArrowLeft)
+                Image(.iconCalendarArrowRight)
                     .frame(width: 16, height: 16)
             }
         }
