@@ -15,7 +15,7 @@ struct CertificateSearchList: View {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 12) {
                     
-                    ForEach(viewModel.licenseCards) { item in
+                    ForEach(viewModel.searchLicenseCards) { item in
                         CertificateListTile(
                             title: item.title,
                             type: item.type,

@@ -23,7 +23,8 @@ final class DefaultCertificateFactory: CertificateFactory {
     private let fetchJobUseCase: FetchJobUseCase
     private let fetchTrackUsecase: FetchTrackUsecase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
-    
+    private let searchCertificationUseCase: SearchCertificationUseCase
+
     
     // MARK: - init
     
@@ -36,6 +37,7 @@ final class DefaultCertificateFactory: CertificateFactory {
         fetchJobUseCase: FetchJobUseCase,
         fetchTrackUsecase: FetchTrackUsecase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
+        searchCertificationUseCase: SearchCertificationUseCase,
     ) {
         self.fetchRecommendUseCase = fetchRecommendUseCase
         self.getTrackRankCertificationUsecase = getTrackRankCertificationUsecase
@@ -45,6 +47,7 @@ final class DefaultCertificateFactory: CertificateFactory {
         self.fetchJobUseCase = fetchJobUseCase
         self.fetchTrackUsecase = fetchTrackUsecase
         self.switchFavoriteUseCase = switchFavoriteUseCase
+        self.searchCertificationUseCase = searchCertificationUseCase
     }
     
     
@@ -58,7 +61,8 @@ final class DefaultCertificateFactory: CertificateFactory {
             getTrackCertificationListUsecase: getTrackCertificationListUsecase,
             fetchJobUseCase: fetchJobUseCase,
             fetchTrackUsecase: fetchTrackUsecase,
-            switchFavoriteUseCase: switchFavoriteUseCase
+            switchFavoriteUseCase: switchFavoriteUseCase,
+            searchCertificationUseCase: searchCertificationUseCase
         )
     }
 }

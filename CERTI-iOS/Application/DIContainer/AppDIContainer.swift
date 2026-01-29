@@ -305,7 +305,8 @@ extension AppDIContainer {
             getTrackCertificationListUsecase: makeGetTrackCertificationListUsecase(),
             fetchJobUseCase: makeFetchJobUseCase(),
             fetchTrackUsecase: makeFetchTrackUsecase(),
-            switchFavoriteUseCase: makeSwitchFavoriteUseCase()
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            searchCertificationUseCase: makeSearchCertificationUseCase()
         )
     }
 }

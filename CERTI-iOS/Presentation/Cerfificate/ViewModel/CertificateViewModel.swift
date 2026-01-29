@@ -27,9 +27,6 @@ final class CertificateViewModel: ObservableObject {
     @Published var recommendCertificates: [RecommendCeritificateTileModel] = []
     @Published var trackRankCertificates: [RankCeritificateTileModel] = []
     @Published var jobRankCertificates: [RankCeritificateTileModel] = []
-    
-    
-    @Published var licenseCards: [CertificateListTileModel] = []
 
     // 검색관련
     @Published var searchLicenseCards: [CertificateListTileModel] = []
@@ -37,10 +34,9 @@ final class CertificateViewModel: ObservableObject {
     @Published var searchResult: SearchResultType? = nil
     @Published var selectedCertificateId: Int = 0
     
-    // 직무별 관련
+    // 직무별, 계열별 관련
+    @Published var licenseCards: [CertificateListTileModel] = []
     @Published var selectedJob: JobCategory = .business
-    
-    // 계열별 관련
     @Published var selectedTrack: TrackList = .management
     
     var trimmedInput: String {
@@ -57,7 +53,8 @@ final class CertificateViewModel: ObservableObject {
     private let fetchJobUseCase: FetchJobUseCase
     private let fetchTrackUsecase: FetchTrackUsecase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
-    
+    private let searchCertificationUseCase: SearchCertificationUseCase
+
     
     // MARK: - init
     
@@ -70,6 +67,7 @@ final class CertificateViewModel: ObservableObject {
         fetchJobUseCase: FetchJobUseCase,
         fetchTrackUsecase: FetchTrackUsecase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
+        searchCertificationUseCase: SearchCertificationUseCase,
     ) {
         self.fetchRecommendUseCase = fetchRecommendUseCase
         self.getTrackRankCertificationUsecase = getTrackRankCertificationUsecase
@@ -79,6 +77,7 @@ final class CertificateViewModel: ObservableObject {
         self.fetchJobUseCase = fetchJobUseCase
         self.fetchTrackUsecase = fetchTrackUsecase
         self.switchFavoriteUseCase = switchFavoriteUseCase
+        self.searchCertificationUseCase = searchCertificationUseCase
     }
     
 }
@@ -237,6 +236,33 @@ extension CertificateViewModel {
             logger.error("❌ toggleFavorite failed: \(error.localizedDescription)")
         }
     }
+    
+    func searchCertifiedList(keyword: String) async {
+            let result = await searchCertificationUseCase.execute(keyword: keyword)
+            
+            switch result {
+            case .success(let response):
+                self.searchLicenseCards.removeAll()
+                
+                let list: [CertificateListTileModel] = response.certifications.map {
+                    CertificateListTileModel(
+                        id: $0.certificationId,
+                        title: $0.certificationName,
+                        type: $0.certificationType,
+                        description: $0.description ?? "",
+                        tags: $0.tags,
+                        testType: $0.testType,
+                        isFavorite: $0.isFavorite
+                    )
+                }
+                
+                self.searchLicenseCards = list
+                logger.debug("✅ searchCertifiedList success: \(response.toLicenseCardModelList())")
+                
+            case .failure(let error):
+                logger.error("searchCertifiedList failed: \(error.localizedDescription)")
+            }
+        }
 }
 
 
