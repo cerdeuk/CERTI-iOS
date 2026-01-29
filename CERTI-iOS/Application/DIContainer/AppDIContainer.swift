@@ -227,7 +227,7 @@ extension AppDIContainer {
             checkNickNameUseCase: makeCheckNickNameUseCase()
         )
     }
-    
+
     func makeCertificateDetailFactory() -> CertificateDetailFactory {
         return DefaultCertificationDetailFactory(
           fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase(),
