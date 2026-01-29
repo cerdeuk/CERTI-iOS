@@ -242,6 +242,11 @@ extension HomeView {
             Spacer()
             
             Button {
+<<<<<<< HEAD
+=======
+                // 추천 자격증 항목 이동
+                viewModel.switchToRecommendTab()
+>>>>>>> a46ab39 ([Chore] #200 - 병합용 커밋)
             } label: {
                 Image(.iconArrowright36)
                     .resizable()
