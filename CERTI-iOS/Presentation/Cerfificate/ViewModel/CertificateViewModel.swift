@@ -29,7 +29,7 @@ final class CertificateViewModel: ObservableObject {
     @Published var jobRankCertificates: [RankCeritificateTileModel] = []
     
     
-    @Published var licenseCards: [CertificateListTileModel] = CertificateListTileModel.dummyData
+    @Published var licenseCards: [CertificateListTileModel] = []
 
     // 검색관련
     @Published var searchLicenseCards: [CertificateListTileModel] = []
@@ -56,6 +56,7 @@ final class CertificateViewModel: ObservableObject {
     private let getTrackCertificationListUsecase: GetTrackCertificationListUsecase
     private let fetchJobUseCase: FetchJobUseCase
     private let fetchTrackUsecase: FetchTrackUsecase
+    private let switchFavoriteUseCase: SwitchFavoriteUseCase
     
     
     // MARK: - init
@@ -68,6 +69,7 @@ final class CertificateViewModel: ObservableObject {
         getTrackCertificationListUsecase: GetTrackCertificationListUsecase,
         fetchJobUseCase: FetchJobUseCase,
         fetchTrackUsecase: FetchTrackUsecase,
+        switchFavoriteUseCase: SwitchFavoriteUseCase,
     ) {
         self.fetchRecommendUseCase = fetchRecommendUseCase
         self.getTrackRankCertificationUsecase = getTrackRankCertificationUsecase
@@ -76,6 +78,7 @@ final class CertificateViewModel: ObservableObject {
         self.getTrackCertificationListUsecase = getTrackCertificationListUsecase
         self.fetchJobUseCase = fetchJobUseCase
         self.fetchTrackUsecase = fetchTrackUsecase
+        self.switchFavoriteUseCase = switchFavoriteUseCase
     }
     
 }
@@ -221,6 +224,19 @@ extension CertificateViewModel {
         }
     }
     
+    func toggleFavorite(id: Int) async {
+        let result = await switchFavoriteUseCase.execute(id: id)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ toggleFavorite success")
+            if let index = licenseCards.firstIndex(where: { $0.id == id }) {
+                licenseCards[index].isFavorite.toggle()
+            }
+        case .failure(let error):
+            logger.error("❌ toggleFavorite failed: \(error.localizedDescription)")
+        }
+    }
 }
 
 

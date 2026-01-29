@@ -14,7 +14,7 @@ protocol CertificateFactory {
 final class DefaultCertificateFactory: CertificateFactory {
     
     // MARK: - Usecases
-
+    
     private let fetchRecommendUseCase: FetchRecommendUseCase
     private let getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase
     private let getJobRankCertificationUsecase: GetJobRankCertificationUsecase
@@ -22,10 +22,11 @@ final class DefaultCertificateFactory: CertificateFactory {
     private let getTrackCertificationListUsecase: GetTrackCertificationListUsecase
     private let fetchJobUseCase: FetchJobUseCase
     private let fetchTrackUsecase: FetchTrackUsecase
+    private let switchFavoriteUseCase: SwitchFavoriteUseCase
     
     
     // MARK: - init
-
+    
     init(
         fetchRecommendUseCase: FetchRecommendUseCase,
         getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase,
@@ -34,6 +35,7 @@ final class DefaultCertificateFactory: CertificateFactory {
         getTrackCertificationListUsecase: GetTrackCertificationListUsecase,
         fetchJobUseCase: FetchJobUseCase,
         fetchTrackUsecase: FetchTrackUsecase,
+        switchFavoriteUseCase: SwitchFavoriteUseCase,
     ) {
         self.fetchRecommendUseCase = fetchRecommendUseCase
         self.getTrackRankCertificationUsecase = getTrackRankCertificationUsecase
@@ -42,6 +44,7 @@ final class DefaultCertificateFactory: CertificateFactory {
         self.getTrackCertificationListUsecase = getTrackCertificationListUsecase
         self.fetchJobUseCase = fetchJobUseCase
         self.fetchTrackUsecase = fetchTrackUsecase
+        self.switchFavoriteUseCase = switchFavoriteUseCase
     }
     
     
@@ -54,7 +57,8 @@ final class DefaultCertificateFactory: CertificateFactory {
             getJobCertificationListUsecase: getJobCertificationListUsecase,
             getTrackCertificationListUsecase: getTrackCertificationListUsecase,
             fetchJobUseCase: fetchJobUseCase,
-            fetchTrackUsecase: fetchTrackUsecase
+            fetchTrackUsecase: fetchTrackUsecase,
+            switchFavoriteUseCase: switchFavoriteUseCase
         )
     }
 }
