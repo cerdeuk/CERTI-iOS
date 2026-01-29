@@ -49,7 +49,7 @@ struct CategoryCoordinatorView: View {
                     case .search: CategorySearchView(
                         viewModel: categoryViewModel
                     )
-                    case .certificateDetail: CertificateDetailView(
+                    case .certificateDetail: CertificateDetailTabContainerView(
                         viewModel: certificateDetailViewModel,
                         certificationId: $categoryViewModel.selectedCertificateId
                     ) {
