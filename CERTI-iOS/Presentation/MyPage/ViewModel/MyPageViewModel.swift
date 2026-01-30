@@ -20,6 +20,7 @@ enum MyPageViewRoute {
     case navigateToEditExpectedCertificate
     case navigateToEditCompletedCertificate
     case withDraw
+    case logout
     
     case myPageViewRoutePop
 }
@@ -448,6 +449,10 @@ extension MyPageViewModel {
 // MARK: - Navigation Func
 
 extension MyPageViewModel {
+    func logoutNavigate() {
+        myPageViewRoute = .logout
+    }
+    
     func withDrawNavigate() {
         myPageViewRoute = .withDraw
     }

@@ -48,7 +48,7 @@ struct SettingView: View {
                     style: .plain,
                     onConfirm: {
                         Task {
-                            //TODO: - 로그아웃 로직
+                            viewModel.logoutNavigate()
                             
                             withAnimation {
                                 showLogoutAlert = false

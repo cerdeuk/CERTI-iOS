@@ -63,7 +63,13 @@ struct LoginView: View {
             
             Button {
                 Task {
-                    await viewModel.kakaoLoginButtonTapped() ? appCoordinator.completeLogin() : nil
+                    let isExistingUser = await viewModel.kakaoLoginButtonTapped()
+                    
+                    if isExistingUser {
+                        appCoordinator.loginAsExistingUser(type: .kakao)
+                    } else {
+                        appCoordinator.goToOnboarding()
+                    }
                 }
             } label: {
                 Image(.imageSocialLoginKakao)
@@ -85,8 +91,12 @@ struct LoginView: View {
                         },
                         onCompletion: { result in
                             Task {
-                                if await viewModel.appleLogin(result: result) {
-                                    appCoordinator.completeLogin()
+                                let isExistingUser = await viewModel.appleLogin(result: result)
+                                
+                                if isExistingUser {
+                                    appCoordinator.loginAsExistingUser(type: .apple)
+                                } else {
+                                    appCoordinator.goToOnboarding()
                                 }
                             }
                         }

@@ -151,23 +151,29 @@ extension LoginViewModel {
     
     private func handleAuthResponse(_ authResponse: LoginResponseEntity) -> Bool {
         switch authResponse.needSignUp {
-        case true:
-            logger.info("✅ 서버 로그인 성공, 유저 ID: \(authResponse.userInformation.socialID)")
-            saveTokens(from: authResponse)
-            AuthManager.shared.temporarySignUpData = authResponse
-            return true
         case false:
-            logger.info("🔁 회원가입 필요, 유저 ID: \(authResponse.userInformation.socialID)")
+            logger.info("✅ 서버 로그인 성공, 유저 ID: \(authResponse.userID ?? 0)")
             saveTokens(from: authResponse)
+            return true
+        case true:
+            logger.info("🔁 회원가입 필요, 유저 ID: \(authResponse.userInformation?.socialID ?? "")")
+            savePresignedUpTokens(from: authResponse)
             AuthManager.shared.temporarySignUpData = authResponse
             return false
         }
     }
 
+    private func savePresignedUpTokens(from entity: LoginResponseEntity) {
+        _ = TokenManager.shared.saveTokens(
+            accessToken: entity.preSignupToken!,
+            refreshToken: entity.preSignupToken!
+        )
+    }
+    
     private func saveTokens(from entity: LoginResponseEntity) {
         _ = TokenManager.shared.saveTokens(
-            accessToken: entity.preSignupToken,
-            refreshToken: entity.preSignupToken
+            accessToken: entity.tokenResponse!.accessToken,
+            refreshToken: entity.tokenResponse!.refreshToken
         )
     }
 

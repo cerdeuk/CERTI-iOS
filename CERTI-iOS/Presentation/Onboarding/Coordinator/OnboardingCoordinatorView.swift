@@ -41,12 +41,20 @@ struct OnboardingCoordinatorView: View {
                         onboardingCoordinator.push(next: .info)
                     case .onboardingViewRoutePop:
                         onboardingCoordinator.pop()
-                    case .completeOnboarding:
-                        appCoordinator.completeOnboarding()
+                    case .completeOnboardingKakao:
+                        appCoordinator.completeOnboardingKakao()
+                        onboardingCoordinator.reset()
+                        
+                    case .completeOnboardingApple:
+                        appCoordinator.completeOnboardingApple()
+                        onboardingCoordinator.reset()
+                        
                     case .onboardingViewRouteReset:
                         onboardingCoordinator.reset()
+                        
                     case .cancelOnboarding:
                         appCoordinator.cancelOnboarding()
+                        onboardingCoordinator.reset()
                     }
                     onboardingViewModel.onboardingViewRoute = nil
                 }

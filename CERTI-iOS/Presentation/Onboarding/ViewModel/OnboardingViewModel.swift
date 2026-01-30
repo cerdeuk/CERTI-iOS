@@ -17,7 +17,8 @@ enum OnboardingViewRoute {
     case navigateToNickName
     case navigateToInfo
     
-    case completeOnboarding
+    case completeOnboardingKakao
+    case completeOnboardingApple
     case cancelOnboarding
     
     case onboardingViewRouteReset
@@ -90,7 +91,13 @@ extension OnboardingViewModel {
     }
     
     func completeOnboarding() {
-        onboardingViewRoute = .completeOnboarding
+        guard let authManger = AuthManager.shared.temporarySignUpData else {return}
+        
+        if authManger.userInformation?.socialType == "KAKAO" {
+            onboardingViewRoute = .completeOnboardingKakao
+        } else {
+            onboardingViewRoute = .completeOnboardingApple
+        }
     }
     
     func cancelOnboarding() {
@@ -113,7 +120,7 @@ extension OnboardingViewModel {
 extension OnboardingViewModel {
     func getUnivList(keyword: String) async {
         guard let authManger = AuthManager.shared.temporarySignUpData else {return}
-        let result = await fetchUnivListUseCase.execute(keyword: keyword, preSignUpToken: authManger.preSignupToken)
+        let result = await fetchUnivListUseCase.execute(keyword: keyword, preSignUpToken: authManger.preSignupToken!)
         
         switch result {
         case .success(let data):
@@ -127,7 +134,7 @@ extension OnboardingViewModel {
     
     func getMajorList(keyword: String) async {
         guard let authManger = AuthManager.shared.temporarySignUpData else {return}
-        let result = await fetchMajorListUseCase.execute(keyword: keyword, preSignUpToken: authManger.preSignupToken)
+        let result = await fetchMajorListUseCase.execute(keyword: keyword, preSignUpToken: authManger.preSignupToken!)
         
         switch result {
         case .success(let data):
@@ -141,8 +148,9 @@ extension OnboardingViewModel {
     func signUp() async -> Bool {
         guard let authManger = AuthManager.shared.temporarySignUpData else { return false }
         
+        
         let requestData = SignupRequestEntity(
-            userInformation: authManger.userInformation,
+            userInformation: (authManger.userInformation?.toUserInformationEntity())!,
             university: userUniversity,
             grade: selectedGrade,
             track: selectedTrack,
@@ -151,7 +159,7 @@ extension OnboardingViewModel {
             jobs: selectedJobCategory
         )
         
-        let result = await signupUseCase.execute(request: requestData, preSignUpToken: authManger.preSignupToken)
+        let result = await signupUseCase.execute(request: requestData, preSignUpToken: authManger.preSignupToken!)
         
         switch result {
         case .success(let response):
