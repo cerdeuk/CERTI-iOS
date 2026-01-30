@@ -30,8 +30,10 @@ final class DefaultAcquisitionRepository: AcquisitionRepository {
         }
     }
 
-    func addAcquisition(certificationId: Int) async -> Result<Bool, NetworkError> {
-        let result = await service.addAcquisition(certificationId: certificationId)
+    func addAcquisition(request: AddAcquisitionEntity) async -> Result<Bool, NetworkError> {
+        let requestDTO = request.toAddAcquisitionRequestDTO()
+
+        let result = await service.addAcquisition(request: requestDTO)
         switch result {
         case .success(let response):
             guard let response = response.data else {

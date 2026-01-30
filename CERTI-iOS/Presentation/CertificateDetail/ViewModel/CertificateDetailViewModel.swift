@@ -115,7 +115,8 @@ extension CertificateDetailViewModel {
     }
     
     func appendAcquisition(certificationId: Int) async {
-        let result = await addAcquisitionUseCase.execute(certificationId: certificationId)
+        let entity = AddAcquisitionEntity(certificationId: certificationId)
+        let result = await addAcquisitionUseCase.execute(request: entity)
         
         switch result {
         case .success(let response):

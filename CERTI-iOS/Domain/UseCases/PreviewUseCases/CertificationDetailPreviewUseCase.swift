@@ -33,7 +33,7 @@ struct PreviewAddPreCertificationUseCase: AddPreCertificationUseCase {
 }
 
 struct PreviewAddAcquisitionUseCase: AddAcquisitionUseCase {
-    func execute(certificationId: Int) async -> Result<Bool, NetworkError> {
+    func execute(request: AddAcquisitionEntity) async -> Result<Bool, NetworkError> {
         // Always succeed for preview
         return .success(true)
     }
