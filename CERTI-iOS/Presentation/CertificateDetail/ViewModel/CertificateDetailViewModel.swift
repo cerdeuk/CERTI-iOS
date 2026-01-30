@@ -47,7 +47,6 @@ final class CertificateDetailViewModel: ObservableObject {
     private var currentPage: Int = 0
     private let pageSize: Int = 10
     var currentPageIndex: Int = 0
-    
     var commentList: [Comment] {
         paginationComments.flatMap { $0.content }
     }
@@ -145,10 +144,15 @@ extension CertificateDetailViewModel {
         )
 
         switch result {
-        case .success(let entity):
-            comments.append(contentsOf: entity.comments.map { $0.toComment() })
+        case .success(let response):
+            let pageModel = response.toPaginationCommentModel()
+
+            comments.append(contentsOf: pageModel.content)
+
+            commentCount = pageModel.totalElements
+            isLastPage = pageModel.isLast
+
             currentPage += 1
-            isLastPage = entity.isLast
 
         case .failure(let error):
             logger.error("❌ 댓글 조회 실패: \(error.localizedDescription)")
@@ -156,7 +160,7 @@ extension CertificateDetailViewModel {
 
         isLoadingComment = false
     }
-    
+
     func addComment(content: String, certificationId: Int) async {
         let result = await addCommentUseCase.execute(
             content: content, certificationId: certificationId
@@ -182,7 +186,7 @@ extension CertificateDetailViewModel {
 
         switch result {
         case .success:
-            if let index = commentList.firstIndex(where: { $0.commentId == commentId }) {
+            if let index = comments.firstIndex(where: { $0.commentId == commentId }) {
                 comments[index].isLike.toggle()
                 comments[index].likeCount += comments[index].isLike ? 1 : -1
             }

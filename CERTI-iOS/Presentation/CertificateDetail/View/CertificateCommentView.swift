@@ -34,7 +34,7 @@ struct CertificateCommentView: View {
                 .padding(.top, 36)
                 
                 LazyVStack(spacing: 0) {
-                    ForEach(viewModel.commentList) { comment in
+                    ForEach(viewModel.comments) { comment in
                         CommentComponent(
                             model: comment,
                             certificationState: comment.state == "취득 완료" ? .completed : .expected,
@@ -49,18 +49,14 @@ struct CertificateCommentView: View {
                     if !viewModel.isLastPage {
                             ProgressView()
                                 .padding(.vertical, 16)
-                                .onAppear {
-                                    Task {
+                                .task {
                                         await viewModel.fetchComment(certificationId: certificationId)
-                                    }
                                 }
                         }
                 }
             }
-            .onAppear {
-                Task {
+            .task {
                     await viewModel.fetchComment(certificationId: certificationId)
-                }
             }
             .onTapGesture {
                 hideKeyboard()
