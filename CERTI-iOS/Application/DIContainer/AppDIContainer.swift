@@ -27,7 +27,6 @@ final class AppDIContainer {
     private lazy var acquisitionService: AcquisitionServiceProtocol = AcquisitionService()
     private lazy var careersService: CareersServiceProtocol = CareersService()
     private lazy var activityService: ActivityServiceProtocol = ActivityService()
-    /*private*/ lazy var tokenRefreshService: TokenRefreshServiceProtocol = TokenRefreshService()
     
     
     // MARK: - Repositories
