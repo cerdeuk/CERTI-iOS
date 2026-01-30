@@ -31,7 +31,8 @@ struct HomeCalendarView: View {
                 .padding(.top, 16)
         }
         .padding(.horizontal, 20)
-        .onChange(of: viewModel.currentMonth) { _ in
+        .task(id: viewModel.currentMonth) {
+            await viewModel.getMonthlyPreCertification()
         }
     }
 }

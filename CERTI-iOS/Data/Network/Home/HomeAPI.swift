@@ -14,6 +14,8 @@ enum HomeAPI {
     case deletePreCertification(id: Int)
     case getFavoriteCertification
     case addPreCertification(certificationId: Int)
+    case getMonthlyPreCertification(year: Int, month: Int)
+    case getDailyPreCertification(date: String)
 }
 
 extension HomeAPI: BaseTargetType {
@@ -34,6 +36,10 @@ extension HomeAPI: BaseTargetType {
             return "home/favorite"
         case .addPreCertification(let certificationId):
             return "home/pre-certification/\(certificationId)"
+        case .getMonthlyPreCertification:
+            return "home/pre-certification/month"
+        case .getDailyPreCertification:
+            return "home/pre-certification/day"
         }
     }
     
@@ -47,6 +53,10 @@ extension HomeAPI: BaseTargetType {
             return .get
         case .addPreCertification:
             return .post
+        case .getMonthlyPreCertification:
+            return .get
+        case .getDailyPreCertification:
+            return .get
         }
     }
     
@@ -60,6 +70,18 @@ extension HomeAPI: BaseTargetType {
             return .requestPlain
         case .addPreCertification:
             return .requestPlain
+        case .getMonthlyPreCertification(let year, let month):
+            return .requestParameters(
+                parameters: [
+                    "year": "\(year)",
+                    "month": "\(month)"],
+                encoding: URLEncoding.queryString
+            )
+        case .getDailyPreCertification(let date):
+            return .requestParameters(
+                parameters: ["date": "\(date)"],
+                encoding: URLEncoding.queryString
+            )
         }
     }
     

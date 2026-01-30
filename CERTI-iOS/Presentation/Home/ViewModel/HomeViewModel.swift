@@ -28,6 +28,7 @@ struct HomeStateModel {
     var recommendLicenses: [RecommendLicenseCardModel] = []
     var preLicenses: [PreLicenseCardModel] = []
     var favoriteLicenses: [FavoriteLicenseCardModel] = []
+    var preLicenseDays: Set<Int> = []
 }
 
 @MainActor
@@ -47,6 +48,8 @@ final class HomeViewModel: ObservableObject {
     private let withDrawUseCase: WithDrawUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
     private let fetchRecommendUseCase: FetchRecommendUseCase
+    private let getMonthlyPreCertificationUseCase: GetMonthlyPreCertificationUseCase
+    private let getDailyPreCertificationUseCase: GetDailyPreCertificationUseCase
     
     init(
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
@@ -55,7 +58,9 @@ final class HomeViewModel: ObservableObject {
         fetchUserInfoUseCase: FetchUserInfoUseCase,
         withDrawUseCase: WithDrawUseCase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
-        fetchRecommendUseCase: FetchRecommendUseCase
+        fetchRecommendUseCase: FetchRecommendUseCase,
+        getMonthlyPreCertificationUseCase: GetMonthlyPreCertificationUseCase,
+        getDailyPreCertificationUseCase: GetDailyPreCertificationUseCase
     ) {
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
         self.getPreCertificationsUseCase = getPreCertificationsUseCase
@@ -64,6 +69,8 @@ final class HomeViewModel: ObservableObject {
         self.withDrawUseCase = withDrawUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
         self.fetchRecommendUseCase = fetchRecommendUseCase
+        self.getMonthlyPreCertificationUseCase = getMonthlyPreCertificationUseCase
+        self.getDailyPreCertificationUseCase = getDailyPreCertificationUseCase
     }
 
 }
@@ -196,6 +203,19 @@ extension HomeViewModel {
         }
     }
     
+    func getMonthlyPreCertification() async {
+        let (year, month) = getCurrentYearMonth()
+        let result = await getMonthlyPreCertificationUseCase.execute(year: year, month: month)
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ \(year)년 \(month)월 취득 예정 자격증 조회 성공")
+            homeStateModel.preLicenseDays = Set(response.days.map {$0.day})
+        case .failure(let error):
+            logger.error("❌ 월별 취득 예정 자격증 조회 실패: \(error.localizedDescription)")
+            homeStateModel.preLicenseDays = []
+        }
+    }
 }
 
 
@@ -252,6 +272,15 @@ extension HomeViewModel {
         return currentMonth
     }
     
+    func getCurrentYearMonth() -> (year: Int, month: Int) {
+        let calendar = Calendar.current
+        let currentMonthDate = getCurrentMonth()
+        
+        let year = calendar.component(.year, from: currentMonthDate)
+        let month = calendar.component(.month, from: currentMonthDate)
+        return (year, month)
+    }
+    
     func isSameDay(day1: Date, day2: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(day1, inSameDayAs: day2)
@@ -278,7 +307,9 @@ extension HomeViewModel {
     }
     
     func hasPreLicenses(on date: Date) -> Bool {
-        // 추후 api 연동
-        return false
+        let calendar = Calendar.current
+        let day = calendar.component(.day, from: date)
+        
+        return homeStateModel.preLicenseDays.contains(day)
     }
 }

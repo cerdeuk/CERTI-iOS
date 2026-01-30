@@ -63,6 +63,14 @@ extension AppDIContainer {
     func makeGetFavoritePreCertificationUseCase() -> GetFavoriteCertificationUseCase {
         return DefaultGetFavoriteCertificationUseCase(repository: homeRepository)
     }
+    
+    func makeGetMonthlyPreCertificationUseCase() -> GetMonthlyPreCertificationUseCase {
+        return DefaultGetMonthlyPreCertificationUseCase(repository: homeRepository)
+    }
+    
+    func makeGetDailyPreCertificationUseCase() -> GetDailyPreCertificationUseCase {
+        return DefaultGetDailyPreCertificationUseCase(repository: homeRepository)
+    }
 
     func makeFetchUserInfoUseCase() -> FetchUserInfoUseCase {
         return DefaultFetchUserInfoUseCase(repository: userRepository)
@@ -177,7 +185,9 @@ extension AppDIContainer {
             fetchUserInfoUseCase: makeFetchUserInfoUseCase(),
             withDrawUseCase: makeWithDrawUseCase(),
             switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
-            fetchRecommendUseCase: makeFetchRecommendUseCase()
+            fetchRecommendUseCase: makeFetchRecommendUseCase(),
+            getMonthlyPreCertificationUseCase: makeGetMonthlyPreCertificationUseCase(),
+            getDailyPreCertificationUseCase: makeGetDailyPreCertificationUseCase()
         )
     }
     
