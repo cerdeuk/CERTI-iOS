@@ -11,6 +11,9 @@ import Moya
 
 enum CommentAPI {
     case getComment(certificationId: Int, page: Int, size: Int, sort: String)
+    case addComment(content: String, certificationId: Int)
+    case deleteComment(commentId: Int)
+    case likeComment(commentId: Int)
 }
 
 extension CommentAPI: BaseTargetType {
@@ -25,6 +28,12 @@ extension CommentAPI: BaseTargetType {
         switch self {
         case .getComment:
             return "comments"
+        case .addComment:
+            return "comments"
+        case .deleteComment(let commentId):
+            return "comments/\(commentId)/like"
+        case .likeComment(let commentId):
+            return "comments/\(commentId)"
         }
     }
     
@@ -32,6 +41,12 @@ extension CommentAPI: BaseTargetType {
         switch self {
         case .getComment:
             return .get
+        case .addComment:
+            return .post
+        case .deleteComment:
+            return .delete
+        case .likeComment:
+            return .post
         }
     }
     
@@ -44,6 +59,18 @@ extension CommentAPI: BaseTargetType {
                 "size": size,
                 "sort": sort
             ], encoding: URLEncoding.queryString)
+        case .addComment(let content, let certificationId):
+            return .requestParameters(
+                        parameters: [
+                            "content": content,
+                            "certificationId": certificationId
+                        ],
+                        encoding: JSONEncoding.default
+                    )
+        case .deleteComment:
+            return .requestPlain
+        case .likeComment:
+            return .requestPlain
         }
     }
 }

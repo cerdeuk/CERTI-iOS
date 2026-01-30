@@ -72,10 +72,10 @@ extension CommentEntityData {
             userMajor: userMajor,
             userJob: userJob,
             state: state,
-            likeCount: likeCount,
             createdTime: createdTime,
             lastModifiedTime: lastModifiedTime,
-            isLike: isLike
+            isLike: isLike,
+            likeCount: likeCount
         )
     }
 }

@@ -166,6 +166,18 @@ extension AppDIContainer {
     func makeFetchCommentUseCase() -> FetchCommentUseCase {
         return DefaultFetchCommentUseCase(repository: commentRepository)
     }
+    
+    func makeAddCommentUseCase() -> AddCommentUseCase {
+        return DefaultAddCommentUseCase(repository: commentRepository)
+    }
+    
+    func makeDeleteCommentUseCase() -> DeleteCommentUseCase {
+        return DefaultDeleteCommentUseCase(repository: commentRepository)
+    }
+    
+    func makeLikeCommentUseCase() -> LikeCommentUseCase {
+        return DefaultLikeCommentUseCase(repository: commentRepository)
+    }
 }
 
 
@@ -216,7 +228,10 @@ extension AppDIContainer {
           fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase(),
           addPreCertificationUseCase: makeAddPreCertificationUseCase(),
           addAcquisitionUseCase: makeAddAcquisitionUseCase(),
-          fetchCommentUseCase: makeFetchCommentUseCase()
+          fetchCommentUseCase: makeFetchCommentUseCase(),
+          addCommentUseCase: makeAddCommentUseCase(),
+          deleteCommentUseCase: makeDeleteCommentUseCase(),
+          likeCommentUseCase: makeLikeCommentUseCase()
         )
     }
   

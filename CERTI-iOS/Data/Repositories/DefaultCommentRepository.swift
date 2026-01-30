@@ -29,4 +29,16 @@ final class DefaultCommentRepository: CommentRepository {
             return .failure(error)
         }
     }
+    
+    func addComment(content: String, certificationId: Int) async -> Result<Void, NetworkError> {
+        return await service.addComment(content: content, certificationId: certificationId)
+    }
+    
+    func deleteComment(commentId: Int) async -> Result<Void, NetworkError> {
+        return await service.deleteComment(commentId: commentId)
+    }
+    
+    func likeComment(commentId: Int) async -> Result<Void, NetworkError> {
+        return await service.likeComment(commentId: commentId)
+    }
 }

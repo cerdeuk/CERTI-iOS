@@ -46,7 +46,6 @@ final class CertificateDetailViewModel: ObservableObject {
     
     private var currentPage: Int = 0
     private let pageSize: Int = 10
-    private var dummyPages: [PaginationCommentModel] = PaginationCommentModel.dummy()
     var currentPageIndex: Int = 0
     
     var commentList: [Comment] {
@@ -59,17 +58,26 @@ final class CertificateDetailViewModel: ObservableObject {
     private let addPreCertificationUseCase: AddPreCertificationUseCase
     private let addAcquisitionUseCase: AddAcquisitionUseCase
     private let fetchCommentUseCase: FetchCommentUseCase
+    private let addCommentUseCase: AddCommentUseCase
+    private let deleteCommentUseCase: DeleteCommentUseCase
+    private let likeCommentUseCase: LikeCommentUseCase
     
     init(
         fetchCertificationDetailUseCase: FetchCertificationDetailUseCase,
         addPreCertificationUseCase: AddPreCertificationUseCase,
         addAcquisitionUseCase: AddAcquisitionUseCase,
-        fetchCommentUseCase: FetchCommentUseCase
+        fetchCommentUseCase: FetchCommentUseCase,
+        addCommentUseCase: AddCommentUseCase,
+        deleteCommentUseCase: DeleteCommentUseCase,
+        likeCommentUseCase: LikeCommentUseCase,
     ) {
         self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
         self.addPreCertificationUseCase = addPreCertificationUseCase
         self.addAcquisitionUseCase = addAcquisitionUseCase
         self.fetchCommentUseCase = fetchCommentUseCase
+        self.addCommentUseCase = addCommentUseCase
+        self.deleteCommentUseCase = deleteCommentUseCase
+        self.likeCommentUseCase = likeCommentUseCase
     }
 }
 
@@ -147,6 +155,53 @@ extension CertificateDetailViewModel {
         }
 
         isLoadingComment = false
+    }
+    
+    func addComment(content: String, certificationId: Int) async {
+        let result = await addCommentUseCase.execute(
+            content: content, certificationId: certificationId
+        )
+
+        switch result {
+        case .success:
+            commentText = ""
+
+            currentPage = 0
+            isLastPage = false
+            comments.removeAll()
+
+            await fetchComment(certificationId: certificationId)
+
+        case .failure(let error):
+            logger.error("❌ 댓글 등록 실패: \(error.localizedDescription)")
+        }
+    }
+    
+    func toggleLike(commentId: Int) async {
+        let result = await likeCommentUseCase.execute(commentId: commentId)
+
+        switch result {
+        case .success:
+            if let index = commentList.firstIndex(where: { $0.commentId == commentId }) {
+                comments[index].isLike.toggle()
+                comments[index].likeCount += comments[index].isLike ? 1 : -1
+            }
+
+        case .failure(let error):
+            print("❌ 댓글 좋아요 실패:", error)
+        }
+    }
+    
+    func deleteComment(commentId: Int) async {
+        let result = await deleteCommentUseCase.execute(commentId: commentId)
+
+        switch result {
+        case .success:
+            comments.removeAll { $0.commentId == commentId }
+
+        case .failure(let error):
+            print("❌ 댓글 삭제 실패:", error)
+        }
     }
 }
 

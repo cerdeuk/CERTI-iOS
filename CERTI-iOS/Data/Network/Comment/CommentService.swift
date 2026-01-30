@@ -11,6 +11,9 @@ import Moya
 
 protocol CommentServiceProtocol {
     func getComment(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentListResponseDTO, NetworkError>
+    func addComment(content: String, certificationId: Int) async ->Result<Void, NetworkError>
+    func deleteComment(commentId: Int) async ->Result<Void, NetworkError>
+    func likeComment(commentId: Int) async -> Result<Void, NetworkError>
 }
 
 final class CommentService: BaseService, CommentServiceProtocol {
@@ -18,5 +21,17 @@ final class CommentService: BaseService, CommentServiceProtocol {
     
     func getComment(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentListResponseDTO, NetworkError> {
         return await requestDecodable(provider, .getComment(certificationId: certificationId, page: page, size: size, sort: sort))
+    }
+    
+    func addComment(content: String, certificationId: Int) async -> Result<Void, NetworkError> {
+        return await requestVoid(provider, .addComment(content: content, certificationId: certificationId))
+    }
+    
+    func deleteComment(commentId: Int) async -> Result<Void, NetworkError> {
+        return await requestVoid(provider, .deleteComment(commentId: commentId))
+    }
+    
+    func likeComment(commentId: Int) async -> Result<Void, NetworkError> {
+        return await requestVoid(provider, .likeComment(commentId: commentId))
     }
 }

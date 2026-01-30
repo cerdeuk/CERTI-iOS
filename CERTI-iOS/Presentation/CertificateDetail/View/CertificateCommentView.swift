@@ -41,7 +41,7 @@ struct CertificateCommentView: View {
                             userName: comment.nickName == nil ? .unknown : .normal(userName:comment.nickName!),
                             onTapLike: {
                                 Task{
-                                    // TODO: - 댓글 좋아요 useCase 호출
+                                    await viewModel.toggleLike(commentId: comment.commentId)
                                 }
                             })
                         .padding(.horizontal, 20)
@@ -66,7 +66,11 @@ struct CertificateCommentView: View {
                 hideKeyboard()
             }
             
-            CommentTextField(commentText: $viewModel.commentText, onSendTapped: { }, textFieldState: !viewModel.showFailToBeAcquired || !viewModel.showFailAcquired ? .fieldOn : .fieldLock)
+            CommentTextField(commentText: $viewModel.commentText, onSendTapped: {
+                Task {
+                    await viewModel.addComment(content: viewModel.commentText, certificationId: certificationId)
+            }
+            }, textFieldState: !viewModel.showFailToBeAcquired || !viewModel.showFailAcquired ? .fieldOn : .fieldLock)
                 .padding(.vertical, 20)
         }
     }

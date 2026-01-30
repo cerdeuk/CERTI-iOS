@@ -11,4 +11,7 @@ import Moya
 
 protocol CommentRepository {
     func getComment(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentEntity, NetworkError>
+    func addComment(content: String, certificationId: Int) async -> Result<Void, NetworkError>
+    func deleteComment(commentId: Int) async -> Result<Void, NetworkError>
+    func likeComment(commentId: Int) async -> Result<Void, NetworkError>
 }
