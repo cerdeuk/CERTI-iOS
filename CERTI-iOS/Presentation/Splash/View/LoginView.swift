@@ -40,7 +40,7 @@ struct LoginView: View {
                 .padding(.bottom, 20)
                 .padding(.top, 137)
             
-            Text ("나만의 자격증 취득 올인원 서비스")
+            Text ("따요: 나만의 자격증 올인원 서비스")
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale400)
                 .padding(.bottom, 27)
