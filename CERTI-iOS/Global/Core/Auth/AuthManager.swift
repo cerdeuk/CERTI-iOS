@@ -14,6 +14,7 @@ final class AuthManager {
         
     var temporarySignUpData: LoginResponseEntity?
     var nickname: String = ""
+    var name: String = ""
     
     func cleanUserInfo() {
         nickname = ""

@@ -10,5 +10,5 @@ import Foundation
 struct EditProfileEntity {
     let nickName, name, email: String
     let birthDate: String?
-    let profileImageURL: String
+    let profileImageURL: String?
 }

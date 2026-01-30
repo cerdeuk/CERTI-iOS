@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import _AuthenticationServices_SwiftUI
 
 struct LoginView: View {
     
@@ -72,15 +73,27 @@ struct LoginView: View {
             }
             .padding(.bottom, 12)
             
-            Button {
-                // 애플 로그인
-            } label: {
-                Image(.imageSocialLoginApple)
-                    .resizable()
-                    .scaledToFit()
+            Image(.imageSocialLoginApple)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 335, height: 56)
+                .padding(.bottom, 36)
+                .overlay {
+                    SignInWithAppleButton(
+                        onRequest: { request in
+                            request.requestedScopes = [.email, .fullName]
+                        },
+                        onCompletion: { result in
+                            Task {
+                                if await viewModel.appleLogin(result: result) {
+                                    appCoordinator.completeLogin()
+                                }
+                            }
+                        }
+                    )
+                    .blendMode(.destinationOver)
                     .frame(width: 335, height: 56)
-            }
-            .padding(.bottom, 36)
+                }
             
         }
         .ignoresSafeArea()
@@ -89,4 +102,8 @@ struct LoginView: View {
             isAnimating = true
         }
     }
+}
+
+#Preview {
+    LoginView(factory: AppDIContainer.shared.makeLoginFactory())
 }

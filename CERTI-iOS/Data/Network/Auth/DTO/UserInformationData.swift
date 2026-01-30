@@ -9,8 +9,9 @@ import Foundation
 
 struct UserInformationData: Codable {
     let socialID: String
-    let name: String?
-    let socialType, email, profileImageURL: String
+    let name: String
+    let socialType, email: String
+    let profileImageURL: String?
 
     enum CodingKeys: String, CodingKey {
         case socialID = "socialId"
@@ -23,7 +24,7 @@ struct UserInformationData: Codable {
             socialID: socialID,
             socialType: socialType,
             email: email,
-            name: name ?? "",
+            name: name,
             profileImageURL: profileImageURL
         )
     }

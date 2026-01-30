@@ -17,6 +17,6 @@ struct EditProfileRequestDTO: Codable {
         self.email = entity.email
         self.nickName = entity.nickName
         self.birthDate = entity.birthDate
-        self.publicURL = entity.profileImageURL
+        self.publicURL = entity.profileImageURL ?? ""
     }
 }

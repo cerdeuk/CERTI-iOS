@@ -118,7 +118,8 @@ extension HomeViewModel {
         case .success(let response):
             logger.info("✅ 유저 정보 조회 성공")
             homeStateModel = response.toHomeStateModel()
-            AuthManager.shared.nickname = response.name
+            AuthManager.shared.nickname = response.nickname
+            AuthManager.shared.name = response.name
             
         case .failure(let error):
             logger.error("❌ 유저 정보 조회: \(error.localizedDescription)")
