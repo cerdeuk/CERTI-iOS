@@ -62,7 +62,6 @@ extension CertificateCardDetailView {
                     }
                     .resizable()
                     .scaledToFit()
-//                    .frame(width: 250, height: 375)
                 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(card.name)
@@ -71,7 +70,7 @@ extension CertificateCardDetailView {
                         .frame(height: 25)
                         .padding(.leading, 20)
                     
-                    Text("\(card.createdAt.toDisplayDateString())에 획득했어요.")
+                    Text("\(card.acquisitionDate.toDisplayDateString())에 획득했어요.")
                         .applyCertiFont(.caption_regular_14)
                         .foregroundStyle(card.index == 2 ?  .lightblue : .grayscale600)
                         .frame(height: 20)
@@ -118,24 +117,20 @@ extension CertificateCardDetailView {
                 .frame(maxWidth: 250, maxHeight: 375)
                 .padding(.top, 39)
             }
-//            .frame(maxWidth: 250, maxHeight: 375)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: 250, maxHeight: 375)
             .padding(.vertical, 219)
             .padding(.horizontal, 62)
     }
     
     private var CertificateCardDetailViewBack: some View {
             ZStack(alignment: .center) {
-                Color.blackOpacity40
-                    .frame(width: 250, height: 375)
                 KFImage(URL(string: card.cardBackImageUrl))
                     .retry(maxCount: 3, interval: .seconds(5))
                     .onFailure { error in
                         print("Image Failure: \(error.localizedDescription)")
                     }
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: 250, height: 375)
+                    .scaledToFit()
                 
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .center, spacing: 0) {
@@ -176,7 +171,7 @@ extension CertificateCardDetailView {
                     .frame(height: 24)
                     .padding(.bottom, 4)
                     
-                    Text(card.createdAt.toDisplayDateString())
+                    Text(card.acquisitionDate.toDisplayDateString())
                         .applyCertiFont(.caption_semibold_14)
                         .foregroundStyle(.purpleblue)
                         .frame(height: 20)
@@ -190,7 +185,7 @@ extension CertificateCardDetailView {
                 .padding(.top, 30)
                 .padding(.horizontal, 24)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: 250, maxHeight: 375)
             .padding(.vertical, 219)
             .padding(.horizontal, 62)
         }
