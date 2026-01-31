@@ -11,7 +11,7 @@ import Moya
 
 enum CommentAPI {
     case getComment(certificationId: Int, page: Int, size: Int, sort: String)
-    case addComment(content: String, certificationId: Int)
+    case addComment(request: CommentRequestDTO)
     case deleteComment(commentId: Int)
     case likeComment(commentId: Int)
 }
@@ -59,14 +59,8 @@ extension CommentAPI: BaseTargetType {
                 "size": size,
                 "sort": sort
             ], encoding: URLEncoding.queryString)
-        case .addComment(let content, let certificationId):
-            return .requestParameters(
-                        parameters: [
-                            "content": content,
-                            "certificationId": certificationId
-                        ],
-                        encoding: JSONEncoding.default
-                    )
+        case .addComment(let request):
+            return .requestJSONEncodable(request)
         case .deleteComment:
             return .requestPlain
         case .likeComment:

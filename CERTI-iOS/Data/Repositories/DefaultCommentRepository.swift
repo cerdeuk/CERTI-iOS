@@ -30,8 +30,9 @@ final class DefaultCommentRepository: CommentRepository {
         }
     }
     
-    func addComment(content: String, certificationId: Int) async -> Result<Void, NetworkError> {
-        return await service.addComment(content: content, certificationId: certificationId)
+    func addComment(request: AddCommentEntity) async -> Result<Void, NetworkError> {
+        let requestDTO = request.toCommentRequestDTO()
+        return await service.addComment(request: requestDTO)
     }
     
     func deleteComment(commentId: Int) async -> Result<Void, NetworkError> {

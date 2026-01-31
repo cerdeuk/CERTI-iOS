@@ -167,9 +167,8 @@ extension CertificateDetailViewModel {
     }
 
     func addComment(content: String, certificationId: Int) async {
-        let result = await addCommentUseCase.execute(
-            content: content, certificationId: certificationId
-        )
+        let entity = AddCommentEntity(content: content, certificationId: certificationId)
+        let result = await addCommentUseCase.execute(request: entity)
 
         switch result {
         case .success:

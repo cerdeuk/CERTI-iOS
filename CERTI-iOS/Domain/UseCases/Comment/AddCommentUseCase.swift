@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AddCommentUseCase {
-    func execute(content: String, certificationId: Int) async -> Result<Void, NetworkError>
+    func execute(request: AddCommentEntity) async -> Result<Void, NetworkError>
 }
 
 final class DefaultAddCommentUseCase: AddCommentUseCase {
@@ -18,7 +18,7 @@ final class DefaultAddCommentUseCase: AddCommentUseCase {
         self.repository = repository
     }
     
-    func execute(content: String, certificationId: Int) async -> Result<Void, NetworkError> {
-        return await repository.addComment(content: content, certificationId: certificationId)
+    func execute(request: AddCommentEntity) async -> Result<Void, NetworkError> {
+        return await repository.addComment(request: request)
     }
 }
