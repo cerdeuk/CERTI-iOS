@@ -56,6 +56,7 @@ struct CertificateCommentView: View {
                                 model: comment,
                                 certificationState: comment.state == "취득 완료" ? .completed : .expected,
                                 userName: comment.nickName == nil ? .unknown : .normal(userName:comment.nickName!),
+                                canDelete: comment.userId == viewModel.currentUserId,
                                 onTapLike: {
                                     Task{
                                         await viewModel.toggleLike(commentId: comment.commentId)

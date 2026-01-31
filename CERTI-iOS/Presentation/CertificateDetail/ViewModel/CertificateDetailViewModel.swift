@@ -49,6 +49,7 @@ final class CertificateDetailViewModel: ObservableObject {
     
     private var currentPage: Int = 0
     private let pageSize: Int = 10
+    var currentUserId: Int = 0
     var currentPageIndex: Int = 0
     var commentList: [Comment] {
         paginationComments.flatMap { $0.content }

@@ -56,6 +56,7 @@ struct CommentComponent: View {
     let model: Comment
     let certificationState: CertificationType
     let userName: UserType
+    let canDelete: Bool
     let onTapLike: () -> Void
     let onTapDelete: () -> Void
     
@@ -106,19 +107,21 @@ extension CommentComponent {
             
             Spacer()
             
-            Button {
-                onTapDelete()
-            } label: {
-                Text("삭제")
-                    .applyCertiFont(.caption_regular_12)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 2)
-                    .frame(width:37, height: 22)
-                    .foregroundStyle(.black)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(.grayscale0)
-                    )
+            if canDelete {
+                Button {
+                    onTapDelete()
+                } label: {
+                    Text("삭제")
+                        .applyCertiFont(.caption_regular_12)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .frame(width:37, height: 22)
+                        .foregroundStyle(.black)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.grayscale0)
+                        )
+                }
             }
         }
     }
