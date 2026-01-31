@@ -20,6 +20,9 @@ struct CertificateCommentView: View {
                 HStack(alignment: .center, spacing: 0) {
                     CommentSortButton(isSelectedPopularity: isSelectedPopularity) {
                         isSelectedPopularity.toggle()
+                        Task {
+                            await viewModel.refreshComments(certificationId: certificationId)
+                        }
                     }
                     .padding(.leading, 20)
                     
@@ -57,6 +60,10 @@ struct CertificateCommentView: View {
                                     Task{
                                         await viewModel.toggleLike(commentId: comment.commentId)
                                     }
+                                }, onTapDelete: {
+                                    Task {
+                                        await viewModel.deleteComment(commentId: comment.commentId)
+                                    }
                                 })
                             .padding(.horizontal, 20)
                         }
@@ -71,18 +78,21 @@ struct CertificateCommentView: View {
                 }
             }
             .task {
-                    await viewModel.fetchComment(certificationId: certificationId)
+                await viewModel.fetchComment(certificationId: certificationId)
             }
             .onTapGesture {
                 hideKeyboard()
+            }
+            .onDisappear {
+                viewModel.resetComments()
             }
             
             CommentTextField(commentText: $viewModel.commentText, onSendTapped: {
                 Task {
                     await viewModel.addComment(content: viewModel.commentText, certificationId: certificationId)
-            }
+                }
             }, textFieldState: !viewModel.showFailToBeAcquired || !viewModel.showFailAcquired ? .fieldOn : .fieldLock)
-                .padding(.vertical, 20)
+            .padding(.vertical, 20)
         }
     }
 }

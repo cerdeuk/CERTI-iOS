@@ -57,6 +57,7 @@ struct CommentComponent: View {
     let certificationState: CertificationType
     let userName: UserType
     let onTapLike: () -> Void
+    let onTapDelete: () -> Void
     
     // MARK: - Main Body
     
@@ -104,6 +105,21 @@ extension CommentComponent {
                 .padding(.leading, 8)
             
             Spacer()
+            
+            Button {
+                onTapDelete()
+            } label: {
+                Text("삭제")
+                    .applyCertiFont(.caption_regular_12)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .frame(width:37, height: 22)
+                    .foregroundStyle(.black)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(.grayscale0)
+                    )
+            }
         }
     }
     
@@ -111,7 +127,6 @@ extension CommentComponent {
     private var commentInfomation: some View {
         HStack(alignment: .center, spacing: 0) {
             Button {
-                // TODO: CommentLikeUseCase
                 onTapLike()
             } label: {
                 Image(model.isLike ? .iconCommentHeartFilled12 : .iconCommentHeartDefault12)

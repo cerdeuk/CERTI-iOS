@@ -31,9 +31,9 @@ extension CommentAPI: BaseTargetType {
         case .addComment:
             return "comments"
         case .deleteComment(let commentId):
-            return "comments/\(commentId)/like"
-        case .likeComment(let commentId):
             return "comments/\(commentId)"
+        case .likeComment(let commentId):
+            return "comments/\(commentId)/like"
         }
     }
     

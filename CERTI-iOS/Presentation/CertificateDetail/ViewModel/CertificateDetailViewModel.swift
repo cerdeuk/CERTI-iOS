@@ -35,7 +35,7 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var isAM = true
     @Published var hour = 1
     @Published var minute = 0
-    @Published var isSelectedPopularity = false
+    @Published var isSelectedPopularity = true
     @Published var commentCount = 0
     @Published var paginationComments: [PaginationCommentModel] = []
     @Published var comments: [Comment] = []
@@ -211,6 +211,15 @@ extension CertificateDetailViewModel {
             print("❌ 댓글 삭제 실패:", error)
         }
     }
+    
+    func refreshComments(certificationId: Int) async {
+        currentPage = 0
+        isLastPage = false
+        isLoadingComment = false
+        comments.removeAll()
+
+        await fetchComment(certificationId: certificationId)
+    }
 }
 
 // MARK: - Func
@@ -260,5 +269,12 @@ extension CertificateDetailViewModel {
     
     func clearPreCertificationModel() {
         addPreCertificationModel = PreCertificationModel(certificationId: 0, city: nil, state: nil, testDate: nil)
+    }
+    
+    func resetComments() {
+        comments.removeAll()
+        currentPage = 0
+        isLastPage = false
+        isLoadingComment = false
     }
 }
