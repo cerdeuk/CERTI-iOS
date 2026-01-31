@@ -145,7 +145,7 @@ extension CertificateDetailViewModel {
             certificationId: certificationId,
             page: currentPage,
             size: pageSize,
-            sort: isSelectedPopularity ? "likeCount" : ""
+            sort: isSelectedPopularity ? "likeCount,desc" : ""
         )
 
         switch result {
