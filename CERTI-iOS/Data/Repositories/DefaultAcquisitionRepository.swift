@@ -32,7 +32,6 @@ final class DefaultAcquisitionRepository: AcquisitionRepository {
 
     func addAcquisition(request: AddAcquisitionEntity) async -> Result<Bool, NetworkError> {
         let requestDTO = request.toAddAcquisitionRequestDTO()
-
         let result = await service.addAcquisition(request: requestDTO)
         switch result {
         case .success(let response):

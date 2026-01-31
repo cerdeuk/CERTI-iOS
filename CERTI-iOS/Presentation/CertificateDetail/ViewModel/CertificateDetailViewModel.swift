@@ -43,6 +43,9 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var isLastPage = false
     @Published var commentIndex = 1
     @Published var commentText = ""
+    @Published var addPreCertificationModel = PreCertificationModel(
+        certificationId: 0, city: nil, state: nil, testDate: nil
+    )
     
     private var currentPage: Int = 0
     private let pageSize: Int = 10
@@ -97,8 +100,8 @@ extension CertificateDetailViewModel {
         }
     }
     
-    func appendPreCertification(certificationId: Int) async {
-        let result = await addPreCertificationUseCase.execute(certificationId: certificationId)
+    func appendPreCertification(request: PreCertificationModel) async {
+        let result = await addPreCertificationUseCase.execute(request: request.toPreCertificationEntity())
         
         switch result {
         case .success(let status):
@@ -221,5 +224,41 @@ extension CertificateDetailViewModel {
         isAM = true
         hour = 1
         minute = 0
+    }
+    
+    func makePlannedDateTimeString() -> String? {
+            guard let date = CertificationPlanDate else {
+                return nil
+            }
+
+            var calendar = Calendar(identifier: .gregorian)
+            calendar.locale = Locale(identifier: "ko_KR")
+
+            var components = calendar.dateComponents([.year, .month, .day], from: date)
+
+            let convertedHour: Int
+            if isAM {
+                convertedHour = hour == 12 ? 0 : hour
+            } else {
+                convertedHour = hour == 12 ? 12 : hour + 12
+            }
+
+            components.hour = convertedHour
+            components.minute = minute
+            components.second = 0
+
+            guard let finalDate = calendar.date(from: components) else {
+                return nil
+            }
+
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "ko_KR")
+            formatter.dateFormat = "yyyy.MM.dd HH:mm:ss"
+
+            return formatter.string(from: finalDate)
+        }
+    
+    func clearPreCertificationModel() {
+        addPreCertificationModel = PreCertificationModel(certificationId: 0, city: nil, state: nil, testDate: nil)
     }
 }

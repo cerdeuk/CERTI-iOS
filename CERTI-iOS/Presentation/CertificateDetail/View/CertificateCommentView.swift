@@ -34,25 +34,40 @@ struct CertificateCommentView: View {
                 .padding(.top, 36)
                 
                 LazyVStack(spacing: 0) {
-                    ForEach(viewModel.comments) { comment in
-                        CommentComponent(
-                            model: comment,
-                            certificationState: comment.state == "취득 완료" ? .completed : .expected,
-                            userName: comment.nickName == nil ? .unknown : .normal(userName:comment.nickName!),
-                            onTapLike: {
-                                Task{
-                                    await viewModel.toggleLike(commentId: comment.commentId)
-                                }
-                            })
-                        .padding(.horizontal, 20)
-                    }
-                    if !viewModel.isLastPage {
+                    if viewModel.comments.isEmpty {
+                        VStack(alignment: .center, spacing: 0) {
+                            Image(.imageEmpty)
+                                .padding(.top, 134)
+                            
+                            Text("아직 댓글이 없습니다.\n가장 먼저 댓글을 작성해보세요.")
+                                .multilineTextAlignment(.center)
+                                .applyCertiFont(.caption_regular_14)
+                                .foregroundStyle(.grayscale400)
+                                .frame(height: 40)
+                                .padding(.top, 20)
+                        }
+                        .frame(maxWidth: .infinity)
+                    } else {
+                        ForEach(viewModel.comments) { comment in
+                            CommentComponent(
+                                model: comment,
+                                certificationState: comment.state == "취득 완료" ? .completed : .expected,
+                                userName: comment.nickName == nil ? .unknown : .normal(userName:comment.nickName!),
+                                onTapLike: {
+                                    Task{
+                                        await viewModel.toggleLike(commentId: comment.commentId)
+                                    }
+                                })
+                            .padding(.horizontal, 20)
+                        }
+                        if !viewModel.isLastPage {
                             ProgressView()
                                 .padding(.vertical, 16)
                                 .task {
-                                        await viewModel.fetchComment(certificationId: certificationId)
+                                    await viewModel.fetchComment(certificationId: certificationId)
                                 }
                         }
+                    }
                 }
             }
             .task {

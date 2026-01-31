@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CertificationDetailPlanModalView: View {
     @ObservedObject var viewModel: CertificateDetailViewModel
-        
+    
     @Binding var certificationId: Int
     @Binding var isShowingSheet: Bool
     
@@ -96,11 +96,11 @@ extension CertificationDetailPlanModalView {
             .padding(.trailing, 267)
             
             HStack(alignment: .center, spacing: 0) {
-                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceProvince, options: placeMenuOptions, menuPlaceholder: "시/도")
+                DropdownMenu(selectedPlace: $viewModel.addPreCertificationModel.city, options: placeMenuOptions, menuPlaceholder: "시/도")
                 
                 Spacer()
                 
-                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceCity, options: placeMenuOptions2, menuPlaceholder: "구/시")
+                DropdownMenu(selectedPlace: $viewModel.addPreCertificationModel.state, options: placeMenuOptions2, menuPlaceholder: "구/시")
             }
             .padding(.top, 12)
             .padding(.horizontal, 20)
@@ -137,10 +137,12 @@ extension CertificationDetailPlanModalView {
     private var bottomButtonView: some View {
         VStack(alignment: .center, spacing: 0) {
             Button {
-                // TODO: - API 연결하기
-                //                Task {
-                //                    await viewModel.appendPreCertification(certificationId: certificationId)
-                //                }
+                Task {
+                    viewModel.clearPreCertificationModel()
+                    viewModel.addPreCertificationModel.certificationId = certificationId
+                    await viewModel.appendPreCertification(request: viewModel.addPreCertificationModel)
+                }
+                
                 isShowingSheet.toggle()
             } label: {
                 VStack(alignment: .center, spacing: 0) {
@@ -156,10 +158,14 @@ extension CertificationDetailPlanModalView {
             }
             
             Button {
-                // TODO: - API 연결하기
-                //                Task {
-                //                    await viewModel.appendPreCertification(certificationId: certificationId)
-                //                }
+                Task {
+                    viewModel.addPreCertificationModel.certificationId = certificationId
+                    if let dateTimeString = viewModel.makePlannedDateTimeString() {
+                        viewModel.addPreCertificationModel.testDate = dateTimeString
+                    }
+                    await viewModel.appendPreCertification(request: viewModel.addPreCertificationModel)
+                }
+                
                 isShowingSheet.toggle()
             } label: {
                 ZStack {

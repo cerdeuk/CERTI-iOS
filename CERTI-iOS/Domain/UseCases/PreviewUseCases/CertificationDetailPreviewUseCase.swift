@@ -26,7 +26,7 @@ struct PreviewFetchCertificationDetailUseCase: FetchCertificationDetailUseCase {
 }
 
 struct PreviewAddPreCertificationUseCase: AddPreCertificationUseCase {
-    func execute(certificationId: Int) async -> Result<AppendPreCertificationStatus, NetworkError> {
+    func execute(request: AddPreCertificationEntity) async -> Result<AppendPreCertificationStatus, NetworkError> {
         // Always succeed for preview
         return .success(.success)
     }
