@@ -26,7 +26,7 @@ struct CertificationDetailCompleteModalView: View {
                 .padding(.top, 12)
             
             Image(.imageCertificationCardGet)
-                .padding(.top, 4)
+                .padding(.top, 20)
             
             Button {
                 tabRouter.switchTab(tab: .resume)
@@ -42,7 +42,7 @@ struct CertificationDetailCompleteModalView: View {
                         .frame(height: 20)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 8)
+                .padding(.top, 20)
                 .padding(.bottom, 26)
             }
         }
