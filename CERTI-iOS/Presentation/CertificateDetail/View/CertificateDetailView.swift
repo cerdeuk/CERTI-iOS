@@ -115,18 +115,6 @@ struct CertificateDetailView: View {
                     .padding(.horizontal, 37)
                     .padding(.bottom, 36)
             }
-            
-            if viewModel.showCompleteModal {
-                ZStack {
-                    Color.blackOpacity40
-                        .onTapGesture {
-                            viewModel.showCompleteModal = false
-                        }
-                    CertificationDetailCompleteModalView(certificationName: viewModel.certificateDetailModel.certificationName)
-                }
-                .ignoresSafeArea()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
         }
         .task {
             await viewModel.fetchCertificateDetail(certificationId: certificationId)

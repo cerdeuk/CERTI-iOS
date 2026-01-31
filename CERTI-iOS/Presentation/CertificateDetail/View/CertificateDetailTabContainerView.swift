@@ -17,25 +17,39 @@ struct CertificateDetailTabContainerView: View {
     let onBack: () -> Void
 
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            BackButton {
-                onBack()
-            }
-            
-            CertificateDetailTab(selectedTab: $selectedTab)
-                .frame(height: 50)
-                .padding(.leading, 20)
-                .padding(.top, 8)
-            
-            TabView(selection: $selectedTab) {
-                CertificateDetailView(viewModel: viewModel, certificationId: $certificationId)
-                    .tag(DetailTab.detailInformation)
+        ZStack {
+            VStack(alignment: .center, spacing: 0) {
+                BackButton {
+                    onBack()
+                }
                 
-                CertificateCommentView(viewModel: viewModel, isSelectedPopularity: $viewModel.isSelectedPopularity, totalCommentCount: $viewModel.commentCount, certificationId: $certificationId)
-                    .tag(DetailTab.comment)
+                CertificateDetailTab(selectedTab: $selectedTab)
+                    .frame(height: 50)
+                    .padding(.leading, 20)
+                    .padding(.top, 8)
+                
+                TabView(selection: $selectedTab) {
+                    CertificateDetailView(viewModel: viewModel, certificationId: $certificationId)
+                        .tag(DetailTab.detailInformation)
+                    
+                    CertificateCommentView(viewModel: viewModel, isSelectedPopularity: $viewModel.isSelectedPopularity, totalCommentCount: $viewModel.commentCount, certificationId: $certificationId)
+                        .tag(DetailTab.comment)
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            .navigationBarBackButtonHidden(true)
+            
+            if viewModel.showCompleteModal {
+                ZStack {
+                    Color.blackOpacity40
+                        .onTapGesture {
+                            viewModel.showCompleteModal = false
+                        }
+                    CertificationDetailCompleteModalView(certificationName: viewModel.certificateDetailModel.certificationName)
+                }
+                .ignoresSafeArea()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
-        .navigationBarBackButtonHidden(true)
     }
 }
