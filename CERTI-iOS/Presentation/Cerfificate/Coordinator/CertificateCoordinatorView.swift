@@ -34,7 +34,6 @@ struct CertificateCoordinatorView: View {
                 .onChange(of: certificateViewModel.certificateViewRoute) { route in
                     guard let route = route else { return }
                     
-                    // 코디네이터 path 추가
                     switch route {
                     case .certificateViewRoutePop:
                         certificateCoordinator.pop()
