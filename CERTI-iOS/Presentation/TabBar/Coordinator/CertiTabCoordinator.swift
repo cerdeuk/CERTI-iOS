@@ -8,16 +8,14 @@
 import SwiftUI
 
 enum CertiTabRoute: Int, CaseIterable, Hashable {
-    case home, category, recommend, resume, mypage
+    case home, certificate, resume, mypage
 
     var title: String {
         switch self {
         case .home:
             return "홈"
-        case .category:
-            return "카테고리"
-        case .recommend:
-            return "추천"
+        case .certificate:
+            return "자격증"
         case .resume:
             return "이력서"
         case .mypage:
@@ -29,14 +27,12 @@ enum CertiTabRoute: Int, CaseIterable, Hashable {
         switch self {
         case .home:
             return .iconHome
-        case .category:
-            return .iconCategory
-        case .recommend:
-            return .iconRecommendation
+        case .certificate:
+            return .iconCategory    //TODO: - 파일명 변경
         case .resume:
             return .iconResume
         case .mypage:
-            return UIImage(systemName: "person")!
+            return .iconPerson24
         }
     }
 }
@@ -46,12 +42,11 @@ class CertiTabCoordinator: ObservableObject {
     
     //MARK: - Property Wrappers
     
-    @Published var selectedTab: CertiTabRoute = .home
+    @Published var selectedTab: CertiTabRoute = .certificate
     @Published var isTabBarHidden: Bool = false
     
     let homeCoordinator = HomeCoordinator()
-    let categoryCoordinator = CategoryCoordinator()
-    let recommendCoordinator = RecommendCoordinator()
+    let certificateCoordinator = CertificateCoordinator()
     let resumeCoordinator = ResumeCoordinator()
     let mypageCoordinator = MyPageCoordinator()
 

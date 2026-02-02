@@ -1,5 +1,5 @@
 //
-//  CategorySearchView.swift
+//  CertificateSearchView.swift
 //  CERTI-iOS
 //
 //  Created by OneTen on 7/6/25.
@@ -13,8 +13,8 @@ enum SearchResultType {
     case result
 }
 
-struct CategorySearchView: View {
-    @ObservedObject var viewModel: CategoryViewModel
+struct CertificateSearchView: View {
+    @ObservedObject var viewModel: CertificateViewModel
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -26,7 +26,7 @@ struct CategorySearchView: View {
             
             VStack(spacing: 0) {
                 BackButton {
-                    viewModel.categoryViewRoutePop()
+                    viewModel.certificateViewRoutePop()
                 }
                 .padding(.bottom, 12)
                 
@@ -37,7 +37,7 @@ struct CategorySearchView: View {
                             return
                         }
                         
-                        await viewModel.searchCertifiedList(keyword: viewModel.inputText)
+                        // TODO: - 검색 API
                         
                         if viewModel.searchLicenseCards.isEmpty {
                             viewModel.searchResult = .noResult
@@ -62,7 +62,6 @@ struct CategorySearchView: View {
                 
             }
         }
-        .navigationBarBackButtonHidden(true)
     }
     
     private var CategorySearchResultView: some View {
@@ -89,9 +88,8 @@ struct CategorySearchView: View {
                 }
                 .padding(.top, 12)
                 
-                CategorySearchLicenseCardList(viewModel: viewModel)
+                CertificateSearchList(viewModel: viewModel)
                     .padding(.top, 16)
-                    .padding(.horizontal, 20)
             }
         }
         .scrollIndicators(.hidden)

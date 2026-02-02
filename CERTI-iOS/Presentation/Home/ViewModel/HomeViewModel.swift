@@ -10,7 +10,6 @@ import Foundation
 import os
 
 enum HomeViewRoute {
-    case switchToRecommendTab
     case withDraw
     case navigateToPreLicenseEdit
     case navigateToCertificateDetail
@@ -72,10 +71,6 @@ final class HomeViewModel: ObservableObject {
 // MARK: - Navigation Func
 
 extension HomeViewModel {
-    
-    func switchToRecommendTab() {
-        homeViewRoute = .switchToRecommendTab
-    }
     
     func withDrawNavigate() {
         homeViewRoute = .withDraw

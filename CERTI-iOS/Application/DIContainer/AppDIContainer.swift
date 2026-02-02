@@ -227,24 +227,7 @@ extension AppDIContainer {
             checkNickNameUseCase: makeCheckNickNameUseCase()
         )
     }
-    
-    func makeRecommendFactory() -> RecommendFactory {
-        return DefaultRecommendFactory(
-            fetchRecommendUseCase: makeFetchRecommendUseCase(),
-            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
-            fetchJobUseCase: makeFetchJobUseCase(),
-            editJobUseCase: makeEditJobUseCase()
-        )
-    }
-    
-    func makeCategoryFactory() -> CategoryFactory {
-        return DefaultCategoryFactory(
-            fetchCategoryUseCase: makeFetchCategoryUseCase(),
-            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
-            searchCertificationUseCase: makeSearchCertificationUseCase()
-        )
-    }
-    
+
     func makeCertificateDetailFactory() -> CertificateDetailFactory {
         return DefaultCertificationDetailFactory(
           fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase(),
@@ -291,5 +274,9 @@ extension AppDIContainer {
     
     func makeLoginFactory() -> LoginFactory {
         return DefaultLoginFactory(kakoLoginUseCase: makeKakaoLoginUseCase())
+    }
+    
+    func makeCertificateFactory() -> CertificateFactory {
+        return DefaultCertificateFactory()
     }
 }
