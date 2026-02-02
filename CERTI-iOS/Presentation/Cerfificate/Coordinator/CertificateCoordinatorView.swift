@@ -30,7 +30,6 @@ struct CertificateCoordinatorView: View {
                 .onChange(of: certificateViewModel.certificateViewRoute) { route in
                     guard let route = route else { return }
                     
-                    // 코디네이터 path 추가
                     switch route {
                     case .certificateViewRoutePop:
                         certificateCoordinator.pop()
@@ -63,7 +62,6 @@ struct CertificateCoordinatorView: View {
                         CertificateSearchView(viewModel: certificateViewModel)
                             .navigationBarHidden(true)
 
-                        // 실질 화면전환
                     default: EmptyView()
                     }
                 }
