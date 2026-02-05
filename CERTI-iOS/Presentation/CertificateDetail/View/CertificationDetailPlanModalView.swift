@@ -15,10 +15,6 @@ struct CertificationDetailPlanModalView: View {
     
     let certificationName: String
     
-    // TODO: - API 연결하면 지우기
-    let placeMenuOptions = ["서울", "경기" ,"인천", "강원", "충남", "충북"]
-    let placeMenuOptions2 = ["강북구", "마포구" ,"용산구", "성북구"]
-    
     var body: some View {
         ScrollView(.vertical) {
             headerView
@@ -27,6 +23,9 @@ struct CertificationDetailPlanModalView: View {
             timeView
         }
         .scrollIndicators(.hidden)
+        .onDisappear {
+            viewModel.clearPreCertificationModel()
+        }
         
         Spacer()
         
@@ -96,11 +95,18 @@ extension CertificationDetailPlanModalView {
             .padding(.trailing, 267)
             
             HStack(alignment: .center, spacing: 0) {
-                DropdownMenu(selectedPlace: $viewModel.addPreCertificationModel.city, options: placeMenuOptions, menuPlaceholder: "시/도")
+                DropdownMenu(
+                    selectedPlace: $viewModel.addPreCertificationModel.city,
+                    options: viewModel.placeMenuOptions,
+                    menuPlaceholder: "시/도"
+                )
+                .onChange(of: viewModel.addPreCertificationModel.city) { _ in
+                    viewModel.addPreCertificationModel.state = nil
+                }
                 
                 Spacer()
                 
-                DropdownMenu(selectedPlace: $viewModel.addPreCertificationModel.state, options: placeMenuOptions2, menuPlaceholder: "구/시")
+                DropdownMenu(selectedPlace: $viewModel.addPreCertificationModel.state, options: viewModel.placeMenuOptions2, menuPlaceholder: "구/시", isEnabled: viewModel.addPreCertificationModel.city != nil)
             }
             .padding(.top, 12)
             .padding(.horizontal, 20)

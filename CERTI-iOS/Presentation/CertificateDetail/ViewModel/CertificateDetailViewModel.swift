@@ -49,11 +49,21 @@ final class CertificateDetailViewModel: ObservableObject {
     
     private var currentPage: Int = 0
     private let pageSize: Int = 10
+    let placeMenuOptions = Region.allCases.map(\.rawValue)
+    
+    var placeMenuOptions2: [String] {
+        guard
+            let city = addPreCertificationModel.city,
+            let region = Region(rawValue: city)
+        else { return [] }
+        return region.districts
+    }
     var currentUserId: Int = 0
     var currentPageIndex: Int = 0
     var commentList: [Comment] {
         paginationComments.flatMap { $0.content }
     }
+    
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
