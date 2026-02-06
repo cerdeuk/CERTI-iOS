@@ -9,6 +9,12 @@ import SwiftUI
 
 import os
 
+enum CertificationState: String {
+    case anticipated = "ANTICIPATED"
+    case acquisition = "ACQUISITION"
+    case normal = "NORMAL"
+}
+
 @MainActor
 final class CertificateDetailViewModel: ObservableObject {
     @Published var certificateDetailModel = CertificateDetailModel(
@@ -23,7 +29,8 @@ final class CertificateDetailViewModel: ObservableObject {
         testDateInformation: "",
         applicationMethod: "",
         applicationUrl: "www.google.com",
-        expirationPeriod: ""
+        expirationPeriod: "",
+        certState: ""
     )
     @Published var showSuccessToBeAcquired: Bool = false
     @Published var showFailAcquired: Bool = false
@@ -63,7 +70,13 @@ final class CertificateDetailViewModel: ObservableObject {
     var commentList: [Comment] {
         paginationComments.flatMap { $0.content }
     }
-    
+    var certificationState: CertificationState? {
+        CertificationState(rawValue: certificateDetailModel.certState)
+    }
+    var isCommentWritable: Bool {
+        guard let state = certificationState else { return false }
+        return state == .anticipated || state == .acquisition
+    }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     

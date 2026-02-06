@@ -92,7 +92,7 @@ struct CertificateCommentView: View {
                 Task {
                     await viewModel.addComment(content: viewModel.commentText, certificationId: certificationId)
                 }
-            }, textFieldState: !viewModel.showFailToBeAcquired || !viewModel.showFailAcquired ? .fieldOn : .fieldLock)
+            }, textFieldState: viewModel.isCommentWritable ? .fieldOn : .fieldLock)
             .padding(.vertical, 20)
         }
     }

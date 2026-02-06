@@ -20,6 +20,7 @@ struct CertificateDetailModel: Identifiable, Decodable {
     let applicationMethod: String
     let applicationUrl: String
     let expirationPeriod: String
+    let certState: String
     
     var id: Int { certificationId }
 }
