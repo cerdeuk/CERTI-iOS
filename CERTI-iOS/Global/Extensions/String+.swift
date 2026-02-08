@@ -56,6 +56,22 @@ extension String {
         return "\(outputFormatter.string(from: date))"
     }
     
+    func toUIDateString() -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy.MM.dd"
+        inputFormatter.locale = Locale(identifier: "ko_KR")
+        
+        guard let date = inputFormatter.date(from: self) else {
+            return self
+        }
+
+        let outputFormatter = DateFormatter()
+        outputFormatter.locale = Locale(identifier: "ko_KR")
+        outputFormatter.dateFormat = "yyyy. MM. dd"
+
+        return "\(outputFormatter.string(from: date))"
+    }
+    
     func trimmedUsername() -> String {
         if self.count <= 3 {
             return self

@@ -15,7 +15,7 @@ struct CertificateCardDetailView: View {
     @State var isFlipped = false
     @State private var textWidth: CGFloat = 0
     @State private var isImageLoaded = false
-
+    
     var body: some View {
         ZStack(alignment: .center) {
             CertificateCardDetailViewFront
@@ -47,146 +47,149 @@ struct CertificateCardDetailView: View {
 
 extension CertificateCardDetailView {
     private var CertificateCardDetailViewFront: some View {
-            ZStack(alignment: .center) {
-                KFImage(URL(string: card.cardFrontImageUrl))
-                    .onSuccess { _ in
-                        isImageLoaded = true
-                    }
-                    .placeholder {
-                        Color.blackOpacity40
-                            .frame(width: 250, height: 375)
-                    }
-                    .retry(maxCount: 3, interval: .seconds(5))
-                    .onFailure { error in
-                        print("Image Failure: \(error.localizedDescription)")
-                    }
-                    .resizable()
-                    .scaledToFit()
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(card.name)
-                        .applyCertiFont(.body_bold_18)
-                        .foregroundStyle(card.index == 2 ?  .lightblue : .grayscale600)
-                        .frame(height: 25)
-                        .padding(.leading, 20)
-                    
-                    Text("\(card.acquisitionDate.toDisplayDateString())에 획득했어요.")
-                        .applyCertiFont(.caption_regular_14)
-                        .foregroundStyle(card.index == 2 ?  .lightblue : .grayscale600)
-                        .frame(height: 20)
-                        .padding(.leading, 20)
-                    
-                    TagChipColor(tags: card.tags, spacing: 4, backgroundColor: card.index == 3 ? .skyblue : .lightpurple, textColor: card.index == 3 ? .purplewhite : .mainblue)
-                        .frame(height: 23)
-                        .padding(.top, 8)
-                        .padding(.leading, 20)
-                    
+        ZStack(alignment: .center) {
+            KFImage(URL(string: card.cardFrontImageUrl))
+                .onSuccess { _ in
+                    isImageLoaded = true
+                }
+                .placeholder {
+                    Color.blackOpacity40
+                        .frame(width: 250, height: 375)
+                }
+                .retry(maxCount: 3, interval: .seconds(5))
+                .onFailure { error in
+                    print("Image Failure: \(error.localizedDescription)")
+                }
+                .resizable()
+                .scaledToFit()
+            
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .center, spacing: 0) {
                     Spacer()
                     
-                    HStack(alignment: .center, spacing: 0) {
-                        Spacer()
-                        
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("터치해서 뒷면 보기")
-                                .applyCertiFont(.caption_regular_12)
-                                .foregroundStyle(card.index == 2 ?  .lightblue : .mainblue)
-                                .padding(.top, 4)
-                                .background(
-                                    GeometryReader { geometry in
-                                        Color.clear
-                                            .onAppear {
-                                                textWidth = geometry.size.width
-                                            }
-                                            .onChange(of: geometry.size.width) { newWidth in
-                                                textWidth = newWidth
-                                            }
-                                    }
-                                )
-                            
-                            Rectangle()
-                                .frame(width: textWidth, height: 1)
-                                .foregroundStyle(card.index == 2 ?  .lightblue : .mainblue)
-                                .padding(.top, 4)
-                        }
-                        .frame(width: 90, height: 26)
-                        .clipped()
-                        .padding(.trailing, 15)
-                        .padding(.bottom, 12)
-                    }
+                    Text("획득 날짜: \(card.acquisitionDate.toUIDateString())")
+                        .applyCertiFont(.caption_regular_10)
+                        .foregroundStyle(.white)
+                    
+                    Spacer()
                 }
-                .frame(maxWidth: 250, maxHeight: 375)
-                .padding(.top, 39)
+                .frame(height: 15)
+                
+                Text(card.name)
+                    .applyCertiFont(.caption_bold_14)
+                    .foregroundStyle(.bluewhite)
+                    .frame(height: 20)
+                    .padding(.top, 163)
+                    .padding(.leading, 28)
+                
+                TagChipColor(tags: card.tags, fontStyle: .caption_regular_10, spacing: 6, cornerRadius: 8, backgroundColor: .white, textColor: .mainblue)
+                    .frame(height: 19)
+                    .padding(.top, 6)
+                    .padding(.leading, 28)
+                
+                HStack(alignment: .center, spacing: 0) {
+                    Spacer()
+                    
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("터치해서 뒷면 보기")
+                            .applyCertiFont(.caption_semibold_10)
+                            .foregroundStyle(.purplewhite)
+                            .padding(.top, 13)
+                            .background(
+                                GeometryReader { geometry in
+                                    Color.clear
+                                        .onAppear {
+                                            textWidth = geometry.size.width
+                                        }
+                                        .onChange(of: geometry.size.width) { newWidth in
+                                            textWidth = newWidth
+                                        }
+                                }
+                            )
+                        
+                        Rectangle()
+                            .frame(width: textWidth, height: 0.7)
+                            .foregroundStyle(.purplewhite)
+                            .padding(.top, 2)
+                    }
+                    
+                    Spacer()
+                }
             }
-            .frame(maxWidth: 250, maxHeight: 375)
-            .padding(.vertical, 219)
-            .padding(.horizontal, 62)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .padding(.top, 77)
+        }
+        .frame(maxWidth: 250, maxHeight: 375)
+        .padding(.vertical, 219)
+        .padding(.horizontal, 62)
+        
     }
     
     private var CertificateCardDetailViewBack: some View {
-            ZStack(alignment: .center) {
-                KFImage(URL(string: card.cardBackImageUrl))
-                    .retry(maxCount: 3, interval: .seconds(5))
-                    .onFailure { error in
-                        print("Image Failure: \(error.localizedDescription)")
-                    }
-                    .resizable()
-                    .scaledToFit()
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack(alignment: .center, spacing: 0) {
-                        Text(card.name)
-                            .applyCertiFont(.body_bold_18)
-                            .foregroundStyle(.white)
-                            .fixedSize(horizontal: true, vertical: false)
-                            .lineLimit(1)
-                        
-                        Spacer()
-                    }
-                    
-                    TagChip(tags: card.tags, spacing: 8)
-                        .frame(height: 23)
-                        .padding(.top, 8)
-                    
-                    Spacer()
-                    
-                    ScrollView {
-                        Text("\(card.description)".antiAppleBySangyup)
-                            .applyCertiFont(.caption_regular_12)
-                            .foregroundStyle(.white)
-                    }
-                    .scrollIndicators(.hidden)
-                    .frame(minHeight: 126)
-                    .padding(.top, 36)
-                    .padding(.bottom, 36)
-                    
-                    Spacer()
-                    
-                    HStack(alignment: .center, spacing: 0) {
-                        Image(.iconCheckWhite24)
-                        Text("\(AuthManager.shared.nickname.trimmedUsername())님의 취득일자")
-                            .applyCertiFont(.caption_semibold_14)
-                            .foregroundColor(.white)
-                        Spacer()
-                    }
-                    .frame(height: 24)
-                    .padding(.bottom, 4)
-                    
-                    Text(card.acquisitionDate.toDisplayDateString())
-                        .applyCertiFont(.caption_semibold_14)
-                        .foregroundStyle(.purpleblue)
-                        .frame(height: 20)
-                        .padding(.vertical, 4.5)
-                        .padding(.horizontal, 12)
-                        .background(.grayscale0)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .padding(.bottom, 31)
+        ZStack(alignment: .center) {
+            KFImage(URL(string: card.cardBackImageUrl))
+                .retry(maxCount: 3, interval: .seconds(5))
+                .onFailure { error in
+                    print("Image Failure: \(error.localizedDescription)")
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                .padding(.top, 30)
-                .padding(.horizontal, 24)
+                .resizable()
+                .scaledToFit()
+            
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .center, spacing: 0) {
+                    Text(card.name)
+                        .applyCertiFont(.body_bold_18)
+                        .foregroundStyle(.white)
+                        .fixedSize(horizontal: true, vertical: false)
+                        .lineLimit(1)
+                    
+                    Spacer()
+                }
+                
+                TagChip(tags: card.tags, spacing: 8)
+                    .frame(height: 23)
+                    .padding(.top, 8)
+                
+                Spacer()
+                
+                ScrollView {
+                    Text("\(card.description)".antiAppleBySangyup)
+                        .applyCertiFont(.caption_regular_12)
+                        .foregroundStyle(.white)
+                }
+                .scrollIndicators(.hidden)
+                .frame(minHeight: 126)
+                .padding(.top, 36)
+                .padding(.bottom, 36)
+                
+                Spacer()
+                
+                HStack(alignment: .center, spacing: 0) {
+                    Image(.iconCheckWhite24)
+                    Text("\(AuthManager.shared.nickname.trimmedUsername())님의 취득일자")
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundColor(.white)
+                    Spacer()
+                }
+                .frame(height: 24)
+                .padding(.bottom, 4)
+                
+                Text(card.acquisitionDate.toDisplayDateString())
+                    .applyCertiFont(.caption_semibold_14)
+                    .foregroundStyle(.purpleblue)
+                    .frame(height: 20)
+                    .padding(.vertical, 4.5)
+                    .padding(.horizontal, 12)
+                    .background(.grayscale0)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding(.bottom, 31)
             }
-            .frame(maxWidth: 250, maxHeight: 375)
-            .padding(.vertical, 219)
-            .padding(.horizontal, 62)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .padding(.top, 30)
+            .padding(.horizontal, 24)
         }
+        .frame(maxWidth: 250, maxHeight: 375)
+        .padding(.vertical, 219)
+        .padding(.horizontal, 62)
+    }
 }
