@@ -12,6 +12,16 @@ import Moya
 enum UserAPI {
     case getUserInfo
     case checkNickname(nickname: String)
+    case getMyPageInfo
+    case getEditProfileInfo
+    case putEditProfileInfo(request: EditProfileRequestDTO)
+    case searchUniv(keyword: String)
+    case searchMajor(keyword: String)
+    case editUniv(request: EditUnivRequestDTO)
+    case editMajor(request: EditMajorRequestDTO)
+    case toggleNotificationSetting
+    case getNotificationSetting
+    case getTrack
 }
 
 extension UserAPI: BaseTargetType {
@@ -19,7 +29,9 @@ extension UserAPI: BaseTargetType {
         switch self {
         case .getUserInfo:
             return .accessTokenHeader
-        case .checkNickname(nickname: let nickname):
+        case .checkNickname:
+            return .accessTokenHeader
+        default:
             return .accessTokenHeader
         }
     }
@@ -30,6 +42,26 @@ extension UserAPI: BaseTargetType {
             return "user"
         case .checkNickname:
             return "user/validation"
+        case .getMyPageInfo:
+            return "user/mypage"
+        case .getEditProfileInfo:
+            return "user/pinfo"
+        case .putEditProfileInfo:
+            return "user/pinfo"
+        case .searchUniv:
+            return "university/search"
+        case .searchMajor:
+            return "major/search"
+        case .editUniv:
+            return "user/university"
+        case .editMajor:
+            return "user/major"
+        case .getNotificationSetting:
+            return "user/marketing-agreement"
+        case .toggleNotificationSetting:
+            return "user/marketing-agreement"
+        case .getTrack:
+            return "user/track"
         }
     }
     
@@ -38,6 +70,26 @@ extension UserAPI: BaseTargetType {
         case .getUserInfo:
             return .get
         case .checkNickname:
+            return .get
+        case .getMyPageInfo:
+            return .get
+        case .getEditProfileInfo:
+            return .get
+        case .putEditProfileInfo:
+            return .put
+        case .searchUniv:
+            return .get
+        case .searchMajor:
+            return .get
+        case .editUniv:
+            return .put
+        case .editMajor:
+            return .put
+        case .getNotificationSetting:
+            return .get
+        case .toggleNotificationSetting:
+            return .patch
+        case .getTrack:
             return .get
         }
     }
@@ -51,8 +103,34 @@ extension UserAPI: BaseTargetType {
                 parameters: ["keyword": nickname],
                 encoding: URLEncoding.queryString
             )
+        case .getMyPageInfo:
+            return .requestPlain
+        case .getEditProfileInfo:
+            return .requestPlain
+        case .putEditProfileInfo(let request):
+            return .requestJSONEncodable(request)
+            
+        case .searchUniv(let keyword):
+            return .requestParameters(parameters: ["keyword" : keyword], encoding: URLEncoding.queryString)
+
+        case .searchMajor(let keyword):
+            return .requestParameters(parameters: ["keyword" : keyword], encoding: URLEncoding.queryString)
+            
+        case .editUniv(request: let request):
+            return .requestJSONEncodable(request)
+            
+        case .editMajor(request: let request):
+            return .requestJSONEncodable(request)
+            
+        case .getNotificationSetting:
+            return .requestPlain
+            
+        case .toggleNotificationSetting:
+            return .requestPlain
+            
+        case .getTrack:
+            return .requestPlain
         }
     }
-    
     
 }

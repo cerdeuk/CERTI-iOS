@@ -9,13 +9,15 @@ import SwiftUI
 
 struct ResumeWriteButton: View {
     let action: () -> Void
+    let buttonText: String
+    
     @Binding var textEmpty: Bool
     
     var body: some View {
         Button {
             action()
         } label: {
-            Text("추가하기")
+            Text(buttonText)
                 .applyCertiFont(.body_semibold_16)
                 .foregroundStyle(textEmpty ? .white : .grayscale400)
                 .frame(maxWidth: .infinity)
@@ -27,8 +29,3 @@ struct ResumeWriteButton: View {
         .disabled(!textEmpty)
     }
 }
-
-private func testButtonClicked() {
-    print("testButtonClicked")
-}
-

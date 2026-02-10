@@ -16,13 +16,21 @@ struct UserInfoData: Decodable {
     let university: String
     let major: String
     let job: String
-    let profileImage: String
     let birthDate: String?
     let percentage: Int
+    let profileImage: String?
 }
 
 extension UserInfoData {
     func toUserInfoEntity() -> UserInfoEntity {
-        return UserInfoEntity(name: name, university: university, major: major, percentage: percentage, birthDate: birthDate ?? nil)
+        return UserInfoEntity(
+            name: name,
+            nickname: nickname,
+            university: university,
+            major: major,
+            percentage: percentage,
+            birthDate: birthDate ?? nil,
+            profileImage: profileImage
+        )
     }
 }

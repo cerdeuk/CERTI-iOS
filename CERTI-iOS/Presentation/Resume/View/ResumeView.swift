@@ -24,8 +24,8 @@ struct ResumeView: View {
                 ResumeMyCertificateView
                 ResumeMyCareerTitleView
                 ResumeMyCareerView
-                ResumeMyExtracurricularActivityTitleView
-                ResumeMyExtracurricularActivityView
+                ResumeMyActivityTitleView
+                ResumeMyActivityView
             }
         }
         .scrollIndicators(.hidden)
@@ -227,7 +227,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                viewModel.navigateToCareerEdit()
+                viewModel.navigateToCareerManage()
             } label: {
                 Image(.iconArrowright36)
             }
@@ -262,7 +262,7 @@ extension ResumeView {
                                 .padding(.top, 20.5)
                                 .padding(.bottom, 29.5)
                             
-                            ResumeActivityListComponent(model: item)
+                            ResumeCareerListComponent(model: item, onTapCard: {})
                                 .frame(height: 74)
                         }
                         .padding(.horizontal, 20)
@@ -278,7 +278,7 @@ extension ResumeView {
         }
     }
     
-    private var ResumeMyExtracurricularActivityTitleView: some View {
+    private var ResumeMyActivityTitleView: some View {
         HStack(alignment: .center, spacing: 0){
             Text("대내외 활동")
                 .applyCertiFont(.sub_semibold_20)
@@ -288,7 +288,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                viewModel.navigateToActivityEdit()
+                viewModel.navigateToActivityManage()
             } label: {
                 Image(.iconArrowright36)
             }
@@ -298,9 +298,9 @@ extension ResumeView {
         .padding(.bottom, 16)
     }
     
-    private var ResumeMyExtracurricularActivityView: some View {
+    private var ResumeMyActivityView: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if viewModel.activityList.isEmpty {
+            if viewModel.activitiesList.isEmpty {
                 VStack(alignment: .center, spacing: 0) {
                     Image(.imageEmpty)
                         .padding(.top, 60)
@@ -315,7 +315,7 @@ extension ResumeView {
                 .frame(maxWidth: .infinity)
             } else {
                 LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(viewModel.activityList.prefix(4)) { item in
+                    ForEach(viewModel.activitiesList.prefix(4)) { item in
                         HStack(alignment: .center, spacing: 0) {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
@@ -323,7 +323,7 @@ extension ResumeView {
                                 .padding(.top, 20.5)
                                 .padding(.bottom, 29.5)
                             
-                            ResumeActivityListComponent(model: item)
+                            ResumeActivityListComponent(model: item, onTapCard: {})
                                 .frame(height: 74)
                         }
                         .padding(.horizontal, 20)

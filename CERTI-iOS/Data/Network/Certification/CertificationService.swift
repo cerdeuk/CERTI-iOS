@@ -15,6 +15,11 @@ protocol CertificationServiceProtocol {
     func searchCertification(keyword: String) async -> Result<SearchCertificationResponseDTO, NetworkError>
     func fetchCertificationDetail(certificationId: Int) async -> Result<CertificationDetailResponseDTO, NetworkError>
     func getRecommend() async -> Result<RecommendCertificationResponseDTO, NetworkError>
+    func getTrackRankCertification() async -> Result<RankCertificationResponseDTO, NetworkError>
+    func getJobRankCertification() async -> Result<RankCertificationResponseDTO, NetworkError>
+    func getJobCertificationList(job: String) async -> Result<CertificationListResponseDTO, NetworkError>
+    func getTrackCertificationList(track: String) async -> Result<CertificationListResponseDTO, NetworkError>
+
 }
 
 final class CertificationService: BaseService, CertificationServiceProtocol {
@@ -42,5 +47,21 @@ final class CertificationService: BaseService, CertificationServiceProtocol {
     
     func getRecommend() async -> Result<RecommendCertificationResponseDTO, NetworkError> {
         return await requestDecodable(provider, .getRecommendCertification)
+    }
+    
+    func getTrackRankCertification() async -> Result<RankCertificationResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getTrackRankCertification)
+    }
+    
+    func getJobRankCertification() async -> Result<RankCertificationResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getJobRankCertification)
+    }
+    
+    func getJobCertificationList(job: String) async -> Result<CertificationListResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getJobCertificationList(job: job))
+    }
+    
+    func getTrackCertificationList(track: String) async -> Result<CertificationListResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getTrackCertificationList(track: track))
     }
 }

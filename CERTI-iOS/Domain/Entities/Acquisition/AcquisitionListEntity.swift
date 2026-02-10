@@ -23,28 +23,32 @@ struct AcquisitionListEntity {
 }
 
 struct AcquisitionListEntityData {
-    let certificationId: Int
-    let acquisitionId: Int
-    let cardFrontImageUrl: String
+    let acquisitionID: Int
+    let cardFrontImageURL, certificationType: String
+    let certificationID: Int
     let index: Int
     let name: String
     let tags: [String]
-    let description: String
-    let acquisitionDate: String
+    let description, acquisitionDate: String
     let grade: String?
-    let certificationType: String
+
+    enum CodingKeys: String, CodingKey {
+        case acquisitionID = "acquisitionId"
+        case cardFrontImageURL = "cardFrontImageUrl"
+        case certificationType, index, name, tags, description, acquisitionDate, grade
+    }
     
-    init(certificationId: Int, acquisitionId: Int, cardFrontImageUrl: String, index: Int, name: String, tags: [String], description: String, acquisitionDate: String, grade: String?, certificationType: String) {
-        self.certificationId = certificationId
-        self.acquisitionId = acquisitionId
-        self.cardFrontImageUrl = cardFrontImageUrl
+    init(acquisitionID: Int, cardFrontImageURL: String, certificationType: String, certificationID: Int, index: Int, name: String, tags: [String], description: String, acquisitionDate: String, grade: String) {
+        self.acquisitionID = acquisitionID
+        self.cardFrontImageURL = cardFrontImageURL
+        self.certificationType = certificationType
+        self.certificationID = certificationID
         self.index = index
         self.name = name
         self.tags = tags
         self.description = description
         self.acquisitionDate = acquisitionDate
         self.grade = grade
-        self.certificationType = certificationType
     }
     
     
@@ -52,16 +56,15 @@ struct AcquisitionListEntityData {
     
     func toCertificatedModel() -> CertificatedModel {
         return CertificatedModel(
-            certificationId: certificationId,
-            acquisitionId: acquisitionId,
-            cardFrontImageUrl: cardFrontImageUrl,
+            certificationId: certificationID,
+            acquisitionId: acquisitionID,
+            cardFrontImageUrl: cardFrontImageURL,
             index: index,
             name: name,
             tags: tags,
             description: description,
             acquisitionDate: acquisitionDate,
             grade: grade,
-            certificationType: certificationType
-        )
+            certificationType: certificationType)
     }
 }

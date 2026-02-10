@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct ResumeActivityListComponent: View {
-    let model: ResumeModel
-    
+    let model: ActivityModel
+    let onTapCard: () -> Void
+
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
-                Text("\(model.startAt) ~ \(model.endAt)")
-                    .applyCertiFont(.caption_regular_12)
+                let periodText = "\(model.startAt.toYearMonth()) ~ \(model.endAt.toYearMonth())"
+
+                Text(periodText)                    .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
                     .frame(height: 18)
                 
@@ -44,15 +46,19 @@ struct ResumeActivityListComponent: View {
             
             Spacer()
         }
+        .onTapGesture {
+            onTapCard()
+        }
     }
 }
 
 #Preview {
-    ResumeActivityListComponent(model: ResumeModel(
+    ResumeActivityListComponent(model: ActivityModel(
+        activityId: 1,
         startAt: "2021.11",
         endAt: "2022.01",
-        name: "패션디자이너 인턴",
-        place: "서티그룹",
-        description: "트렌드 리서치 및 소재 조사"
-    ))
+        name: "sopt",
+        place: "동아리 36기 기획",
+        description: "서비스 기획 및 아이디어 도출"
+    ), onTapCard: {})
 }

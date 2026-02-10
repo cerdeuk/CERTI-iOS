@@ -13,6 +13,7 @@ protocol ActivityServiceProtocol {
     func fetchActivityList() async -> Result<ActivityListResponseDTO, NetworkError>
     func deleteActivity(id: Int) async -> Result<Void, NetworkError>
     func addActivity(request: AddActivityRequestDTO) async -> Result<Void, NetworkError>
+    func editActivity(activityId: Int, request: EditActivityRequestDTO) async -> Result<Void, NetworkError>
 }
 
 final class ActivityService: BaseService, ActivityServiceProtocol {
@@ -28,5 +29,9 @@ final class ActivityService: BaseService, ActivityServiceProtocol {
     
     func addActivity(request: AddActivityRequestDTO) async -> Result<Void, NetworkError> {
         return await requestVoid(provider, .addActivity(request: request))
+    }
+    
+    func editActivity(activityId: Int, request: EditActivityRequestDTO) async -> Result<Void, NetworkError> {
+        return await requestVoid(provider, .editActivity(activityId: activityId, request: request))
     }
 }

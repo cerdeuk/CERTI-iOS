@@ -38,4 +38,9 @@ final class DefaultActivityRepository: ActivityRepository {
         let requestDTO = request.toAddActivityRequestDTO()
         return await service.addActivity(request: requestDTO)
     }
+    
+    func editActivity(activityId: Int, request: ActivityEntity) async -> Result<Void, NetworkError> {
+        let requestDTO = request.toEditActivityRequestDTO()
+        return await service.editActivity(activityId: activityId, request: requestDTO)
+    }
 }

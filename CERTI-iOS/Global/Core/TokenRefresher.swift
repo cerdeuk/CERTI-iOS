@@ -8,15 +8,17 @@
 import Foundation
 
 import os
+import Combine
 
 actor TokenRefresher {
     static let shared = TokenRefresher()
+    nonisolated let tokenExpiredSubject = PassthroughSubject<Void, Never>()
     
     private init() {}
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "Auth.Refresh")
     
-    private let tokenRefreshService = AppDIContainer.shared.tokenRefreshService
+    private let tokenRefreshService = TokenRefreshService()
     private var refreshTask: Task<Result<String, NetworkError>, Never>?
 
     /// 액세스 토큰을 재발급하고 Keychain에 저장합니다.
@@ -44,6 +46,9 @@ actor TokenRefresher {
                 return .success(accessToken)
                 
             case .failure(let err):
+                TokenManager.shared.clearTokens()
+                logger.error("Token refresh failed")
+                tokenExpiredSubject.send()
                 return .failure(err)
             }
         }

@@ -24,8 +24,4 @@ struct JobEntity {
     func toEditJobRequestDTO() -> EditJobRequestDTO {
         return EditJobRequestDTO(jobNameList: jobs)
     }
-    
-    func toJobFieldModel() -> JobFieldModel {
-        return JobFieldModel(jobList: jobs)
-    }
 }

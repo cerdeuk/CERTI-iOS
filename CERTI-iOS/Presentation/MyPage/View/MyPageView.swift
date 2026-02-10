@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MyPageView: View {
     @ObservedObject var viewModel: MyPageViewModel
@@ -24,10 +25,9 @@ struct MyPageView: View {
                 
                 // 회색 배경 영역
                 VStack(alignment: .center, spacing: 16) {
-                    
                     // 자격증 관리
                     Button {
-                        
+                        viewModel.navigateToManageCertificates()
                     } label: {
                         VStack(alignment: .center, spacing: 0) {
                             HStack(alignment: .center, spacing: 0){
@@ -48,14 +48,14 @@ struct MyPageView: View {
                                     .padding(.trailing, 12)
                             }
                             
-                            HStack(alignment: .center, spacing: 23) {
+                            HStack(alignment: .center, spacing: 30) {
                                 VStack(alignment: .center, spacing: 8) {
                                     Text("취득 예정")
                                         .applyCertiFont(.caption_regular_14)
                                         .foregroundStyle(.grayscale500)
                                         .frame(height: 20)
                                     
-                                    Text("0개")
+                                    Text("\(viewModel.upCertificationCount)개")
                                         .applyCertiFont(.caption_semibold_14)
                                         .foregroundStyle(.grayscale600)
                                         .frame(height: 20)
@@ -72,7 +72,7 @@ struct MyPageView: View {
                                         .foregroundStyle(.grayscale500)
                                         .frame(height: 20)
                                     
-                                    Text("0개")
+                                    Text("\(viewModel.acCertificationCount)개")
                                         .applyCertiFont(.caption_semibold_14)
                                         .foregroundStyle(.grayscale600)
                                         .frame(height: 20)
@@ -89,7 +89,7 @@ struct MyPageView: View {
                                         .foregroundStyle(.grayscale500)
                                         .frame(height: 20)
                                     
-                                    Text("0개")
+                                    Text("\(viewModel.fCertificationCount)개")
                                         .applyCertiFont(.caption_semibold_14)
                                         .foregroundStyle(.grayscale600)
                                         .frame(height: 20)
@@ -114,12 +114,6 @@ struct MyPageView: View {
                     // 학사정보 관리
                     myPageViewButton(icon: tabIconList[1], title: tabList[1], description: tabDescriptionList[1], action: {
                         viewModel.navigateToManageAcademicInfo()
-                    })
-                    .padding(.horizontal, 20)
-                    
-                    // 자격증 관리로 이동
-                    myPageViewButton(icon: tabIconList[2], title: tabList[2], description: tabDescriptionList[2], action: {
-                        viewModel.navigateToManageCertificates()
                     })
                     .padding(.horizontal, 20)
                     
@@ -148,6 +142,9 @@ struct MyPageView: View {
             }
             .background(.white)
         }
+        .task {
+            await viewModel.fetchMyPageInfo()
+        }
         .scrollIndicators(.hidden)
     }
 }
@@ -155,18 +152,36 @@ struct MyPageView: View {
 extension MyPageView {
     @ViewBuilder
     private var userInfo: some View {
-        ZStack(alignment: .center) {
-            Circle()
+        if viewModel.profileImageURL.isEmpty {
+            ZStack(alignment: .center) {
+                Circle()
+                    .frame(width: 80, height: 80)
+                    .foregroundStyle(.grayscale100)
+                
+                // TODO: - User Profile Image 없으면 보여주는 이미지, 나중에 이미지 업로드 구현 시 분기처리
+                Image(.iconImage24)
+                    .foregroundStyle(.grayscale300)
+            }
+            .padding(.bottom, 16)
+            .padding(.top, 52)
+        } else {
+            KFImage(URL(string: viewModel.profileImageURL))
+                .resizable()
+                .placeholder {
+                    Color.grayscale100
+                }
+                .retry(maxCount: 3, interval: .seconds(5))
+                .onFailure { error in
+                    print("failure: \(error.localizedDescription)")
+                }
+                .aspectRatio(contentMode: .fill)
                 .frame(width: 80, height: 80)
-                .foregroundStyle(.grayscale100)
-            
-            // TODO: - User Profile Image 없으면 보여주는 이미지, 나중에 이미지 업로드 구현 시 분기처리
-            Image(.iconImage24)
-                .foregroundStyle(.grayscale300)
+                .clipShape(.circle)
+                .clipped()
+                .padding(.bottom, 16)
+                .padding(.top, 52)
         }
-        .padding(.bottom, 16)
-        .padding(.top, 52)
-        
+
         Text(viewModel.userNickName)
             .applyCertiFont(.sub_bold_20)
             .foregroundStyle(.mainblue)

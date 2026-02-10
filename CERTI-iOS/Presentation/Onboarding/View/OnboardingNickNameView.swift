@@ -30,7 +30,7 @@ struct OnboardingNickNameView: View {
                 .padding(.leading, 20)
                 .padding(.bottom, 40)
             
-            Text("서티에서 사용할 닉네임을\n입력해 주세요.")
+            Text("따요에서 사용할 닉네임을\n입력해 주세요.")
                 .applyCertiFont(.sub_semibold_20)
                 .foregroundStyle(.grayscale600)
                 .frame(minHeight: 52)
@@ -53,17 +53,6 @@ struct OnboardingNickNameView: View {
                 .padding(.bottom, 16)
             
             Button {
-//                // UI 확인용, 추후 검증 요청 API로 대체
-//                let allCases = nickNameValidateCase.allCases
-//                
-//                if let currentCase = viewModel.nickNameValid {
-//                    if let currentIndex = allCases.firstIndex(of: currentCase) {
-//                        let nextIndex = (currentIndex + 1) % allCases.count
-//                        viewModel.nickNameValid = allCases[nextIndex]
-//                    }
-//                } else {
-//                    viewModel.nickNameValid = allCases.first
-//                }
                 Task {
                     await viewModel.checkNickNameValidate()
                 }

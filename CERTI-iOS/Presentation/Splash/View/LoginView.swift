@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import _AuthenticationServices_SwiftUI
 
 struct LoginView: View {
     
@@ -39,7 +40,7 @@ struct LoginView: View {
                 .padding(.bottom, 20)
                 .padding(.top, 137)
             
-            Text ("나만의 자격증 취득 올인원 서비스")
+            Text ("따요: 나만의 자격증 올인원 서비스")
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale400)
                 .padding(.bottom, 27)
@@ -62,7 +63,13 @@ struct LoginView: View {
             
             Button {
                 Task {
-                    await viewModel.kakaoLoginButtonTapped() ? appCoordinator.completeLogin() : nil
+                    let isExistingUser = await viewModel.kakaoLoginButtonTapped()
+                    
+                    if isExistingUser {
+                        appCoordinator.loginAsExistingUser(type: .kakao)
+                    } else {
+                        appCoordinator.goToOnboarding()
+                    }
                 }
             } label: {
                 Image(.imageSocialLoginKakao)
@@ -72,15 +79,31 @@ struct LoginView: View {
             }
             .padding(.bottom, 12)
             
-            Button {
-                // 애플 로그인
-            } label: {
-                Image(.imageSocialLoginApple)
-                    .resizable()
-                    .scaledToFit()
+            Image(.imageSocialLoginApple)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 335, height: 56)
+                .padding(.bottom, 36)
+                .overlay {
+                    SignInWithAppleButton(
+                        onRequest: { request in
+                            request.requestedScopes = [.email, .fullName]
+                        },
+                        onCompletion: { result in
+                            Task {
+                                let isExistingUser = await viewModel.appleLogin(result: result)
+                                
+                                if isExistingUser {
+                                    appCoordinator.loginAsExistingUser(type: .apple)
+                                } else {
+                                    appCoordinator.goToOnboarding()
+                                }
+                            }
+                        }
+                    )
+                    .blendMode(.destinationOver)
                     .frame(width: 335, height: 56)
-            }
-            .padding(.bottom, 36)
+                }
             
         }
         .ignoresSafeArea()
@@ -89,4 +112,8 @@ struct LoginView: View {
             isAnimating = true
         }
     }
+}
+
+#Preview {
+    LoginView(factory: AppDIContainer.shared.makeLoginFactory())
 }

@@ -34,8 +34,18 @@ struct CertificationsEntityData {
     let testType: String
     let isFavorite: Bool
     let recommendScore: Int?
+    let description: String?
     
-    init(certificationId: Int, certificationName: String, certificationType: String, tags: [String], testType: String, isFavorite: Bool, recommendScore: Int?) {
+    init(
+        certificationId: Int,
+        certificationName: String,
+        certificationType: String,
+        tags: [String],
+        testType: String,
+        isFavorite: Bool,
+        recommendScore: Int?,
+        desceiption: String?
+    ) {
         self.certificationId = certificationId
         self.certificationName = certificationName
         self.certificationType = certificationType
@@ -43,6 +53,7 @@ struct CertificationsEntityData {
         self.testType = testType
         self.isFavorite = isFavorite
         self.recommendScore = recommendScore
+        self.description = desceiption
     }
     
     
