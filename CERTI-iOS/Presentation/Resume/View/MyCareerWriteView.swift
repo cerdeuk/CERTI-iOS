@@ -9,44 +9,55 @@ import SwiftUI
 
 struct MyCareerWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
+    let mode: CareerWriteMode
     
     var body: some View {
-            VStack (alignment: .leading, spacing: 0) {
-                BackButton() {
-                    viewModel.resumeViewRoutePop()
-                }
-                
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        MyCareerWriteTitleView
-                        workingPeriodView
-                        PeriodInputComponent(
-                            isFilled: $viewModel.isPeriodFilled,
-                            startAt: $viewModel.resumeModel.startAt,
-                            endAt: $viewModel.resumeModel.endAt
-                        )
-                        workingCompany
-                        dutyView
-                        dutyDetailView
-                        ResumeWriteButton(
-                            action: {
-                                Task {
-                                    await viewModel.addCareer(resumeModel: viewModel.resumeModel)
-                                    viewModel.resumeViewRoutePop()
-                                }
-                            },
-                            textEmpty: .constant(viewModel.isWriteButtonEnabled)
-                        )
-                        .padding(.top, 40)
-                    }
-                }
-                .onAppear{
-                    viewModel.clearResumeModel()
-                }
-                .scrollIndicators(.hidden)
-                .navigationBarBackButtonHidden()
-                .scrollDismissesKeyboard(.immediately)
+        VStack (alignment: .leading, spacing: 0) {
+            BackButton() {
+                viewModel.resumeViewRoutePop()
             }
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    MyCareerWriteTitleView
+                    workingPeriodView
+                    PeriodInputComponent(
+                        isFilled: $viewModel.isPeriodFilled,
+                        startAt: $viewModel.careerWriteModel.startAt,
+                        endAt: $viewModel.careerWriteModel.endAt
+                    )
+                    workingCompany
+                    dutyView
+                    dutyDetailView
+                    ResumeWriteButton(
+                        action: {
+                            Task {
+                                switch mode {
+                                case .add:
+                                    await viewModel.addCareer(careerWriteModel: viewModel.careerWriteModel)
+                                case .edit(let careerId):
+                                    await viewModel.editCareer(careerId: careerId, careerWriteModel: viewModel.careerWriteModel)
+                                }
+                                viewModel.resumeViewRoutePop()
+                            }
+                        }, buttonText: mode == .add ? "추가하기" : "수정하기",
+                        textEmpty: .constant(viewModel.isCareerWriteButtonEnabled)
+                    )
+                    .padding(.top, 40)
+                }
+            }
+            .onAppear{
+                switch mode {
+                case .add:
+                    viewModel.clearCareerWriteModel()
+                case .edit(let careerId):
+                    viewModel.prepareCareerEdit(careerId: careerId)
+                }
+            }
+            .scrollIndicators(.hidden)
+            .navigationBarBackButtonHidden()
+            .scrollDismissesKeyboard(.immediately)
+        }
     }
 }
 
@@ -54,7 +65,7 @@ extension MyCareerWriteView {
     private var MyCareerWriteTitleView: some View {
         Group {
             HStack(alignment: .center, spacing: 0) {
-                Text("경력사항 추가")
+                Text(mode == .add ? "경력사항 추가" : "경력사항 수정")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 26)
@@ -101,7 +112,7 @@ extension MyCareerWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.name, maxLength: 10)
+            CharLimitTextField(text: $viewModel.careerWriteModel.name, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -123,7 +134,7 @@ extension MyCareerWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.place, maxLength: 10)
+            CharLimitTextField(text: $viewModel.careerWriteModel.place, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -145,12 +156,8 @@ extension MyCareerWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.description, maxLength: 16)
+            CharLimitTextField(text: $viewModel.careerWriteModel.description, maxLength: 16)
                 .padding(.horizontal, 20)
         }
-    }
-    
-    private func testButtonClicked() {
-        print("testButtonClicked")
     }
 }

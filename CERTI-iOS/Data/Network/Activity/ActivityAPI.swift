@@ -13,6 +13,7 @@ enum ActivityAPI {
     case fetchActivityList
     case addActivity(request: AddActivityRequestDTO)
     case deleteActivity(id: Int)
+    case editActivity(activityId:Int, request: EditActivityRequestDTO)
 }
 
 extension ActivityAPI: BaseTargetType {
@@ -31,6 +32,8 @@ extension ActivityAPI: BaseTargetType {
             return "activity"
         case .deleteActivity(let id):
             return "activity/\(id)"
+        case .editActivity(let activityId, _):
+            return "activity/\(activityId)"
         }
     }
     
@@ -42,6 +45,8 @@ extension ActivityAPI: BaseTargetType {
             return .post
         case .deleteActivity:
             return .delete
+        case .editActivity:
+            return .put
         }
     }
     
@@ -53,6 +58,8 @@ extension ActivityAPI: BaseTargetType {
             return .requestJSONEncodable(request)
         case .deleteActivity:
             return .requestPlain
+        case .editActivity(_, let request):
+            return .requestJSONEncodable(request)
         }
     }
     

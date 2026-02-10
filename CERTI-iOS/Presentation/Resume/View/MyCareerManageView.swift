@@ -1,17 +1,17 @@
 //
-//  MyExtracurricularActivityEditView.swift
+//  MyCareerManageView.swift
 //  CERTI-iOS
 //
-//  Created by 이상엽 on 7/13/25.
+//  Created by 이상엽 on 1/15/26.
 //
 
 import SwiftUI
 
-struct MyExtracurricularActivityEditView: View {
+struct MyCareerManageView: View {
     @ObservedObject var viewModel: ResumeViewModel
+    
     @State var isDeleteAlertPresented = false
-    @State var selectedActivityIndex : Int? = nil
-
+    @State var selectedCareersIndex : Int? = nil
     
     let columns = [GridItem(.flexible())]
     
@@ -25,7 +25,7 @@ struct MyExtracurricularActivityEditView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
                         Button {
-                            viewModel.navigateToActivityWrite()
+                            viewModel.navigateToCareerWrite()
                         } label: {
                             HStack(alignment: .center, spacing: 0) {
                                 Image(.iconPlus)
@@ -41,26 +41,28 @@ struct MyExtracurricularActivityEditView: View {
                             .background(.purplewhite)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
-                        .padding(.top, 44)
+                        .padding(.top, 16)
                         .padding(.leading, 20)
                         
-                        
-                        Text("대내외 활동 수정")
+                        Text("경력사항 수정")
                             .applyCertiFont(.sub_semibold_20)
                             .foregroundStyle(.grayscale600)
                             .frame(height: 26)
-                            .padding(.top, 32)
+                            .padding(.top, 56)
                             .padding(.leading, 20)
                         
                         LazyVGrid(columns: columns, spacing: 36) {
-                            ForEach(viewModel.activityList) { item in
+                            ForEach(viewModel.careersList) { item in
                                 HStack(alignment: .center, spacing: 0) {
-                                    ResumeActivityListComponent(model: item)
+                                    ResumeCareerListComponent(model: item, onTapCard: {
+                                        viewModel.selectCareer(id: item.careerId)
+                                        viewModel.navigateToCareerEdit()
+                                    })
                                         .frame(height: 50)
                                     
                                     Button {
                                         isDeleteAlertPresented.toggle()
-                                        selectedActivityIndex = item.activityId
+                                        selectedCareersIndex = item.careerId
                                     } label: {
                                         Image(.iconClose36)
                                     }
@@ -74,25 +76,25 @@ struct MyExtracurricularActivityEditView: View {
                         Spacer()
                     }
                 }
+                .scrollIndicators(.hidden)
+
             }
             
             if isDeleteAlertPresented {
                 CertiDeleteAlertView {
                     Task {
-                        guard let deleteIndex = selectedActivityIndex else { return }
-                        await viewModel.deleteActivity(id: deleteIndex)
+                        guard let deleteIndex = selectedCareersIndex else { return }
+                        await viewModel.deleteCareers(id: deleteIndex)
                     }
                     isDeleteAlertPresented = false
-                    print("확인 버튼 클릭")
                 } onCancel: {
                     isDeleteAlertPresented = false
-                    print("취소버튼 클릭")
                 }
             }
         }
-        .onAppear {
+        .onAppear{
             Task {
-                await viewModel.getActivityList()
+                await viewModel.getCareersList()
             }
         }
         .navigationBarBackButtonHidden()

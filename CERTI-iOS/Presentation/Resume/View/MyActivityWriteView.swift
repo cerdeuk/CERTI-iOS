@@ -1,5 +1,5 @@
 //
-//  MyExtracurricularActivityWriteView.swift
+//  MyActivityWriteView.swift
 //  CERTI-iOS
 //
 //  Created by 이상엽 on 7/13/25.
@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct MyExtracurricularActivityWriteView: View {
+struct MyActivityWriteView: View {
     @ObservedObject var viewModel: ResumeViewModel
-    
+    let mode: ActivityWriteMode
+
     var body: some View {
             VStack (alignment: .leading, spacing: 0) {
                 BackButton() {
@@ -22,8 +23,8 @@ struct MyExtracurricularActivityWriteView: View {
                         activityPeriodView
                         PeriodInputComponent(
                             isFilled: $viewModel.isPeriodFilled,
-                            startAt: $viewModel.resumeModel.startAt,
-                            endAt: $viewModel.resumeModel.endAt
+                            startAt: $viewModel.activityWriteModel.startAt,
+                            endAt: $viewModel.activityWriteModel.endAt
                         )
                         organizeView
                         activityView
@@ -31,18 +32,27 @@ struct MyExtracurricularActivityWriteView: View {
                         ResumeWriteButton(
                             action: {
                                 Task {
-                                    await viewModel.addActivity(resumeModel: viewModel.resumeModel)
-                                    viewModel.clearResumeModel()
+                                    switch mode {
+                                    case .add:
+                                        await viewModel.addActivity(activityWriteModel: viewModel.activityWriteModel)
+                                    case .edit(let activityId):
+                                        await viewModel.editActivity(activityId: activityId, activityWriteModel: viewModel.activityWriteModel)
+                                    }
                                     viewModel.resumeViewRoutePop()
                                 }
-                            },
-                            textEmpty: .constant(viewModel.isWriteButtonEnabled)
+                            }, buttonText: mode == .add ? "추가하기" : "수정하기",
+                            textEmpty: .constant(viewModel.isActivityWriteButtonEnabled)
                         )
                         .padding(.top, 40)
                     }
                 }
                 .onAppear{
-                    viewModel.clearResumeModel()
+                    switch mode {
+                    case .add:
+                        viewModel.clearActivityWriteModel()
+                    case .edit(let activityId):
+                        viewModel.prepareActivityEdit(activityId: activityId)
+                    }
                 }
                 .navigationBarBackButtonHidden()
                 .scrollIndicators(.hidden)
@@ -51,11 +61,11 @@ struct MyExtracurricularActivityWriteView: View {
     }
 }
 
-extension MyExtracurricularActivityWriteView {
+extension MyActivityWriteView {
     private var MyExtracurricularActivityTitleView: some View {
         Group {
             HStack(alignment: .center, spacing: 0) {
-                Text("대내외 활동 추가")
+                Text(mode == .add ? "대내외 활동 추가" : "대내외 활동 수정")
                     .applyCertiFont(.sub_semibold_20)
                     .foregroundStyle(.grayscale600)
                     .frame(height: 26)
@@ -105,7 +115,7 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.name, maxLength: 10)
+            CharLimitTextField(text: $viewModel.activityWriteModel.name, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -128,7 +138,7 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.place, maxLength: 10)
+            CharLimitTextField(text: $viewModel.activityWriteModel.place, maxLength: 10)
                 .padding(.horizontal, 20)
         }
     }
@@ -151,13 +161,9 @@ extension MyExtracurricularActivityWriteView {
             .padding(.bottom, 24)
             .padding(.top, 36)
             
-            CharLimitTextField(text: $viewModel.resumeModel.description, maxLength: 16)
+            CharLimitTextField(text: $viewModel.activityWriteModel.description, maxLength: 16)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 16)
         }
-    }
-    
-    private func testButtonClicked() {
-        print("testButtonClicked")
     }
 }

@@ -13,4 +13,5 @@ protocol ActivityRepository {
     func fetchActivityList() async -> Result<ActivityListEntity, NetworkError>
     func deleteActivity(id: Int) async -> Result<Void, NetworkError>
     func addActivity(request: ActivityEntity) async -> Result<Void, NetworkError>
+    func editActivity(activityId: Int, request: ActivityEntity) async -> Result<Void, NetworkError>
 }

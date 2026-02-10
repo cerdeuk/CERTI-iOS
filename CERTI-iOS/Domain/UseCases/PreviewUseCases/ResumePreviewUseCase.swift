@@ -47,31 +47,37 @@ struct PreviewFetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase {
 struct PreviewFetchActivityListUseCase: FetchActivityListUseCase {
     func execute() async -> Result<ActivityListEntity, NetworkError> {
         let dummyActivities = ActivityListEntity(list:[
-            ResumeEntityData(startAt: "2022.03", endAt: "2022.12", name: "SOPT 35기 iOS", place: "SOPT", description: "CERTI 앱 개발 프로젝트 진행"),
-            ResumeEntityData(startAt: "2023.03", endAt: "2023.07", name: "학교 창업동아리", place: "성균관대", description: "서비스 아이디어 기획 및 발표")
+            ActivityEntity(activityId: 0, startAt: "2022.03", endAt: "2022.12", name: "SOPT 35기 iOS", place: "SOPT", description: "CERTI 앱 개발 프로젝트 진행"),
+            ActivityEntity(activityId: 1, startAt: "2023.03", endAt: "2023.07", name: "학교 창업동아리", place: "성균관대", description: "서비스 아이디어 기획 및 발표")
         ])
         return .success(dummyActivities)
     }
 }
 
 struct PreviewFetchCareersListUseCase: FetchCareersListUseCase {
-    func execute() async -> Result<CareersListEntity, NetworkError> {
-        let dummyCareers = CareersListEntity(list:[
-            ResumeEntityData(careerId: 1, startAt: "2021.11", endAt: "2022.01", name: "패션디자이너 인턴", place: "서티그룹", description: "트렌드 리서치"),
-            ResumeEntityData(careerId: 2, startAt: "2023.02", endAt: "2023.07", name: "iOS 개발 인턴", place: "CERTI", description: "CERTI 앱 개발 참여")
+    func execute() async -> Result<CareerListEntity, NetworkError> {
+        let dummyCareers = CareerListEntity(list:[
+            CareerEntity(careerId: 1, startAt: "2021.11", endAt: "2022.01", name: "패션디자이너 인턴", place: "서티그룹", description: "트렌드 리서치"),
+            CareerEntity(careerId: 2, startAt: "2023.02", endAt: "2023.07", name: "iOS 개발 인턴", place: "CERTI", description: "CERTI 앱 개발 참여")
         ])
         return .success(dummyCareers)
     }
 }
 
 struct PreviewAddCareersUseCase: AddCareersUseCase {
-    func execute(request: CareersEntity) async -> Result<Bool, NetworkError> {
-        .success(true)
+    func execute(request: CareerEntity) async -> Result<Void, NetworkError> {
+        return .success(())
     }
 }
 
-struct PreviewDeleteCareersUserCase: DeleteCareersUseCase {
+struct PreviewDeleteCareersUseCase: DeleteCareersUseCase {
     func execute(id: Int) async -> Result<Void, NetworkError> {
+        return .success(())
+    }
+}
+
+struct PreviewEditCareerUseCase: EditCareersUseCase {
+    func execute(careerId: Int, request: CareerEntity) async -> Result<Void, NetworkError> {
         return .success(())
     }
 }

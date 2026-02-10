@@ -1,17 +1,17 @@
 //
-//  MyCareerEditView.swift
+//  MyActivityManageView.swift
 //  CERTI-iOS
 //
-//  Created by 이상엽 on 7/12/25.
+//  Created by 이상엽 on 7/13/25.
 //
 
 import SwiftUI
 
-struct MyCareerEditView: View {
+struct MyActivityManageView: View {
     @ObservedObject var viewModel: ResumeViewModel
-    
     @State var isDeleteAlertPresented = false
-    @State var selectedCareersIndex : Int? = nil
+    @State var selectedActivityIndex : Int? = nil
+
     
     let columns = [GridItem(.flexible())]
     
@@ -25,7 +25,7 @@ struct MyCareerEditView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
                         Button {
-                            viewModel.navigateToCareerWrite()
+                            viewModel.navigateToActivityWrite()
                         } label: {
                             HStack(alignment: .center, spacing: 0) {
                                 Image(.iconPlus)
@@ -41,25 +41,29 @@ struct MyCareerEditView: View {
                             .background(.purplewhite)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
-                        .padding(.top, 44)
+                        .padding(.top, 16)
                         .padding(.leading, 20)
                         
-                        Text("경력사항 수정")
+                        
+                        Text("대내외 활동 수정")
                             .applyCertiFont(.sub_semibold_20)
                             .foregroundStyle(.grayscale600)
                             .frame(height: 26)
-                            .padding(.top, 32)
+                            .padding(.top, 56)
                             .padding(.leading, 20)
                         
                         LazyVGrid(columns: columns, spacing: 36) {
-                            ForEach(viewModel.careersList) { item in
+                            ForEach(viewModel.activitiesList) { item in
                                 HStack(alignment: .center, spacing: 0) {
-                                    ResumeActivityListComponent(model: item)
+                                    ResumeActivityListComponent(model: item, onTapCard: {
+                                        viewModel.selectActivity(id: item.activityId)
+                                        viewModel.navigateToActivityEdit()
+                                    })
                                         .frame(height: 50)
                                     
                                     Button {
                                         isDeleteAlertPresented.toggle()
-                                        selectedCareersIndex = item.careerId
+                                        selectedActivityIndex = item.activityId
                                     } label: {
                                         Image(.iconClose36)
                                     }
@@ -73,15 +77,13 @@ struct MyCareerEditView: View {
                         Spacer()
                     }
                 }
-                .scrollIndicators(.hidden)
-
             }
             
             if isDeleteAlertPresented {
                 CertiDeleteAlertView {
                     Task {
-                        guard let deleteIndex = selectedCareersIndex else { return }
-                        await viewModel.deleteCareers(id: deleteIndex)
+                        guard let deleteIndex = selectedActivityIndex else { return }
+                        await viewModel.deleteActivity(id: deleteIndex)
                     }
                     isDeleteAlertPresented = false
                     print("확인 버튼 클릭")
@@ -91,9 +93,9 @@ struct MyCareerEditView: View {
                 }
             }
         }
-        .onAppear{
+        .onAppear {
             Task {
-                await viewModel.getCareersList()
+                await viewModel.getActivityList()
             }
         }
         .navigationBarBackButtonHidden()
