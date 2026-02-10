@@ -35,12 +35,18 @@ final class ResumeViewModel: ObservableObject {
         place: "",
         description: ""
     )
+    @Published var resumeUserModel = ResumeUserModel(
+        name: "",
+        university: "",
+        major: "",
+        birthDate: nil
+    )
     @Published var isCardDetailPresented = false
     
     var isWriteButtonEnabled: Bool {
         !resumeModel.name.isBlank && !resumeModel.place.isBlank && !resumeModel.description.isBlank && isPeriodFilled
     }
-    
+    private let fetchUserInfoUseCase: FetchUserInfoUseCase
     private let fetchJobUseCase: FetchJobUseCase
     
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
@@ -56,6 +62,7 @@ final class ResumeViewModel: ObservableObject {
     private let fetchActivityListUseCase: FetchActivityListUseCase
     
     init(
+        fetchUserInfoUseCase: FetchUserInfoUseCase,
         fetchJobUseCase: FetchJobUseCase,
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
@@ -67,6 +74,7 @@ final class ResumeViewModel: ObservableObject {
         deleteActivityUseCase: DeleteActivityUseCase,
         fetchActivityListUseCase: FetchActivityListUseCase
     ) {
+        self.fetchUserInfoUseCase = fetchUserInfoUseCase
         self.fetchJobUseCase = fetchJobUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
@@ -216,7 +224,6 @@ extension ResumeViewModel {
         }
     }
 
-
     func getActivityList() async {
         let result = await fetchActivityListUseCase.execute()
         
@@ -229,7 +236,6 @@ extension ResumeViewModel {
             logger.error("❌ 대내외활동 조회 실패: \(error.localizedDescription)")
         }
     }
-
     
     func deleteActivity(id: Int) async {
         let result = await deleteActivityUseCase.execute(id: id)
@@ -252,6 +258,19 @@ extension ResumeViewModel {
             logger.info("✅ 활동 추가 성공")
         case .failure(let error):
             logger.error("❌ 활동 추가 실패: \(error.localizedDescription)")
+        }
+    }
+    
+    func getUserInfo() async {
+        let result = await fetchUserInfoUseCase.execute()
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ 유저 정보 조회 성공")
+            resumeUserModel = response.toResumeUserModel()
+            
+        case .failure(let error):
+            logger.error("❌ 유저 정보 조회: \(error.localizedDescription)")
         }
     }
 }
