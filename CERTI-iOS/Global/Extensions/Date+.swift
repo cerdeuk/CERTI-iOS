@@ -13,10 +13,7 @@ extension Date {
         formatter.locale = Locale(identifier: "ko_KR")
         
         let formats = [
-            "yyyy.MM.dd",
-            
-            // TODO: - 서버에서 연,월,일 주면 삭제
-            "yyyy.MM"
+            "yyyy.MM.dd"
         ]
         
         for format in formats {
