@@ -28,6 +28,7 @@ struct SearchCertificationInfo: Decodable {
     let tags: [String]
     let testType: String
     var isFavorite: Bool
+    let description: String
 }
 
 extension SearchCertificationInfo {
@@ -39,7 +40,8 @@ extension SearchCertificationInfo {
             tags: tags,
             testType: testType,
             isFavorite: isFavorite,
-            recommendScore: nil
+            recommendScore: nil,
+            desceiption: description
         )
     }
 }

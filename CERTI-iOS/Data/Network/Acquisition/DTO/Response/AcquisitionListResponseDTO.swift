@@ -35,13 +35,15 @@ struct AcquisitionListInfo: Decodable {
     
     func toAcquisitionListEntityData() -> AcquisitionListEntityData {
         return AcquisitionListEntityData(
-            acquisitionId: acquisitionId,
-            cardFrontImageUrl: cardFrontImageUrl,
+            acquisitionID: acquisitionId,
+            cardFrontImageURL: cardFrontImageUrl,
+            certificationType: "",
             index: index,
             name: name,
             tags: tags,
             description: description,
-            createdAt: createdAt
+            acquisitionDate: createdAt,
+            grade: ""
         )
     }
 }

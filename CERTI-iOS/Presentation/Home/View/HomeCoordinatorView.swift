@@ -33,14 +33,14 @@ struct HomeCoordinatorView: View {
                 .onChange(of: homeViewModel.homeViewRoute) { route in
                     guard let route = route else { return }
                     switch route {
-                    case .switchToRecommendTab:
-                        tabCoordinator.switchTab(tab: .recommend)
                     case .withDraw:
                         appCoordinator.withDraw()
                     case .navigateToCertificateDetail:
                         homeCoordinator.push(next: .certificateDetail)
                     case .navigateToPreLicenseEdit:
                         homeCoordinator.push(next: .preLicenseEdit)
+                    case .navigateToCertificateTab:
+                        tabCoordinator.switchTab(tab: .certificate)
                     case .homeViewRoutePop:
                         homeCoordinator.pop()
                     }
@@ -52,7 +52,7 @@ struct HomeCoordinatorView: View {
                         PreLicenseEditView(viewModel: homeViewModel)
                             .navigationBarBackButtonHidden()
                     case .certificateDetail:
-                        CertificateDetailView(viewModel: certificateDetailViewModel, certificationId: $homeViewModel.selectedLicenseId) {
+                        CertificateDetailTabContainerView(viewModel: certificateDetailViewModel, certificationId: $homeViewModel.selectedLicenseId) {
                             homeCoordinator.pop()
                         }
                     }

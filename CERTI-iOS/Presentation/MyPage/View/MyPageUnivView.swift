@@ -19,18 +19,6 @@ struct MyPageUnivView: View {
     @FocusState private var isSearchFieldFocused: Bool
     
     let columns = [GridItem(.flexible())]
-    let universityList = [
-        "서티대학교1",
-        "서티대학교2",
-        "서티대학교3",
-        "서티대학교4",
-        "서티대학교5",
-        "서티대학교6",
-        "서티대학교7",
-        "서티대학교8",
-        "서티대학교9",
-        "서티대학교10"
-    ]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -45,9 +33,12 @@ struct MyPageUnivView: View {
                 .padding(.bottom, 38)
             
             SearchBar(text: $searchUnivText) {
-                // 돋보기 누르면 대학 리스트 받아오기
                 univListToggle = true
                 isSearchFieldFocused = false
+                
+                Task {
+                    await viewModel.getUnivList(keyword: searchUnivText)
+                }
             }
             .disabled(searchBarDisabled)
             .focused($isSearchFieldFocused)
@@ -62,7 +53,7 @@ struct MyPageUnivView: View {
             if univListToggle {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns, alignment: .leading) {
-                        ForEach(universityList, id: \.self) { univ in
+                        ForEach(viewModel.universityList, id: \.self) { univ in
                             VStack(alignment: .leading, spacing: 0) {
                                 Text(univ)
                                     .applyCertiFont(.body_regular_16)
@@ -107,7 +98,9 @@ extension MyPageUnivView {
             Spacer()
             
             Button {
-                // TODO: - 저장
+                Task {
+                    await viewModel.editUniv(univ: userUniversity)
+                }
                 viewModel.myPageViewRoutePop()
             } label: {
                 Text("저장")

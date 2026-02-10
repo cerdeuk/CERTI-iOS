@@ -35,7 +35,34 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var isAM = true
     @Published var hour = 1
     @Published var minute = 0
-
+    @Published var isSelectedPopularity = false
+    @Published var commentCount = 0
+    @Published var paginationComments: [PaginationCommentModel] = []
+    @Published var comments = Comment(
+        commentId: 0,
+        userId: 0,
+        nickName: nil,
+        content: "",
+        userMajor: "",
+        userJob: "",
+        state: "",
+        likeCount: 0,
+        createdTime: "",
+        lastModifiedTime: "",
+        isLike: false
+    )
+    @Published var isLoadingComments: Bool = false
+    @Published var isLastPage: Bool = false
+    @Published var commentIndex = 1
+    @Published var commentText = ""
+    
+    private var dummyPages: [PaginationCommentModel] = PaginationCommentModel.dummy()
+    var currentPageIndex: Int = 0
+    
+    var commentList: [Comment] {
+        paginationComments.flatMap { $0.content }
+    }
+    
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
     private let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
@@ -89,7 +116,7 @@ extension CertificateDetailViewModel {
     
     func appendAcquisition(certificationId: Int) async {
         let result = await addAcquisitionUseCase.execute(certificationId: certificationId)
-
+        
         switch result {
         case .success(let response):
             if response {
@@ -103,9 +130,33 @@ extension CertificateDetailViewModel {
             logger.error("appendAcquisition failed: \(error.localizedDescription)")
         }
     }
+    
+    // UI 확인용 더미
+    func loadNextComments() async {
+        guard !isLoadingComments && !isLastPage else { return }
+        guard currentPageIndex < dummyPages.count else {
+            isLastPage = true
+            return
+        }
+        
+        isLoadingComments = true
+        
+        try? await Task.sleep(nanoseconds: 600_000_000)
+        
+        let nextPage = dummyPages[currentPageIndex]
+        paginationComments.append(nextPage)
+        currentPageIndex += 1
+        
+        commentCount = paginationComments
+            .flatMap { $0.content }
+            .count
+        
+        isLastPage = nextPage.isLast
+        isLoadingComments = false
+    }
 }
 
- // MARK: - Func
+// MARK: - Func
 
 extension CertificateDetailViewModel {
     func resetPlanModalInput() {
@@ -116,5 +167,9 @@ extension CertificateDetailViewModel {
         isAM = true
         hour = 1
         minute = 0
+    }
+    
+    func countAppearComment() {
+        commentIndex += 1
     }
 }

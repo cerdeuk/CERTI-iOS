@@ -9,6 +9,7 @@ import SwiftUI
 
 import KakaoSDKUser
 import KakaoSDKAuth
+import AuthenticationServices
 
 import os
 
@@ -41,13 +42,40 @@ final class LoginViewModel: ObservableObject {
         
         switch result {
         case .success(let accessToken):
-            return await handleServerLogin(with: accessToken)
+            return await handleServerLogin(with: accessToken, type: "KAKAO")
         case .failure(let error):
             logger.error("로그인 실패: \(String(describing: error))")
             return false
         }
     }
     
+    func appleLogin(result: Result<ASAuthorization, Error>) async -> Bool {
+            switch result {
+            case .success(let authorization):
+                guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+                    logger.error("❌ Apple Login Failed: Invalid Credential")
+                    return false
+                }
+                
+                guard let identityTokenData = appleIDCredential.identityToken,
+                      let identityTokenString = String(data: identityTokenData, encoding: .utf8) else {
+                    logger.error("❌ Apple Login Failed: Unable to fetch identity token")
+                    return false
+                }
+                
+                let fullName = appleIDCredential.fullName
+                AuthManager.shared.name = fullName?.description ?? "김서티"    // 애플 유저 이름이 없을 경우 김서티로 임의 설정
+                
+                logger.info("✅ Apple Login Succeeded")
+                
+                return await handleServerLogin(with: identityTokenString, type: "APPLE")
+                
+            case .failure(let error):
+                logger.error("❌ Apple Login Failed: \(error.localizedDescription)")
+                return false
+            }
+        }
+
 }
 
 // MARK: - Kakao Login
@@ -108,9 +136,9 @@ extension LoginViewModel {
 // MARK: - Server Login
 
 extension LoginViewModel {
-    private func handleServerLogin(with accessToken: String) async -> Bool {
+    private func handleServerLogin(with token: String, type: String) async -> Bool {
         
-        let result = await kakaoLoginUseCase.execute(type: "KAKAO", accessToken: accessToken)
+        let result = await kakaoLoginUseCase.execute(type: type, accessToken: token)
         
         switch result {
         case .success(let authResponse):
@@ -123,23 +151,29 @@ extension LoginViewModel {
     
     private func handleAuthResponse(_ authResponse: LoginResponseEntity) -> Bool {
         switch authResponse.needSignUp {
-        case true:
-            logger.info("✅ 서버 로그인 성공, 유저 ID: \(authResponse.userInformation.socialID)")
-            saveTokens(from: authResponse)
-            AuthManager.shared.temporarySignUpData = authResponse
-            return true
         case false:
-            logger.info("🔁 회원가입 필요, 유저 ID: \(authResponse.userInformation.socialID)")
+            logger.info("✅ 서버 로그인 성공, 유저 ID: \(authResponse.userID ?? 0)")
             saveTokens(from: authResponse)
+            return true
+        case true:
+            logger.info("🔁 회원가입 필요, 유저 ID: \(authResponse.userInformation?.socialID ?? "")")
+            savePresignedUpTokens(from: authResponse)
             AuthManager.shared.temporarySignUpData = authResponse
             return false
         }
     }
 
+    private func savePresignedUpTokens(from entity: LoginResponseEntity) {
+        _ = TokenManager.shared.saveTokens(
+            accessToken: entity.preSignupToken!,
+            refreshToken: entity.preSignupToken!
+        )
+    }
+    
     private func saveTokens(from entity: LoginResponseEntity) {
         _ = TokenManager.shared.saveTokens(
-            accessToken: entity.preSignupToken,
-            refreshToken: entity.preSignupToken
+            accessToken: entity.tokenResponse!.accessToken,
+            refreshToken: entity.tokenResponse!.refreshToken
         )
     }
 

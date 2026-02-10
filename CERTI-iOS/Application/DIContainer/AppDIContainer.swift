@@ -12,7 +12,9 @@ final class AppDIContainer {
     static let shared = AppDIContainer()
     
     private init() { }
-    
+
+    /// TODO: - 매번 API 연결할 때마다 service랑 repository에 case 만들고 usecase 만들고 DIContainer에서 생성해서 일일이 의존성 주입해주려니 너무 귀찮음;;
+    /// 여유될 때 방법을 좀 모색해보자
     
     // MARK: - Services
     
@@ -25,7 +27,6 @@ final class AppDIContainer {
     private lazy var acquisitionService: AcquisitionServiceProtocol = AcquisitionService()
     private lazy var careersService: CareersServiceProtocol = CareersService()
     private lazy var activityService: ActivityServiceProtocol = ActivityService()
-    /*private*/ lazy var tokenRefreshService: TokenRefreshServiceProtocol = TokenRefreshService()
     
     
     // MARK: - Repositories
@@ -170,6 +171,62 @@ extension AppDIContainer {
     func makeCheckNickNameUseCase() -> CheckNickNameUseCase {
         return DefaultCheckNickNameUseCase(repository: userRepository)
     }
+    
+    func makeFetchMyPageInfoUseCase() -> FetchMyPageInfoUseCase {
+        return DefaultFetchMyPageInfoUseCase(repository: userRepository)
+    }
+    
+    func makeFetchEditProfileInfoUseCase() -> FetchEditProfileInfoUseCase {
+        return DefaultFetchEditProfileInfoUseCase(repository: userRepository)
+    }
+    
+    func makeUpdateEditProfileInfoUseCase() -> UpdateEditProfileInfoUseCase {
+        return DefaultUpdateEditProfileInfoUseCase(repository: userRepository)
+    }
+    
+    func makeFetchMyPageUnivListUseCase() -> FetchMyPageUnivListUseCase {
+        return DefaultFetchMyPageUnivListUseCase(repository: userRepository)
+    }
+    
+    func makeFetchMyPageMajorListUseCase() -> FetchMyPageMajorListUseCase {
+        return DefaultFetchMyPageMajorListUseCase(repository: userRepository)
+    }
+    
+    func makeEditMajorUseCase() -> DefaultEditMajorUseCase {
+        return DefaultEditMajorUseCase(repository: userRepository)
+    }
+    
+    func makeEditUnivUseCase() -> DefaultEditUnivUseCase {
+        return DefaultEditUnivUseCase(repository: userRepository)
+    }
+    
+    func makeToggleNotificationSettingUseCase() -> DefaultToggleNotificationSettingUseCase {
+        return DefaultToggleNotificationSettingUseCase(repository: userRepository)
+    }
+    
+    func makeGetNotificationSettingUseCase() -> DefaultGetNotificationSettingUseCase {
+        return DefaultGetNotificationSettingUseCase(repository: userRepository)
+    }
+    
+    func makeGetTrackRankCertificationUsecase() -> DefaultGetTrackRankCertificationUsecase {
+        return DefaultGetTrackRankCertificationUsecase(repository: certificationRepository)
+    }
+    
+    func makeGetJobRankCertificationUsecase() -> DefaultGetJobRankCertificationUsecase {
+        return DefaultGetJobRankCertificationUsecase(repository: certificationRepository)
+    }
+    
+    func makeGetTrackCertificationListUsecase() -> DefaultGetTrackCertificationListUsecase {
+        return DefaultGetTrackCertificationListUsecase(repository: certificationRepository)
+    }
+    
+    func makeGetJobCertificationListUsecase() -> DefaultGetJobCertificationListUsecase {
+        return DefaultGetJobCertificationListUsecase(repository: certificationRepository)
+    }
+    
+    func makeFetchTrackUsecase() -> DefaultFetchTrackUsecase {
+        return DefaultFetchTrackUsecase(repository: userRepository)
+    }
 }
 
 
@@ -197,24 +254,7 @@ extension AppDIContainer {
             checkNickNameUseCase: makeCheckNickNameUseCase()
         )
     }
-    
-    func makeRecommendFactory() -> RecommendFactory {
-        return DefaultRecommendFactory(
-            fetchRecommendUseCase: makeFetchRecommendUseCase(),
-            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
-            fetchJobUseCase: makeFetchJobUseCase(),
-            editJobUseCase: makeEditJobUseCase()
-        )
-    }
-    
-    func makeCategoryFactory() -> CategoryFactory {
-        return DefaultCategoryFactory(
-            fetchCategoryUseCase: makeFetchCategoryUseCase(),
-            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
-            searchCertificationUseCase: makeSearchCertificationUseCase()
-        )
-    }
-    
+
     func makeCertificateDetailFactory() -> CertificateDetailFactory {
         return DefaultCertificationDetailFactory(
           fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase(),
@@ -241,10 +281,41 @@ extension AppDIContainer {
     }
     
     func makeMyPageFactory() -> MyPageFactory {
-        return DefaultMyPageFactory()
+        return DefaultMyPageFactory(
+            fetchMyPageInfoUseCase: makeFetchMyPageInfoUseCase(),
+            fetchEditProfileInfoUseCase: makeFetchEditProfileInfoUseCase(),
+            checkNickNameUseCase: makeCheckNickNameUseCase(),
+            updateEditProfileInfoUseCase: makeUpdateEditProfileInfoUseCase(),
+            editJobUseCase: makeEditJobUseCase(),
+            fetchMajorListUseCase: makeFetchMyPageMajorListUseCase(),
+            fetchUnivListUseCase: makeFetchMyPageUnivListUseCase(),
+            editMajorUseCase: makeEditMajorUseCase(),
+            editUnivUseCase: makeEditUnivUseCase(),
+            getPreCertificationUseCase: makeGetPreCertificationUseCase(),
+            getFavoriteCertificationUseCase: makeGetFavoritePreCertificationUseCase(),
+            withDrawUseCase: makeWithDrawUseCase(),
+            getNotificationSettingUseCase: makeGetNotificationSettingUseCase(),
+            toggleNotificationSettingUseCase: makeToggleNotificationSettingUseCase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase()
+        )
     }
     
     func makeLoginFactory() -> LoginFactory {
         return DefaultLoginFactory(kakoLoginUseCase: makeKakaoLoginUseCase())
+    }
+    
+    func makeCertificateFactory() -> CertificateFactory {
+        return DefaultCertificateFactory(
+            fetchRecommendUseCase: makeFetchRecommendUseCase(),
+            getTrackRankCertificationUsecase: makeGetTrackRankCertificationUsecase(),
+            getJobRankCertificationUsecase: makeGetJobRankCertificationUsecase(),
+            getJobCertificationListUsecase: makeGetJobCertificationListUsecase(),
+            getTrackCertificationListUsecase: makeGetTrackCertificationListUsecase(),
+            fetchJobUseCase: makeFetchJobUseCase(),
+            fetchTrackUsecase: makeFetchTrackUsecase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            searchCertificationUseCase: makeSearchCertificationUseCase()
+        )
     }
 }

@@ -18,8 +18,8 @@ struct PreviewFetchAcquisitionListUseCase: FetchAcquisitionListUseCase {
     func execute() async -> Result<AcquisitionListEntity, NetworkError> {
         let dummy = AcquisitionListEntity(
             acquisitionList: [
-                AcquisitionListEntityData(acquisitionId: 1, cardFrontImageUrl: "https://dummy.certified.com/image_certification_card_large_1.png", index: 1, name: "정보처리기사",  tags: ["컴퓨터"], description: "정처기 자격증 설명", createdAt: "2026.05.10"),
-                AcquisitionListEntityData(acquisitionId: 2, cardFrontImageUrl: "https://dummy.certified.com/image_certification_card_large_1.png", index: 2, name: "GTQ 1급",  tags: ["디자인"], description: "그래픽 자격증 설명", createdAt: "2025.11.10"),
+                AcquisitionListEntityData(acquisitionID: 1, cardFrontImageURL: "https://dummy.certified.com/image_certification_card_large_1.png", certificationType: "국가기술자격", index: 1, name: "정보처리기사", tags: ["컴퓨터"], description: "정처기 자격증 설명", acquisitionDate: "2026.05.10", grade: ""),
+                AcquisitionListEntityData(acquisitionID: 2, cardFrontImageURL: "https://dummy.certified.com/image_certification_card_large_1.png", certificationType: "국가기술자격", index: 2, name: "GTQ 1급", tags: ["디자인"], description: "그래픽 자격증 설명", acquisitionDate: "2026.11.10", grade: ""),
             ]
         )
         return .success(dummy)

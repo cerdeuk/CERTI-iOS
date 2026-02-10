@@ -10,8 +10,6 @@ import SwiftUI
 struct NotificationSettingView: View {
     @ObservedObject var viewModel: MyPageViewModel
     
-    // TODO: - Userdefault로 관리해야 하나? 아니면 앱 내부 설정을 불러올 수 있는 기능이 있나? 좀 찾아보기
-    @State private var agreeState: Bool = false
     @State private var showConfirmationAlert = false
     @State private var showToastMessage = false
     @State private var showHelpPopup = false
@@ -60,7 +58,7 @@ struct NotificationSettingView: View {
                     style: .onlyTitle,
                     onConfirm: {
                         Task {
-                            agreeState = true
+                            await viewModel.toggleNotificationSetting()
                             withAnimation {
                                 showConfirmationAlert = false
                             }
@@ -93,6 +91,9 @@ struct NotificationSettingView: View {
                 .padding(.bottom, 36)
             }
         }
+        .task {
+            await viewModel.getNotificationSetting()
+        }
         .animation(.spring, value: showToastMessage)
         
     }
@@ -103,7 +104,7 @@ extension NotificationSettingView {
     private var agreeToggleButton: some View {
         let toggleBinding = Binding<Bool>(
             get: {
-                agreeState
+                viewModel.agreeState
             },
             set: { newValue in
                 if newValue == true {
@@ -111,7 +112,9 @@ extension NotificationSettingView {
                         showConfirmationAlert = true
                     }
                 } else {
-                    agreeState = false
+                    Task {
+                        await viewModel.toggleNotificationSetting()
+                    }
                     showToastMessage = false
                 }
             }
@@ -140,11 +143,11 @@ extension NotificationSettingView {
         VStack(alignment: .leading, spacing: 0) {
             
             HStack(alignment: .center, spacing: 0) {
-                Image(systemName: agreeState ? "checkmark.square.fill" : "square")
+                Image(systemName: viewModel.agreeState ? "checkmark.square.fill" : "square")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20)
-                    .foregroundStyle(agreeState ? .grayscale500 : .grayscale400)
+                    .foregroundStyle(viewModel.agreeState ? .grayscale500 : .grayscale400)
                     .padding(.trailing, 12)
                 
                 Text("(선택)")
@@ -152,7 +155,7 @@ extension NotificationSettingView {
                     .foregroundStyle(.grayscale400)
                     .padding(.trailing, 4)
                 
-                Text("서티 개인정보 수집 및 이용 동의")
+                Text("따요 개인정보 수집 및 이용 동의")
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.black)
                 
