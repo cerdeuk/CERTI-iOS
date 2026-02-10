@@ -20,6 +20,7 @@ enum MyPageViewRoute {
     case navigateToEditExpectedCertificate
     case navigateToEditCompletedCertificate
     case withDraw
+    case logout
     
     case myPageViewRoutePop
 }
@@ -31,8 +32,8 @@ final class MyPageViewModel: ObservableObject {
     //MARK: - Property Wrappers
     
     @Published var myPageViewRoute: MyPageViewRoute?
-    @Published var userName: String = "김한열"
-    @Published var userNickName: String = "김서티" {
+    @Published var userName: String = ""
+    @Published var userNickName: String = "" {
         didSet {
             if oldValue != userNickName {
                 nickNameValid = nil
@@ -448,6 +449,10 @@ extension MyPageViewModel {
 // MARK: - Navigation Func
 
 extension MyPageViewModel {
+    func logoutNavigate() {
+        myPageViewRoute = .logout
+    }
+    
     func withDrawNavigate() {
         myPageViewRoute = .withDraw
     }
@@ -499,7 +504,7 @@ extension MyPageViewModel {
 extension MyPageViewModel {
     private func convertToMyPageInfo(entity: MyPageEntity) {
         self.userNickName = entity.nickname
-        self.profileImageURL = entity.profileImageURL
+        self.profileImageURL = entity.profileImageURL ?? ""
         self.userEmail = entity.email
         self.jobCategoryList = entity.jobResponse.jobs.compactMap { JobCategory(rawValue: $0) }
         self.upCertificationCount = entity.upCount
@@ -510,7 +515,7 @@ extension MyPageViewModel {
     private func convertToEditProfileInfo(entity: EditProfileEntity) {
         self.userNickName = entity.nickName
         self.userName = entity.name
-        self.profileImageURL = entity.profileImageURL
+        self.profileImageURL = entity.profileImageURL ?? ""
         self.userEmail = entity.email
         self.userBirth = entity.birthDate?.convertToDate()
         self.initialProfile = ProfileSnapshot(
@@ -518,7 +523,7 @@ extension MyPageViewModel {
             name: entity.name,
             email: entity.email,
             birth: self.userBirth,
-            profileImageURL: entity.profileImageURL
+            profileImageURL: entity.profileImageURL ?? ""
         )
     }
     

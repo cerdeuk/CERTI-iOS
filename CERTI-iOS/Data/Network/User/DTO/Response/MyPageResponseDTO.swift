@@ -10,15 +10,16 @@ import Foundation
 typealias MyPageResponseDTO = BaseResponseDTO<MyPageResponseData>
 
 struct MyPageResponseData: Codable {
-    let nickname, profileImageURL, email: String
+    let nickname, email: String
+    let profileImageURL: String?
     let jobResponse: JobResponseData
     let upCount, acCount, fCount: Int
     
     func toMyPageEntity() -> MyPageEntity {
         return MyPageEntity(
             nickname: nickname,
-            profileImageURL: profileImageURL,
             email: email,
+            profileImageURL: profileImageURL,
             jobResponse: jobResponse.toJobEntity(),
             upCount: upCount,
             acCount: acCount,

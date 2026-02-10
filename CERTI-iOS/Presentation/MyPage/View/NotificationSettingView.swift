@@ -155,7 +155,7 @@ extension NotificationSettingView {
                     .foregroundStyle(.grayscale400)
                     .padding(.trailing, 4)
                 
-                Text("서티 개인정보 수집 및 이용 동의")
+                Text("따요 개인정보 수집 및 이용 동의")
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.black)
                 

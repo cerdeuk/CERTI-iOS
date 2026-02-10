@@ -12,7 +12,7 @@ typealias EditProfileResponseDTO = BaseResponseDTO<EditProfileResponseData>
 struct EditProfileResponseData: Codable {
     let nickName, name, email: String
     let birthDate: String?
-    let profileImageURL: String
+    let profileImageURL: String?
     
     func toEditProfileEntity() -> EditProfileEntity {
         return EditProfileEntity(
