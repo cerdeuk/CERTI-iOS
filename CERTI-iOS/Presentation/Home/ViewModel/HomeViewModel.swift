@@ -28,7 +28,7 @@ struct HomeStateModel {
     var recommendLicenses: [RecommendLicenseCardModel] = []
     var preLicenses: [PreLicenseCardModel] = []
     var favoriteLicenses: [FavoriteLicenseCardModel] = []
-    var preLicenseDays: Set<Int> = []
+    var preLicenseDates: Set<String> = []
 }
 
 @MainActor
@@ -209,11 +209,13 @@ extension HomeViewModel {
         
         switch result {
         case .success(let response):
-            logger.info("✅ \(year)년 \(month)월 취득 예정 자격증 조회 성공")
-            homeStateModel.preLicenseDays = Set(response.days.map {$0.day})
+            homeStateModel.preLicenseDates = Set(response.days.map { day in
+                String(format: "%04d-%02d-%02d", response.year, response.month, day.day)
+            })
+            logger.debug("\(self.homeStateModel.preLicenseDates) 월별 취득 예정 자격증 조회 성공")
         case .failure(let error):
             logger.error("❌ 월별 취득 예정 자격증 조회 실패: \(error.localizedDescription)")
-            homeStateModel.preLicenseDays = []
+            homeStateModel.preLicenseDates = []
         }
     }
 }
@@ -308,8 +310,12 @@ extension HomeViewModel {
     
     func hasPreLicenses(on date: Date) -> Bool {
         let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
         let day = calendar.component(.day, from: date)
         
-        return homeStateModel.preLicenseDays.contains(day)
+        let dateString = String(format: "%04d-%02d-%02d", year, month, day)
+        
+        return homeStateModel.preLicenseDates.contains(dateString)
     }
 }
