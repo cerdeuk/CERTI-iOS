@@ -13,13 +13,17 @@ struct CertificateCoordinatorView: View {
     @ObservedObject var certificateCoordinator: CertificateCoordinator
     
     @StateObject var certificateViewModel: CertificateViewModel
-    
+    @StateObject var certificateDetailViewModel: CertificateDetailViewModel
+
     private let certificateFactory: CertificateFactory
-    
-    init(certificateCoordinator: CertificateCoordinator, certificateFactory: CertificateFactory) {
+    private let certificateDetailFactory: CertificateDetailFactory
+
+    init(certificateCoordinator: CertificateCoordinator, certificateFactory: CertificateFactory, certificateDetailFactory: CertificateDetailFactory) {
         self.certificateCoordinator = certificateCoordinator
         self.certificateFactory = certificateFactory
         _certificateViewModel = StateObject(wrappedValue: certificateFactory.makeCertificateViewModel())
+        self.certificateDetailFactory = certificateDetailFactory
+        _certificateDetailViewModel = StateObject(wrappedValue: certificateDetailFactory.makeCertificateDetailViewModel())
     }
 
     
@@ -43,9 +47,9 @@ struct CertificateCoordinatorView: View {
                     case .navigateToSearch:
                         certificateCoordinator.push(next: .search)
                         
-                    default: certificateCoordinator.reset()
+                    case .navigateToCertificateDetail:
+                        certificateCoordinator.push(next: .certificateDetail)
                     }
-                    
                     certificateViewModel.certificateViewRoute = nil
                 }
                 .navigationDestination(for: CertificateRoute.self) { route in
@@ -61,8 +65,12 @@ struct CertificateCoordinatorView: View {
                     case .search:
                         CertificateSearchView(viewModel: certificateViewModel)
                             .navigationBarHidden(true)
-
-                    default: EmptyView()
+                        
+                    case .certificateDetail:
+                        CertificateDetailTabContainerView(viewModel: certificateDetailViewModel, certificationId: $certificateViewModel.selectedLicenseId) {
+                            certificateCoordinator.pop()
+                        }
+                        
                     }
                 }
         }

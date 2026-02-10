@@ -42,7 +42,7 @@ class CertiTabCoordinator: ObservableObject {
     
     //MARK: - Property Wrappers
     
-    @Published var selectedTab: CertiTabRoute = .certificate
+    @Published var selectedTab: CertiTabRoute = .home
     @Published var isTabBarHidden: Bool = false
     
     let homeCoordinator = HomeCoordinator()

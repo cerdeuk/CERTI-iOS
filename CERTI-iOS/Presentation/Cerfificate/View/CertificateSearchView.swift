@@ -37,7 +37,7 @@ struct CertificateSearchView: View {
                             return
                         }
                         
-                        // TODO: - 검색 API
+                        await viewModel.searchCertifiedList(keyword: viewModel.inputText)
                         
                         if viewModel.searchLicenseCards.isEmpty {
                             viewModel.searchResult = .noResult

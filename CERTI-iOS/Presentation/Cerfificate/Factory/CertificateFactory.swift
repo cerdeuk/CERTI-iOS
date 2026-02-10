@@ -13,17 +13,56 @@ protocol CertificateFactory {
 
 final class DefaultCertificateFactory: CertificateFactory {
     
+    // MARK: - Usecases
+    
+    private let fetchRecommendUseCase: FetchRecommendUseCase
+    private let getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase
+    private let getJobRankCertificationUsecase: GetJobRankCertificationUsecase
+    private let getJobCertificationListUsecase: GetJobCertificationListUsecase
+    private let getTrackCertificationListUsecase: GetTrackCertificationListUsecase
+    private let fetchJobUseCase: FetchJobUseCase
+    private let fetchTrackUsecase: FetchTrackUsecase
+    private let switchFavoriteUseCase: SwitchFavoriteUseCase
+    private let searchCertificationUseCase: SearchCertificationUseCase
+
+    
+    // MARK: - init
     
     init(
-
+        fetchRecommendUseCase: FetchRecommendUseCase,
+        getTrackRankCertificationUsecase: GetTrackRankCertificationUsecase,
+        getJobRankCertificationUsecase: GetJobRankCertificationUsecase,
+        getJobCertificationListUsecase: GetJobCertificationListUsecase,
+        getTrackCertificationListUsecase: GetTrackCertificationListUsecase,
+        fetchJobUseCase: FetchJobUseCase,
+        fetchTrackUsecase: FetchTrackUsecase,
+        switchFavoriteUseCase: SwitchFavoriteUseCase,
+        searchCertificationUseCase: SearchCertificationUseCase,
     ) {
-
+        self.fetchRecommendUseCase = fetchRecommendUseCase
+        self.getTrackRankCertificationUsecase = getTrackRankCertificationUsecase
+        self.getJobRankCertificationUsecase = getJobRankCertificationUsecase
+        self.getJobCertificationListUsecase = getJobCertificationListUsecase
+        self.getTrackCertificationListUsecase = getTrackCertificationListUsecase
+        self.fetchJobUseCase = fetchJobUseCase
+        self.fetchTrackUsecase = fetchTrackUsecase
+        self.switchFavoriteUseCase = switchFavoriteUseCase
+        self.searchCertificationUseCase = searchCertificationUseCase
     }
+    
     
     @MainActor
     func makeCertificateViewModel() -> CertificateViewModel {
         CertificateViewModel(
-            
+            fetchRecommendUseCase: fetchRecommendUseCase,
+            getTrackRankCertificationUsecase: getTrackRankCertificationUsecase,
+            getJobRankCertificationUsecase: getJobRankCertificationUsecase,
+            getJobCertificationListUsecase: getJobCertificationListUsecase,
+            getTrackCertificationListUsecase: getTrackCertificationListUsecase,
+            fetchJobUseCase: fetchJobUseCase,
+            fetchTrackUsecase: fetchTrackUsecase,
+            switchFavoriteUseCase: switchFavoriteUseCase,
+            searchCertificationUseCase: searchCertificationUseCase
         )
     }
 }

@@ -21,4 +21,5 @@ protocol UserRepository {
     func editMajor(request: String) async -> Result<Void, NetworkError>
     func getNotificationSetting() async -> Result<Bool, NetworkError>
     func toggleNotificationSetting() async -> Result<Void, NetworkError>
+    func getTrack() async -> Result<String, NetworkError>
 }

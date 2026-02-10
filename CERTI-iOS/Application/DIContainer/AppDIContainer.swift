@@ -200,6 +200,26 @@ extension AppDIContainer {
     func makeGetNotificationSettingUseCase() -> DefaultGetNotificationSettingUseCase {
         return DefaultGetNotificationSettingUseCase(repository: userRepository)
     }
+    
+    func makeGetTrackRankCertificationUsecase() -> DefaultGetTrackRankCertificationUsecase {
+        return DefaultGetTrackRankCertificationUsecase(repository: certificationRepository)
+    }
+    
+    func makeGetJobRankCertificationUsecase() -> DefaultGetJobRankCertificationUsecase {
+        return DefaultGetJobRankCertificationUsecase(repository: certificationRepository)
+    }
+    
+    func makeGetTrackCertificationListUsecase() -> DefaultGetTrackCertificationListUsecase {
+        return DefaultGetTrackCertificationListUsecase(repository: certificationRepository)
+    }
+    
+    func makeGetJobCertificationListUsecase() -> DefaultGetJobCertificationListUsecase {
+        return DefaultGetJobCertificationListUsecase(repository: certificationRepository)
+    }
+    
+    func makeFetchTrackUsecase() -> DefaultFetchTrackUsecase {
+        return DefaultFetchTrackUsecase(repository: userRepository)
+    }
 }
 
 
@@ -277,6 +297,16 @@ extension AppDIContainer {
     }
     
     func makeCertificateFactory() -> CertificateFactory {
-        return DefaultCertificateFactory()
+        return DefaultCertificateFactory(
+            fetchRecommendUseCase: makeFetchRecommendUseCase(),
+            getTrackRankCertificationUsecase: makeGetTrackRankCertificationUsecase(),
+            getJobRankCertificationUsecase: makeGetJobRankCertificationUsecase(),
+            getJobCertificationListUsecase: makeGetJobCertificationListUsecase(),
+            getTrackCertificationListUsecase: makeGetTrackCertificationListUsecase(),
+            fetchJobUseCase: makeFetchJobUseCase(),
+            fetchTrackUsecase: makeFetchTrackUsecase(),
+            switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
+            searchCertificationUseCase: makeSearchCertificationUseCase()
+        )
     }
 }

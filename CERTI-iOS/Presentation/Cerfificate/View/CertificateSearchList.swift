@@ -15,7 +15,7 @@ struct CertificateSearchList: View {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 12) {
                     
-                    ForEach(viewModel.licenseCards) { item in
+                    ForEach(viewModel.searchLicenseCards) { item in
                         CertificateListTile(
                             title: item.title,
                             type: item.type,
@@ -24,7 +24,13 @@ struct CertificateSearchList: View {
                             testType: item.testType,
                             isFavorite: item.isFavorite
                         ) {
-                            // TODO: - 즐겨찾기 토글 API 연결
+                            Task {
+                                await viewModel.toggleFavorite(id: item.id)
+                            }
+                        }
+                        .onTapGesture {
+                            viewModel.selectedLicenseId = item.id
+                            viewModel.navigateToCertificateDetail()
                         }
                     }
                     

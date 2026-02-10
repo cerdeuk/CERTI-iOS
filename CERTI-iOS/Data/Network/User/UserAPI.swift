@@ -21,6 +21,7 @@ enum UserAPI {
     case editMajor(request: EditMajorRequestDTO)
     case toggleNotificationSetting
     case getNotificationSetting
+    case getTrack
 }
 
 extension UserAPI: BaseTargetType {
@@ -59,6 +60,8 @@ extension UserAPI: BaseTargetType {
             return "user/marketing-agreement"
         case .toggleNotificationSetting:
             return "user/marketing-agreement"
+        case .getTrack:
+            return "user/track"
         }
     }
     
@@ -86,6 +89,8 @@ extension UserAPI: BaseTargetType {
             return .get
         case .toggleNotificationSetting:
             return .patch
+        case .getTrack:
+            return .get
         }
     }
     
@@ -121,6 +126,9 @@ extension UserAPI: BaseTargetType {
             return .requestPlain
             
         case .toggleNotificationSetting:
+            return .requestPlain
+            
+        case .getTrack:
             return .requestPlain
         }
     }

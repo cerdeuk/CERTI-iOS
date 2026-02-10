@@ -39,7 +39,8 @@ extension CategoryCertificationInfo {
             tags: tags,
             testType: testType,
             isFavorite: isFavorite,
-            recommendScore: nil
+            recommendScore: nil,
+            desceiption: nil
         )
     }
 }

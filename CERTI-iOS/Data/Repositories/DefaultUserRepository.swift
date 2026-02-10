@@ -151,8 +151,20 @@ final class DefaultUserRepository: UserRepository {
         let result = await service.toggleNotificationSetting()
         
         switch result {
-        case .success(let success):
+        case .success:
             return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func getTrack() async -> Result<String, NetworkError> {
+        let result = await service.getTrack()
+        
+        switch result {
+        case .success(let success):
+            guard let data = success.data?.track else { return .failure(.decodingError) }
+            return .success(data)
         case .failure(let error):
             return .failure(error)
         }
