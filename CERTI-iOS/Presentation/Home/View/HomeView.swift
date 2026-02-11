@@ -31,6 +31,7 @@ struct HomeView: View {
                     } else {
                         scheduleListView
                             .padding(.top, 16)
+                            .padding(.bottom, 36)
                     }
                     
                     favoriteLicenseTitle
@@ -117,7 +118,7 @@ extension HomeView {
     }
     
     private var scheduleListView: some View {
-        VStack(alignment: .center, spacing: 16) {
+        VStack(alignment: .center, spacing: 0) {
             HStack(alignment: .center, spacing: 0) {
                 Text(viewModel.selectedDateKoreanString)
                     .applyCertiFont(.body_semibold_16)
@@ -126,6 +127,7 @@ extension HomeView {
                 Spacer()
             }
             .padding(.top, 16)
+            .padding(.bottom, 16)
             
             ForEach(viewModel.homeStateModel.calendarPreLicenseCardModel, id: \.certificationId) { cert in
                 MyCertificationItem(
@@ -212,7 +214,7 @@ extension HomeView {
             .padding(.horizontal, 20)
         }
         .frame(height: 160)
-        .padding(.bottom, 81)
+        .padding(.bottom, 36)
         .scrollIndicators(.hidden)
     }
     
@@ -230,8 +232,8 @@ extension HomeView {
                 .foregroundStyle(.grayscale400)
                 .frame(height: 20)
         }
-        .padding(.top, 44)
-        .padding(.bottom, 98)
+        .padding(.top, 20)
+        .padding(.bottom, 36)
     }
     
     private var recommendLicenseTitle: some View {
@@ -268,7 +270,6 @@ extension HomeView {
                         viewModel.selectedLicenseId = item.id
                         viewModel.navigateToCertificateDetail()
                     }
-                
             }
         }
         .frame(height: 264)

@@ -125,7 +125,12 @@ extension HomeViewModel {
         switch result {
         case .success(let response):
             logger.info("✅ 유저 정보 조회 성공")
-            homeStateModel = response.toHomeStateModel()
+            
+            homeStateModel.username = response.nickname
+            homeStateModel.userUniversity = response.university
+            homeStateModel.userDepartment = response.major
+            homeStateModel.progressValue = response.percentage
+            
             AuthManager.shared.nickname = response.nickname
             AuthManager.shared.name = response.name
             
