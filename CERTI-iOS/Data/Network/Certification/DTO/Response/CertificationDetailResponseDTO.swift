@@ -22,6 +22,7 @@ struct CertificationDetailData: Decodable {
     let applicationMethod: String
     let applicationUrl: String
     let expirationPeriod: String
+    let certState: String
 }
 
 extension CertificationDetailData {
@@ -38,7 +39,8 @@ extension CertificationDetailData {
             testDateInformation: testDateInformation,
             applicationMethod: applicationMethod,
             applicationUrl: applicationUrl,
-            expirationPeriod: expirationPeriod
+            expirationPeriod: expirationPeriod,
+            certState: certState
         )
     }
 }

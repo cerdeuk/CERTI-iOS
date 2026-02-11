@@ -10,19 +10,27 @@ import Foundation
 typealias LoginResponseDTO = BaseResponseDTO<LoginResponseData>
 
 struct LoginResponseData: Codable {
+    // 최초 로그인 시 응답 DTO
     let needSignUp: Bool
-    let preSignupToken: String
-    let userInformation: UserInformationData
+    let preSignupToken: String?
+    let userInformation: UserInformationData?
+    let userID: Int?
+    let nickName: String?
+    let tokenResponse: TokenResponseData?
 
     enum CodingKeys: String, CodingKey {
-        case needSignUp, preSignupToken, userInformation
+        case userID = "userId"
+        case nickName, needSignUp, preSignupToken, tokenResponse, userInformation
     }
     
     func toLoginResponseEntity() -> LoginResponseEntity {
         return LoginResponseEntity(
             needSignUp: needSignUp,
             preSignupToken: preSignupToken,
-            userInformation: userInformation.toUserInformationEntity()
+            userInformation: userInformation,
+            userID: userID,
+            nickName: nickName,
+            tokenResponse: tokenResponse
         )
     }
 }

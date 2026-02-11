@@ -32,7 +32,7 @@ extension String {
         // 숫자만 남기기
         let filteredPrice = self.filter { $0.isNumber }
         guard let price = Int(filteredPrice) else { return 0 }
-    
+        
         return price
     }
     
@@ -48,12 +48,69 @@ extension String {
         guard let date = inputFormatter.date(from: self) else {
             return self
         }
-
+        
         let outputFormatter = DateFormatter()
         outputFormatter.locale = Locale(identifier: "ko_KR")
         outputFormatter.dateFormat = "yyyy년 M월 d일"
+        
+        return "\(outputFormatter.string(from: date))"
+    }
+    
+    func convertToDate() -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.locale = Locale(identifier: "ko_KR")
+        
+        return formatter.date(from: self)
+    }
+    
+    func toUIDateString() -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy.MM.dd"
+        inputFormatter.locale = Locale(identifier: "ko_KR")
+        
+        guard let date = inputFormatter.date(from: self) else {
+            return self
+        }
+
+        let outputFormatter = DateFormatter()
+        outputFormatter.locale = Locale(identifier: "ko_KR")
+        outputFormatter.dateFormat = "yyyy. MM. dd"
 
         return "\(outputFormatter.string(from: date))"
+    }
+    
+    func toBirthDateString() -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd"
+        inputFormatter.locale = Locale(identifier: "ko_KR")
+        
+        guard let birthDate = inputFormatter.date(from: self) else {
+            return self
+        }
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "yyyy. MM. dd"
+        outputFormatter.locale = Locale(identifier: "ko_KR")
+        
+        let formattedDate = outputFormatter.string(from: birthDate)
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let today = Date()
+        
+        var age = calendar.dateComponents([.year], from: birthDate, to: today).year ?? 0
+        
+        let birthdayThisYear = calendar.date(
+            bySetting: .year,
+            value: calendar.component(.year, from: today),
+            of: birthDate
+        )!
+        
+        if today < birthdayThisYear {
+            age -= 1
+        }
+        
+        return "\(formattedDate) (만 \(age)세)"
     }
     
     func trimmedUsername() -> String {
@@ -84,5 +141,21 @@ extension String {
         output.locale = Locale(identifier: "ko_KR")
         output.dateFormat = "HH:mm"
         return output.string(from: date)
+    }
+    
+    func toYearMonth() -> String {
+        let toDateFormatter = DateFormatter()
+        toDateFormatter.locale = Locale(identifier: "ko_KR")
+        toDateFormatter.dateFormat = "yyyy.MM.dd"
+        
+        let yearMonthFormatter = DateFormatter()
+        yearMonthFormatter.locale = Locale(identifier: "ko_KR")
+        yearMonthFormatter.dateFormat = "yyyy.MM"
+        
+        guard let date = toDateFormatter.date(from: self) else {
+            return self
+        }
+        
+        return yearMonthFormatter.string(from: date)
     }
 }

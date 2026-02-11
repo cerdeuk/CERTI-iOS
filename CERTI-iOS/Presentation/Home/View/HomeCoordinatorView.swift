@@ -33,14 +33,14 @@ struct HomeCoordinatorView: View {
                 .onChange(of: homeViewModel.homeViewRoute) { route in
                     guard let route = route else { return }
                     switch route {
-                    case .switchToRecommendTab:
-                        tabCoordinator.switchTab(tab: .recommend)
                     case .withDraw:
                         appCoordinator.withDraw()
                     case .navigateToCertificateDetail:
                         homeCoordinator.push(next: .certificateDetail)
                     case .navigateToPreLicenseEdit:
                         homeCoordinator.push(next: .preLicenseEdit)
+                    case .navigateToCertificateTab:
+                        tabCoordinator.switchTab(tab: .certificate)
                     case .homeViewRoutePop:
                         homeCoordinator.pop()
                     }

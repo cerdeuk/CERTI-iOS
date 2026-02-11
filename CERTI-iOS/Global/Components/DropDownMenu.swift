@@ -13,9 +13,11 @@ struct DropdownMenu: View {
     
     let options: [String]
     let menuPlaceholder: String
+    var isEnabled: Bool = true
     
     var body: some View {
         Button {
+            guard isEnabled else { return }
             withAnimation {
                 isOpen.toggle()
             }
@@ -40,30 +42,35 @@ struct DropdownMenu: View {
         .overlay(
             Group {
                 if isOpen {
-                    VStack(alignment: .center, spacing: 0) {
-                        ForEach(options, id: \.self) { item in
-                            Button {
-                                selectedPlace = item
-                                withAnimation {
-                                    isOpen = false
+                    ScrollView(.vertical) {
+                        VStack(alignment: .center, spacing: 0) {
+                            ForEach(options, id: \.self) { item in
+                                Button {
+                                    selectedPlace = item
+                                    withAnimation {
+                                        isOpen = false
+                                    }
+                                } label: {
+                                    Text(item)
+                                        .applyCertiFont(.caption_semibold_12)
+                                        .foregroundStyle(.grayscale600)
+                                        .frame(height: 18)
+                                        .padding(.vertical, 8)
+                                        .padding(.leading, 12)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
                                 }
-                            } label: {
-                                Text(item)
-                                    .applyCertiFont(.caption_semibold_12)
-                                    .foregroundStyle(.grayscale600)
-                                    .frame(height: 18)
-                                    .padding(.vertical, 8)
-                                    .padding(.leading, 12)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                .frame(width: 161, height: 34)
+                                .background(RoundedRectangle(cornerRadius: 1).stroke(.grayscale100))
+                                .background(.white)
                             }
-                            .frame(width: 161, height: 34)
-                            .background(RoundedRectangle(cornerRadius: 1).stroke(.grayscale100))
-                            .background(.white)
                         }
                     }
+                    .scrollIndicators(.hidden)
+                    .frame(width: 161, height: 204)
                     .background(
                         RoundedRectangle(cornerRadius: 4)
                             .stroke(.grayscale100)
+                            .background(.white)
                     )
                     .offset(y: 40)
                 }
@@ -71,39 +78,4 @@ struct DropdownMenu: View {
             alignment: .topLeading
         )
     }
-}
-
-#Preview {
-    struct PreviewWrapper: View {
-        @State private var selectedPlace: String? = nil
-        
-        var body: some View {
-            VStack {
-                HStack(alignment: .center, spacing: 0) {
-                    Image(.iconCheck24)
-                        .frame(width: 24, height: 24)
-                    
-                    Text("시험 장소")
-                        .applyCertiFont(.body_semibold_16)
-                        .foregroundStyle(.grayscale600)
-                        .frame(height: 22)
-                }
-                
-                DropdownMenu(selectedPlace: $selectedPlace, options: ["서울", "경기", "인천", "강원", "충남", "충북"], menuPlaceholder: "시/도")
-                    .zIndex(2)
-                
-                HStack(alignment: .center, spacing: 0) {
-                    Image(.iconCheck24)
-                        .frame(width: 24, height: 24)
-                    
-                    Text("시험 시간")
-                        .applyCertiFont(.body_semibold_16)
-                        .foregroundStyle(.grayscale600)
-                        .frame(height: 22)
-                }
-                .zIndex(1)
-            }
-        }
-    }
-    return PreviewWrapper()
 }

@@ -10,10 +10,10 @@ import Foundation
 import os
 
 enum HomeViewRoute {
-    case switchToRecommendTab
     case withDraw
     case navigateToPreLicenseEdit
     case navigateToCertificateDetail
+    case navigateToCertificateTab
     
     case homeViewRoutePop
 }
@@ -81,10 +81,6 @@ final class HomeViewModel: ObservableObject {
 
 extension HomeViewModel {
     
-    func switchToRecommendTab() {
-        homeViewRoute = .switchToRecommendTab
-    }
-    
     func withDrawNavigate() {
         homeViewRoute = .withDraw
     }
@@ -95,6 +91,10 @@ extension HomeViewModel {
 
     func navigateToCertificateDetail() {
         homeViewRoute = .navigateToCertificateDetail
+    }
+    
+    func navigateToCertificateTab() {
+        homeViewRoute = .navigateToCertificateTab
     }
     
     func homeViewRoutePop() {
@@ -126,7 +126,8 @@ extension HomeViewModel {
         case .success(let response):
             logger.info("✅ 유저 정보 조회 성공")
             homeStateModel = response.toHomeStateModel()
-            AuthManager.shared.nickname = response.name
+            AuthManager.shared.nickname = response.nickname
+            AuthManager.shared.name = response.name
             
         case .failure(let error):
             logger.error("❌ 유저 정보 조회: \(error.localizedDescription)")

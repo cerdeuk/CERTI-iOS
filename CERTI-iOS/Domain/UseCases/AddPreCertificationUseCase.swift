@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AddPreCertificationUseCase {
-    func execute(certificationId: Int) async -> Result<AppendPreCertificationStatus, NetworkError>
+    func execute(request: AddPreCertificationEntity) async -> Result<AppendPreCertificationStatus, NetworkError>
 }
 
 final class DefaultAddPreCertificationUseCase: AddPreCertificationUseCase {
@@ -18,8 +18,8 @@ final class DefaultAddPreCertificationUseCase: AddPreCertificationUseCase {
         self.repository = repository
     }
     
-    func execute(certificationId: Int) async -> Result<AppendPreCertificationStatus, NetworkError> {
-        let result = await repository.addPreCertification(certificationId: certificationId)
+    func execute(request: AddPreCertificationEntity) async -> Result<AppendPreCertificationStatus, NetworkError> {
+        let result = await repository.addPreCertification(request: request)
         return result
     }
 }

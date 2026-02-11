@@ -1,0 +1,45 @@
+//
+//  DefaultCommentRepository.swift
+//  CERTI-iOS
+//
+//  Created by 이상엽 on 1/27/26.
+//
+
+import Foundation
+
+import Moya
+
+final class DefaultCommentRepository: CommentRepository {
+    private let service: CommentServiceProtocol
+    
+    public init(service: CommentServiceProtocol) {
+        self.service = service
+    }
+    
+    func getComment(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentEntity, NetworkError> {
+        let result = await service.getComment(certificationId: certificationId, page: page, size: size, sort: sort)
+        
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toCommentEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func addComment(request: AddCommentEntity) async -> Result<Void, NetworkError> {
+        let requestDTO = request.toCommentRequestDTO()
+        return await service.addComment(request: requestDTO)
+    }
+    
+    func deleteComment(commentId: Int) async -> Result<Void, NetworkError> {
+        return await service.deleteComment(commentId: commentId)
+    }
+    
+    func likeComment(commentId: Int) async -> Result<Void, NetworkError> {
+        return await service.likeComment(commentId: commentId)
+    }
+}

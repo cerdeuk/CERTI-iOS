@@ -22,26 +22,32 @@ extension AcquisitionListData {
 }
 
 struct AcquisitionListInfo: Decodable {
+    let certificationId: Int
     let acquisitionId: Int
     let cardFrontImageUrl: String
     let index: Int
     let name: String
     let tags: [String]
     let description: String
-    let createdAt: String
+    let acquisitionDate: String
+    let grade: String?
+    let certificationType: String
     
     
     // MARK: - Func
     
     func toAcquisitionListEntityData() -> AcquisitionListEntityData {
         return AcquisitionListEntityData(
-            acquisitionId: acquisitionId,
-            cardFrontImageUrl: cardFrontImageUrl,
+            acquisitionID: acquisitionId,
+            cardFrontImageURL: cardFrontImageUrl,
+            certificationType: certificationType,
+            certificationID: certificationId,
             index: index,
             name: name,
             tags: tags,
             description: description,
-            createdAt: createdAt
+            acquisitionDate: acquisitionDate,
+            grade: grade ?? ""
         )
     }
 }

@@ -53,8 +53,9 @@ final class DefaultHomeRepository: HomeRepository {
         }
     }
 
-    func addPreCertification(certificationId: Int) async -> Result<AppendPreCertificationStatus, NetworkError> {
-        let result = await service.addPreCertification(certificationId: certificationId)
+    func addPreCertification(request: AddPreCertificationEntity) async -> Result<AppendPreCertificationStatus, NetworkError> {
+        let dto = request.toAddPreCertificationRequestDTO()
+        let result = await service.addPreCertification(request: dto)
         switch result {
         case .success(let response):
             if response.status == 409 {

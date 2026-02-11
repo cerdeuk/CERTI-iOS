@@ -8,7 +8,7 @@
 import Foundation
 
 protocol FetchCareersListUseCase {
-    func execute() async -> Result<CareersListEntity, NetworkError>
+    func execute() async -> Result<CareerListEntity, NetworkError>
 }
 
 final class DefaultFetchCareersListUseCase: FetchCareersListUseCase {
@@ -18,7 +18,7 @@ final class DefaultFetchCareersListUseCase: FetchCareersListUseCase {
         self.repository = repository
     }
     
-    func execute() async -> Result<CareersListEntity, NetworkError> {
+    func execute() async -> Result<CareerListEntity, NetworkError> {
         return await repository.fetchCareersList()
     }
 }

@@ -9,11 +9,18 @@ import Foundation
 
 struct UserInfoEntity {
     let name: String
+    let nickname: String
     let university: String
     let major: String
     let percentage: Int
+    let birthDate: String?
+    let profileImage: String?
     
     func toHomeStateModel() -> HomeStateModel {
         return HomeStateModel(username: name, userUniversity: university, userDepartment: major, progressValue: percentage)
+    }
+    
+    func toResumeUserModel() -> ResumeUserModel {
+        return ResumeUserModel(name: name, university: university, major: major, birthDate: birthDate ?? nil)
     }
 }

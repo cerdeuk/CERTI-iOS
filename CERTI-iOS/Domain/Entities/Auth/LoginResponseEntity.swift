@@ -9,11 +9,15 @@ import Foundation
 
 struct LoginResponseEntity: Codable {
     let needSignUp: Bool
-    let preSignupToken: String
-    let userInformation: UserInformationEntity
+    let preSignupToken: String?
+    let userInformation: UserInformationData?
+    let userID: Int?
+    let nickName: String?
+    let tokenResponse: TokenResponseData?
 
     enum CodingKeys: String, CodingKey {
-        case needSignUp, preSignupToken, userInformation
+        case userID = "userId"
+        case nickName, needSignUp, preSignupToken, tokenResponse, userInformation
     }
 }
 

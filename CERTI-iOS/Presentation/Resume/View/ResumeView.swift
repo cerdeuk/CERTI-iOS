@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ResumeView: View {
+    @EnvironmentObject var tabRouter: CertiTabCoordinator
     @ObservedObject var viewModel: ResumeViewModel
     @State private var selectedCard: CertificatedDetailModel? = nil
 
@@ -23,8 +24,8 @@ struct ResumeView: View {
                 ResumeMyCertificateView
                 ResumeMyCareerTitleView
                 ResumeMyCareerView
-                ResumeMyExtracurricularActivityTitleView
-                ResumeMyExtracurricularActivityView
+                ResumeMyActivityTitleView
+                ResumeMyActivityView
             }
         }
         .scrollIndicators(.hidden)
@@ -47,12 +48,13 @@ struct ResumeView: View {
             }
         }
         .task {
+            async let userInfomation: () = viewModel.getUserInfo()
             async let jobList: () = viewModel.getJobList()
             async let acquisitionList: () = viewModel.getAcquisitionList()
             async let careersList: () = viewModel.getCareersList()
             async let activityList: () = viewModel.getActivityList()
             
-            _ = await (jobList, acquisitionList, careersList, activityList)
+            _ = await (userInfomation, jobList, acquisitionList, careersList, activityList)
         }
     }
 }
@@ -72,52 +74,74 @@ extension ResumeView {
     private var ResumeProfileView: some View {
         HStack(alignment: .top, spacing: 0){
             Image(.imageProfilePdf)
+                .padding(.top, 13)
             
             VStack(alignment: .leading, spacing: 0) {
-                Text("희망직무")
-                    .applyCertiFont(.body_semibold_16)
-                    .foregroundStyle(.grayscale600)
-                    .frame(height: 22)
-                    .padding(.top, 4)
-                
-                VStack(alignment: .leading, spacing: 0) {
-                        HStack(alignment: .center, spacing: 0) {
-                            if viewModel.jobList.count >= 1 {
-                                Text(viewModel.jobList[0])
-                                    .applyCertiFont(.caption_regular_14)
-                                    .foregroundStyle(.mainblue)
-                                    .frame(height: 20)
-                            }
-                            
-                            if viewModel.jobList.count >= 2 {
-                                Image(systemName: "circle.fill")
-                                    .resizable()
-                                    .frame(width: 2, height: 2)
-                                    .padding(.leading, 4)
-                                    .padding(.trailing, 4)
-                                
-                                Text(viewModel.jobList[1])
-                                    .applyCertiFont(.caption_regular_14)
-                                    .foregroundStyle(.mainblue)
-                                    .frame(height: 20)
-                            }
-                        }
-                    
-                    if viewModel.jobList.count >= 3 {
-                        HStack(alignment: .center, spacing: 0) {
-                            Image(systemName: "circle.fill")
-                                .resizable()
-                                .frame(width: 2, height: 2)
-                                .padding(.trailing, 4)
-                            
-                            Text(viewModel.jobList[2])
-                                .applyCertiFont(.caption_regular_14)
-                                .foregroundStyle(.mainblue)
-                                .frame(height: 20)
-                        }
-                    }
+                HStack{
+                    Text(viewModel.resumeUserModel.name)
+                        .applyCertiFont(.body_semibold_16)
+                        .foregroundStyle(.grayscale600)
+                        .frame(height: 22)
+                        .padding(.top, 4)
                     
                     Spacer()
+                    
+                    Button {
+                        tabRouter.switchTab(tab: .mypage)
+                    } label: {
+                        HStack(alignment: .center, spacing: 0) {
+                            Image(.iconEdit16)
+                            
+                            Text("정보 수정")
+                                .applyCertiFont(.caption_semibold_12)
+                                .foregroundStyle(.grayscale400)
+                                .padding(.leading, 3)
+                        }
+                    }
+                }
+                
+                HStack(alignment: .center, spacing: 8) {
+                    Text("학교")
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale400)
+                    
+                    Divider()
+                        .frame(height: 14)
+                        .foregroundStyle(.grayscale200)
+                    
+                    Text(viewModel.resumeUserModel.university)
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundStyle(.grayscale600)
+                }
+                .padding(.top, 8)
+                
+                HStack(alignment: .center, spacing: 8) {
+                    Text("학과")
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale400)
+                    
+                    Divider()
+                        .frame(height: 14)
+                        .foregroundStyle(.grayscale200)
+                    
+                    Text(viewModel.resumeUserModel.major)
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundStyle(.grayscale600)
+                }
+                .padding(.top, 8)
+                
+                HStack(alignment: .center, spacing: 8) {
+                    Text("생년월일")
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale400)
+                    
+                    Divider()
+                        .frame(height: 14)
+                        .foregroundStyle(.grayscale200)
+                    
+                    Text(viewModel.resumeUserModel.birthDateAgeText)
+                        .applyCertiFont(.caption_semibold_14)
+                        .foregroundStyle((viewModel.resumeUserModel.birthDate != nil) ? .grayscale600 : .grayscale400)
                 }
                 .padding(.top, 8)
             }
@@ -203,7 +227,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                viewModel.navigateToCareerEdit()
+                viewModel.navigateToCareerManage()
             } label: {
                 Image(.iconArrowright36)
             }
@@ -238,7 +262,7 @@ extension ResumeView {
                                 .padding(.top, 20.5)
                                 .padding(.bottom, 29.5)
                             
-                            ResumeActivityListComponent(model: item)
+                            ResumeCareerListComponent(model: item, onTapCard: {})
                                 .frame(height: 74)
                         }
                         .padding(.horizontal, 20)
@@ -254,7 +278,7 @@ extension ResumeView {
         }
     }
     
-    private var ResumeMyExtracurricularActivityTitleView: some View {
+    private var ResumeMyActivityTitleView: some View {
         HStack(alignment: .center, spacing: 0){
             Text("대내외 활동")
                 .applyCertiFont(.sub_semibold_20)
@@ -264,7 +288,7 @@ extension ResumeView {
             Spacer()
             
             Button {
-                viewModel.navigateToActivityEdit()
+                viewModel.navigateToActivityManage()
             } label: {
                 Image(.iconArrowright36)
             }
@@ -274,9 +298,9 @@ extension ResumeView {
         .padding(.bottom, 16)
     }
     
-    private var ResumeMyExtracurricularActivityView: some View {
+    private var ResumeMyActivityView: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if viewModel.activityList.isEmpty {
+            if viewModel.activitiesList.isEmpty {
                 VStack(alignment: .center, spacing: 0) {
                     Image(.imageEmpty)
                         .padding(.top, 60)
@@ -291,7 +315,7 @@ extension ResumeView {
                 .frame(maxWidth: .infinity)
             } else {
                 LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(viewModel.activityList.prefix(4)) { item in
+                    ForEach(viewModel.activitiesList.prefix(4)) { item in
                         HStack(alignment: .center, spacing: 0) {
                             Image(.resumeList)
                                 .frame(width: 24, height: 24)
@@ -299,7 +323,7 @@ extension ResumeView {
                                 .padding(.top, 20.5)
                                 .padding(.bottom, 29.5)
                             
-                            ResumeActivityListComponent(model: item)
+                            ResumeActivityListComponent(model: item, onTapCard: {})
                                 .frame(height: 74)
                         }
                         .padding(.horizontal, 20)
@@ -309,21 +333,4 @@ extension ResumeView {
             }
         }
     }
-}
-
-#Preview {
-    ResumeView(
-        viewModel: ResumeViewModel(
-            fetchJobUseCase: PreviewFetchJobUseCase(),
-            fetchAcquisitionListUseCase: PreviewFetchAcquisitionListUseCase(),
-            fetchAcquisitionDetailUseCase: PreviewFetchAcquisitionDetailUseCase(),
-            deleteAcquisitionUseCase: PreviewDeleteAcquisitionUseCase(),
-            addCareersUseCase: PreviewAddCareersUseCase(),
-            deleteCareersUseCase: PreviewDeleteCareersUserCase(),
-            fetchCareersListUseCase: PreviewFetchCareersListUseCase(),
-            addActivityUseCase: PreviewAddActivityUseCase(),
-            deleteActivityUseCase: PreviewDeleteActivityUseCase(),
-            fetchActivityListUseCase: PreviewFetchActivityListUseCase()
-        )
-    )
 }

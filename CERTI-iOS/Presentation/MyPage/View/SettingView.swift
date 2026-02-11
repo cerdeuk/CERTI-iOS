@@ -48,7 +48,7 @@ struct SettingView: View {
                     style: .plain,
                     onConfirm: {
                         Task {
-                            //TODO: - 로그아웃 로직
+                            viewModel.logoutNavigate()
                             
                             withAnimation {
                                 showLogoutAlert = false
@@ -74,7 +74,8 @@ struct SettingView: View {
                     style: .withdraw,
                     onConfirm: {
                         Task {
-                            //TODO: - 탈퇴 로직
+                            await viewModel.withDraw()
+                            viewModel.withDrawNavigate()
                             
                             withAnimation {
                                 showWithDrawAlert = false

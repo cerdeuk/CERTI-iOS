@@ -23,22 +23,32 @@ struct AcquisitionListEntity {
 }
 
 struct AcquisitionListEntityData {
-    let acquisitionId: Int
-    let cardFrontImageUrl: String
+    let acquisitionID: Int
+    let cardFrontImageURL, certificationType: String
+    let certificationID: Int
     let index: Int
     let name: String
     let tags: [String]
-    let description: String
-    let createdAt: String
+    let description, acquisitionDate: String
+    let grade: String?
+
+    enum CodingKeys: String, CodingKey {
+        case acquisitionID = "acquisitionId"
+        case cardFrontImageURL = "cardFrontImageUrl"
+        case certificationType, index, name, tags, description, acquisitionDate, grade
+    }
     
-    init(acquisitionId: Int, cardFrontImageUrl: String, index: Int, name: String, tags: [String], description: String, createdAt: String) {
-        self.acquisitionId = acquisitionId
-        self.cardFrontImageUrl = cardFrontImageUrl
+    init(acquisitionID: Int, cardFrontImageURL: String, certificationType: String, certificationID: Int, index: Int, name: String, tags: [String], description: String, acquisitionDate: String, grade: String) {
+        self.acquisitionID = acquisitionID
+        self.cardFrontImageURL = cardFrontImageURL
+        self.certificationType = certificationType
+        self.certificationID = certificationID
         self.index = index
         self.name = name
         self.tags = tags
         self.description = description
-        self.createdAt = createdAt
+        self.acquisitionDate = acquisitionDate
+        self.grade = grade
     }
     
     
@@ -46,13 +56,15 @@ struct AcquisitionListEntityData {
     
     func toCertificatedModel() -> CertificatedModel {
         return CertificatedModel(
-            acquisitionId: acquisitionId,
-            cardFrontImageUrl: cardFrontImageUrl,
+            certificationId: certificationID,
+            acquisitionId: acquisitionID,
+            cardFrontImageUrl: cardFrontImageURL,
             index: index,
             name: name,
             tags: tags,
             description: description,
-            createdAt: createdAt
-        )
+            acquisitionDate: acquisitionDate,
+            grade: grade,
+            certificationType: certificationType)
     }
 }
