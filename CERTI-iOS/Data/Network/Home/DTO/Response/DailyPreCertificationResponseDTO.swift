@@ -62,11 +62,3 @@ extension DailyPreCertificationInfoData {
         )
     }
 }
-
-//필요한거
-//certificationId
-//certificationName
-//agencyName
-//description
-//city
-//testDate

@@ -29,6 +29,7 @@ struct HomeStateModel {
     var preLicenses: [PreLicenseCardModel] = []
     var favoriteLicenses: [FavoriteLicenseCardModel] = []
     var preLicenseDates: Set<String> = []
+    var calendarPreLicenseCardModel: [CalendarPreLicenseCardModel] = []
 }
 
 @MainActor
@@ -218,6 +219,21 @@ extension HomeViewModel {
             homeStateModel.preLicenseDates = []
         }
     }
+    
+    func getDailyPreCertification(date: String) async {
+        let result = await getDailyPreCertificationUseCase.execute(date: date)
+        
+        switch result {
+        case .success(let response):
+            homeStateModel.calendarPreLicenseCardModel = response.certifications.map{ info in
+                info.toCalendarPreLicenseCardModel()
+            }
+            logger.debug("✅ \(date) 일별 취득 예정 자격증 조회 성공")
+        case .failure(let error):
+            logger.error("❌ 일별 취득 예정 자격증 조회 실패: \(error.localizedDescription)")
+            homeStateModel.calendarPreLicenseCardModel = []
+        }
+    }
 }
 
 
@@ -317,5 +333,30 @@ extension HomeViewModel {
         let dateString = String(format: "%04d-%02d-%02d", year, month, day)
         
         return homeStateModel.preLicenseDates.contains(dateString)
+    }
+    
+    func getSelectedDateString() -> String {
+        let calendar = Calendar.current
+        let selectedDate = currentDate == .distantPast ? Date() : currentDate
+        
+        let year = calendar.component(.year, from: selectedDate)
+        let month = calendar.component(.month, from: selectedDate)
+        let day = calendar.component(.day, from: selectedDate)
+        
+        return String(format: "%04d-%02d-%02d", year, month, day)
+    }
+    
+    var selectedDateKoreanString: String {
+        let displayDate = currentDate == .distantPast ? Date() : currentDate
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "M월 d일 EEEE"
+        let dateText = formatter.string(from: displayDate)
+
+        if currentDate == .distantPast {
+            return "\(dateText) (오늘)"
+        } else {
+            return dateText
+        }
     }
 }

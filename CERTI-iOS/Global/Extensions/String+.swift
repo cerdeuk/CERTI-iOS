@@ -72,4 +72,17 @@ extension String {
         }
     }
 
+    func toHHmm() -> String {
+        let input = DateFormatter()
+        input.locale = Locale(identifier: "ko_KR")
+        input.timeZone = TimeZone(identifier: "Asia/Seoul")
+        input.dateFormat = "yyyy-MM-dd'T'HH:mm"
+        
+        guard let date = input.date(from: self) else { return "" }
+        
+        let output = DateFormatter()
+        output.locale = Locale(identifier: "ko_KR")
+        output.dateFormat = "HH:mm"
+        return output.string(from: date)
+    }
 }

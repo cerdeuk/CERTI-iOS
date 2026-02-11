@@ -27,3 +27,16 @@ struct DailyPreCertificationEntityData {
     let testDate: String
     let isAcquired: Bool
 }
+
+extension DailyPreCertificationEntityData {
+    func toCalendarPreLicenseCardModel() -> CalendarPreLicenseCardModel {
+        return CalendarPreLicenseCardModel(
+            certificationId: certificationId,
+            location: city,
+            time: testDate,
+            title: certificationName,
+            category: agencyName,
+            description: description
+        )
+    }
+}
