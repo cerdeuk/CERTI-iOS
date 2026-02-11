@@ -19,4 +19,8 @@ struct UserInfoEntity {
     func toHomeStateModel() -> HomeStateModel {
         return HomeStateModel(username: name, userUniversity: university, userDepartment: major, progressValue: percentage)
     }
+    
+    func toResumeUserModel() -> ResumeUserModel {
+        return ResumeUserModel(name: name, university: university, major: major, birthDate: birthDate ?? nil)
+    }
 }

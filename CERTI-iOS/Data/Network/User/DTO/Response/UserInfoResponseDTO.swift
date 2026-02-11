@@ -10,12 +10,14 @@ import Foundation
 typealias UserInfoResponseDTO = BaseResponseDTO<UserInfoData>
 
 struct UserInfoData: Decodable {
-    let name: String
+    let userId: Int
     let nickname: String
+    let name: String
     let university: String
     let major: String
-    let percentage: Int
+    let job: String
     let birthDate: String?
+    let percentage: Int
     let profileImage: String?
 }
 
@@ -27,7 +29,7 @@ extension UserInfoData {
             university: university,
             major: major,
             percentage: percentage,
-            birthDate: birthDate,
+            birthDate: birthDate ?? nil,
             profileImage: profileImage
         )
     }

@@ -23,12 +23,12 @@ struct TagChipMini: View {
 
     private func tagItem(for text: String) -> some View {
         Text(text)
-            .applyCertiFont(.caption_semibold_10)
+            .applyCertiFont(.caption_regular_10)
             .frame(height: 15)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 4)
+            .padding(.vertical, 2)
             .background(backgroundColor)
             .foregroundColor(textColor)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }

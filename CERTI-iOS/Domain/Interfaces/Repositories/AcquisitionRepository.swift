@@ -11,7 +11,7 @@ import Moya
 
 protocol AcquisitionRepository {
     func fetchAcquisitionList() async -> Result<AcquisitionListEntity, NetworkError>
-    func addAcquisition(certificationId: Int) async -> Result<Bool, NetworkError>
+    func addAcquisition(request: AddAcquisitionEntity) async -> Result<Bool, NetworkError>
     func fetchAcquisitionDetail(id: Int) async -> Result<AcquisitionDetailEntity, NetworkError>
     func deleteAcquisition(id: Int) async -> Result<Void, NetworkError>
 }

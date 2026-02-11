@@ -9,6 +9,12 @@ import SwiftUI
 
 import os
 
+enum CertificationState: String {
+    case anticipated = "ANTICIPATED"
+    case acquisition = "ACQUISITION"
+    case normal = "NORMAL"
+}
+
 @MainActor
 final class CertificateDetailViewModel: ObservableObject {
     @Published var certificateDetailModel = CertificateDetailModel(
@@ -23,7 +29,8 @@ final class CertificateDetailViewModel: ObservableObject {
         testDateInformation: "",
         applicationMethod: "",
         applicationUrl: "www.google.com",
-        expirationPeriod: ""
+        expirationPeriod: "",
+        certState: ""
     )
     @Published var showSuccessToBeAcquired: Bool = false
     @Published var showFailAcquired: Bool = false
@@ -35,32 +42,40 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var isAM = true
     @Published var hour = 1
     @Published var minute = 0
-    @Published var isSelectedPopularity = false
+    @Published var isSelectedPopularity = true
     @Published var commentCount = 0
     @Published var paginationComments: [PaginationCommentModel] = []
-    @Published var comments = Comment(
-        commentId: 0,
-        userId: 0,
-        nickName: nil,
-        content: "",
-        userMajor: "",
-        userJob: "",
-        state: "",
-        likeCount: 0,
-        createdTime: "",
-        lastModifiedTime: "",
-        isLike: false
-    )
-    @Published var isLoadingComments: Bool = false
-    @Published var isLastPage: Bool = false
+    @Published var comments: [Comment] = []
+    @Published var isLoadingComment = false
+    @Published var isLastPage = false
     @Published var commentIndex = 1
     @Published var commentText = ""
+    @Published var addPreCertificationModel = PreCertificationModel(
+        certificationId: 0, city: nil, state: nil, testDate: nil
+    )
     
-    private var dummyPages: [PaginationCommentModel] = PaginationCommentModel.dummy()
+    private var currentPage: Int = 0
+    private let pageSize: Int = 10
+    let placeMenuOptions = Region.allCases.map(\.rawValue)
+    
+    var placeMenuOptions2: [String] {
+        guard
+            let city = addPreCertificationModel.city,
+            let region = Region(rawValue: city)
+        else { return [] }
+        return region.districts
+    }
+    var currentUserId: Int = 0
     var currentPageIndex: Int = 0
-    
     var commentList: [Comment] {
         paginationComments.flatMap { $0.content }
+    }
+    var certificationState: CertificationState? {
+        CertificationState(rawValue: certificateDetailModel.certState)
+    }
+    var isCommentWritable: Bool {
+        guard let state = certificationState else { return false }
+        return state == .anticipated || state == .acquisition
     }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
@@ -68,15 +83,27 @@ final class CertificateDetailViewModel: ObservableObject {
     private let fetchCertificationDetailUseCase: FetchCertificationDetailUseCase
     private let addPreCertificationUseCase: AddPreCertificationUseCase
     private let addAcquisitionUseCase: AddAcquisitionUseCase
+    private let fetchCommentUseCase: FetchCommentUseCase
+    private let addCommentUseCase: AddCommentUseCase
+    private let deleteCommentUseCase: DeleteCommentUseCase
+    private let likeCommentUseCase: LikeCommentUseCase
     
     init(
         fetchCertificationDetailUseCase: FetchCertificationDetailUseCase,
         addPreCertificationUseCase: AddPreCertificationUseCase,
-        addAcquisitionUseCase: AddAcquisitionUseCase
+        addAcquisitionUseCase: AddAcquisitionUseCase,
+        fetchCommentUseCase: FetchCommentUseCase,
+        addCommentUseCase: AddCommentUseCase,
+        deleteCommentUseCase: DeleteCommentUseCase,
+        likeCommentUseCase: LikeCommentUseCase,
     ) {
         self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
         self.addPreCertificationUseCase = addPreCertificationUseCase
         self.addAcquisitionUseCase = addAcquisitionUseCase
+        self.fetchCommentUseCase = fetchCommentUseCase
+        self.addCommentUseCase = addCommentUseCase
+        self.deleteCommentUseCase = deleteCommentUseCase
+        self.likeCommentUseCase = likeCommentUseCase
     }
 }
 
@@ -97,8 +124,8 @@ extension CertificateDetailViewModel {
         }
     }
     
-    func appendPreCertification(certificationId: Int) async {
-        let result = await addPreCertificationUseCase.execute(certificationId: certificationId)
+    func appendPreCertification(request: PreCertificationModel) async {
+        let result = await addPreCertificationUseCase.execute(request: request.toPreCertificationEntity())
         
         switch result {
         case .success(let status):
@@ -115,7 +142,8 @@ extension CertificateDetailViewModel {
     }
     
     func appendAcquisition(certificationId: Int) async {
-        let result = await addAcquisitionUseCase.execute(certificationId: certificationId)
+        let entity = AddAcquisitionEntity(certificationId: certificationId)
+        let result = await addAcquisitionUseCase.execute(request: entity)
         
         switch result {
         case .success(let response):
@@ -131,28 +159,89 @@ extension CertificateDetailViewModel {
         }
     }
     
-    // UI 확인용 더미
-    func loadNextComments() async {
-        guard !isLoadingComments && !isLastPage else { return }
-        guard currentPageIndex < dummyPages.count else {
-            isLastPage = true
-            return
+    func fetchComment(certificationId: Int) async {
+        guard !isLoadingComment, !isLastPage else { return }
+
+        isLoadingComment = true
+
+        let result = await fetchCommentUseCase.execute(
+            certificationId: certificationId,
+            page: currentPage,
+            size: pageSize,
+            sort: isSelectedPopularity ? "likeCount,desc" : ""
+        )
+
+        switch result {
+        case .success(let response):
+            let pageModel = response.toPaginationCommentModel()
+
+            comments.append(contentsOf: pageModel.content)
+
+            commentCount = pageModel.totalElements
+            isLastPage = pageModel.isLast
+
+            currentPage += 1
+
+        case .failure(let error):
+            logger.error("❌ 댓글 조회 실패: \(error.localizedDescription)")
         }
-        
-        isLoadingComments = true
-        
-        try? await Task.sleep(nanoseconds: 600_000_000)
-        
-        let nextPage = dummyPages[currentPageIndex]
-        paginationComments.append(nextPage)
-        currentPageIndex += 1
-        
-        commentCount = paginationComments
-            .flatMap { $0.content }
-            .count
-        
-        isLastPage = nextPage.isLast
-        isLoadingComments = false
+
+        isLoadingComment = false
+    }
+
+    func addComment(content: String, certificationId: Int) async {
+        let entity = AddCommentEntity(content: content, certificationId: certificationId)
+        let result = await addCommentUseCase.execute(request: entity)
+
+        switch result {
+        case .success:
+            commentText = ""
+
+            currentPage = 0
+            isLastPage = false
+            comments.removeAll()
+
+            await fetchComment(certificationId: certificationId)
+
+        case .failure(let error):
+            logger.error("❌ 댓글 등록 실패: \(error.localizedDescription)")
+        }
+    }
+    
+    func toggleLike(commentId: Int) async {
+        let result = await likeCommentUseCase.execute(commentId: commentId)
+
+        switch result {
+        case .success:
+            if let index = comments.firstIndex(where: { $0.commentId == commentId }) {
+                comments[index].isLike.toggle()
+                comments[index].likeCount += comments[index].isLike ? 1 : -1
+            }
+
+        case .failure(let error):
+            print("❌ 댓글 좋아요 실패:", error)
+        }
+    }
+    
+    func deleteComment(commentId: Int) async {
+        let result = await deleteCommentUseCase.execute(commentId: commentId)
+
+        switch result {
+        case .success:
+            comments.removeAll { $0.commentId == commentId }
+
+        case .failure(let error):
+            print("❌ 댓글 삭제 실패:", error)
+        }
+    }
+    
+    func refreshComments(certificationId: Int) async {
+        currentPage = 0
+        isLastPage = false
+        isLoadingComment = false
+        comments.removeAll()
+
+        await fetchComment(certificationId: certificationId)
     }
 }
 
@@ -169,7 +258,46 @@ extension CertificateDetailViewModel {
         minute = 0
     }
     
-    func countAppearComment() {
-        commentIndex += 1
+    func makePlannedDateTimeString() -> String? {
+            guard let date = CertificationPlanDate else {
+                return nil
+            }
+
+            var calendar = Calendar(identifier: .gregorian)
+            calendar.locale = Locale(identifier: "ko_KR")
+
+            var components = calendar.dateComponents([.year, .month, .day], from: date)
+
+            let convertedHour: Int
+            if isAM {
+                convertedHour = hour == 12 ? 0 : hour
+            } else {
+                convertedHour = hour == 12 ? 12 : hour + 12
+            }
+
+            components.hour = convertedHour
+            components.minute = minute
+            components.second = 0
+
+            guard let finalDate = calendar.date(from: components) else {
+                return nil
+            }
+
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "ko_KR")
+            formatter.dateFormat = "yyyy.MM.dd HH:mm:ss"
+
+            return formatter.string(from: finalDate)
+        }
+    
+    func clearPreCertificationModel() {
+        addPreCertificationModel = PreCertificationModel(certificationId: 0, city: nil, state: nil, testDate: nil)
+    }
+    
+    func resetComments() {
+        comments.removeAll()
+        currentPage = 0
+        isLastPage = false
+        isLoadingComment = false
     }
 }

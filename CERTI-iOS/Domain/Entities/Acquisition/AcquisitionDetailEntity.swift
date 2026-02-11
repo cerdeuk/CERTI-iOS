@@ -23,9 +23,9 @@ struct AcquisitionDetailEntityData {
     let name: String
     let tags: [String]
     let description: String
-    let createdAt: String
+    let acquisitionDate: String
     
-    init(acquisitionId: Int, cardFrontImageUrl: String, cardBackImageUrl: String, index: Int, name: String, tags: [String], description: String, createdAt: String) {
+    init(acquisitionId: Int, cardFrontImageUrl: String, cardBackImageUrl: String, index: Int, name: String, tags: [String], description: String, acquisitionDate: String) {
         self.acquisitionId = acquisitionId
         self.cardFrontImageUrl = cardFrontImageUrl
         self.cardBackImageUrl = cardBackImageUrl
@@ -33,7 +33,7 @@ struct AcquisitionDetailEntityData {
         self.name = name
         self.tags = tags
         self.description = description
-        self.createdAt = createdAt
+        self.acquisitionDate = acquisitionDate
     }
     
     // MARK: - Func
@@ -47,7 +47,7 @@ struct AcquisitionDetailEntityData {
             name: name,
             tags: tags,
             description: description,
-            createdAt: createdAt
+            acquisitionDate: acquisitionDate
         )
     }
 }

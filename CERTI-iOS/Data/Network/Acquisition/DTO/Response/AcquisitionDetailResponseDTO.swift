@@ -17,7 +17,7 @@ struct AcquisitionDetailInfo: Decodable {
     let name: String
     let tags: [String]
     let description: String
-    let createdAt: String
+    let acquisitionDate: String
     
     
     // MARK: - Func
@@ -31,7 +31,7 @@ struct AcquisitionDetailInfo: Decodable {
             name: name,
             tags: tags,
             description: description,
-            createdAt: createdAt
+            acquisitionDate: acquisitionDate
         )
     }
     

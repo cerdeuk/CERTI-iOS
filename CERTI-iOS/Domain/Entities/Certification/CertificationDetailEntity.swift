@@ -20,8 +20,9 @@ struct CertificationDetailEntity {
     let applicationMethod: String
     let applicationUrl: String
     let expirationPeriod: String
+    let certState: String
     
-    init(certificationId: Int, certificationName: String, tags: [String], averagePeriod: String, charge: String, agencyName: String, testType: String, description: String, testDateInformation: String, applicationMethod: String, applicationUrl: String, expirationPeriod: String) {
+    init(certificationId: Int, certificationName: String, tags: [String], averagePeriod: String, charge: String, agencyName: String, testType: String, description: String, testDateInformation: String, applicationMethod: String, applicationUrl: String, expirationPeriod: String, certState: String) {
         self.certificationId = certificationId
         self.certificationName = certificationName
         self.tags = tags
@@ -34,6 +35,7 @@ struct CertificationDetailEntity {
         self.applicationMethod = applicationMethod
         self.applicationUrl = applicationUrl
         self.expirationPeriod = expirationPeriod
+        self.certState = certState
     }
     
     
@@ -52,7 +54,8 @@ struct CertificationDetailEntity {
             testDateInformation: testDateInformation,
             applicationMethod: applicationMethod,
             applicationUrl: applicationUrl,
-            expirationPeriod: expirationPeriod
+            expirationPeriod: expirationPeriod,
+            certState: certState
         )
     }
 }

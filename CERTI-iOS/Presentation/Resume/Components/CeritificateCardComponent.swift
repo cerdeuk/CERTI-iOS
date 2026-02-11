@@ -24,23 +24,30 @@ struct CeritificateCardComponent: View {
                     .frame(width: 200, height: 300)
             
             VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .center, spacing: 0) {
+                    Spacer()
+                    
+                    Text("획득 날짜: \(model.acquisitionDate)")
+                        .applyCertiFont(.caption_regular_10)
+                        .foregroundStyle(.white)
+                        .frame(height: 15)
+                        .padding(.top, 59.6)
+                    
+                    Spacer()
+                }
+                .padding(.trailing, 24)
+                
                 Text(model.name)
-                    .foregroundStyle(model.index == 2 ?  .white : .grayscale600)
-                    .applyCertiFont(.caption_bold_14)
-                    .frame(height: 20)
-                    .padding(.top, 32)
+                    .foregroundStyle(.bluewhite)
+                    .applyCertiFont(.caption_semibold_10)
+                    .frame(height: 15)
+                    .padding(.top, 139.4)
                 
-                Text("\(model.createdAt.toDisplayDateString()) 획득")
-                    .applyCertiFont(.caption_regular_12)
-                    .foregroundStyle(model.index == 2 ?  .white : .grayscale600)
-                    .frame(height: 18)
-                    .padding(.top, 4)
-                
-                TagChipMini(tags: model.tags, spacing: 4, backgroundColor: model.index == 3 ? .skyblue : .lightpurple, textColor: model.index == 3 ? .purplewhite : .mainblue)
-                    .frame(height: 23)
-                    .padding(.top, 8)
+                TagChipMini(tags: model.tags, spacing: 6, backgroundColor: .white, textColor: .mainblue)
+                    .frame(height: 19)
+                    .padding(.top, 5)
             }
-            .padding(.leading, 16)
+            .padding(.leading, 24)
         }
     }
 }

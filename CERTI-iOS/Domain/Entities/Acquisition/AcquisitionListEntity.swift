@@ -25,10 +25,12 @@ struct AcquisitionListEntity {
 struct AcquisitionListEntityData {
     let acquisitionID: Int
     let cardFrontImageURL, certificationType: String
+    let certificationID: Int
     let index: Int
     let name: String
     let tags: [String]
-    let description, acquisitionDate, grade: String
+    let description, acquisitionDate: String
+    let grade: String?
 
     enum CodingKeys: String, CodingKey {
         case acquisitionID = "acquisitionId"
@@ -36,10 +38,11 @@ struct AcquisitionListEntityData {
         case certificationType, index, name, tags, description, acquisitionDate, grade
     }
     
-    init(acquisitionID: Int, cardFrontImageURL: String, certificationType: String, index: Int, name: String, tags: [String], description: String, acquisitionDate: String, grade: String) {
+    init(acquisitionID: Int, cardFrontImageURL: String, certificationType: String, certificationID: Int, index: Int, name: String, tags: [String], description: String, acquisitionDate: String, grade: String) {
         self.acquisitionID = acquisitionID
         self.cardFrontImageURL = cardFrontImageURL
         self.certificationType = certificationType
+        self.certificationID = certificationID
         self.index = index
         self.name = name
         self.tags = tags
@@ -53,13 +56,15 @@ struct AcquisitionListEntityData {
     
     func toCertificatedModel() -> CertificatedModel {
         return CertificatedModel(
+            certificationId: certificationID,
             acquisitionId: acquisitionID,
             cardFrontImageUrl: cardFrontImageURL,
             index: index,
             name: name,
             tags: tags,
             description: description,
-            createdAt: acquisitionDate
-        )
+            acquisitionDate: acquisitionDate,
+            grade: grade,
+            certificationType: certificationType)
     }
 }

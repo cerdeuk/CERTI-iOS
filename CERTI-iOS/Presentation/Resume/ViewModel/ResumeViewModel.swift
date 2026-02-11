@@ -40,6 +40,12 @@ final class ResumeViewModel: ObservableObject {
     @Published var isPeriodFilled: Bool = false
     @Published var careerWriteModel = CareerWriteModel()
     @Published var activityWriteModel = ActivityWriteModel()
+    @Published var resumeUserModel = ResumeUserModel(
+        name: "",
+        university: "",
+        major: "",
+        birthDate: nil
+    )
     @Published var isCardDetailPresented = false
     @Published var selectCareerId: Int = 0
     @Published var selectActivityId: Int = 0
@@ -52,6 +58,7 @@ final class ResumeViewModel: ObservableObject {
         !activityWriteModel.name.isBlank && !activityWriteModel.place.isBlank && !activityWriteModel.description.isBlank && isPeriodFilled
     }
     
+    private let fetchUserInfoUseCase: FetchUserInfoUseCase
     private let fetchJobUseCase: FetchJobUseCase
     
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
@@ -69,6 +76,7 @@ final class ResumeViewModel: ObservableObject {
     private let editActivityUseCase: EditActivityUseCase
     
     init(
+        fetchUserInfoUseCase: FetchUserInfoUseCase,
         fetchJobUseCase: FetchJobUseCase,
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
@@ -82,6 +90,7 @@ final class ResumeViewModel: ObservableObject {
         fetchActivityListUseCase: FetchActivityListUseCase,
         editActivityUseCase: EditActivityUseCase
     ) {
+        self.fetchUserInfoUseCase = fetchUserInfoUseCase
         self.fetchJobUseCase = fetchJobUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
@@ -300,6 +309,19 @@ extension ResumeViewModel {
             logger.info("✅ 활동 추가 성공")
         case .failure(let error):
             logger.error("❌ 활동 추가 실패: \(error.localizedDescription)")
+        }
+    }
+    
+    func getUserInfo() async {
+        let result = await fetchUserInfoUseCase.execute()
+        
+        switch result {
+        case .success(let response):
+            logger.info("✅ 유저 정보 조회 성공")
+            resumeUserModel = response.toResumeUserModel()
+            
+        case .failure(let error):
+            logger.error("❌ 유저 정보 조회: \(error.localizedDescription)")
         }
     }
     

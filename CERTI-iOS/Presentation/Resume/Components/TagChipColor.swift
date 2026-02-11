@@ -9,8 +9,10 @@ import SwiftUI
 
 struct TagChipColor: View {
     let tags: [String]
+    let fontStyle: CertiFont
     let spacing: CGFloat
-    let backgroundColor: Color 
+    let cornerRadius: CGFloat
+    let backgroundColor: Color
     let textColor: Color
 
     var body: some View {
@@ -23,12 +25,12 @@ struct TagChipColor: View {
 
     private func tagItem(for text: String) -> some View {
         Text(text)
-            .applyCertiFont(.caption_semibold_12)
+            .applyCertiFont(fontStyle)
             .frame(height: 18)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 4)
+            .padding(.vertical, 2)
             .background(backgroundColor)
             .foregroundColor(textColor)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
     }
 }

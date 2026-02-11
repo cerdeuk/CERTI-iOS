@@ -9,15 +9,11 @@ import SwiftUI
 
 struct CertificationDetailPlanModalView: View {
     @ObservedObject var viewModel: CertificateDetailViewModel
-        
+    
     @Binding var certificationId: Int
     @Binding var isShowingSheet: Bool
     
     let certificationName: String
-    
-    // TODO: - API 연결하면 지우기
-    let placeMenuOptions = ["서울", "경기" ,"인천", "강원", "충남", "충북"]
-    let placeMenuOptions2 = ["강북구", "마포구" ,"용산구", "성북구"]
     
     var body: some View {
         ScrollView(.vertical) {
@@ -27,6 +23,9 @@ struct CertificationDetailPlanModalView: View {
             timeView
         }
         .scrollIndicators(.hidden)
+        .onDisappear {
+            viewModel.clearPreCertificationModel()
+        }
         
         Spacer()
         
@@ -96,11 +95,18 @@ extension CertificationDetailPlanModalView {
             .padding(.trailing, 267)
             
             HStack(alignment: .center, spacing: 0) {
-                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceProvince, options: placeMenuOptions, menuPlaceholder: "시/도")
+                DropdownMenu(
+                    selectedPlace: $viewModel.addPreCertificationModel.city,
+                    options: viewModel.placeMenuOptions,
+                    menuPlaceholder: "시/도"
+                )
+                .onChange(of: viewModel.addPreCertificationModel.city) { _ in
+                    viewModel.addPreCertificationModel.state = nil
+                }
                 
                 Spacer()
                 
-                DropdownMenu(selectedPlace: $viewModel.CertificationPlanPlaceCity, options: placeMenuOptions2, menuPlaceholder: "구/시")
+                DropdownMenu(selectedPlace: $viewModel.addPreCertificationModel.state, options: viewModel.placeMenuOptions2, menuPlaceholder: "구/시", isEnabled: viewModel.addPreCertificationModel.city != nil)
             }
             .padding(.top, 12)
             .padding(.horizontal, 20)
@@ -137,10 +143,12 @@ extension CertificationDetailPlanModalView {
     private var bottomButtonView: some View {
         VStack(alignment: .center, spacing: 0) {
             Button {
-                // TODO: - API 연결하기
-                //                Task {
-                //                    await viewModel.appendPreCertification(certificationId: certificationId)
-                //                }
+                Task {
+                    viewModel.clearPreCertificationModel()
+                    viewModel.addPreCertificationModel.certificationId = certificationId
+                    await viewModel.appendPreCertification(request: viewModel.addPreCertificationModel)
+                }
+                
                 isShowingSheet.toggle()
             } label: {
                 VStack(alignment: .center, spacing: 0) {
@@ -156,10 +164,14 @@ extension CertificationDetailPlanModalView {
             }
             
             Button {
-                // TODO: - API 연결하기
-                //                Task {
-                //                    await viewModel.appendPreCertification(certificationId: certificationId)
-                //                }
+                Task {
+                    viewModel.addPreCertificationModel.certificationId = certificationId
+                    if let dateTimeString = viewModel.makePlannedDateTimeString() {
+                        viewModel.addPreCertificationModel.testDate = dateTimeString
+                    }
+                    await viewModel.appendPreCertification(request: viewModel.addPreCertificationModel)
+                }
+                
                 isShowingSheet.toggle()
             } label: {
                 ZStack {
@@ -177,20 +189,3 @@ extension CertificationDetailPlanModalView {
         }
     }
 }
-
-#Preview {
-    struct PreviewWrapper: View {
-        @State var certificationId = 1
-        @State var isShowingSheet = true
-        
-        var body: some View {
-            CertificationDetailPlanModalView(viewModel: CertificateDetailViewModel(
-                fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
-                addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
-                addAcquisitionUseCase: PreviewAddAcquisitionUseCase()),
-                                             certificationId: $certificationId, isShowingSheet: $isShowingSheet, certificationName: "GTQ 1급 (그래픽기술자격)")
-        }
-    }
-    return PreviewWrapper()
-}
-

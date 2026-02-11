@@ -27,7 +27,7 @@ final class AppDIContainer {
     private lazy var acquisitionService: AcquisitionServiceProtocol = AcquisitionService()
     private lazy var careersService: CareersServiceProtocol = CareersService()
     private lazy var activityService: ActivityServiceProtocol = ActivityService()
-    
+    private lazy var commentService: CommentServiceProtocol = CommentService()
     
     // MARK: - Repositories
     // UseCase 다 만들면 private 붙이기
@@ -41,7 +41,7 @@ final class AppDIContainer {
     private lazy var acquisitionRepository: AcquisitionRepository = DefaultAcquisitionRepository(service: acquisitionService)
     private lazy var careersRepository: CareersRepository = DefaultCareersRepository(service: careersService)
     private lazy var activityRepository: ActivityRepository = DefaultActivityRepository(service: activityService)
-    
+    private lazy var commentRepository: CommentRepository = DefaultCommentRepository(service: commentService)
 }
 
 
@@ -227,6 +227,22 @@ extension AppDIContainer {
     func makeFetchTrackUsecase() -> DefaultFetchTrackUsecase {
         return DefaultFetchTrackUsecase(repository: userRepository)
     }
+    
+    func makeFetchCommentUseCase() -> FetchCommentUseCase {
+        return DefaultFetchCommentUseCase(repository: commentRepository)
+    }
+    
+    func makeAddCommentUseCase() -> AddCommentUseCase {
+        return DefaultAddCommentUseCase(repository: commentRepository)
+    }
+    
+    func makeDeleteCommentUseCase() -> DeleteCommentUseCase {
+        return DefaultDeleteCommentUseCase(repository: commentRepository)
+    }
+    
+    func makeLikeCommentUseCase() -> LikeCommentUseCase {
+        return DefaultLikeCommentUseCase(repository: commentRepository)
+    }
 }
 
 
@@ -259,12 +275,17 @@ extension AppDIContainer {
         return DefaultCertificationDetailFactory(
           fetchCertificationDetailUseCase: makeFetchCertificationDetailUseCase(),
           addPreCertificationUseCase: makeAddPreCertificationUseCase(),
-          addAcquisitionUseCase: makeAddAcquisitionUseCase()
+          addAcquisitionUseCase: makeAddAcquisitionUseCase(),
+          fetchCommentUseCase: makeFetchCommentUseCase(),
+          addCommentUseCase: makeAddCommentUseCase(),
+          deleteCommentUseCase: makeDeleteCommentUseCase(),
+          likeCommentUseCase: makeLikeCommentUseCase()
         )
     }
   
     func makeResumeFactory() -> ResumeFactory {
         return DefaultResumeFactory(
+            fetchUserInfoUseCase: makeFetchUserInfoUseCase(),
             fetchJobUseCase: makeFetchJobUseCase(),
             fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
             fetchAcquisitionDetailUseCase: makeFetchAcquisitionDetailUseCase(),

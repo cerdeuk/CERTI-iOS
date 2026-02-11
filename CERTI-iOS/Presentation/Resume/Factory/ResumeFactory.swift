@@ -12,6 +12,7 @@ protocol ResumeFactory {
 }
 
 final class DefaultResumeFactory: ResumeFactory {
+    let fetchUserInfoUseCase: FetchUserInfoUseCase
     let fetchJobUseCase: FetchJobUseCase
     
     let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
@@ -29,6 +30,7 @@ final class DefaultResumeFactory: ResumeFactory {
     let editActivityUseCase: EditActivityUseCase
     
     init(
+        fetchUserInfoUseCase: FetchUserInfoUseCase,
         fetchJobUseCase: FetchJobUseCase,
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         fetchAcquisitionDetailUseCase: FetchAcquisitionDetailUseCase,
@@ -42,6 +44,7 @@ final class DefaultResumeFactory: ResumeFactory {
         fetchActivityListUseCase: FetchActivityListUseCase,
         editActivityUseCase: EditActivityUseCase
     ) {
+        self.fetchUserInfoUseCase = fetchUserInfoUseCase
         self.fetchJobUseCase = fetchJobUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.fetchAcquisitionDetailUseCase = fetchAcquisitionDetailUseCase
@@ -59,6 +62,7 @@ final class DefaultResumeFactory: ResumeFactory {
     @MainActor
     func makeResumeViewModel() -> ResumeViewModel {
         ResumeViewModel(
+            fetchUserInfoUseCase: fetchUserInfoUseCase,
             fetchJobUseCase: fetchJobUseCase,
             fetchAcquisitionListUseCase: fetchAcquisitionListUseCase,
             fetchAcquisitionDetailUseCase: fetchAcquisitionDetailUseCase,

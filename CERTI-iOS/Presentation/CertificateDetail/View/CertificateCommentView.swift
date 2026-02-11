@@ -12,6 +12,7 @@ struct CertificateCommentView: View {
     
     @Binding var isSelectedPopularity: Bool
     @Binding var totalCommentCount: Int
+    @Binding var certificationId: Int
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -19,6 +20,9 @@ struct CertificateCommentView: View {
                 HStack(alignment: .center, spacing: 0) {
                     CommentSortButton(isSelectedPopularity: isSelectedPopularity) {
                         isSelectedPopularity.toggle()
+                        Task {
+                            await viewModel.refreshComments(certificationId: certificationId)
+                        }
                     }
                     .padding(.leading, 20)
                     
@@ -33,73 +37,63 @@ struct CertificateCommentView: View {
                 .padding(.top, 36)
                 
                 LazyVStack(spacing: 0) {
-                    ForEach(viewModel.commentList) { comment in
-                        CommentComponent(
-                            model: comment,
-                            certificationState: comment.state == "취득 완료" ? .completed : .expected,
-                            userName: comment.nickName == nil ? .unknown : .normal(userName:comment.nickName!),
-                            onTapLike: {
-                                Task{
-                                    // TODO: - 댓글 좋아요 useCase 호출
+                    if viewModel.comments.isEmpty {
+                        VStack(alignment: .center, spacing: 0) {
+                            Image(.imageEmpty)
+                                .padding(.top, 134)
+                            
+                            Text("아직 댓글이 없습니다.\n가장 먼저 댓글을 작성해보세요.")
+                                .multilineTextAlignment(.center)
+                                .applyCertiFont(.caption_regular_14)
+                                .foregroundStyle(.grayscale400)
+                                .frame(height: 40)
+                                .padding(.top, 20)
+                        }
+                        .frame(maxWidth: .infinity)
+                    } else {
+                        ForEach(viewModel.comments) { comment in
+                            CommentComponent(
+                                model: comment,
+                                certificationState: comment.state == "취득 완료" ? .completed : .expected,
+                                userName: comment.nickName == nil ? .unknown : .normal(userName:comment.nickName!),
+                                canDelete: comment.userId == viewModel.currentUserId,
+                                onTapLike: {
+                                    Task{
+                                        await viewModel.toggleLike(commentId: comment.commentId)
+                                    }
+                                }, onTapDelete: {
+                                    Task {
+                                        await viewModel.deleteComment(commentId: comment.commentId)
+                                    }
+                                })
+                            .padding(.horizontal, 20)
+                        }
+                        if !viewModel.isLastPage {
+                            ProgressView()
+                                .padding(.vertical, 16)
+                                .task {
+                                    await viewModel.fetchComment(certificationId: certificationId)
                                 }
-                            })
-                        .padding(.horizontal, 20)
-                        .onAppear {
-                            // TODO: - 댓글 조회 useCase 호출
-                            if !viewModel.isLastPage {
-                                guard viewModel.commentList.count == viewModel.commentIndex  else {
-                                    viewModel.countAppearComment()
-                                    return
-                                }
-                                Task {
-                                    await viewModel.loadNextComments()
-                                    viewModel.countAppearComment()
-                                }
-                            }
                         }
                     }
                 }
             }
-            .onAppear {
-                Task {
-                    await viewModel.loadNextComments()
-                }
+            .task {
+                await viewModel.fetchComment(certificationId: certificationId)
             }
             .onTapGesture {
                 hideKeyboard()
             }
-            
-            CommentTextField(commentText: $viewModel.commentText, onSendTapped: { }, textFieldState: !viewModel.showFailToBeAcquired || !viewModel.showFailAcquired ? .fieldOn : .fieldLock)
-                .padding(.vertical, 20)
-        }
-    }
-    }
-
-
-#Preview {
-    struct PreviewWrapper: View {
-        @State private var isSelectedPopularity: Bool = false
-        @State private var totalCommentCount: Int = 2
-        
-        @StateObject private var viewModel = CertificateDetailViewModel(
-            fetchCertificationDetailUseCase: PreviewFetchCertificationDetailUseCase(),
-            addPreCertificationUseCase: PreviewAddPreCertificationUseCase(),
-            addAcquisitionUseCase: PreviewAddAcquisitionUseCase()
-        )
-        
-        var body: some View {
-            CertificateCommentView(
-                viewModel: viewModel,
-                isSelectedPopularity: $isSelectedPopularity,
-                totalCommentCount: $totalCommentCount
-            )
-            .onAppear {
-                Task {
-                    await viewModel.loadNextComments()
-                }
+            .onDisappear {
+                viewModel.resetComments()
             }
+            
+            CommentTextField(commentText: $viewModel.commentText, onSendTapped: {
+                Task {
+                    await viewModel.addComment(content: viewModel.commentText, certificationId: certificationId)
+                }
+            }, textFieldState: viewModel.isCommentWritable ? .fieldOn : .fieldLock)
+            .padding(.vertical, 20)
         }
     }
-    
-    return PreviewWrapper()
 }

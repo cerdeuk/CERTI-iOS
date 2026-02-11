@@ -13,7 +13,7 @@ protocol HomeServiceProtocol {
     func getPreCertification() async -> Result<PreCertificationInfoResponseDTO, NetworkError>
     func deletePreCertification(id: Int) async -> Result<Void, NetworkError>
     func getFavoriteCertification() async -> Result<FavoriteCertificationResponseDTO, NetworkError>
-    func addPreCertification(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError>
+    func addPreCertification(request: AddPreCertificationRequestDTO) async -> Result<BaseResponseDTO<Bool>, NetworkError>
     
 }
 
@@ -33,7 +33,7 @@ final class HomeService: BaseService, HomeServiceProtocol {
         return await requestDecodable(provider, .getFavoriteCertification)
     }
 
-    func addPreCertification(certificationId: Int) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
-        return await requestDecodable(provider, .addPreCertification(certificationId: certificationId))
+    func addPreCertification(request: AddPreCertificationRequestDTO) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
+        return await requestDecodable(provider, .addPreCertification(request: request))
     }
 }
