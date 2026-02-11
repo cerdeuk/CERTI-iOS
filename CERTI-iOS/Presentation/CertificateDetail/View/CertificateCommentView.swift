@@ -62,10 +62,11 @@ struct CertificateCommentView: View {
                                         await viewModel.toggleLike(commentId: comment.commentId)
                                     }
                                 }, onTapDelete: {
-                                    Task {
                                         viewModel.showDeleteCommentModal(commentId: comment.commentId)
-                                    }
-                                })
+                                }, onTapReport: {
+                                    viewModel.showCommentReportModal(commentId: comment.commentId)
+                                }
+                            )
                             .padding(.horizontal, 20)
                         }
                         if !viewModel.isLastPage {

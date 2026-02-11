@@ -37,7 +37,9 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var showFailToBeAcquired: Bool = false
     @Published var showCompleteModal = false
     @Published var showDeleteCommentAlert: Bool = false
+    @Published var stateCommentReportModal: Bool = false
     @Published var deleteCommentId: Int? = nil
+    @Published var reportCommentId: Int = 0
     @Published var CertificationPlanDate: Date? = nil
     @Published var CertificationPlanPlaceProvince: String? = nil
     @Published var CertificationPlanPlaceCity: String? = nil
@@ -55,6 +57,8 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var addPreCertificationModel = PreCertificationModel(
         certificationId: 0, city: nil, state: nil, testDate: nil
     )
+    @Published var reportContent: String = ""
+    @Published var shouldBlockUser: Bool = false
     
     private var currentPage: Int = 0
     private let pageSize: Int = 10
@@ -89,6 +93,7 @@ final class CertificateDetailViewModel: ObservableObject {
     private let addCommentUseCase: AddCommentUseCase
     private let deleteCommentUseCase: DeleteCommentUseCase
     private let likeCommentUseCase: LikeCommentUseCase
+    private let reportCommentUseCase: ReportCommentUseCase
     
     init(
         fetchCertificationDetailUseCase: FetchCertificationDetailUseCase,
@@ -98,6 +103,7 @@ final class CertificateDetailViewModel: ObservableObject {
         addCommentUseCase: AddCommentUseCase,
         deleteCommentUseCase: DeleteCommentUseCase,
         likeCommentUseCase: LikeCommentUseCase,
+        reportCommentUseCase: ReportCommentUseCase
     ) {
         self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
         self.addPreCertificationUseCase = addPreCertificationUseCase
@@ -106,6 +112,7 @@ final class CertificateDetailViewModel: ObservableObject {
         self.addCommentUseCase = addCommentUseCase
         self.deleteCommentUseCase = deleteCommentUseCase
         self.likeCommentUseCase = likeCommentUseCase
+        self.reportCommentUseCase = reportCommentUseCase
     }
 }
 
@@ -237,6 +244,19 @@ extension CertificateDetailViewModel {
         }
     }
     
+    func reportComment(commentId:Int, content: String?, shouldBlockUser: Bool) async {
+        let entity = ReportCommentEntity(content: content, shouldBlockUser: shouldBlockUser)
+        let result = await reportCommentUseCase.execute(commentId: commentId, request: entity)
+
+        switch result {
+        case .success:
+            logger.error("✅ 댓글 신고 성공")
+
+        case .failure(let error):
+            logger.error("❌ 댓글 신고 실패: \(error.localizedDescription)")
+        }
+    }
+    
     func refreshComments(certificationId: Int) async {
         currentPage = 0
         isLastPage = false
@@ -311,5 +331,17 @@ extension CertificateDetailViewModel {
     func dismissDeleteCommentModal() {
         deleteCommentId = nil
         showDeleteCommentAlert = false
+    }
+    
+    func showCommentReportModal(commentId: Int) {
+        reportCommentId = commentId
+        stateCommentReportModal = true
+    }
+
+    func dismissCommentReportModal() {
+        reportCommentId = 0
+        stateCommentReportModal = false
+        reportContent = ""
+        shouldBlockUser = false
     }
 }

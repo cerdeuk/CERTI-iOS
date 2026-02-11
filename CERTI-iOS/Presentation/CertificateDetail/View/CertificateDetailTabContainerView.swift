@@ -70,6 +70,18 @@ struct CertificateDetailTabContainerView: View {
                     }
                 }
             }
+            
+            if viewModel.stateCommentReportModal {
+                ZStack {
+                    Color.blackOpacity40
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            viewModel.dismissCommentReportModal()
+                        }
+
+                    CommentReportModalView(viewModel: viewModel, stateCommentReportModal: $viewModel.stateCommentReportModal, commentId: $viewModel.reportCommentId)
+                }
+            }
         }
     }
 }

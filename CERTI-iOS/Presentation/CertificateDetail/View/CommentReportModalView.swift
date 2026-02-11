@@ -7,16 +7,15 @@
 
 import SwiftUI
 
-struct ReportModalView: View {
-    @Binding var isPresented: Bool
+struct CommentReportModalView: View {
+    @ObservedObject var viewModel: CertificateDetailViewModel
 
-    @State private var reportText: String = ""
-    @State private var isBlockUser: Bool = false
+    @Binding var stateCommentReportModal: Bool
+    @Binding var commentId: Int
 
     private let maxLength: Int = 100
 
-    var onSubmit: (_ content: String, _ blockUser: Bool) -> Void = { _, _ in }
-
+    
     // MARK: - Main Body
 
     var body: some View {
@@ -30,6 +29,7 @@ struct ReportModalView: View {
             .padding(.horizontal, 20)
     }
 
+    
     // MARK: - SubView
 
     private var header: some View {
@@ -41,7 +41,7 @@ struct ReportModalView: View {
             Spacer()
 
             Button {
-                // TODO: - 닫기
+                viewModel.dismissCommentReportModal()
             } label: {
                 Image(.iconModalclose24)
             }
@@ -61,7 +61,7 @@ struct ReportModalView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topLeading) {
-                    if reportText.isEmpty {
+                    if viewModel.reportContent.isEmpty {
                         Text("내용을 입력해주세요.")
                             .applyCertiFont(.caption_regular_12)
                             .foregroundStyle(.grayscale300)
@@ -69,8 +69,8 @@ struct ReportModalView: View {
                             .padding(.leading, 19.5)
                     }
 
-                    TextEditor(text: $reportText)
-                        .maxLength(100, text: $reportText)
+                    TextEditor(text: $viewModel.reportContent)
+                        .maxLength(100, text: $viewModel.reportContent)
                         .applyCertiFont(.caption_regular_12)
                         .foregroundStyle(.grayscale600)
                         .padding(.vertical, 5)
@@ -85,7 +85,7 @@ struct ReportModalView: View {
 
                 HStack {
                     Spacer()
-                    Text("\(reportText.count)/\(maxLength)")
+                    Text("\(viewModel.reportContent.count)/\(maxLength)")
                         .applyCertiFont(.caption_regular_10)
                         .foregroundStyle(.grayscale300)
                         .padding(.top, 4)
@@ -93,11 +93,10 @@ struct ReportModalView: View {
             }
 
             Button {
-                // TODO: - 체크박스
-                isBlockUser.toggle()
+                viewModel.shouldBlockUser.toggle()
             } label: {
                 HStack(alignment: .center, spacing: 0) {
-                    Image(isBlockUser ? .iconSmallCheckboxCheck16 : .iconSmallCheckbox16)
+                    Image(viewModel.shouldBlockUser ? .iconSmallCheckboxCheck16 : .iconSmallCheckbox16)
                     
                     Text("해당 유저 차단하기")
                         .applyCertiFont(.caption_semibold_12)
@@ -116,7 +115,11 @@ struct ReportModalView: View {
             HStack {
                 Spacer()
                 Button {
-                    // TODO: - 신고 API
+                    Task {
+                        let contentToSend: String? = viewModel.reportContent.isEmpty ? nil : viewModel.reportContent
+                        await viewModel.reportComment(commentId: commentId, content: contentToSend, shouldBlockUser: viewModel.shouldBlockUser)
+                        viewModel.dismissCommentReportModal()
+                    }
                 } label: {
                     Text("제출")
                         .applyCertiFont(.caption_semibold_12)
