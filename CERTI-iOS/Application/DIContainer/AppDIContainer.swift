@@ -27,7 +27,7 @@ final class AppDIContainer {
     private lazy var acquisitionService: AcquisitionServiceProtocol = AcquisitionService()
     private lazy var careersService: CareersServiceProtocol = CareersService()
     private lazy var activityService: ActivityServiceProtocol = ActivityService()
-    lazy var commentService: CommentServiceProtocol = CommentService()
+    private lazy var commentService: CommentServiceProtocol = CommentService()
     
     // MARK: - Repositories
     // UseCase 다 만들면 private 붙이기
