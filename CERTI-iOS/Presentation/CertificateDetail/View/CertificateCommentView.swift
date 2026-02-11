@@ -63,7 +63,7 @@ struct CertificateCommentView: View {
                                     }
                                 }, onTapDelete: {
                                     Task {
-                                        await viewModel.deleteComment(commentId: comment.commentId)
+                                        viewModel.showDeleteCommentModal(commentId: comment.commentId)
                                     }
                                 })
                             .padding(.horizontal, 20)

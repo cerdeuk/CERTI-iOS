@@ -36,6 +36,8 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var showFailAcquired: Bool = false
     @Published var showFailToBeAcquired: Bool = false
     @Published var showCompleteModal = false
+    @Published var showDeleteCommentAlert: Bool = false
+    @Published var deleteCommentId: Int? = nil
     @Published var CertificationPlanDate: Date? = nil
     @Published var CertificationPlanPlaceProvince: String? = nil
     @Published var CertificationPlanPlaceCity: String? = nil
@@ -65,7 +67,7 @@ final class CertificateDetailViewModel: ObservableObject {
         else { return [] }
         return region.districts
     }
-    var currentUserId: Int = 0
+    var currentUserId: Int = AuthManager.shared.userID
     var currentPageIndex: Int = 0
     var commentList: [Comment] {
         paginationComments.flatMap { $0.content }
@@ -299,5 +301,15 @@ extension CertificateDetailViewModel {
         currentPage = 0
         isLastPage = false
         isLoadingComment = false
+    }
+    
+    func showDeleteCommentModal(commentId: Int) {
+        deleteCommentId = commentId
+        showDeleteCommentAlert = true
+    }
+
+    func dismissDeleteCommentModal() {
+        deleteCommentId = nil
+        showDeleteCommentAlert = false
     }
 }

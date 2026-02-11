@@ -16,6 +16,7 @@ final class AuthManager {
     var nickname: String = ""
     var name: String = ""
     var socialType: String = ""
+    var userID: Int = 0
     
     func cleanUserInfo() {
         nickname = ""
