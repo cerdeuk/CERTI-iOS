@@ -25,7 +25,7 @@ struct HomeStateModel {
     var userDepartment: String = ""
     var progressValue: Int = 0
     
-    var recommendLicenses: [RecommendLicenseCardModel] = []
+    var recommendLicenses: [RecommendCeritificateTileModel] = []
     var preLicenses: [PreLicenseCardModel] = []
     var favoriteLicenses: [FavoriteLicenseCardModel] = []
     var preLicenseDates: Set<String> = []
@@ -146,8 +146,16 @@ extension HomeViewModel {
         case .success(let response):
             logger.info("✅ 추천 자격증 조회 성공")
             
-            let list = response.toRecommendLicenseCardModelList()
-            homeStateModel.recommendLicenses = list
+            let recommendations: [RecommendCeritificateTileModel] = response.certifications.prefix(3).map {
+                RecommendCeritificateTileModel(
+                    id: $0.certificationId,
+                    title: $0.certificationName,
+                    score: $0.recommendScore!,
+                    description: $0.description!,
+                    tags: $0.tags
+                )
+            }
+            homeStateModel.recommendLicenses = recommendations
             
         case .failure(let error):
             logger.error("❌ 추천 자격증 조회 실패: \(error.localizedDescription)")

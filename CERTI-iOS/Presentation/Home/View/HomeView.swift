@@ -183,7 +183,7 @@ extension HomeView {
             .padding(.top, 12)
         }
         .padding(.top, 16)
-        .padding(.bottom, 41)
+        .padding(.bottom, 36)
     }
     
     private var favoriteLicenseTitle: some View {
@@ -262,17 +262,16 @@ extension HomeView {
     }
     
     private var recommendLicenseList: some View {
-        LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(viewModel.homeStateModel.recommendLicenses.prefix(3)) { item in
-                RecommendLicenseCard(licenseCard: item)
-                    .frame(maxWidth: .infinity)
+        VStack(alignment: .center, spacing: 0){
+            ForEach(viewModel.homeStateModel.recommendLicenses) { item in
+                RecommendCeritificateTile(model: item)
+                    .padding(.bottom, 16)
                     .onTapGesture {
                         viewModel.selectedLicenseId = item.id
                         viewModel.navigateToCertificateDetail()
                     }
             }
         }
-        .frame(height: 264)
-        .padding(.bottom, 36)
+        .padding(.bottom, 73)
     }
 }

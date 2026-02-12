@@ -39,6 +39,7 @@ struct DailyPreCertificationInfoData: Decodable {
     let state: String
     let testDate: String
     let isAcquired: Bool
+    let certificationType: String
 }
 
 extension DailyPreCertificationInfoData {
@@ -58,7 +59,8 @@ extension DailyPreCertificationInfoData {
             city: city,
             state: state,
             testDate: testDate,
-            isAcquired: isAcquired
+            isAcquired: isAcquired,
+            certificationType: certificationType
         )
     }
 }

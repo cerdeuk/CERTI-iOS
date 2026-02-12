@@ -26,6 +26,7 @@ struct DailyPreCertificationEntityData {
     let state: String
     let testDate: String
     let isAcquired: Bool
+    let certificationType: String
 }
 
 extension DailyPreCertificationEntityData {
@@ -35,7 +36,7 @@ extension DailyPreCertificationEntityData {
             location: city,
             time: testDate,
             title: certificationName,
-            category: agencyName,
+            category: certificationType,
             description: description
         )
     }

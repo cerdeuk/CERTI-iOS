@@ -213,11 +213,11 @@ private extension CertificateView {
     
 }
 
-#Preview {
-    let tabCoordinator = CertiTabCoordinator()
-    
-    CertiTabBarCoordinatorView(
-        tabCoordinator: tabCoordinator,
-        appDIContainer: AppDIContainer.shared
-    )
-}
+//#Preview {
+//    let tabCoordinator = CertiTabCoordinator()
+//    
+//    CertiTabBarCoordinatorView(
+//        tabCoordinator: tabCoordinator,
+//        appDIContainer: AppDIContainer.shared
+//    )
+//}
