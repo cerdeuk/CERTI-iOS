@@ -58,7 +58,8 @@ struct NotificationSettingView: View {
                     style: .onlyTitle,
                     onConfirm: {
                         Task {
-                            await viewModel.toggleNotificationSetting()
+                            await viewModel.toggleMarketingSetting()
+                            await viewModel.togglePrivacySetting()
                             withAnimation {
                                 showConfirmationAlert = false
                             }
@@ -104,7 +105,7 @@ extension NotificationSettingView {
     private var agreeToggleButton: some View {
         let toggleBinding = Binding<Bool>(
             get: {
-                viewModel.agreeState
+                viewModel.marketingAgreeState
             },
             set: { newValue in
                 if newValue == true {
@@ -113,7 +114,8 @@ extension NotificationSettingView {
                     }
                 } else {
                     Task {
-                        await viewModel.toggleNotificationSetting()
+                        await viewModel.toggleMarketingSetting()
+                        await viewModel.togglePrivacySetting()
                     }
                     showToastMessage = false
                 }
@@ -143,11 +145,11 @@ extension NotificationSettingView {
         VStack(alignment: .leading, spacing: 0) {
             
             HStack(alignment: .center, spacing: 0) {
-                Image(systemName: viewModel.agreeState ? "checkmark.square.fill" : "square")
+                Image(systemName: viewModel.marketingAgreeState ? "checkmark.square.fill" : "square")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20)
-                    .foregroundStyle(viewModel.agreeState ? .grayscale500 : .grayscale400)
+                    .foregroundStyle(viewModel.marketingAgreeState ? .grayscale500 : .grayscale400)
                     .padding(.trailing, 12)
                 
                 Text("(선택)")

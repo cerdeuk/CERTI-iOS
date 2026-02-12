@@ -136,19 +136,32 @@ final class DefaultUserRepository: UserRepository {
         }
     }
     
-    func getNotificationSetting() async -> Result<Bool, NetworkError> {
+    func getNotificationSetting() async -> Result<UserAgreementEntity, NetworkError> {
         let result = await service.getNotificationSetting()
         
         switch result {
         case .success(let response):
-            return .success(response.data!.isAdAgreed)
+            guard let data = response.data else { return .failure(.decodingError) }
+            let result: UserAgreementEntity = UserAgreementEntity(isAdAgreed: data.isAdAgreed, isPvAgreed: data.isPvAgreed)
+            return .success(result)
         case .failure(let error):
             return .failure(error)
         }
     }
     
-    func toggleNotificationSetting() async -> Result<Void, NetworkError> {
-        let result = await service.toggleNotificationSetting()
+    func toggleMarketingSetting(agree: Bool) async -> Result<Void, NetworkError> {
+        let result = await service.toggleMarketingSetting(agree: EditNotificationSettingRequestDTO(isAgreed: agree))
+        
+        switch result {
+        case .success:
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func togglePrivacySetting(agree: Bool) async -> Result<Void, NetworkError> {
+        let result = await service.togglePrivacySetting(agree: EditNotificationSettingRequestDTO(isAgreed: agree))
         
         switch result {
         case .success:

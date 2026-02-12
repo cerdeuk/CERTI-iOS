@@ -200,8 +200,12 @@ extension AppDIContainer {
         return DefaultEditUnivUseCase(repository: userRepository)
     }
     
-    func makeToggleNotificationSettingUseCase() -> DefaultToggleNotificationSettingUseCase {
-        return DefaultToggleNotificationSettingUseCase(repository: userRepository)
+    func makeToggleMarketingSettingUseCase() -> DefaultToggleMarketingSettingUseCase {
+        return DefaultToggleMarketingSettingUseCase(repository: userRepository)
+    }
+    
+    func makeTogglePrivacySettingUseCase() -> DefaultTogglePrivacySettingUseCase {
+        return DefaultTogglePrivacySettingUseCase(repository: userRepository)
     }
     
     func makeGetNotificationSettingUseCase() -> DefaultGetNotificationSettingUseCase {
@@ -316,7 +320,8 @@ extension AppDIContainer {
             getFavoriteCertificationUseCase: makeGetFavoritePreCertificationUseCase(),
             withDrawUseCase: makeWithDrawUseCase(),
             getNotificationSettingUseCase: makeGetNotificationSettingUseCase(),
-            toggleNotificationSettingUseCase: makeToggleNotificationSettingUseCase(),
+            toggleMarketingSettingUseCase: makeToggleMarketingSettingUseCase(),
+            togglePrivacySettingUseCase: makeTogglePrivacySettingUseCase(),
             switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
             fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase()
         )

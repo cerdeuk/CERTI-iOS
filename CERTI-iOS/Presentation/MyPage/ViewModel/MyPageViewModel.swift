@@ -62,7 +62,8 @@ final class MyPageViewModel: ObservableObject {
     @Published var favoriteList: [FavoriteItem] = []
     @Published var universityList: [String] = []
     @Published var majorList: [String] = []
-    @Published var agreeState: Bool = false
+    @Published var marketingAgreeState: Bool = false
+    @Published var privacyAgreeState: Bool = false
     
     @Published var selectedLicenseId: Int = 0
 
@@ -82,7 +83,8 @@ final class MyPageViewModel: ObservableObject {
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
     private let withDrawUseCase: WithDrawUseCase
     private let getNotificationSettingUseCase: GetNotificationSettingUseCase
-    private let toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
+    private let toggleMarketingSettingUseCase: ToggleMarketingSettingUseCase
+    private let togglePrivacySettingUseCase: TogglePrivacySettingUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
 
@@ -141,7 +143,8 @@ final class MyPageViewModel: ObservableObject {
         getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
         withDrawUseCase: WithDrawUseCase,
         getNotificationSettingUseCase: GetNotificationSettingUseCase,
-        toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase,
+        toggleMarketingSettingUseCase: ToggleMarketingSettingUseCase,
+        togglePrivacySettingUseCase: TogglePrivacySettingUseCase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     ) {
@@ -158,7 +161,8 @@ final class MyPageViewModel: ObservableObject {
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
         self.withDrawUseCase = withDrawUseCase
         self.getNotificationSettingUseCase = getNotificationSettingUseCase
-        self.toggleNotificationSettingUseCase = toggleNotificationSettingUseCase
+        self.toggleMarketingSettingUseCase = toggleMarketingSettingUseCase
+        self.togglePrivacySettingUseCase = togglePrivacySettingUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
     }
@@ -429,21 +433,34 @@ extension MyPageViewModel {
         switch result {
         case .success(let response):
             logger.debug("✅ getNotificationSetting success")
-            self.agreeState = response
+            self.marketingAgreeState = response.isAdAgreed
+            self.privacyAgreeState = response.isPvAgreed
         case .failure(let error):
             logger.error("getNotificationSetting failed: \(error.localizedDescription)")
         }
     }
     
-    func toggleNotificationSetting() async {
-        let result = await toggleNotificationSettingUseCase.execute()
+    func toggleMarketingSetting() async {
+        let result = await toggleMarketingSettingUseCase.execute(agree: !marketingAgreeState)
         
         switch result {
         case .success:
-            logger.debug("✅ toggleNotificationSetting success")
-            agreeState.toggle()
+            logger.debug("✅ toggleMarketingSetting success")
+            marketingAgreeState.toggle()
         case .failure(let error):
-            logger.error("getNotificationSetting failed: \(error.localizedDescription)")
+            logger.error("toggleMarketingSetting failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func togglePrivacySetting() async {
+        let result = await togglePrivacySettingUseCase.execute(agree: !privacyAgreeState)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ togglePrivacySetting success")
+            privacyAgreeState.toggle()
+        case .failure(let error):
+            logger.error("togglePrivacySetting failed: \(error.localizedDescription)")
         }
     }
     
