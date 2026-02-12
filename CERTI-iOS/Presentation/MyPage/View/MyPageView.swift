@@ -9,6 +9,8 @@ import SwiftUI
 import Kingfisher
 
 struct MyPageView: View {
+    @Environment(\.openURL) var openURL
+
     @ObservedObject var viewModel: MyPageViewModel
     
     private let tabIconList: [UIImage] = [.iconPerson24, .iconSchool24, .iconPencil24, .iconSetting24, .iconMessage24]
@@ -125,7 +127,7 @@ struct MyPageView: View {
                     
                     // 문의사항으로 이동
                     myPageViewButton(icon: tabIconList[4], title: tabList[4], description: tabDescriptionList[4], action: {
-                        // TODO: - 오픈채팅 링크
+                        openURL(URL(string: "https://open.kakao.com/o/sTZ4Jwfi")!)
                     })
                     .padding(.horizontal, 20)
 

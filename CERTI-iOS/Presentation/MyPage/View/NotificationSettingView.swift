@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NotificationSettingView: View {
+    @Environment(\.openURL) var openURL
+    
     @ObservedObject var viewModel: MyPageViewModel
     
     @State private var showConfirmationAlert = false
@@ -164,7 +166,7 @@ extension NotificationSettingView {
                 Spacer()
                 
                 Button {
-                    // 노션이동
+                    openURL(URL(string: "https://tremendous-baryonyx-347.notion.site/3015e9d69a2680a98ce4e96faf2ce06d?pvs=73")!)
                 } label: {
                     Image(.iconArrowright24)
                 }
