@@ -116,14 +116,19 @@ private extension ManageCertificateView {
             .frame(height: 38)
             .frame(maxWidth: .infinity)
             
-            ForEach(viewModel.expectedList, id: \.id) {
-                MyCertificationItem(
-                    type: .expected(location: $0.city, time: $0.formattedTime),
-                    title: $0.certificationName,
-                    category: $0.agencyName,
-                    description: $0.description,
-                    actionConfig: .viewOnly
-                )
+            ForEach(viewModel.expectedList, id: \.id) { item in
+                Button {
+                    viewModel.selectedLicenseId = item.id
+                    viewModel.navigateToCertificateDetail()
+                } label: {
+                    MyCertificationItem(
+                        type: .expected(location: item.city, time: item.formattedTime),
+                        title: item.certificationName,
+                        category: item.agencyName,
+                        description: item.description,
+                        actionConfig: .viewOnly
+                    )
+                }
             }
         }
     }
@@ -144,34 +149,44 @@ private extension ManageCertificateView {
             }
             .frame(height: 38)
             
-            ForEach(viewModel.completedList, id: \.id) {
-                MyCertificationItem(
-                    type: .completed(date: $0.formattedDate, score: $0.grade),
-                    title: $0.name,
-                    category: $0.categoryText,
-                    description: $0.description,
-                    actionConfig: .viewOnly
-                )
+            ForEach(viewModel.completedList, id: \.id) { item in
+                Button {
+                    viewModel.selectedLicenseId = item.id
+                    viewModel.navigateToCertificateDetail()
+                } label: {
+                    MyCertificationItem(
+                        type: .completed(date: item.formattedDate, score: item.grade),
+                        title: item.name,
+                        category: item.categoryText,
+                        description: item.description,
+                        actionConfig: .viewOnly
+                    )
+                }
             }
         }
     }
     
     private var favoriteListView: some View {
         VStack(spacing: 16) {
-            ForEach(viewModel.favoriteList, id: \.id) {
-                FavoriteCertificationItem(
-                    id: $0.id,
-                    title: $0.certificationName,
-                    category: $0.certificationType,
-                    testType: $0.testType,
-                    organization: $0.agencyName,
-                    isFavorite: $0.isFavorite,
-                    onToggle: { id in
-                        Task {
-                            await viewModel.toggleFavorite(id: id)
+            ForEach(viewModel.favoriteList, id: \.id) { item in
+                Button {
+                    viewModel.selectedLicenseId = item.id
+                    viewModel.navigateToCertificateDetail()
+                } label: {
+                    FavoriteCertificationItem(
+                        id: item.id,
+                        title: item.certificationName,
+                        category: item.certificationType,
+                        testType: item.testType,
+                        organization: item.agencyName,
+                        isFavorite: item.isFavorite,
+                        onToggle: { id in
+                            Task {
+                                await viewModel.toggleFavorite(id: id)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
         .padding(.top, 24)

@@ -21,6 +21,8 @@ enum MyPageViewRoute {
     case navigateToEditCompletedCertificate
     case withDraw
     case logout
+    case navigateToCertificateDetail
+
     
     case myPageViewRoutePop
 }
@@ -61,6 +63,8 @@ final class MyPageViewModel: ObservableObject {
     @Published var universityList: [String] = []
     @Published var majorList: [String] = []
     @Published var agreeState: Bool = false
+    
+    @Published var selectedLicenseId: Int = 0
 
     
     //MARK: - UseCases
@@ -254,7 +258,7 @@ extension MyPageViewModel {
             logger.debug("✅ fetchCompletedCertificate success")
             let list: [CompletedItem] = response.acquisitionList.map {
                 CompletedItem(
-                    id: $0.acquisitionID,
+                    id: $0.certificationID,
                     name: $0.name,
                     categoryText: $0.certificationType,
                     description: $0.description,
@@ -495,6 +499,10 @@ extension MyPageViewModel {
     
     func myPageViewRoutePop() {
         myPageViewRoute = .myPageViewRoutePop
+    }
+    
+    func navigateToCertificateDetail() {
+        myPageViewRoute = .navigateToCertificateDetail
     }
 }
 
