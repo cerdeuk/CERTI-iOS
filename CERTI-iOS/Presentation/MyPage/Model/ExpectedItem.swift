@@ -9,6 +9,7 @@ import Foundation
 
 struct ExpectedItem: Identifiable, Hashable {
     let id: Int
+    let preCertificationId: Int
     let certificationName: String // 자격증 이름
     let agencyName: String        // 주관사 (카테고리 대용)
     let averagePeriod: String     // 준비 기간

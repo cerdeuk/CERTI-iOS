@@ -128,7 +128,13 @@ private extension EditCompletedCertificationModal {
     var bottomButtonView: some View {
         VStack(alignment: .center, spacing: 0) {
             Button {
-                saveChanges()
+                Task {
+                    await viewModel.editCompletedCertificate(
+                        id: item.aquisionID,
+                        date: selectedDate ?? Date(),
+                        grade: gradeInput
+                    )
+                }
                 dismiss()
             } label: {
                 ZStack {
@@ -145,21 +151,5 @@ private extension EditCompletedCertificationModal {
             .padding(.top, 12)
             .padding(.bottom, 20)
         }
-    }
-}
-
-
-// MARK: - Private Func
-
-private extension EditCompletedCertificationModal {
-    func saveChanges() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        
-        print("========== [취득 완료 수정 확인] ==========")
-        print("📝 자격증 이름: \(item.name)")
-        print("📅 취득 날짜: \(formatter.string(from: selectedDate!))")
-        print("💯 점수/등급: \(gradeInput.isEmpty ? "없음" : gradeInput)")
-        print("=======================================")
     }
 }

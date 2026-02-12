@@ -89,6 +89,8 @@ final class MyPageViewModel: ObservableObject {
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
     private let deletePreCertificationUseCase: DeletePreCertificationUseCase
+    private let editAcquisitionUseCase: EditAcquisitionUseCase
+    private let editPreCertificationUseCase: EditPreCertificationUseCase
 
     
     //MARK: - Properties
@@ -151,6 +153,8 @@ final class MyPageViewModel: ObservableObject {
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
+        editAcquisitionUseCase: EditAcquisitionUseCase,
+        editPreCertificationUseCase: EditPreCertificationUseCase,
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -171,6 +175,8 @@ final class MyPageViewModel: ObservableObject {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
+        self.editAcquisitionUseCase = editAcquisitionUseCase
+        self.editPreCertificationUseCase = editPreCertificationUseCase
     }
     
 }
@@ -320,6 +326,7 @@ extension MyPageViewModel {
                 
                 return ExpectedItem(
                     id: cert.certificationID,
+                    preCertificationId: cert.preCertificationId!,
                     certificationName: cert.certificationName,
                     agencyName: cert.agencyName,
                     averagePeriod: cert.averagePeriod,
@@ -336,7 +343,6 @@ extension MyPageViewModel {
         }
     }
     
-    // TODO: - 등록 API 연결 후 연결
     func deleteExpectedCertificate(id: Int) async {
         let result = await deletePreCertificationUseCase.execute(id: id)
         
@@ -350,10 +356,61 @@ extension MyPageViewModel {
         }
     }
     
-    // TODO: - 등록 API 연결 후 연결
-    func editCertificate(id: Int) {
-        print("수정 요청: \(id)")
+    func editCompletedCertificate(id: Int, date: Date, grade: String) async {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        let dateString = formatter.string(from: date)
+        
+        let entity = EditAcquisitionEntity(acquisitionDate: dateString, grade: grade)
+        
+        let result = await editAcquisitionUseCase.execute(request: entity, id: id)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ editCompletedCertificate success")
+            await fetchCompletedCertificate()
+            
+        case .failure(let error):
+            logger.error("❌ editCompletedCertificate failed: \(error.localizedDescription)")
+        }
     }
+    
+    func editExpectedCertificate(id: Int, date: Date, isAM: Bool, hour: Int, minute: Int, province: String, city: String) async {
+            
+            let calendar = Calendar.current
+            
+            var hour24 = hour
+            if !isAM && hour < 12 { hour24 += 12 }
+            if isAM && hour == 12 { hour24 = 0 }
+            
+            var components = calendar.dateComponents([.year, .month, .day], from: date)
+            components.hour = hour24
+            components.minute = minute
+            components.second = 0
+            
+            guard let finalDate = calendar.date(from: components) else { return }
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy.MM.dd HH:mm:ss"
+            let dateString = formatter.string(from: finalDate)
+            
+            let request = EditPreCertificationEntity(
+                testDate: dateString,
+                city: province,
+                state: city
+            )
+            
+            let result = await editPreCertificationUseCase.execute(request: request, id: id)
+            
+            switch result {
+            case .success:
+                logger.debug("✅ editExpectedCertificate success")
+                await fetchExpectedCertificate()
+                
+            case .failure(let error):
+                logger.error("❌ editExpectedCertificate failed: \(error.localizedDescription)")
+            }
+        }
     
     func getFavoriteCertificates() async {
         let result = await getFavoriteCertificationsUseCase.execute()

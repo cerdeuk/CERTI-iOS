@@ -31,6 +31,8 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
     private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
     private let deletePreCertificationUseCase: DeletePreCertificationUseCase
+    private let editAcquisitionUseCase: EditAcquisitionUseCase
+    private let editPreCertificationUseCase: EditPreCertificationUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
@@ -52,6 +54,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
         deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
+        editAcquisitionUseCase: EditAcquisitionUseCase,
+        editPreCertificationUseCase: EditPreCertificationUseCase,
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -72,6 +76,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
         self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
+        self.editAcquisitionUseCase = editAcquisitionUseCase
+        self.editPreCertificationUseCase = editPreCertificationUseCase
     }
     
     @MainActor
@@ -95,7 +101,9 @@ final class DefaultMyPageFactory: MyPageFactory {
             switchFavoriteUseCase: switchFavoriteUseCase,
             fetchAcquisitionListUseCase: fetchAcquisitionListUseCase,
             deleteAcquisitionUseCase: deleteAcquisitionUseCase,
-            deletePreCertificationUseCase: deletePreCertificationUseCase
+            deletePreCertificationUseCase: deletePreCertificationUseCase,
+            editAcquisitionUseCase: editAcquisitionUseCase,
+            editPreCertificationUseCase: editPreCertificationUseCase
         )
     }
 }

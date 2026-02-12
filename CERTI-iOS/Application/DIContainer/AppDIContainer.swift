@@ -247,6 +247,14 @@ extension AppDIContainer {
     func makeLikeCommentUseCase() -> LikeCommentUseCase {
         return DefaultLikeCommentUseCase(repository: commentRepository)
     }
+    
+    func makeEditAcquisitionUseCase() -> EditAcquisitionUseCase {
+        return DefaultEditAcquisitionUseCase(repository: acquisitionRepository)
+    }
+    
+    func makeEditPreCertificationUseCase() -> EditPreCertificationUseCase {
+        return DefaultEditPreCertificationUseCase(repository: homeRepository)
+    }
 }
 
 
@@ -325,7 +333,9 @@ extension AppDIContainer {
             switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
             fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
             deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
-            deletePreCertificationUseCase: makeDeletePreCertificationUseCase()
+            deletePreCertificationUseCase: makeDeletePreCertificationUseCase(),
+            editAcquisitionUseCase: makeEditAcquisitionUseCase(),
+            editPreCertificationUseCase: makeEditPreCertificationUseCase()
         )
     }
     
