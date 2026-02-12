@@ -87,6 +87,8 @@ final class MyPageViewModel: ObservableObject {
     private let togglePrivacySettingUseCase: TogglePrivacySettingUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+    private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
+    private let deletePreCertificationUseCase: DeletePreCertificationUseCase
 
     
     //MARK: - Properties
@@ -146,7 +148,9 @@ final class MyPageViewModel: ObservableObject {
         toggleMarketingSettingUseCase: ToggleMarketingSettingUseCase,
         togglePrivacySettingUseCase: TogglePrivacySettingUseCase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
-        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
+        deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
+        deletePreCertificationUseCase: DeletePreCertificationUseCase,
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -165,6 +169,8 @@ final class MyPageViewModel: ObservableObject {
         self.togglePrivacySettingUseCase = togglePrivacySettingUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
+        self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
+        self.deletePreCertificationUseCase = deletePreCertificationUseCase
     }
     
 }
@@ -263,6 +269,7 @@ extension MyPageViewModel {
             let list: [CompletedItem] = response.acquisitionList.map {
                 CompletedItem(
                     id: $0.certificationID,
+                    aquisionID: $0.acquisitionID,
                     name: $0.name,
                     categoryText: $0.certificationType,
                     description: $0.description,
@@ -277,10 +284,17 @@ extension MyPageViewModel {
         }
     }
     
-    // TODO: - 등록 API 연결 후 연결
-    func deleteCompletedCertificate(id: Int) {
-        print("취득 완료 삭제: \(id)")
-        completedList.removeAll { $0.id == id }
+    func deleteCompletedCertificate(id: Int) async {
+        let result = await deleteAcquisitionUseCase.execute(id: id)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ deleteCompletedCertificate success")
+            completedList.removeAll { $0.aquisionID == id }
+
+        case .failure(let error):
+            logger.error("❌ deleteCompletedCertificate failed: \(error.localizedDescription)")
+        }
     }
     
     func fetchExpectedCertificate() async {
@@ -288,31 +302,34 @@ extension MyPageViewModel {
         
         switch result {
         case .success(let response):
-            let isoFormatter = ISO8601DateFormatter()
-            isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            let inputFormatter = DateFormatter()
+            inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+            inputFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
             
-            let timeFormatter = DateFormatter()
-            timeFormatter.dateFormat = "HH:mm"
-            timeFormatter.timeZone = TimeZone.current
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "HH:mm"
+            outputFormatter.locale = Locale(identifier: "ko_KR")
             
-            response.certifications.forEach {
-                var finalTimeStr = $0.testDate
-                if let date = isoFormatter.date(from: $0.testDate) {
-                    finalTimeStr = timeFormatter.string(from: date)
+            let newItems: [ExpectedItem] = response.certifications.map { cert in
+                var finalTimeStr = cert.testDate
+                
+                if let date = inputFormatter.date(from: cert.testDate) {
+                    finalTimeStr = outputFormatter.string(from: date)
                 }
                 
-                let item = ExpectedItem(
-                    id: $0.certificationID,
-                    certificationName: $0.certificationName,
-                    agencyName: $0.agencyName,
-                    averagePeriod: $0.averagePeriod,
-                    description: $0.description,
-                    city: $0.city,
-                    state: $0.state,
+                return ExpectedItem(
+                    id: cert.certificationID,
+                    certificationName: cert.certificationName,
+                    agencyName: cert.agencyName,
+                    averagePeriod: cert.averagePeriod,
+                    description: cert.description,
+                    city: cert.city,
+                    state: cert.state,
                     formattedTime: finalTimeStr
                 )
-                expectedList.append(item)
             }
+            self.expectedList = newItems
             
         case .failure(let error):
             logger.error("❌ updateJobCategories failed: \(error.localizedDescription)")
@@ -320,9 +337,17 @@ extension MyPageViewModel {
     }
     
     // TODO: - 등록 API 연결 후 연결
-    func deleteExpectedCertificate(id: Int) {
-        print("취득 예정 삭제: \(id)")
-        expectedList.removeAll { $0.id == id }
+    func deleteExpectedCertificate(id: Int) async {
+        let result = await deletePreCertificationUseCase.execute(id: id)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ deleteExpectedCertificate success")
+            expectedList.removeAll { $0.id == id }
+
+        case .failure(let error):
+            logger.error("❌ deleteExpectedCertificate failed: \(error.localizedDescription)")
+        }
     }
     
     // TODO: - 등록 API 연결 후 연결

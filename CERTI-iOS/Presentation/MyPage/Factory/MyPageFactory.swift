@@ -29,6 +29,8 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let togglePrivacySettingUseCase: TogglePrivacySettingUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+    private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
+    private let deletePreCertificationUseCase: DeletePreCertificationUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
@@ -47,7 +49,9 @@ final class DefaultMyPageFactory: MyPageFactory {
         toggleMarketingSettingUseCase: ToggleMarketingSettingUseCase,
         togglePrivacySettingUseCase: TogglePrivacySettingUseCase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
-        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
+        deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
+        deletePreCertificationUseCase: DeletePreCertificationUseCase,
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -66,6 +70,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         self.togglePrivacySettingUseCase = togglePrivacySettingUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
+        self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
+        self.deletePreCertificationUseCase = deletePreCertificationUseCase
     }
     
     @MainActor
@@ -87,7 +93,9 @@ final class DefaultMyPageFactory: MyPageFactory {
             toggleMarketingSettingUseCase: toggleMarketingSettingUseCase,
             togglePrivacySettingUseCase: togglePrivacySettingUseCase,
             switchFavoriteUseCase: switchFavoriteUseCase,
-            fetchAcquisitionListUseCase: fetchAcquisitionListUseCase
+            fetchAcquisitionListUseCase: fetchAcquisitionListUseCase,
+            deleteAcquisitionUseCase: deleteAcquisitionUseCase,
+            deletePreCertificationUseCase: deletePreCertificationUseCase
         )
     }
 }

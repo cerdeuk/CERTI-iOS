@@ -323,7 +323,9 @@ extension AppDIContainer {
             toggleMarketingSettingUseCase: makeToggleMarketingSettingUseCase(),
             togglePrivacySettingUseCase: makeTogglePrivacySettingUseCase(),
             switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
-            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase()
+            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
+            deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
+            deletePreCertificationUseCase: makeDeletePreCertificationUseCase()
         )
     }
     
