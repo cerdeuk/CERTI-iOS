@@ -173,7 +173,7 @@ extension HomeView {
                 Spacer()
                 
                 Button {
-                    
+                    viewModel.navigateToCertificateTab()
                 } label: {
                     Image(.iconCirclePlusFill)
                 }
@@ -247,7 +247,7 @@ extension HomeView {
             Spacer()
             
             Button {
-
+                viewModel.navigateToCertificateTab()
             } label: {
                 Image(.iconArrowright36)
                     .resizable()
