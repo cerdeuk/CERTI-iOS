@@ -70,7 +70,6 @@ struct CommentReportModalView: View {
                     }
 
                     TextEditor(text: $viewModel.reportContent)
-                        .maxLength(100, text: $viewModel.reportContent)
                         .applyCertiFont(.caption_regular_12)
                         .foregroundStyle(.grayscale600)
                         .padding(.vertical, 5)
@@ -78,6 +77,9 @@ struct CommentReportModalView: View {
                         .scrollContentBackground(.hidden)
                         .background(Color.clear)
                         .blackCursor()
+                        .onChange(of: viewModel.reportContent) {
+                            viewModel.updateReportContent($0)
+                        }
                 }
                 .frame(width: 295, height: 114)
                 .background(.grayscale0)
@@ -85,8 +87,7 @@ struct CommentReportModalView: View {
 
                 HStack {
                     Spacer()
-                    Text("\(viewModel.reportContent.count)/\(maxLength)")
-                        .applyCertiFont(.caption_regular_10)
+                    Text("\(viewModel.reportContentCountWithoutWhitespace)/\(maxLength)")                        .applyCertiFont(.caption_regular_10)
                         .foregroundStyle(.grayscale300)
                         .padding(.top, 4)
                 }
@@ -116,7 +117,10 @@ struct CommentReportModalView: View {
                 Spacer()
                 Button {
                     Task {
-                        let contentToSend: String? = viewModel.reportContent.isEmpty ? nil : viewModel.reportContent
+                        let trimmed = viewModel.reportContent
+                            .trimmingCharacters(in: .whitespacesAndNewlines)
+                        let contentToSend: String? = trimmed.isEmpty ? nil : trimmed
+                        
                         await viewModel.reportComment(commentId: commentId, content: contentToSend, shouldBlockUser: viewModel.shouldBlockUser)
                         viewModel.dismissCommentReportModal()
                     }

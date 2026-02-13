@@ -83,6 +83,9 @@ final class CertificateDetailViewModel: ObservableObject {
         guard let state = certificationState else { return false }
         return state == .anticipated || state == .acquisition
     }
+    var reportContentCountWithoutWhitespace: Int {
+        reportContent.filter { !$0.isWhitespace }.count
+    }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
@@ -343,5 +346,22 @@ extension CertificateDetailViewModel {
         stateCommentReportModal = false
         reportContent = ""
         shouldBlockUser = false
+    }
+    
+    func updateReportContent(_ text: String) {
+        var result = ""
+        var nonSpaceCount = 0
+        
+        for char in text {
+            if !char.isWhitespace && !char.isNewline {
+                nonSpaceCount += 1
+            }
+            
+            if nonSpaceCount > 100 { break }
+            
+            result.append(char)
+        }
+        
+        reportContent = result
     }
 }
