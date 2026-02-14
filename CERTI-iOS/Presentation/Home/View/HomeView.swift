@@ -24,15 +24,14 @@ struct HomeView: View {
                         .padding(.horizontal, 20)
 
                     HomeCalendarView(viewModel: viewModel)
-
-                    preLicenseTitle
-                        .padding(.horizontal, 20)
                     
                     // 값이 없으면 나타내는 뷰
-                    if viewModel.homeStateModel.preLicenses.isEmpty {
+                    if viewModel.homeStateModel.calendarPreLicenseCardModel.isEmpty {
                         preLicenseEmptyView
                     } else {
-                        preLicenseList
+                        scheduleListView
+                            .padding(.top, 16)
+                            .padding(.bottom, 36)
                     }
                     
                     favoriteLicenseTitle
@@ -58,10 +57,9 @@ struct HomeView: View {
             Task {
                 async let userInfo: () = viewModel.getUserInfo()
                 async let recommendList: () = viewModel.getRecommendCertificationList()
-                async let preCertifications: () = viewModel.fetchPreCertification()
                 async let favoriteList: () = viewModel.getFavoriteCertificationList()
 
-                _ = await (userInfo, recommendList, preCertifications, favoriteList)
+                _ = await (userInfo, recommendList, favoriteList)
             }
         }
     }
@@ -119,66 +117,73 @@ extension HomeView {
         }
     }
     
-    private var preLicenseTitle: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Text("취득 예정 자격증")
-                .frame(height: 26)
-            
-            Spacer()
-            
-            Button {
-                viewModel.navigateToPreLicenseEdit()
-            } label: {
-                Image(.iconArrowright36)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 36, height: 36)
+    private var scheduleListView: some View {
+        VStack(alignment: .center, spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
+                Text(viewModel.selectedDateKoreanString)
+                    .applyCertiFont(.body_semibold_16)
+                    .frame(height: 22)
+                
+                Spacer()
             }
-        }
-        .frame(height: 36)
-        .foregroundStyle(.grayscale600)
-        .applyCertiFont(.body_semibold_16)
-        .padding(.top, 16)
-        .padding(.bottom, 16)
-    }
-    
-    private var preLicenseList: some View {
-        ScrollView(.horizontal){
-            LazyHGrid(rows: rows, spacing: 12) {
-                ForEach(viewModel.homeStateModel.preLicenses, id: \.certificationId) { item in
-                    PreLicenseCard(licenseCard: item)
-                        .shadow(color: .black.opacity(0.08), radius: 12, x: 4, y: 4)
-                        .onTapGesture {
-                            viewModel.selectedLicenseId = item.id
-                            viewModel.navigateToCertificateDetail()
-                        }
+            .padding(.top, 16)
+            .padding(.bottom, 16)
+            
+            ForEach(viewModel.homeStateModel.calendarPreLicenseCardModel, id: \.certificationId) { cert in
+                MyCertificationItem(
+                    type: .expected(
+                        location: cert.location,
+                        time: cert.time.toHHmm()
+                    ),
+                    title: cert.title,
+                    category: cert.category,
+                    description: cert.description,
+                    actionConfig: .viewOnly
+                )
+                .onTapGesture {
+                    viewModel.selectedLicenseId = cert.certificationId
+                    viewModel.navigateToCertificateDetail()
                 }
             }
-            .padding(.horizontal, 20)
-
+            .padding(.bottom, 16)
         }
-        .frame(height: 132)
-        .padding(.bottom, 36)
-        .scrollIndicators(.hidden)
+        .padding(.horizontal, 20)
+        .background(.purplewhite)
     }
     
     private var preLicenseEmptyView: some View {
         VStack(alignment: .center, spacing: 0) {
             HStack(alignment: .center, spacing: 0) {
-                Spacer()
-                Image(.imageEmpty)
+                Text(viewModel.selectedDateKoreanString)
+                    .applyCertiFont(.body_semibold_16)
+                    .frame(height: 22)
+                
                 Spacer()
             }
-            .padding(.bottom, 20)
+            .padding(.horizontal, 20)
             
-            Text("취득 예정 자격증이 없습니다.")
+            Text("예정된 일정이 없습니다.\n자격증 탭에서 취득 예정 자격증을 추가해보세요.")
                 .applyCertiFont(.caption_regular_14)
                 .foregroundStyle(.grayscale400)
-                .frame(height: 20)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.top, 36)
 
+            HStack(alignment: .center, spacing: 0) {
+                Spacer()
+                
+                Button {
+                    viewModel.navigateToCertificateTab()
+                } label: {
+                    Image(.iconCirclePlusFill)
+                }
+
+                Spacer()
+            }
+            .padding(.top, 12)
         }
-        .padding(.top, 44)
-        .padding(.bottom, 35)
+        .padding(.top, 16)
+        .padding(.bottom, 36)
     }
     
     private var favoriteLicenseTitle: some View {
@@ -209,7 +214,7 @@ extension HomeView {
             .padding(.horizontal, 20)
         }
         .frame(height: 160)
-        .padding(.bottom, 81)
+        .padding(.bottom, 36)
         .scrollIndicators(.hidden)
     }
     
@@ -227,8 +232,8 @@ extension HomeView {
                 .foregroundStyle(.grayscale400)
                 .frame(height: 20)
         }
-        .padding(.top, 44)
-        .padding(.bottom, 98)
+        .padding(.top, 20)
+        .padding(.bottom, 36)
     }
     
     private var recommendLicenseTitle: some View {
@@ -242,7 +247,7 @@ extension HomeView {
             Spacer()
             
             Button {
-
+                viewModel.navigateToCertificateTab()
             } label: {
                 Image(.iconArrowright36)
                     .resizable()
@@ -257,18 +262,16 @@ extension HomeView {
     }
     
     private var recommendLicenseList: some View {
-        LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(viewModel.homeStateModel.recommendLicenses.prefix(3)) { item in
-                RecommendLicenseCard(licenseCard: item)
-                    .frame(maxWidth: .infinity)
+        VStack(alignment: .center, spacing: 0){
+            ForEach(viewModel.homeStateModel.recommendLicenses) { item in
+                RecommendCeritificateTile(model: item)
+                    .padding(.bottom, 16)
                     .onTapGesture {
                         viewModel.selectedLicenseId = item.id
                         viewModel.navigateToCertificateDetail()
                     }
-                
             }
         }
-        .frame(height: 264)
-        .padding(.bottom, 36)
+        .padding(.bottom, 73)
     }
 }

@@ -73,6 +73,32 @@ final class DefaultHomeRepository: HomeRepository {
         }
     }
     
+    func getMonthlyPreCertification(year: Int, month: Int) async -> Result<MonthlyPreCertificationEntity, NetworkError> {
+        let result = await service.getMonthlyPreCertification(year: year, month: month)
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toMonthlyPreCertificationEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func getDailyPreCertification(date: String) async -> Result<DailyPreCertificationEntity, NetworkError> {
+        let result = await service.getDailyPreCertification(date: date)
+        switch result {
+        case .success(let dto):
+            guard let entity = dto.data?.toDailyPreCertificationEntity() else {
+                return .failure(.decodingError)
+            }
+            return .success(entity)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
     func editPreCertification(request: EditPreCertificationEntity, id: Int) async -> Result<Void, NetworkError> {
         let dto = EditPreCertificationRequestDTO(testDate: request.testDate, city: request.city, state: request.state)
         return await service.editPreCertification(request: dto, id: id)

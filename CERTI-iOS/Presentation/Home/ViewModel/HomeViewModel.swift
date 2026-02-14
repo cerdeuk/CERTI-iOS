@@ -25,9 +25,11 @@ struct HomeStateModel {
     var userDepartment: String = ""
     var progressValue: Int = 0
     
-    var recommendLicenses: [RecommendLicenseCardModel] = []
+    var recommendLicenses: [RecommendCeritificateTileModel] = []
     var preLicenses: [PreLicenseCardModel] = []
     var favoriteLicenses: [FavoriteLicenseCardModel] = []
+    var preLicenseDates: Set<String> = []
+    var calendarPreLicenseCardModel: [CalendarPreLicenseCardModel] = []
 }
 
 @MainActor
@@ -47,6 +49,8 @@ final class HomeViewModel: ObservableObject {
     private let withDrawUseCase: WithDrawUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
     private let fetchRecommendUseCase: FetchRecommendUseCase
+    private let getMonthlyPreCertificationUseCase: GetMonthlyPreCertificationUseCase
+    private let getDailyPreCertificationUseCase: GetDailyPreCertificationUseCase
     
     init(
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
@@ -55,7 +59,9 @@ final class HomeViewModel: ObservableObject {
         fetchUserInfoUseCase: FetchUserInfoUseCase,
         withDrawUseCase: WithDrawUseCase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
-        fetchRecommendUseCase: FetchRecommendUseCase
+        fetchRecommendUseCase: FetchRecommendUseCase,
+        getMonthlyPreCertificationUseCase: GetMonthlyPreCertificationUseCase,
+        getDailyPreCertificationUseCase: GetDailyPreCertificationUseCase
     ) {
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
         self.getPreCertificationsUseCase = getPreCertificationsUseCase
@@ -64,6 +70,8 @@ final class HomeViewModel: ObservableObject {
         self.withDrawUseCase = withDrawUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
         self.fetchRecommendUseCase = fetchRecommendUseCase
+        self.getMonthlyPreCertificationUseCase = getMonthlyPreCertificationUseCase
+        self.getDailyPreCertificationUseCase = getDailyPreCertificationUseCase
     }
 
 }
@@ -117,7 +125,12 @@ extension HomeViewModel {
         switch result {
         case .success(let response):
             logger.info("✅ 유저 정보 조회 성공")
-            homeStateModel = response.toHomeStateModel()
+            
+            homeStateModel.username = response.nickname
+            homeStateModel.userUniversity = response.university
+            homeStateModel.userDepartment = response.major
+            homeStateModel.progressValue = response.percentage
+            
             AuthManager.shared.nickname = response.nickname
             AuthManager.shared.name = response.name
             AuthManager.shared.userID = response.userId
@@ -134,8 +147,16 @@ extension HomeViewModel {
         case .success(let response):
             logger.info("✅ 추천 자격증 조회 성공")
             
-            let list = response.toRecommendLicenseCardModelList()
-            homeStateModel.recommendLicenses = list
+            let recommendations: [RecommendCeritificateTileModel] = response.certifications.prefix(3).map {
+                RecommendCeritificateTileModel(
+                    id: $0.certificationId,
+                    title: $0.certificationName,
+                    score: $0.recommendScore!,
+                    description: $0.description!,
+                    tags: $0.tags
+                )
+            }
+            homeStateModel.recommendLicenses = recommendations
             
         case .failure(let error):
             logger.error("❌ 추천 자격증 조회 실패: \(error.localizedDescription)")
@@ -198,6 +219,36 @@ extension HomeViewModel {
         }
     }
     
+    func getMonthlyPreCertification() async {
+        let (year, month) = getCurrentYearMonth()
+        let result = await getMonthlyPreCertificationUseCase.execute(year: year, month: month)
+        
+        switch result {
+        case .success(let response):
+            homeStateModel.preLicenseDates = Set(response.days.map { day in
+                String(format: "%04d-%02d-%02d", response.year, response.month, day.day)
+            })
+            logger.debug("\(self.homeStateModel.preLicenseDates) 월별 취득 예정 자격증 조회 성공")
+        case .failure(let error):
+            logger.error("❌ 월별 취득 예정 자격증 조회 실패: \(error.localizedDescription)")
+            homeStateModel.preLicenseDates = []
+        }
+    }
+    
+    func getDailyPreCertification(date: String) async {
+        let result = await getDailyPreCertificationUseCase.execute(date: date)
+        
+        switch result {
+        case .success(let response):
+            homeStateModel.calendarPreLicenseCardModel = response.certifications.map{ info in
+                info.toCalendarPreLicenseCardModel()
+            }
+            logger.debug("✅ \(date) 일별 취득 예정 자격증 조회 성공")
+        case .failure(let error):
+            logger.error("❌ 일별 취득 예정 자격증 조회 실패: \(error.localizedDescription)")
+            homeStateModel.calendarPreLicenseCardModel = []
+        }
+    }
 }
 
 
@@ -254,6 +305,15 @@ extension HomeViewModel {
         return currentMonth
     }
     
+    func getCurrentYearMonth() -> (year: Int, month: Int) {
+        let calendar = Calendar.current
+        let currentMonthDate = getCurrentMonth()
+        
+        let year = calendar.component(.year, from: currentMonthDate)
+        let month = calendar.component(.month, from: currentMonthDate)
+        return (year, month)
+    }
+    
     func isSameDay(day1: Date, day2: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(day1, inSameDayAs: day2)
@@ -280,7 +340,38 @@ extension HomeViewModel {
     }
     
     func hasPreLicenses(on date: Date) -> Bool {
-        // 추후 api 연동
-        return false
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from: date)
+        
+        let dateString = String(format: "%04d-%02d-%02d", year, month, day)
+        
+        return homeStateModel.preLicenseDates.contains(dateString)
+    }
+    
+    func getSelectedDateString() -> String {
+        let calendar = Calendar.current
+        let selectedDate = currentDate == .distantPast ? Date() : currentDate
+        
+        let year = calendar.component(.year, from: selectedDate)
+        let month = calendar.component(.month, from: selectedDate)
+        let day = calendar.component(.day, from: selectedDate)
+        
+        return String(format: "%04d-%02d-%02d", year, month, day)
+    }
+    
+    var selectedDateKoreanString: String {
+        let displayDate = currentDate == .distantPast ? Date() : currentDate
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "M월 d일 EEEE"
+        let dateText = formatter.string(from: displayDate)
+
+        if currentDate == .distantPast {
+            return "\(dateText) (오늘)"
+        } else {
+            return dateText
+        }
     }
 }
