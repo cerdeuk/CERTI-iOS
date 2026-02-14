@@ -558,6 +558,11 @@ extension MyPageViewModel {
 
         selectedUIImage = image
     }
+    
+    func clearSelectedImage() {
+        selectedUIImage = nil
+        selectedPhotosPickerItem = nil
+    }
 }
 
 

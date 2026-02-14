@@ -255,6 +255,10 @@ extension AppDIContainer {
     func makeEditPreCertificationUseCase() -> EditPreCertificationUseCase {
         return DefaultEditPreCertificationUseCase(repository: homeRepository)
     }
+    
+    func makeGetPresignedURLUseCase() -> GetPresignedURLUseCase {
+        return DefaultGetPresignedURLUseCase(repository: userRepository)
+    }
 }
 
 

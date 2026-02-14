@@ -119,6 +119,9 @@ extension EditProfileView {
             .onChange(of: viewModel.selectedPhotosPickerItem) { _ in
                 Task { await viewModel.loadSelectedImage() }
             }
+            .onDisappear {
+                viewModel.clearSelectedImage()
+            }
             
             Spacer()
         }
