@@ -84,7 +84,7 @@ final class CertificateDetailViewModel: ObservableObject {
         return state == .anticipated || state == .acquisition
     }
     var reportContentCountWithoutWhitespace: Int {
-        reportContent.filter { !$0.isWhitespace }.count
+        reportContent.filter { !$0.isWhitespace && !$0.isNewline }.count
     }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
