@@ -8,6 +8,7 @@
 import Foundation
 
 struct UserInfoEntity {
+    let userId: Int
     let name: String
     let nickname: String
     let university: String

@@ -27,6 +27,7 @@ final class AppDIContainer {
     private lazy var acquisitionService: AcquisitionServiceProtocol = AcquisitionService()
     private lazy var careersService: CareersServiceProtocol = CareersService()
     private lazy var activityService: ActivityServiceProtocol = ActivityService()
+    private lazy var reportService: ReportServiceProtocol = ReportService()
     private lazy var commentService: CommentServiceProtocol = CommentService()
     
     // MARK: - Repositories
@@ -42,6 +43,7 @@ final class AppDIContainer {
     private lazy var careersRepository: CareersRepository = DefaultCareersRepository(service: careersService)
     private lazy var activityRepository: ActivityRepository = DefaultActivityRepository(service: activityService)
     private lazy var commentRepository: CommentRepository = DefaultCommentRepository(service: commentService)
+    private lazy var ReportRepository: ReportRepository = DefaultReportRepository(service: reportService)
 }
 
 
@@ -248,6 +250,10 @@ extension AppDIContainer {
         return DefaultLikeCommentUseCase(repository: commentRepository)
     }
     
+    func makeReportCommentUserCase() -> ReportCommentUseCase {
+        return DefaultReportCommentUseCase(repository: ReportRepository)
+    }
+    
     func makeEditAcquisitionUseCase() -> EditAcquisitionUseCase {
         return DefaultEditAcquisitionUseCase(repository: acquisitionRepository)
     }
@@ -291,7 +297,8 @@ extension AppDIContainer {
           fetchCommentUseCase: makeFetchCommentUseCase(),
           addCommentUseCase: makeAddCommentUseCase(),
           deleteCommentUseCase: makeDeleteCommentUseCase(),
-          likeCommentUseCase: makeLikeCommentUseCase()
+          likeCommentUseCase: makeLikeCommentUseCase(),
+          reportCommentUseCase: makeReportCommentUserCase()
         )
     }
   

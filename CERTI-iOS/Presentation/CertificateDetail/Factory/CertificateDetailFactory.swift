@@ -19,6 +19,7 @@ final class DefaultCertificationDetailFactory: CertificateDetailFactory {
     let addCommentUseCase: AddCommentUseCase
     let deleteCommentUseCase: DeleteCommentUseCase
     let likeCommentUseCase: LikeCommentUseCase
+    let reportCommentUseCase: ReportCommentUseCase
     
     init(
         fetchCertificationDetailUseCase: FetchCertificationDetailUseCase,
@@ -27,7 +28,8 @@ final class DefaultCertificationDetailFactory: CertificateDetailFactory {
         fetchCommentUseCase: FetchCommentUseCase,
         addCommentUseCase: AddCommentUseCase,
         deleteCommentUseCase: DeleteCommentUseCase,
-        likeCommentUseCase: LikeCommentUseCase
+        likeCommentUseCase: LikeCommentUseCase,
+        reportCommentUseCase: ReportCommentUseCase
     ) {
         self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
         self.addPreCertificationUseCase = addPreCertificationUseCase
@@ -36,6 +38,7 @@ final class DefaultCertificationDetailFactory: CertificateDetailFactory {
         self.addCommentUseCase = addCommentUseCase
         self.deleteCommentUseCase = deleteCommentUseCase
         self.likeCommentUseCase = likeCommentUseCase
+        self.reportCommentUseCase = reportCommentUseCase
     }
     
     @MainActor
@@ -47,7 +50,8 @@ final class DefaultCertificationDetailFactory: CertificateDetailFactory {
             fetchCommentUseCase: fetchCommentUseCase,
             addCommentUseCase: addCommentUseCase,
             deleteCommentUseCase: deleteCommentUseCase,
-            likeCommentUseCase: likeCommentUseCase
+            likeCommentUseCase: likeCommentUseCase,
+            reportCommentUseCase: reportCommentUseCase
         )
     }
 }

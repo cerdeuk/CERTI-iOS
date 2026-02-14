@@ -50,6 +50,38 @@ struct CertificateDetailTabContainerView: View {
                 .ignoresSafeArea()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            
+            if viewModel.showDeleteCommentAlert {
+                ZStack {
+                    Color.blackOpacity40
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            viewModel.dismissDeleteCommentModal()
+                        }
+
+                    CertiDeleteAlertView {
+                        guard let id = viewModel.deleteCommentId else { return }
+                        Task {
+                            await viewModel.deleteComment(commentId: id)
+                        }
+                        viewModel.dismissDeleteCommentModal()
+                    } onCancel: {
+                        viewModel.dismissDeleteCommentModal()
+                    }
+                }
+            }
+            
+            if viewModel.stateCommentReportModal {
+                ZStack {
+                    Color.blackOpacity40
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            viewModel.dismissCommentReportModal()
+                        }
+
+                    CommentReportModalView(viewModel: viewModel, stateCommentReportModal: $viewModel.stateCommentReportModal, commentId: $viewModel.reportCommentId)
+                }
+            }
         }
     }
 }
