@@ -27,10 +27,11 @@ struct PreCertificationDataInfo: Codable {
     let nearestTestDate, agencyName: String
     let iconIndex: Int
     let city, state, testDate: String
+    let preCertificationId: Int?
 
     enum CodingKeys: String, CodingKey {
         case certificationID = "certificationId"
-        case certificationName, certificationType, description, averagePeriod, nearestTestDate, agencyName, iconIndex, city, state, testDate
+        case certificationName, certificationType, description, averagePeriod, nearestTestDate, agencyName, iconIndex, city, state, testDate, preCertificationId
     }
     
     func toPreCertificationEntityData() -> PreCertificationEntityData {
@@ -45,7 +46,8 @@ struct PreCertificationDataInfo: Codable {
             iconIndex: iconIndex,
             city: city,
             state: state,
-            testDate: testDate
+            testDate: testDate,
+            preCertificationId: preCertificationId
         )
     }
 }

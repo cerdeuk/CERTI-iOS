@@ -21,6 +21,8 @@ enum MyPageViewRoute {
     case navigateToEditCompletedCertificate
     case withDraw
     case logout
+    case navigateToCertificateDetail
+
     
     case myPageViewRoutePop
 }
@@ -60,7 +62,10 @@ final class MyPageViewModel: ObservableObject {
     @Published var favoriteList: [FavoriteItem] = []
     @Published var universityList: [String] = []
     @Published var majorList: [String] = []
-    @Published var agreeState: Bool = false
+    @Published var marketingAgreeState: Bool = false
+    @Published var privacyAgreeState: Bool = false
+    
+    @Published var selectedLicenseId: Int = 0
 
     
     //MARK: - UseCases
@@ -78,9 +83,14 @@ final class MyPageViewModel: ObservableObject {
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
     private let withDrawUseCase: WithDrawUseCase
     private let getNotificationSettingUseCase: GetNotificationSettingUseCase
-    private let toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
+    private let toggleMarketingSettingUseCase: ToggleMarketingSettingUseCase
+    private let togglePrivacySettingUseCase: TogglePrivacySettingUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+    private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
+    private let deletePreCertificationUseCase: DeletePreCertificationUseCase
+    private let editAcquisitionUseCase: EditAcquisitionUseCase
+    private let editPreCertificationUseCase: EditPreCertificationUseCase
 
     
     //MARK: - Properties
@@ -137,9 +147,14 @@ final class MyPageViewModel: ObservableObject {
         getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
         withDrawUseCase: WithDrawUseCase,
         getNotificationSettingUseCase: GetNotificationSettingUseCase,
-        toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase,
+        toggleMarketingSettingUseCase: ToggleMarketingSettingUseCase,
+        togglePrivacySettingUseCase: TogglePrivacySettingUseCase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
-        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
+        deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
+        deletePreCertificationUseCase: DeletePreCertificationUseCase,
+        editAcquisitionUseCase: EditAcquisitionUseCase,
+        editPreCertificationUseCase: EditPreCertificationUseCase,
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -154,9 +169,14 @@ final class MyPageViewModel: ObservableObject {
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
         self.withDrawUseCase = withDrawUseCase
         self.getNotificationSettingUseCase = getNotificationSettingUseCase
-        self.toggleNotificationSettingUseCase = toggleNotificationSettingUseCase
+        self.toggleMarketingSettingUseCase = toggleMarketingSettingUseCase
+        self.togglePrivacySettingUseCase = togglePrivacySettingUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
+        self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
+        self.deletePreCertificationUseCase = deletePreCertificationUseCase
+        self.editAcquisitionUseCase = editAcquisitionUseCase
+        self.editPreCertificationUseCase = editPreCertificationUseCase
     }
     
 }
@@ -254,7 +274,8 @@ extension MyPageViewModel {
             logger.debug("✅ fetchCompletedCertificate success")
             let list: [CompletedItem] = response.acquisitionList.map {
                 CompletedItem(
-                    id: $0.acquisitionID,
+                    id: $0.certificationID,
+                    aquisionID: $0.acquisitionID,
                     name: $0.name,
                     categoryText: $0.certificationType,
                     description: $0.description,
@@ -269,10 +290,17 @@ extension MyPageViewModel {
         }
     }
     
-    // TODO: - 등록 API 연결 후 연결
-    func deleteCompletedCertificate(id: Int) {
-        print("취득 완료 삭제: \(id)")
-        completedList.removeAll { $0.id == id }
+    func deleteCompletedCertificate(id: Int) async {
+        let result = await deleteAcquisitionUseCase.execute(id: id)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ deleteCompletedCertificate success")
+            completedList.removeAll { $0.aquisionID == id }
+
+        case .failure(let error):
+            logger.error("❌ deleteCompletedCertificate failed: \(error.localizedDescription)")
+        }
     }
     
     func fetchExpectedCertificate() async {
@@ -280,47 +308,109 @@ extension MyPageViewModel {
         
         switch result {
         case .success(let response):
-            let isoFormatter = ISO8601DateFormatter()
-            isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            let inputFormatter = DateFormatter()
+            inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            inputFormatter.locale = Locale(identifier: "ko_KR")
+            inputFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
             
-            let timeFormatter = DateFormatter()
-            timeFormatter.dateFormat = "HH:mm"
-            timeFormatter.timeZone = TimeZone.current
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "HH:mm"
+            outputFormatter.locale = Locale(identifier: "ko_KR")
             
-            response.certifications.forEach {
-                var finalTimeStr = $0.testDate
-                if let date = isoFormatter.date(from: $0.testDate) {
-                    finalTimeStr = timeFormatter.string(from: date)
+            let newItems: [ExpectedItem] = response.certifications.map { cert in
+                var finalTimeStr = cert.testDate
+                
+                if let date = inputFormatter.date(from: cert.testDate) {
+                    finalTimeStr = outputFormatter.string(from: date)
                 }
                 
-                let item = ExpectedItem(
-                    id: $0.certificationID,
-                    certificationName: $0.certificationName,
-                    agencyName: $0.agencyName,
-                    averagePeriod: $0.averagePeriod,
-                    description: $0.description,
-                    city: $0.city,
-                    state: $0.state,
+                return ExpectedItem(
+                    id: cert.certificationID,
+                    preCertificationId: cert.preCertificationId!,
+                    certificationName: cert.certificationName,
+                    agencyName: cert.agencyName,
+                    averagePeriod: cert.averagePeriod,
+                    description: cert.description,
+                    city: cert.city,
+                    state: cert.state,
                     formattedTime: finalTimeStr
                 )
-                expectedList.append(item)
             }
+            self.expectedList = newItems
             
         case .failure(let error):
-            logger.error("❌ updateJobCategories failed: \(error.localizedDescription)")
+            logger.error("❌ fetchExpectedCertificate failed: \(error.localizedDescription)")
         }
     }
     
-    // TODO: - 등록 API 연결 후 연결
-    func deleteExpectedCertificate(id: Int) {
-        print("취득 예정 삭제: \(id)")
-        expectedList.removeAll { $0.id == id }
+    func deleteExpectedCertificate(id: Int) async {
+        let result = await deletePreCertificationUseCase.execute(id: id)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ deleteExpectedCertificate success")
+            expectedList.removeAll { $0.id == id }
+
+        case .failure(let error):
+            logger.error("❌ deleteExpectedCertificate failed: \(error.localizedDescription)")
+        }
     }
     
-    // TODO: - 등록 API 연결 후 연결
-    func editCertificate(id: Int) {
-        print("수정 요청: \(id)")
+    func editCompletedCertificate(id: Int, date: Date, grade: String) async {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        let dateString = formatter.string(from: date)
+        
+        let entity = EditAcquisitionEntity(acquisitionDate: dateString, grade: grade)
+        
+        let result = await editAcquisitionUseCase.execute(request: entity, id: id)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ editCompletedCertificate success")
+            await fetchCompletedCertificate()
+            
+        case .failure(let error):
+            logger.error("❌ editCompletedCertificate failed: \(error.localizedDescription)")
+        }
     }
+    
+    func editExpectedCertificate(id: Int, date: Date, isAM: Bool, hour: Int, minute: Int, province: String, city: String) async {
+            
+            let calendar = Calendar.current
+            
+            var hour24 = hour
+            if !isAM && hour < 12 { hour24 += 12 }
+            if isAM && hour == 12 { hour24 = 0 }
+            
+            var components = calendar.dateComponents([.year, .month, .day], from: date)
+            components.hour = hour24
+            components.minute = minute
+            components.second = 0
+            
+            guard let finalDate = calendar.date(from: components) else { return }
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy.MM.dd HH:mm:ss"
+            let dateString = formatter.string(from: finalDate)
+            
+            let request = EditPreCertificationEntity(
+                testDate: dateString,
+                city: province,
+                state: city
+            )
+            
+            let result = await editPreCertificationUseCase.execute(request: request, id: id)
+            
+            switch result {
+            case .success:
+                logger.debug("✅ editExpectedCertificate success")
+                await fetchExpectedCertificate()
+                
+            case .failure(let error):
+                logger.error("❌ editExpectedCertificate failed: \(error.localizedDescription)")
+            }
+        }
     
     func getFavoriteCertificates() async {
         let result = await getFavoriteCertificationsUseCase.execute()
@@ -425,21 +515,34 @@ extension MyPageViewModel {
         switch result {
         case .success(let response):
             logger.debug("✅ getNotificationSetting success")
-            self.agreeState = response
+            self.marketingAgreeState = response.isAdAgreed
+            self.privacyAgreeState = response.isPvAgreed
         case .failure(let error):
             logger.error("getNotificationSetting failed: \(error.localizedDescription)")
         }
     }
     
-    func toggleNotificationSetting() async {
-        let result = await toggleNotificationSettingUseCase.execute()
+    func toggleMarketingSetting() async {
+        let result = await toggleMarketingSettingUseCase.execute(agree: !marketingAgreeState)
         
         switch result {
         case .success:
-            logger.debug("✅ toggleNotificationSetting success")
-            agreeState.toggle()
+            logger.debug("✅ toggleMarketingSetting success")
+            marketingAgreeState.toggle()
         case .failure(let error):
-            logger.error("getNotificationSetting failed: \(error.localizedDescription)")
+            logger.error("toggleMarketingSetting failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func togglePrivacySetting() async {
+        let result = await togglePrivacySettingUseCase.execute(agree: !privacyAgreeState)
+        
+        switch result {
+        case .success:
+            logger.debug("✅ togglePrivacySetting success")
+            privacyAgreeState.toggle()
+        case .failure(let error):
+            logger.error("togglePrivacySetting failed: \(error.localizedDescription)")
         }
     }
     
@@ -495,6 +598,10 @@ extension MyPageViewModel {
     
     func myPageViewRoutePop() {
         myPageViewRoute = .myPageViewRoutePop
+    }
+    
+    func navigateToCertificateDetail() {
+        myPageViewRoute = .navigateToCertificateDetail
     }
 }
 

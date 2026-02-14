@@ -60,4 +60,9 @@ final class DefaultAcquisitionRepository: AcquisitionRepository {
     func deleteAcquisition(id: Int) async -> Result<Void, NetworkError> {
         return await service.deleteAcquisition(id: id)
     }
+    
+    func editAcquisition(request: EditAcquisitionEntity, id: Int) async -> Result<Void, NetworkError> {
+        let dto = EditAcquisitionRequestDTO(acquisitionDate: request.acquisitionDate, grade: request.grade)
+        return await service.editAcquisition(request: dto, id: id)
+    }
 }

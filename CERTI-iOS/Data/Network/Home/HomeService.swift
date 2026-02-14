@@ -14,7 +14,7 @@ protocol HomeServiceProtocol {
     func deletePreCertification(id: Int) async -> Result<Void, NetworkError>
     func getFavoriteCertification() async -> Result<FavoriteCertificationResponseDTO, NetworkError>
     func addPreCertification(request: AddPreCertificationRequestDTO) async -> Result<BaseResponseDTO<Bool>, NetworkError>
-    
+    func editPreCertification(request: EditPreCertificationRequestDTO, id: Int) async -> Result<Void, NetworkError>
 }
 
 final class HomeService: BaseService, HomeServiceProtocol {
@@ -35,5 +35,9 @@ final class HomeService: BaseService, HomeServiceProtocol {
 
     func addPreCertification(request: AddPreCertificationRequestDTO) async -> Result<BaseResponseDTO<Bool>, NetworkError> {
         return await requestDecodable(provider, .addPreCertification(request: request))
+    }
+    
+    func editPreCertification(request: EditPreCertificationRequestDTO, id: Int) async -> Result<Void, NetworkError> {
+        return await requestVoid(provider, .editPreCertification(request: request, id: id))
     }
 }

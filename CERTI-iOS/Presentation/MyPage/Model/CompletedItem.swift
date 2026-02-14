@@ -9,6 +9,7 @@ import Foundation
 
 struct CompletedItem: Identifiable, Hashable {
     let id: Int
+    let aquisionID: Int
     let name: String              // 자격증 이름
     let categoryText: String      // 카테고리
     let description: String       // 설명

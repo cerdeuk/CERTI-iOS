@@ -14,13 +14,17 @@ struct MyPageCoordinatorView: View {
     @ObservedObject var myPageCoordinator: MyPageCoordinator
     
     @StateObject private var myPageViewModel: MyPageViewModel
+    @StateObject var certificateDetailViewModel: CertificateDetailViewModel
     
     private let myPageFactory: MyPageFactory
+    private let certificateDetailFactory: CertificateDetailFactory
     
-    init(myPageCoordinator: MyPageCoordinator, myPageFactory: MyPageFactory) {
+    init(myPageCoordinator: MyPageCoordinator, myPageFactory: MyPageFactory, certificateDetailFactory: CertificateDetailFactory) {
         self.myPageCoordinator = myPageCoordinator
         self.myPageFactory = myPageFactory
         _myPageViewModel = StateObject(wrappedValue: myPageFactory.makeMyPageViewModel())
+        self.certificateDetailFactory = certificateDetailFactory
+        _certificateDetailViewModel = StateObject(wrappedValue: certificateDetailFactory.makeCertificateDetailViewModel())
     }
     
     var body: some View {
@@ -56,6 +60,9 @@ struct MyPageCoordinatorView: View {
                         appCoordinator.logout()
                         myPageCoordinator.reset()
                         tabCoordinator.switchTab(tab: .home)
+                        
+                    case .navigateToCertificateDetail:
+                        myPageCoordinator.push(next: .certificateDetail)
                         
                     case .myPageViewRoutePop:
                         myPageCoordinator.pop()
@@ -99,6 +106,12 @@ struct MyPageCoordinatorView: View {
                     case .editCompletedCertificate:
                         EditCertificateView(viewModel: myPageViewModel, target: .completed)
                             .navigationBarBackButtonHidden()
+                        
+                    case .certificateDetail:
+                        CertificateDetailTabContainerView(viewModel: certificateDetailViewModel, certificationId: $myPageViewModel.selectedLicenseId) {
+                            myPageCoordinator.pop()
+                            myPageViewModel.selectedLicenseId = 0
+                        }
                     }
                 }
         }
@@ -107,15 +120,4 @@ struct MyPageCoordinatorView: View {
             tabCoordinator.isTabBarHidden = !value.isEmpty
         }
     }
-}
-
-#Preview {
-    let factory: MyPageFactory = AppDIContainer.shared.makeMyPageFactory()
-    @StateObject var viewModel: MyPageViewModel = factory.makeMyPageViewModel()
-
-//    MyPageMajorView(viewModel: viewModel)
-//    ManageCertificateView(viewModel: viewModel)
-    ManageAcademicInfoView(viewModel: viewModel)
-//    EditCertificateView(viewModel: viewModel, target: .expected)
-//    NotificationSettingView(viewModel: viewModel)
 }

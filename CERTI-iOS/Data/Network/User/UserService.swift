@@ -20,7 +20,8 @@ protocol UserServiceProtocol {
     func editUniv(request: EditUnivRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
     func editMajor(request: EditMajorRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
     func getNotificationSetting() async -> Result<NotificationSettingResponseDTO, NetworkError>
-    func toggleNotificationSetting() async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func toggleMarketingSetting(agree: EditNotificationSettingRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
+    func togglePrivacySetting(agree: EditNotificationSettingRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
     func getTrack() async -> Result<TrackResponseDTO, NetworkError>
 
 }
@@ -69,8 +70,12 @@ final class UserService: BaseService, UserServiceProtocol {
         return await requestDecodable(provider, .getNotificationSetting)
     }
     
-    func toggleNotificationSetting() async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
-        return await requestDecodable(provider, .toggleNotificationSetting)
+    func toggleMarketingSetting(agree: EditNotificationSettingRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
+        return await requestDecodable(provider, .toggleMarketingSetting(agree: agree))
+    }
+    
+    func togglePrivacySetting(agree: EditNotificationSettingRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError> {
+        return await requestDecodable(provider, .togglePrivacySetting(agree: agree))
     }
     
     func getTrack() async -> Result<TrackResponseDTO, NetworkError> {

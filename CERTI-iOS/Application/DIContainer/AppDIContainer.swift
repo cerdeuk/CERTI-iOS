@@ -202,8 +202,12 @@ extension AppDIContainer {
         return DefaultEditUnivUseCase(repository: userRepository)
     }
     
-    func makeToggleNotificationSettingUseCase() -> DefaultToggleNotificationSettingUseCase {
-        return DefaultToggleNotificationSettingUseCase(repository: userRepository)
+    func makeToggleMarketingSettingUseCase() -> DefaultToggleMarketingSettingUseCase {
+        return DefaultToggleMarketingSettingUseCase(repository: userRepository)
+    }
+    
+    func makeTogglePrivacySettingUseCase() -> DefaultTogglePrivacySettingUseCase {
+        return DefaultTogglePrivacySettingUseCase(repository: userRepository)
     }
     
     func makeGetNotificationSettingUseCase() -> DefaultGetNotificationSettingUseCase {
@@ -248,6 +252,14 @@ extension AppDIContainer {
     
     func makeReportCommentUserCase() -> ReportCommentUseCase {
         return DefaultReportCommentUseCase(repository: ReportRepository)
+    }
+    
+    func makeEditAcquisitionUseCase() -> EditAcquisitionUseCase {
+        return DefaultEditAcquisitionUseCase(repository: acquisitionRepository)
+    }
+    
+    func makeEditPreCertificationUseCase() -> EditPreCertificationUseCase {
+        return DefaultEditPreCertificationUseCase(repository: homeRepository)
     }
 }
 
@@ -323,9 +335,14 @@ extension AppDIContainer {
             getFavoriteCertificationUseCase: makeGetFavoritePreCertificationUseCase(),
             withDrawUseCase: makeWithDrawUseCase(),
             getNotificationSettingUseCase: makeGetNotificationSettingUseCase(),
-            toggleNotificationSettingUseCase: makeToggleNotificationSettingUseCase(),
+            toggleMarketingSettingUseCase: makeToggleMarketingSettingUseCase(),
+            togglePrivacySettingUseCase: makeTogglePrivacySettingUseCase(),
             switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
-            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase()
+            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
+            deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
+            deletePreCertificationUseCase: makeDeletePreCertificationUseCase(),
+            editAcquisitionUseCase: makeEditAcquisitionUseCase(),
+            editPreCertificationUseCase: makeEditPreCertificationUseCase()
         )
     }
     
