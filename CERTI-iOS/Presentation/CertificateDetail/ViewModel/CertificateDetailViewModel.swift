@@ -253,7 +253,7 @@ extension CertificateDetailViewModel {
 
         switch result {
         case .success:
-            logger.error("✅ 댓글 신고 성공")
+            logger.debug("✅ 댓글 신고 성공")
 
         case .failure(let error):
             logger.error("❌ 댓글 신고 실패: \(error.localizedDescription)")
