@@ -19,7 +19,8 @@ enum UserAPI {
     case searchMajor(keyword: String)
     case editUniv(request: EditUnivRequestDTO)
     case editMajor(request: EditMajorRequestDTO)
-    case toggleNotificationSetting
+    case toggleMarketingSetting(agree: EditNotificationSettingRequestDTO)
+    case togglePrivacySetting(agree: EditNotificationSettingRequestDTO)
     case getNotificationSetting
     case getTrack
 }
@@ -57,9 +58,11 @@ extension UserAPI: BaseTargetType {
         case .editMajor:
             return "user/major"
         case .getNotificationSetting:
+            return "user/agreement"
+        case .toggleMarketingSetting:
             return "user/marketing-agreement"
-        case .toggleNotificationSetting:
-            return "user/marketing-agreement"
+        case .togglePrivacySetting:
+            return "user/privacy-agreement"
         case .getTrack:
             return "user/track"
         }
@@ -87,7 +90,9 @@ extension UserAPI: BaseTargetType {
             return .put
         case .getNotificationSetting:
             return .get
-        case .toggleNotificationSetting:
+        case .toggleMarketingSetting:
+            return .patch
+        case .togglePrivacySetting:
             return .patch
         case .getTrack:
             return .get
@@ -125,8 +130,11 @@ extension UserAPI: BaseTargetType {
         case .getNotificationSetting:
             return .requestPlain
             
-        case .toggleNotificationSetting:
-            return .requestPlain
+        case .toggleMarketingSetting(agree: let agree):
+            return .requestJSONEncodable(agree)
+            
+        case .togglePrivacySetting(agree: let agree):
+            return .requestJSONEncodable(agree)
             
         case .getTrack:
             return .requestPlain

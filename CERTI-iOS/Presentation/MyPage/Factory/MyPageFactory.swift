@@ -25,9 +25,14 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let getFavoriteCertificationUseCase: GetFavoriteCertificationUseCase
     private let withDrawUseCase: WithDrawUseCase
     private let getNotificationSettingUseCase: GetNotificationSettingUseCase
-    private let toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase
+    private let toggleMarketingSettingUseCase: ToggleMarketingSettingUseCase
+    private let togglePrivacySettingUseCase: TogglePrivacySettingUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
     private let fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+    private let deleteAcquisitionUseCase: DeleteAcquisitionUseCase
+    private let deletePreCertificationUseCase: DeletePreCertificationUseCase
+    private let editAcquisitionUseCase: EditAcquisitionUseCase
+    private let editPreCertificationUseCase: EditPreCertificationUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
@@ -43,9 +48,14 @@ final class DefaultMyPageFactory: MyPageFactory {
         getFavoriteCertificationUseCase: GetFavoriteCertificationUseCase,
         withDrawUseCase: WithDrawUseCase,
         getNotificationSettingUseCase: GetNotificationSettingUseCase,
-        toggleNotificationSettingUseCase: ToggleNotificationSettingUseCase,
+        toggleMarketingSettingUseCase: ToggleMarketingSettingUseCase,
+        togglePrivacySettingUseCase: TogglePrivacySettingUseCase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
-        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase
+        fetchAcquisitionListUseCase: FetchAcquisitionListUseCase,
+        deleteAcquisitionUseCase: DeleteAcquisitionUseCase,
+        deletePreCertificationUseCase: DeletePreCertificationUseCase,
+        editAcquisitionUseCase: EditAcquisitionUseCase,
+        editPreCertificationUseCase: EditPreCertificationUseCase,
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -60,9 +70,14 @@ final class DefaultMyPageFactory: MyPageFactory {
         self.getFavoriteCertificationUseCase = getFavoriteCertificationUseCase
         self.withDrawUseCase = withDrawUseCase
         self.getNotificationSettingUseCase = getNotificationSettingUseCase
-        self.toggleNotificationSettingUseCase = toggleNotificationSettingUseCase
+        self.toggleMarketingSettingUseCase = toggleMarketingSettingUseCase
+        self.togglePrivacySettingUseCase = togglePrivacySettingUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
         self.fetchAcquisitionListUseCase = fetchAcquisitionListUseCase
+        self.deleteAcquisitionUseCase = deleteAcquisitionUseCase
+        self.deletePreCertificationUseCase = deletePreCertificationUseCase
+        self.editAcquisitionUseCase = editAcquisitionUseCase
+        self.editPreCertificationUseCase = editPreCertificationUseCase
     }
     
     @MainActor
@@ -81,9 +96,14 @@ final class DefaultMyPageFactory: MyPageFactory {
             getFavoriteCertificationsUseCase: getFavoriteCertificationUseCase,
             withDrawUseCase: withDrawUseCase,
             getNotificationSettingUseCase: getNotificationSettingUseCase,
-            toggleNotificationSettingUseCase: toggleNotificationSettingUseCase,
+            toggleMarketingSettingUseCase: toggleMarketingSettingUseCase,
+            togglePrivacySettingUseCase: togglePrivacySettingUseCase,
             switchFavoriteUseCase: switchFavoriteUseCase,
-            fetchAcquisitionListUseCase: fetchAcquisitionListUseCase
+            fetchAcquisitionListUseCase: fetchAcquisitionListUseCase,
+            deleteAcquisitionUseCase: deleteAcquisitionUseCase,
+            deletePreCertificationUseCase: deletePreCertificationUseCase,
+            editAcquisitionUseCase: editAcquisitionUseCase,
+            editPreCertificationUseCase: editPreCertificationUseCase
         )
     }
 }

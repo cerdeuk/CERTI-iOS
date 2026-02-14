@@ -11,5 +11,6 @@ typealias NotificationSettingResponseDTO = BaseResponseDTO<NotificationSettingDa
 
 struct NotificationSettingData: Codable {
     let isAdAgreed: Bool
+    let isPvAgreed: Bool
 }
 

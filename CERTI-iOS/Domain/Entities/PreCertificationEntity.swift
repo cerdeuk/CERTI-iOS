@@ -29,8 +29,9 @@ struct PreCertificationEntityData {
     let nearestTestDate, agencyName: String
     let iconIndex: Int
     let city, state, testDate: String
+    let preCertificationId: Int?
     
-    init(certificationID: Int, certificationName: String, certificationType: String, description: String, averagePeriod: String, nearestTestDate: String, agencyName: String, iconIndex: Int, city: String, state: String, testDate: String) {
+    init(certificationID: Int, certificationName: String, certificationType: String, description: String, averagePeriod: String, nearestTestDate: String, agencyName: String, iconIndex: Int, city: String, state: String, testDate: String, preCertificationId: Int?) {
         self.certificationID = certificationID
         self.certificationName = certificationName
         self.certificationType = certificationType
@@ -42,6 +43,7 @@ struct PreCertificationEntityData {
         self.city = city
         self.state = state
         self.testDate = testDate
+        self.preCertificationId = preCertificationId
     }
     
     
