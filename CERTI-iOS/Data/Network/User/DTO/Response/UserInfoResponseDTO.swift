@@ -24,6 +24,7 @@ struct UserInfoData: Decodable {
 extension UserInfoData {
     func toUserInfoEntity() -> UserInfoEntity {
         return UserInfoEntity(
+            userId: userId,
             name: name,
             nickname: nickname,
             university: university,

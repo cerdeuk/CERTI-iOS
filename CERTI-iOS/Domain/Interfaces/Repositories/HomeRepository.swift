@@ -14,4 +14,5 @@ protocol HomeRepository {
     func getMonthlyPreCertification(year: Int, month: Int) async -> Result<MonthlyPreCertificationEntity, NetworkError>
     func getDailyPreCertification(date: String) async -> Result<DailyPreCertificationEntity, NetworkError>
     func addPreCertification(request: AddPreCertificationEntity) async -> Result<AppendPreCertificationStatus, NetworkError>
+    func editPreCertification(request: EditPreCertificationEntity, id: Int) async -> Result<Void, NetworkError>
 }

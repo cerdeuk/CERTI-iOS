@@ -29,7 +29,8 @@ extension CertificationInfoResponseDTO {
             iconIndex: iconIndex,
             city: "",
             state: "",
-            testDate: ""
+            testDate: "",
+            preCertificationId: nil
         )
     }
 }

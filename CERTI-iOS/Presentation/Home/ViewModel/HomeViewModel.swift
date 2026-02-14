@@ -133,6 +133,7 @@ extension HomeViewModel {
             
             AuthManager.shared.nickname = response.nickname
             AuthManager.shared.name = response.name
+            AuthManager.shared.userID = response.userId
             
         case .failure(let error):
             logger.error("❌ 유저 정보 조회: \(error.localizedDescription)")

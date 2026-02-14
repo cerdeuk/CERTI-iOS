@@ -27,6 +27,7 @@ final class AppDIContainer {
     private lazy var acquisitionService: AcquisitionServiceProtocol = AcquisitionService()
     private lazy var careersService: CareersServiceProtocol = CareersService()
     private lazy var activityService: ActivityServiceProtocol = ActivityService()
+    private lazy var reportService: ReportServiceProtocol = ReportService()
     private lazy var commentService: CommentServiceProtocol = CommentService()
     
     // MARK: - Repositories
@@ -42,6 +43,7 @@ final class AppDIContainer {
     private lazy var careersRepository: CareersRepository = DefaultCareersRepository(service: careersService)
     private lazy var activityRepository: ActivityRepository = DefaultActivityRepository(service: activityService)
     private lazy var commentRepository: CommentRepository = DefaultCommentRepository(service: commentService)
+    private lazy var ReportRepository: ReportRepository = DefaultReportRepository(service: reportService)
 }
 
 
@@ -208,8 +210,12 @@ extension AppDIContainer {
         return DefaultEditUnivUseCase(repository: userRepository)
     }
     
-    func makeToggleNotificationSettingUseCase() -> DefaultToggleNotificationSettingUseCase {
-        return DefaultToggleNotificationSettingUseCase(repository: userRepository)
+    func makeToggleMarketingSettingUseCase() -> DefaultToggleMarketingSettingUseCase {
+        return DefaultToggleMarketingSettingUseCase(repository: userRepository)
+    }
+    
+    func makeTogglePrivacySettingUseCase() -> DefaultTogglePrivacySettingUseCase {
+        return DefaultTogglePrivacySettingUseCase(repository: userRepository)
     }
     
     func makeGetNotificationSettingUseCase() -> DefaultGetNotificationSettingUseCase {
@@ -251,6 +257,18 @@ extension AppDIContainer {
     func makeLikeCommentUseCase() -> LikeCommentUseCase {
         return DefaultLikeCommentUseCase(repository: commentRepository)
     }
+    
+    func makeReportCommentUserCase() -> ReportCommentUseCase {
+        return DefaultReportCommentUseCase(repository: ReportRepository)
+    }
+    
+    func makeEditAcquisitionUseCase() -> EditAcquisitionUseCase {
+        return DefaultEditAcquisitionUseCase(repository: acquisitionRepository)
+    }
+    
+    func makeEditPreCertificationUseCase() -> EditPreCertificationUseCase {
+        return DefaultEditPreCertificationUseCase(repository: homeRepository)
+    }
 }
 
 
@@ -289,7 +307,8 @@ extension AppDIContainer {
           fetchCommentUseCase: makeFetchCommentUseCase(),
           addCommentUseCase: makeAddCommentUseCase(),
           deleteCommentUseCase: makeDeleteCommentUseCase(),
-          likeCommentUseCase: makeLikeCommentUseCase()
+          likeCommentUseCase: makeLikeCommentUseCase(),
+          reportCommentUseCase: makeReportCommentUserCase()
         )
     }
   
@@ -326,9 +345,14 @@ extension AppDIContainer {
             getFavoriteCertificationUseCase: makeGetFavoritePreCertificationUseCase(),
             withDrawUseCase: makeWithDrawUseCase(),
             getNotificationSettingUseCase: makeGetNotificationSettingUseCase(),
-            toggleNotificationSettingUseCase: makeToggleNotificationSettingUseCase(),
+            toggleMarketingSettingUseCase: makeToggleMarketingSettingUseCase(),
+            togglePrivacySettingUseCase: makeTogglePrivacySettingUseCase(),
             switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
-            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase()
+            fetchAcquisitionListUseCase: makeFetchAcquisitionListUseCase(),
+            deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
+            deletePreCertificationUseCase: makeDeletePreCertificationUseCase(),
+            editAcquisitionUseCase: makeEditAcquisitionUseCase(),
+            editPreCertificationUseCase: makeEditPreCertificationUseCase()
         )
     }
     

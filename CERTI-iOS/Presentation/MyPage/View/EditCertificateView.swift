@@ -55,17 +55,18 @@ struct EditCertificateView: View {
             if showDeleteAlert {
                 CertiDeleteAlertView(
                     onConfirm: {
-                        //TODO: - 비동기처리
-                        if let id = deleteTargetID {
-                            switch target {
-                            case .expected:
-                                viewModel.deleteExpectedCertificate(id: id)
-                            case .completed:
-                                viewModel.deleteCompletedCertificate(id: id)
+                        Task {
+                            if let id = deleteTargetID {
+                                switch target {
+                                case .expected:
+                                    await viewModel.deleteExpectedCertificate(id: id)
+                                case .completed:
+                                    await viewModel.deleteCompletedCertificate(id: id)
+                                }
                             }
+                            deleteTargetID = nil
+                            showDeleteAlert = false
                         }
-                        deleteTargetID = nil
-                        showDeleteAlert = false
                     },
                     onCancel: {
                         deleteTargetID = nil
@@ -134,7 +135,7 @@ private extension EditCertificateView {
                 actionConfig: .editable(onEdit: {
                     viewModel.editingCompletedItem = item
                 }, onDelete: {
-                    deleteTargetID = item.id
+                    deleteTargetID = item.aquisionID
                     showDeleteAlert = true
                 })
             )

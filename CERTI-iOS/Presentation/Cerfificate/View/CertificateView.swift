@@ -180,6 +180,10 @@ private extension CertificateView {
             
             ForEach(viewModel.trackRankCertificates) { item in
                 RankCeritificateTile(model: item)
+                    .onTapGesture {
+                        viewModel.selectedLicenseId = item.id
+                        viewModel.navigateToCertificateDetail()
+                    }
                     .padding(.bottom, 16)
             }
         }
@@ -206,6 +210,10 @@ private extension CertificateView {
             
             ForEach(viewModel.jobRankCertificates) { item in
                 RankCeritificateTile(model: item)
+                    .onTapGesture {
+                        viewModel.selectedLicenseId = item.id
+                        viewModel.navigateToCertificateDetail()
+                    }
                     .padding(.bottom, 16)
             }
         }

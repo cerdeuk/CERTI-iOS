@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SettingView: View {
+    @Environment(\.openURL) var openURL
+
     @ObservedObject var viewModel: MyPageViewModel
     
     @State private var showLogoutAlert = false
@@ -125,7 +127,7 @@ extension SettingView {
     @ViewBuilder
     private var privacyPolicy: some View {
         Button {
-            // TODO: - 개인정보처리방침 이동
+            openURL(URL(string: "https://tremendous-baryonyx-347.notion.site/3015e9d69a268066a9c2fcd0ed802c02?pvs=73")!)
         } label: {
             HStack(alignment: .center, spacing: 0) {
                 Text("개인정보 처리방침")

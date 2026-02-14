@@ -36,6 +36,10 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var showFailAcquired: Bool = false
     @Published var showFailToBeAcquired: Bool = false
     @Published var showCompleteModal = false
+    @Published var showDeleteCommentAlert: Bool = false
+    @Published var stateCommentReportModal: Bool = false
+    @Published var deleteCommentId: Int? = nil
+    @Published var reportCommentId: Int = 0
     @Published var CertificationPlanDate: Date? = nil
     @Published var CertificationPlanPlaceProvince: String? = nil
     @Published var CertificationPlanPlaceCity: String? = nil
@@ -53,6 +57,8 @@ final class CertificateDetailViewModel: ObservableObject {
     @Published var addPreCertificationModel = PreCertificationModel(
         certificationId: 0, city: nil, state: nil, testDate: nil
     )
+    @Published var reportContent: String = ""
+    @Published var shouldBlockUser: Bool = false
     
     private var currentPage: Int = 0
     private let pageSize: Int = 10
@@ -65,7 +71,7 @@ final class CertificateDetailViewModel: ObservableObject {
         else { return [] }
         return region.districts
     }
-    var currentUserId: Int = 0
+    var currentUserId: Int = AuthManager.shared.userID
     var currentPageIndex: Int = 0
     var commentList: [Comment] {
         paginationComments.flatMap { $0.content }
@@ -77,6 +83,9 @@ final class CertificateDetailViewModel: ObservableObject {
         guard let state = certificationState else { return false }
         return state == .anticipated || state == .acquisition
     }
+    var reportContentCountWithoutWhitespace: Int {
+        reportContent.filter { !$0.isWhitespace && !$0.isNewline }.count
+    }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CERTI", category: "CertificationDetail")
     
@@ -87,6 +96,7 @@ final class CertificateDetailViewModel: ObservableObject {
     private let addCommentUseCase: AddCommentUseCase
     private let deleteCommentUseCase: DeleteCommentUseCase
     private let likeCommentUseCase: LikeCommentUseCase
+    private let reportCommentUseCase: ReportCommentUseCase
     
     init(
         fetchCertificationDetailUseCase: FetchCertificationDetailUseCase,
@@ -96,6 +106,7 @@ final class CertificateDetailViewModel: ObservableObject {
         addCommentUseCase: AddCommentUseCase,
         deleteCommentUseCase: DeleteCommentUseCase,
         likeCommentUseCase: LikeCommentUseCase,
+        reportCommentUseCase: ReportCommentUseCase
     ) {
         self.fetchCertificationDetailUseCase = fetchCertificationDetailUseCase
         self.addPreCertificationUseCase = addPreCertificationUseCase
@@ -104,6 +115,7 @@ final class CertificateDetailViewModel: ObservableObject {
         self.addCommentUseCase = addCommentUseCase
         self.deleteCommentUseCase = deleteCommentUseCase
         self.likeCommentUseCase = likeCommentUseCase
+        self.reportCommentUseCase = reportCommentUseCase
     }
 }
 
@@ -235,6 +247,19 @@ extension CertificateDetailViewModel {
         }
     }
     
+    func reportComment(commentId:Int, content: String?, shouldBlockUser: Bool) async {
+        let entity = ReportCommentEntity(content: content, shouldBlockUser: shouldBlockUser)
+        let result = await reportCommentUseCase.execute(commentId: commentId, request: entity)
+
+        switch result {
+        case .success:
+            logger.debug("✅ 댓글 신고 성공")
+
+        case .failure(let error):
+            logger.error("❌ 댓글 신고 실패: \(error.localizedDescription)")
+        }
+    }
+    
     func refreshComments(certificationId: Int) async {
         currentPage = 0
         isLastPage = false
@@ -299,5 +324,44 @@ extension CertificateDetailViewModel {
         currentPage = 0
         isLastPage = false
         isLoadingComment = false
+    }
+    
+    func showDeleteCommentModal(commentId: Int) {
+        deleteCommentId = commentId
+        showDeleteCommentAlert = true
+    }
+
+    func dismissDeleteCommentModal() {
+        deleteCommentId = nil
+        showDeleteCommentAlert = false
+    }
+    
+    func showCommentReportModal(commentId: Int) {
+        reportCommentId = commentId
+        stateCommentReportModal = true
+    }
+
+    func dismissCommentReportModal() {
+        reportCommentId = 0
+        stateCommentReportModal = false
+        reportContent = ""
+        shouldBlockUser = false
+    }
+    
+    func updateReportContent(_ text: String) {
+        var result = ""
+        var nonSpaceCount = 0
+        
+        for char in text {
+            if !char.isWhitespace && !char.isNewline {
+                nonSpaceCount += 1
+            }
+            
+            if nonSpaceCount > 100 { break }
+            
+            result.append(char)
+        }
+        
+        reportContent = result
     }
 }

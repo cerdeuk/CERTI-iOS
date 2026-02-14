@@ -28,7 +28,7 @@ struct CertiTabBarCoordinatorView: View {
                 case .resume:
                     ResumeCoordinatorView(resumeCoordinator: tabCoordinator.resumeCoordinator, resumeFactory: appDIContainer.makeResumeFactory())
                 case .mypage:
-                    MyPageCoordinatorView(myPageCoordinator: tabCoordinator.mypageCoordinator, myPageFactory: appDIContainer.makeMyPageFactory())
+                    MyPageCoordinatorView(myPageCoordinator: tabCoordinator.mypageCoordinator, myPageFactory: appDIContainer.makeMyPageFactory(), certificateDetailFactory: appDIContainer.makeCertificateDetailFactory())
                 }
             }
             .id(tabCoordinator.selectedTab)

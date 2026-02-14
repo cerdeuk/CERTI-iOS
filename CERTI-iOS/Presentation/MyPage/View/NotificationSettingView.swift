@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NotificationSettingView: View {
+    @Environment(\.openURL) var openURL
+    
     @ObservedObject var viewModel: MyPageViewModel
     
     @State private var showConfirmationAlert = false
@@ -58,7 +60,8 @@ struct NotificationSettingView: View {
                     style: .onlyTitle,
                     onConfirm: {
                         Task {
-                            await viewModel.toggleNotificationSetting()
+                            await viewModel.toggleMarketingSetting()
+                            await viewModel.togglePrivacySetting()
                             withAnimation {
                                 showConfirmationAlert = false
                             }
@@ -104,7 +107,7 @@ extension NotificationSettingView {
     private var agreeToggleButton: some View {
         let toggleBinding = Binding<Bool>(
             get: {
-                viewModel.agreeState
+                viewModel.marketingAgreeState
             },
             set: { newValue in
                 if newValue == true {
@@ -113,7 +116,8 @@ extension NotificationSettingView {
                     }
                 } else {
                     Task {
-                        await viewModel.toggleNotificationSetting()
+                        await viewModel.toggleMarketingSetting()
+                        await viewModel.togglePrivacySetting()
                     }
                     showToastMessage = false
                 }
@@ -143,11 +147,11 @@ extension NotificationSettingView {
         VStack(alignment: .leading, spacing: 0) {
             
             HStack(alignment: .center, spacing: 0) {
-                Image(systemName: viewModel.agreeState ? "checkmark.square.fill" : "square")
+                Image(systemName: viewModel.marketingAgreeState ? "checkmark.square.fill" : "square")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20)
-                    .foregroundStyle(viewModel.agreeState ? .grayscale500 : .grayscale400)
+                    .foregroundStyle(viewModel.marketingAgreeState ? .grayscale500 : .grayscale400)
                     .padding(.trailing, 12)
                 
                 Text("(선택)")
@@ -162,7 +166,7 @@ extension NotificationSettingView {
                 Spacer()
                 
                 Button {
-                    // 노션이동
+                    openURL(URL(string: "https://tremendous-baryonyx-347.notion.site/3015e9d69a2680a98ce4e96faf2ce06d?pvs=73")!)
                 } label: {
                     Image(.iconArrowright24)
                 }

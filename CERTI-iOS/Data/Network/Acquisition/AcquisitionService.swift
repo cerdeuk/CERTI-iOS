@@ -14,6 +14,7 @@ protocol AcquisitionServiceProtocol {
     func addAcquisition(request: AddAcquisitionRequestDTO) async -> Result<BaseResponseDTO<Bool>, NetworkError>
     func fetchAcquisitionDetail(id: Int) async -> Result<AcquisitionDetailResponseDTO, NetworkError>
     func deleteAcquisition(id: Int) async -> Result<Void, NetworkError>
+    func editAcquisition(request: EditAcquisitionRequestDTO, id: Int) async -> Result<Void, NetworkError>
 }
 
 final class AcquisitionService: BaseService, AcquisitionServiceProtocol {
@@ -33,5 +34,9 @@ final class AcquisitionService: BaseService, AcquisitionServiceProtocol {
     
     func deleteAcquisition(id: Int) async -> Result<Void, NetworkError> {
         return await requestVoid(provider, .deleteAcquisition(id: id))
+    }
+    
+    func editAcquisition(request: EditAcquisitionRequestDTO, id: Int) async -> Result<Void, NetworkError> {
+        return await requestVoid(provider, .editAcquisition(request: request, id: id))
     }
 }
