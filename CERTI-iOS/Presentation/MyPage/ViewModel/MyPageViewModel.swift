@@ -310,7 +310,7 @@ extension MyPageViewModel {
         case .success(let response):
             let inputFormatter = DateFormatter()
             inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-            inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+            inputFormatter.locale = Locale(identifier: "ko_KR")
             inputFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
             
             let outputFormatter = DateFormatter()
@@ -339,7 +339,7 @@ extension MyPageViewModel {
             self.expectedList = newItems
             
         case .failure(let error):
-            logger.error("❌ updateJobCategories failed: \(error.localizedDescription)")
+            logger.error("❌ fetchExpectedCertificate failed: \(error.localizedDescription)")
         }
     }
     
