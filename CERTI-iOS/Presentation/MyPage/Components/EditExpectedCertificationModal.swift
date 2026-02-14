@@ -178,7 +178,17 @@ private extension EditExpectedCertificationModal {
     var bottomButtonView: some View {
         VStack(alignment: .center, spacing: 0) {
             Button {
-                saveChanges()
+                Task {
+                    await viewModel.editExpectedCertificate(
+                        id: item.preCertificationId,
+                        date: selectedDate ?? Date(),
+                        isAM: isAM,
+                        hour: hour,
+                        minute: minute,
+                        province: selectedProvince ?? "",
+                        city: selectedCity ?? ""
+                    )
+                }
                 dismiss()
             } label: {
                 ZStack {
@@ -195,36 +205,5 @@ private extension EditExpectedCertificationModal {
             .padding(.top, 12)
             .padding(.bottom, 20)
         }
-    }
-}
-
-
-// MARK: - Private Func
-
-private extension EditExpectedCertificationModal {
-    // TODO: - API 연결하며 구현
-    func saveChanges() {
-        // ViewModel 내부 데이터 및 API로 업데이트 요청
-        // 날짜/시간 포맷팅 등은 ViewModel 내부 혹은 여기서 처리 후 전달
-        
-        print("========== [수정 내용 확인] ==========")
-        print("📝 자격증 이름: \(item.certificationName)")
-        
-        if let date = selectedDate {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy년 MM월 dd일"
-            print("📅 시험 날짜: \(formatter.string(from: date))")
-        } else {
-            print("📅 시험 날짜: 선택안됨")
-        }
-        
-        let province = selectedProvince ?? "미선택"
-        let city = selectedCity ?? "미선택"
-        print("📍 시험 장소: \(province) \(city)")
-        
-        let amPm = isAM ? "오전" : "오후"
-        let formattedTime = String(format: "%@ %d:%02d", amPm, hour, minute)
-        print("⏰ 시험 시간: \(formattedTime)")
-        print("====================================")
     }
 }

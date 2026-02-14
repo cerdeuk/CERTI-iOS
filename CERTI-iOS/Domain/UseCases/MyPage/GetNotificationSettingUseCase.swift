@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GetNotificationSettingUseCase {
-    func execute() async -> Result<Bool, NetworkError>
+    func execute() async -> Result<UserAgreementEntity, NetworkError>
 }
 
 final class DefaultGetNotificationSettingUseCase: GetNotificationSettingUseCase {
@@ -19,7 +19,7 @@ final class DefaultGetNotificationSettingUseCase: GetNotificationSettingUseCase 
         self.repository = repository
     }
 
-    func execute() async -> Result<Bool, NetworkError> {
+    func execute() async -> Result<UserAgreementEntity, NetworkError> {
         let result = await repository.getNotificationSetting()
         return result
     }

@@ -14,6 +14,7 @@ enum HomeAPI {
     case deletePreCertification(id: Int)
     case getFavoriteCertification
     case addPreCertification(request: AddPreCertificationRequestDTO)
+    case editPreCertification(request: EditPreCertificationRequestDTO, id: Int)
 }
 
 extension HomeAPI: BaseTargetType {
@@ -34,6 +35,8 @@ extension HomeAPI: BaseTargetType {
             return "home/favorite"
         case .addPreCertification:
             return "home/pre-certification"
+        case .editPreCertification(_, id: let id):
+            return "home/pre-certification/\(id)"
         }
     }
     
@@ -47,6 +50,8 @@ extension HomeAPI: BaseTargetType {
             return .get
         case .addPreCertification:
             return .post
+        case .editPreCertification:
+            return .patch
         }
     }
     
@@ -59,6 +64,8 @@ extension HomeAPI: BaseTargetType {
         case .getFavoriteCertification:
             return .requestPlain
         case .addPreCertification(let request):
+            return .requestJSONEncodable(request)
+        case .editPreCertification(let request, _):
             return .requestJSONEncodable(request)
         }
     }

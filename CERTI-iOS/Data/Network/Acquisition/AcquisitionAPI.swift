@@ -14,6 +14,7 @@ enum AcquisitionAPI {
     case addAcquisition(request: AddAcquisitionRequestDTO)
     case fetchAcquisitionDetail(id: Int)
     case deleteAcquisition(id: Int)
+    case editAcquisition(request: EditAcquisitionRequestDTO, id: Int)
 }
 
 extension AcquisitionAPI: BaseTargetType {
@@ -34,6 +35,8 @@ extension AcquisitionAPI: BaseTargetType {
             return "acquisition/\(id)"
         case .deleteAcquisition(let id):
             return "acquisition/\(id)"
+        case .editAcquisition(_, let id):
+            return "acquisition/\(id)"
         }
     }
     
@@ -47,6 +50,8 @@ extension AcquisitionAPI: BaseTargetType {
             return .get
         case .deleteAcquisition:
             return .delete
+        case .editAcquisition:
+            return .patch
         }
     }
     
@@ -60,6 +65,8 @@ extension AcquisitionAPI: BaseTargetType {
             return .requestPlain
         case .deleteAcquisition:
             return .requestPlain
+        case .editAcquisition(let request, _):
+            return .requestJSONEncodable(request)
         }
     }
     

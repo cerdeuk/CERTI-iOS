@@ -14,4 +14,5 @@ protocol AcquisitionRepository {
     func addAcquisition(request: AddAcquisitionEntity) async -> Result<Bool, NetworkError>
     func fetchAcquisitionDetail(id: Int) async -> Result<AcquisitionDetailEntity, NetworkError>
     func deleteAcquisition(id: Int) async -> Result<Void, NetworkError>
+    func editAcquisition(request: EditAcquisitionEntity, id: Int) async -> Result<Void, NetworkError>
 }

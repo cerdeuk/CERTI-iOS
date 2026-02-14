@@ -16,7 +16,6 @@ enum AppendPreCertificationStatus: Equatable {
 }
 
 final class DefaultHomeRepository: HomeRepository {
-    
     private let service: HomeServiceProtocol
 
     public init(service: HomeServiceProtocol) {
@@ -72,5 +71,10 @@ final class DefaultHomeRepository: HomeRepository {
         case .failure(let error):
             return .failure(error)
         }
+    }
+    
+    func editPreCertification(request: EditPreCertificationEntity, id: Int) async -> Result<Void, NetworkError> {
+        let dto = EditPreCertificationRequestDTO(testDate: request.testDate, city: request.city, state: request.state)
+        return await service.editPreCertification(request: dto, id: id)
     }
 }
