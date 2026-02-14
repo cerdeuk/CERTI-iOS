@@ -8,6 +8,7 @@
 import SwiftUI
 
 import os
+import PhotosUI
 
 enum MyPageViewRoute {
     case navigateToEditProfile
@@ -62,6 +63,8 @@ final class MyPageViewModel: ObservableObject {
     @Published var majorList: [String] = []
     @Published var agreeState: Bool = false
 
+    @Published var selectedPhotosPickerItem: PhotosPickerItem?
+    @Published var selectedUIImage: UIImage?
     
     //MARK: - UseCases
     
@@ -443,6 +446,15 @@ extension MyPageViewModel {
         }
     }
     
+    func loadSelectedImage() async {
+        guard
+            let item = selectedPhotosPickerItem,
+            let data = try? await item.loadTransferable(type: Data.self),
+            let image = UIImage(data: data)
+        else { return }
+
+        selectedUIImage = image
+    }
 }
 
 

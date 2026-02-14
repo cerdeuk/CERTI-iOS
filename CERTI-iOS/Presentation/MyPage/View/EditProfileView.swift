@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+
 import Kingfisher
+import PhotosUI
 
 struct EditProfileView: View {
     @ObservedObject var viewModel: MyPageViewModel
@@ -74,7 +76,15 @@ extension EditProfileView {
             Spacer()
             
             ZStack(alignment: .bottomTrailing) {
-                if viewModel.profileImageURL.isEmpty {
+                
+                if let selected = viewModel.selectedUIImage {
+                    Image(uiImage: selected)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 100, height: 100)
+                        .clipShape(.circle)
+                        .clipped()
+                } else if viewModel.profileImageURL.isEmpty {
                     ZStack(alignment: .center) {
                         Circle()
                             .frame(width: 100, height: 100)
@@ -98,11 +108,16 @@ extension EditProfileView {
                         .clipped()
                 }
                 
-                Button {
-                    // TODO: - 이미지 업로드 및 수정
-                } label: {
+                PhotosPicker(
+                    selection: $viewModel.selectedPhotosPickerItem,
+                    matching: .images,
+                    photoLibrary: .shared()
+                ) {
                     Image(.btnProfileEdit)
                 }
+            }
+            .onChange(of: viewModel.selectedPhotosPickerItem) { _ in
+                Task { await viewModel.loadSelectedImage() }
             }
             
             Spacer()
