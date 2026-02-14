@@ -111,6 +111,8 @@ final class MyPageViewModel: ObservableObject {
     }
     
     var isProfileModified: Bool {
+        if selectedUIImage != nil { return true }
+
         guard let initial = initialProfile else { return false }
         
         let current = ProfileSnapshot(
