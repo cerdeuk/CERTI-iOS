@@ -259,6 +259,10 @@ extension AppDIContainer {
     func makeGetPresignedURLUseCase() -> GetPresignedURLUseCase {
         return DefaultGetPresignedURLUseCase(repository: userRepository)
     }
+    
+    func makeUploadImageToPresignedURLUseCase() -> UploadImageToPresignedURLUseCase {
+        return DefaultUploadImageToPresignedURLUseCase()
+    }
 }
 
 
@@ -339,7 +343,9 @@ extension AppDIContainer {
             deleteAcquisitionUseCase: makeDeleteAcquisitionUseCase(),
             deletePreCertificationUseCase: makeDeletePreCertificationUseCase(),
             editAcquisitionUseCase: makeEditAcquisitionUseCase(),
-            editPreCertificationUseCase: makeEditPreCertificationUseCase()
+            editPreCertificationUseCase: makeEditPreCertificationUseCase(),
+            getPresignedURLUseCase: makeGetPresignedURLUseCase(),
+            uploadImageToPresignedURLUseCase: makeUploadImageToPresignedURLUseCase()
         )
     }
     

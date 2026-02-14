@@ -94,6 +94,8 @@ final class MyPageViewModel: ObservableObject {
     private let deletePreCertificationUseCase: DeletePreCertificationUseCase
     private let editAcquisitionUseCase: EditAcquisitionUseCase
     private let editPreCertificationUseCase: EditPreCertificationUseCase
+    private let getPresignedURLUseCase: GetPresignedURLUseCase
+    private let uploadImageToPresignedURLUseCase: UploadImageToPresignedURLUseCase
 
     
     //MARK: - Properties
@@ -158,6 +160,8 @@ final class MyPageViewModel: ObservableObject {
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
         editAcquisitionUseCase: EditAcquisitionUseCase,
         editPreCertificationUseCase: EditPreCertificationUseCase,
+        getPresignedURLUseCase: GetPresignedURLUseCase,
+        uploadImageToPresignedURLUseCase: UploadImageToPresignedURLUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -180,6 +184,8 @@ final class MyPageViewModel: ObservableObject {
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
         self.editAcquisitionUseCase = editAcquisitionUseCase
         self.editPreCertificationUseCase = editPreCertificationUseCase
+        self.getPresignedURLUseCase = getPresignedURLUseCase
+        self.uploadImageToPresignedURLUseCase = uploadImageToPresignedURLUseCase
     }
     
 }
@@ -562,6 +568,29 @@ extension MyPageViewModel {
     func clearSelectedImage() {
         selectedUIImage = nil
         selectedPhotosPickerItem = nil
+    }
+    
+    func uploadProfileImage() async {
+        guard let image = selectedUIImage,
+              let data = image.jpegData(compressionQuality: 0.85)
+        else {return}
+        
+        let presignedResult = await getPresignedURLUseCase.execute()
+        switch presignedResult {
+        case .success(let response):
+            let uploadResult = await uploadImageToPresignedURLUseCase.execute(preSignedURL: response.preSignedURL, data: data, contentType: "image/jpeg")
+            switch uploadResult {
+            case .success:
+                profileImageURL = response.publicURL
+                selectedUIImage = nil
+                selectedPhotosPickerItem = nil
+                logger.debug("✅ uploadProfileImage success")
+            case .failure:
+                logger.error("uploadProfileImage failed")
+            }
+        case .failure(let error):
+            logger.error("uploadProfileImage failed: \(error.localizedDescription)")
+        }
     }
 }
 

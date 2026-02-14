@@ -30,6 +30,9 @@ struct EditProfileView: View {
             MyPageHeader(style: .save, title: "개인정보 수정", isActionEnabled: viewModel.isProfileSaveEnabled) {
                 if viewModel.isProfileModified {
                     Task {
+                        if viewModel.selectedUIImage != nil {
+                            await viewModel.uploadProfileImage()
+                        }
                         await viewModel.editProfileInfo()
                         viewModel.nickNameValid = nil
                         viewModel.myPageViewRoutePop()
@@ -65,6 +68,9 @@ struct EditProfileView: View {
         }
         .task {
             await viewModel.fetchEditProfileInfo()
+        }
+        .onDisappear {
+            viewModel.clearSelectedImage()
         }
     }
 }
@@ -118,9 +124,6 @@ extension EditProfileView {
             }
             .onChange(of: viewModel.selectedPhotosPickerItem) { _ in
                 Task { await viewModel.loadSelectedImage() }
-            }
-            .onDisappear {
-                viewModel.clearSelectedImage()
             }
             
             Spacer()
