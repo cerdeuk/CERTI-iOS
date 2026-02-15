@@ -31,7 +31,13 @@ struct HomeCalendarView: View {
                 .padding(.top, 16)
         }
         .padding(.horizontal, 20)
-        .onChange(of: viewModel.currentMonth) { _ in
+        .task(id: viewModel.currentMonth) {
+            await viewModel.getMonthlyPreCertification()
+        }
+        .task(id: viewModel.currentDate) {
+            guard viewModel.currentDate != .distantPast else {return}
+            let dateString = viewModel.getSelectedDateString()
+            await viewModel.getDailyPreCertification(date: dateString)
         }
     }
 }

@@ -23,7 +23,7 @@ struct CalendarView: View {
                     .opacity(state == .selected || state == .todaySelected ? 1 : 0)
             }
             .overlay(alignment: .topTrailing) {
-                if hasTodo && state != .today && state != .selected {
+                if hasTodo && state != .today && state != .selected && state != .todaySelected {
                     Circle()
                         .fill(.purpleblue)
                         .frame(width: 5, height: 5)

@@ -59,6 +59,7 @@ struct CommentComponent: View {
     let canDelete: Bool
     let onTapLike: () -> Void
     let onTapDelete: () -> Void
+    let onTapReport: () -> Void
     
     // MARK: - Main Body
     
@@ -145,14 +146,16 @@ extension CommentComponent {
                 .frame(width: 1, height: 12)
                 .padding(.leading, 8)
             
-            Button {
-                // TODO: 신고하기 UseCase
-            } label: {
-                Text("신고")
-                    .applyCertiFont(.caption_semibold_12)
-                    .foregroundStyle(.grayscale400)
+            if !canDelete {
+                Button {
+                    onTapReport()
+                } label: {
+                    Text("신고")
+                        .applyCertiFont(.caption_semibold_12)
+                        .foregroundStyle(.grayscale400)
+                }
+                .padding(.leading, 8)
             }
-            .padding(.leading, 8)
             
             Text(dateFormatter.string(from: Date()))
                 .applyCertiFont(.caption_semibold_12)

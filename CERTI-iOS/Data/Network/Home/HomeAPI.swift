@@ -13,6 +13,8 @@ enum HomeAPI {
     case getPreCertification
     case deletePreCertification(id: Int)
     case getFavoriteCertification
+    case getMonthlyPreCertification(year: Int, month: Int)
+    case getDailyPreCertification(date: String)
     case addPreCertification(request: AddPreCertificationRequestDTO)
     case editPreCertification(request: EditPreCertificationRequestDTO, id: Int)
 }
@@ -33,6 +35,10 @@ extension HomeAPI: BaseTargetType {
             return "home/pre-certification/\(id)"
         case .getFavoriteCertification:
             return "home/favorite"
+        case .getMonthlyPreCertification:
+            return "home/pre-certification/month"
+        case .getDailyPreCertification:
+            return "home/pre-certification/day"
         case .addPreCertification:
             return "home/pre-certification"
         case .editPreCertification(_, id: let id):
@@ -50,6 +56,10 @@ extension HomeAPI: BaseTargetType {
             return .get
         case .addPreCertification:
             return .post
+        case .getMonthlyPreCertification:
+            return .get
+        case .getDailyPreCertification:
+            return .get
         case .editPreCertification:
             return .patch
         }
@@ -63,6 +73,18 @@ extension HomeAPI: BaseTargetType {
             return .requestPlain
         case .getFavoriteCertification:
             return .requestPlain
+        case .getMonthlyPreCertification(let year, let month):
+            return .requestParameters(
+                parameters: [
+                    "year": "\(year)",
+                    "month": "\(month)"],
+                encoding: URLEncoding.queryString
+            )
+        case .getDailyPreCertification(let date):
+            return .requestParameters(
+                parameters: ["date": "\(date)"],
+                encoding: URLEncoding.queryString
+            )
         case .addPreCertification(let request):
             return .requestJSONEncodable(request)
         case .editPreCertification(let request, _):

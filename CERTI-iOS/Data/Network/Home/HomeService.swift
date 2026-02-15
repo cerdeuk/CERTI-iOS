@@ -13,6 +13,8 @@ protocol HomeServiceProtocol {
     func getPreCertification() async -> Result<PreCertificationInfoResponseDTO, NetworkError>
     func deletePreCertification(id: Int) async -> Result<Void, NetworkError>
     func getFavoriteCertification() async -> Result<FavoriteCertificationResponseDTO, NetworkError>
+    func getMonthlyPreCertification(year: Int, month: Int) async -> Result<MonthlyPreCertificationResponseDTO, NetworkError>
+    func getDailyPreCertification(date: String) async -> Result<DailyPreCertificationResponseDTO, NetworkError>
     func addPreCertification(request: AddPreCertificationRequestDTO) async -> Result<BaseResponseDTO<Bool>, NetworkError>
     func editPreCertification(request: EditPreCertificationRequestDTO, id: Int) async -> Result<Void, NetworkError>
 }
@@ -37,6 +39,14 @@ final class HomeService: BaseService, HomeServiceProtocol {
         return await requestDecodable(provider, .addPreCertification(request: request))
     }
     
+    func getMonthlyPreCertification(year: Int, month: Int) async -> Result<MonthlyPreCertificationResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getMonthlyPreCertification(year: year, month: month))
+    }
+    
+    func getDailyPreCertification(date: String) async -> Result<DailyPreCertificationResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getDailyPreCertification(date: date))
+    }
+        
     func editPreCertification(request: EditPreCertificationRequestDTO, id: Int) async -> Result<Void, NetworkError> {
         return await requestVoid(provider, .editPreCertification(request: request, id: id))
     }
