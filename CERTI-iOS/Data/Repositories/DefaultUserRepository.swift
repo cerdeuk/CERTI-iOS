@@ -182,4 +182,16 @@ final class DefaultUserRepository: UserRepository {
             return .failure(error)
         }
     }
+    
+    func getPresignedURL() async -> Result<PresignedURLEntity, NetworkError> {
+        let result = await service.getPresignedURL()
+        
+        switch result {
+        case .success(let success):
+            guard let data = success.data else { return .failure(.decodingError) }
+            return .success(data.toPresignedURLEntity())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
 }

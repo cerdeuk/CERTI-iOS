@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+
 import Kingfisher
+import PhotosUI
 
 struct EditProfileView: View {
     @ObservedObject var viewModel: MyPageViewModel
@@ -28,6 +30,9 @@ struct EditProfileView: View {
             MyPageHeader(style: .save, title: "개인정보 수정", isActionEnabled: viewModel.isProfileSaveEnabled) {
                 if viewModel.isProfileModified {
                     Task {
+                        if viewModel.selectedUIImage != nil {
+                            await viewModel.uploadProfileImage()
+                        }
                         await viewModel.editProfileInfo()
                         viewModel.nickNameValid = nil
                         viewModel.myPageViewRoutePop()
@@ -64,6 +69,9 @@ struct EditProfileView: View {
         .task {
             await viewModel.fetchEditProfileInfo()
         }
+        .onDisappear {
+            viewModel.clearSelectedImage()
+        }
     }
 }
 
@@ -74,7 +82,15 @@ extension EditProfileView {
             Spacer()
             
             ZStack(alignment: .bottomTrailing) {
-                if viewModel.profileImageURL.isEmpty {
+                
+                if let selected = viewModel.selectedUIImage {
+                    Image(uiImage: selected)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 100, height: 100)
+                        .clipShape(.circle)
+                        .clipped()
+                } else if viewModel.profileImageURL.isEmpty {
                     ZStack(alignment: .center) {
                         Circle()
                             .frame(width: 100, height: 100)
@@ -98,11 +114,16 @@ extension EditProfileView {
                         .clipped()
                 }
                 
-                Button {
-                    // TODO: - 이미지 업로드 및 수정
-                } label: {
+                PhotosPicker(
+                    selection: $viewModel.selectedPhotosPickerItem,
+                    matching: .images,
+                    photoLibrary: .shared()
+                ) {
                     Image(.btnProfileEdit)
                 }
+            }
+            .onChange(of: viewModel.selectedPhotosPickerItem) { _ in
+                Task { await viewModel.loadSelectedImage() }
             }
             
             Spacer()

@@ -33,6 +33,8 @@ final class DefaultMyPageFactory: MyPageFactory {
     private let deletePreCertificationUseCase: DeletePreCertificationUseCase
     private let editAcquisitionUseCase: EditAcquisitionUseCase
     private let editPreCertificationUseCase: EditPreCertificationUseCase
+    private let getPresignedURLUseCase: GetPresignedURLUseCase
+    private let uploadImageToPresignedURLUseCase: UploadImageToPresignedURLUseCase
     
     init(
         fetchMyPageInfoUseCase: FetchMyPageInfoUseCase,
@@ -56,6 +58,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
         editAcquisitionUseCase: EditAcquisitionUseCase,
         editPreCertificationUseCase: EditPreCertificationUseCase,
+        getPresignedURLUseCase: GetPresignedURLUseCase,
+        uploadImageToPresignedURLUseCase: UploadImageToPresignedURLUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -78,6 +82,8 @@ final class DefaultMyPageFactory: MyPageFactory {
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
         self.editAcquisitionUseCase = editAcquisitionUseCase
         self.editPreCertificationUseCase = editPreCertificationUseCase
+        self.getPresignedURLUseCase = getPresignedURLUseCase
+        self.uploadImageToPresignedURLUseCase = uploadImageToPresignedURLUseCase
     }
     
     @MainActor
@@ -103,7 +109,9 @@ final class DefaultMyPageFactory: MyPageFactory {
             deleteAcquisitionUseCase: deleteAcquisitionUseCase,
             deletePreCertificationUseCase: deletePreCertificationUseCase,
             editAcquisitionUseCase: editAcquisitionUseCase,
-            editPreCertificationUseCase: editPreCertificationUseCase
+            editPreCertificationUseCase: editPreCertificationUseCase,
+            getPresignedURLUseCase: getPresignedURLUseCase,
+            uploadImageToPresignedURLUseCase: uploadImageToPresignedURLUseCase
         )
     }
 }

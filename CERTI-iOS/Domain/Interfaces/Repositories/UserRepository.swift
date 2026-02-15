@@ -23,4 +23,5 @@ protocol UserRepository {
     func toggleMarketingSetting(agree: Bool) async -> Result<Void, NetworkError>
     func togglePrivacySetting(agree: Bool) async -> Result<Void, NetworkError>
     func getTrack() async -> Result<String, NetworkError>
+    func getPresignedURL() async -> Result<PresignedURLEntity, NetworkError>
 }

@@ -23,6 +23,7 @@ enum UserAPI {
     case togglePrivacySetting(agree: EditNotificationSettingRequestDTO)
     case getNotificationSetting
     case getTrack
+    case getPresignedURL
 }
 
 extension UserAPI: BaseTargetType {
@@ -65,6 +66,8 @@ extension UserAPI: BaseTargetType {
             return "user/privacy-agreement"
         case .getTrack:
             return "user/track"
+        case .getPresignedURL:
+            return "user/presigned-url"
         }
     }
     
@@ -95,6 +98,8 @@ extension UserAPI: BaseTargetType {
         case .togglePrivacySetting:
             return .patch
         case .getTrack:
+            return .get
+        case .getPresignedURL:
             return .get
         }
     }
@@ -137,6 +142,9 @@ extension UserAPI: BaseTargetType {
             return .requestJSONEncodable(agree)
             
         case .getTrack:
+            return .requestPlain
+            
+        case .getPresignedURL:
             return .requestPlain
         }
     }

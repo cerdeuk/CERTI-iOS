@@ -23,6 +23,7 @@ protocol UserServiceProtocol {
     func toggleMarketingSetting(agree: EditNotificationSettingRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
     func togglePrivacySetting(agree: EditNotificationSettingRequestDTO) async -> Result<BaseResponseDTO<EmptyData>, NetworkError>
     func getTrack() async -> Result<TrackResponseDTO, NetworkError>
+    func getPresignedURL() async -> Result<PresignedURLResponseDTO, NetworkError>
 
 }
 
@@ -80,5 +81,9 @@ final class UserService: BaseService, UserServiceProtocol {
     
     func getTrack() async -> Result<TrackResponseDTO, NetworkError> {
         return await requestDecodable(provider, .getTrack)
+    }
+    
+    func getPresignedURL() async -> Result<PresignedURLResponseDTO, NetworkError> {
+        return await requestDecodable(provider, .getPresignedURL)
     }
 }

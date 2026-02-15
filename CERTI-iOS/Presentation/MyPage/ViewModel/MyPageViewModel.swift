@@ -8,6 +8,7 @@
 import SwiftUI
 
 import os
+import PhotosUI
 
 enum MyPageViewRoute {
     case navigateToEditProfile
@@ -67,6 +68,8 @@ final class MyPageViewModel: ObservableObject {
     
     @Published var selectedLicenseId: Int = 0
 
+    @Published var selectedPhotosPickerItem: PhotosPickerItem?
+    @Published var selectedUIImage: UIImage?
     
     //MARK: - UseCases
     
@@ -91,6 +94,8 @@ final class MyPageViewModel: ObservableObject {
     private let deletePreCertificationUseCase: DeletePreCertificationUseCase
     private let editAcquisitionUseCase: EditAcquisitionUseCase
     private let editPreCertificationUseCase: EditPreCertificationUseCase
+    private let getPresignedURLUseCase: GetPresignedURLUseCase
+    private let uploadImageToPresignedURLUseCase: UploadImageToPresignedURLUseCase
 
     
     //MARK: - Properties
@@ -106,6 +111,8 @@ final class MyPageViewModel: ObservableObject {
     }
     
     var isProfileModified: Bool {
+        if selectedUIImage != nil { return true }
+
         guard let initial = initialProfile else { return false }
         
         let current = ProfileSnapshot(
@@ -155,6 +162,8 @@ final class MyPageViewModel: ObservableObject {
         deletePreCertificationUseCase: DeletePreCertificationUseCase,
         editAcquisitionUseCase: EditAcquisitionUseCase,
         editPreCertificationUseCase: EditPreCertificationUseCase,
+        getPresignedURLUseCase: GetPresignedURLUseCase,
+        uploadImageToPresignedURLUseCase: UploadImageToPresignedURLUseCase
     ) {
         self.fetchMyPageInfoUseCase = fetchMyPageInfoUseCase
         self.fetchEditProfileInfoUseCase = fetchEditProfileInfoUseCase
@@ -177,6 +186,8 @@ final class MyPageViewModel: ObservableObject {
         self.deletePreCertificationUseCase = deletePreCertificationUseCase
         self.editAcquisitionUseCase = editAcquisitionUseCase
         self.editPreCertificationUseCase = editPreCertificationUseCase
+        self.getPresignedURLUseCase = getPresignedURLUseCase
+        self.uploadImageToPresignedURLUseCase = uploadImageToPresignedURLUseCase
     }
     
 }
@@ -546,6 +557,43 @@ extension MyPageViewModel {
         }
     }
     
+    func loadSelectedImage() async {
+        guard
+            let item = selectedPhotosPickerItem,
+            let data = try? await item.loadTransferable(type: Data.self),
+            let image = UIImage(data: data)
+        else { return }
+
+        selectedUIImage = image
+    }
+    
+    func clearSelectedImage() {
+        selectedUIImage = nil
+        selectedPhotosPickerItem = nil
+    }
+    
+    func uploadProfileImage() async {
+        guard let image = selectedUIImage,
+              let data = image.jpegData(compressionQuality: 0.85)
+        else {return}
+        
+        let presignedResult = await getPresignedURLUseCase.execute()
+        switch presignedResult {
+        case .success(let response):
+            let uploadResult = await uploadImageToPresignedURLUseCase.execute(preSignedURL: response.preSignedURL, data: data, contentType: "image/jpeg")
+            switch uploadResult {
+            case .success:
+                profileImageURL = response.publicURL
+                selectedUIImage = nil
+                selectedPhotosPickerItem = nil
+                logger.debug("✅ uploadProfileImage success")
+            case .failure:
+                logger.error("uploadProfileImage failed")
+            }
+        case .failure(let error):
+            logger.error("uploadProfileImage failed: \(error.localizedDescription)")
+        }
+    }
 }
 
 
