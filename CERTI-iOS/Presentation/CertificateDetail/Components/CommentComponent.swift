@@ -46,13 +46,6 @@ struct CommentComponent: View {
     
     // MARK: - Properties
     
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
-        formatter.locale = Locale(identifier: "ko_KR")
-        return formatter
-    }
-    
     let model: Comment
     let certificationState: CertificationType
     let userName: UserType
@@ -157,7 +150,7 @@ extension CommentComponent {
                 .padding(.leading, 8)
             }
             
-            Text(dateFormatter.string(from: Date()))
+            Text(model.createdTime.toCommentDateString())
                 .applyCertiFont(.caption_semibold_12)
                 .foregroundStyle(.grayscale400)
                 .padding(.leading, 8)
