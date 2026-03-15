@@ -368,7 +368,7 @@ extension HomeViewModel {
         formatter.dateFormat = "M월 d일 EEEE"
         let dateText = formatter.string(from: displayDate)
 
-        if currentDate == .distantPast {
+        if currentDate == .distantPast || Calendar.current.isDate(displayDate, inSameDayAs: Date()) {
             return "\(dateText) (오늘)"
         } else {
             return dateText
