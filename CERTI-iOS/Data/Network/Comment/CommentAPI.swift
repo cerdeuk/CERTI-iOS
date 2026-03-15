@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum CommentAPI {
-    case getComment(certificationId: Int, page: Int, size: Int, sort: String)
+    case getComment(certificationId: Int, page: Int, size: Int, commentSortType: String)
     case addComment(request: CommentRequestDTO)
     case deleteComment(commentId: Int)
     case likeComment(commentId: Int)
@@ -52,12 +52,12 @@ extension CommentAPI: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
-        case .getComment(let certificationId, let page, let size, let sort):
+        case .getComment(let certificationId, let page, let size, let commentSortType):
             return .requestParameters(parameters: [
                 "certificationId": certificationId,
                 "page": page,
                 "size": size,
-                "sort": sort
+                "commentSortType": commentSortType
             ], encoding: URLEncoding.queryString)
         case .addComment(let request):
             return .requestJSONEncodable(request)
