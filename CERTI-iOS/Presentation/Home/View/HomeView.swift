@@ -160,6 +160,7 @@ extension HomeView {
                 
                 Spacer()
             }
+            .padding(.top, 16)
             .padding(.horizontal, 20)
             
             Text("예정된 일정이 없습니다.\n자격증 탭에서 취득 예정 자격증을 추가해보세요.")
