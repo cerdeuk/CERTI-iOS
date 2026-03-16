@@ -152,7 +152,3 @@ extension OnboardingNickNameView {
         }
     }
 }
-
-#Preview {
-    OnboardingNickNameView(viewModel: AppDIContainer.shared.makeOnboardingFactory().makeOnboardingViewModel())
-}
