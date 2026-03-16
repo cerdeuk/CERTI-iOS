@@ -57,11 +57,14 @@ struct OnboardingNickNameView: View {
                     await viewModel.checkNickNameValidate()
                 }
             } label: {
-                Text("닉네임 중복 확인")
-                    .applyCertiFont(.caption_regular_14)
-                    .foregroundStyle(.grayscale500)
-                    .frame(height: 20)
-                    .underline()
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("닉네임 중복 확인")
+                        .applyCertiFont(.caption_regular_14)
+                        .foregroundStyle(.grayscale500)
+                        .frame(height: 20)
+                    
+                    Color.grayscale500.frame(width: 92, height: 1)
+                }
             }
             .padding(.leading, 20)
             
@@ -148,4 +151,8 @@ extension OnboardingNickNameView {
             EmptyView()
         }
     }
+}
+
+#Preview {
+    OnboardingNickNameView(viewModel: AppDIContainer.shared.makeOnboardingFactory().makeOnboardingViewModel())
 }
