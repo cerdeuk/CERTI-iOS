@@ -190,7 +190,3 @@ extension OnboardingInfoView {
         }
     }
 }
-
-#Preview {
-    OnboardingInfoView(viewModel: AppDIContainer.shared.makeOnboardingFactory().makeOnboardingViewModel())
-}
