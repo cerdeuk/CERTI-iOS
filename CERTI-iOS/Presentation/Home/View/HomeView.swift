@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Kingfisher
+
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     
@@ -88,11 +90,29 @@ extension HomeView {
     private var profileSection: some View {
         Group {
             HStack(alignment: .center, spacing: 0) {
-                Image(.imageProfilePdf)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
-                    .padding(.trailing, 12)
+                if let url = URL(string: viewModel.homeStateModel.profileImage),
+                   !viewModel.homeStateModel.profileImage.isEmpty {
+                    KFImage(url)
+                        .resizable()
+                        .placeholder {
+                            Color.grayscale100
+                        }
+                        .retry(maxCount: 3, interval: .seconds(5))
+                        .onFailure { error in
+                            print("failure: \(error.localizedDescription)")
+                        }
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 80, height: 80)
+                        .clipShape(.circle)
+                        .clipped()
+                        .padding(.trailing, 12)
+                } else {
+                    Image(.imageProfilePdf)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .padding(.trailing, 12)
+                }
                 
                 Text(viewModel.homeStateModel.username.trimmedUsername())
                     .frame(height: 22)

@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Kingfisher
+
 struct ResumeView: View {
     @EnvironmentObject var tabRouter: CertiTabCoordinator
     @ObservedObject var viewModel: ResumeViewModel
@@ -73,8 +75,29 @@ extension ResumeView {
     
     private var ResumeProfileView: some View {
         HStack(alignment: .top, spacing: 0){
-            Image(.imageProfilePdf)
-                .padding(.top, 13)
+            if let url = URL(string: viewModel.resumeUserModel.profileImage),
+               !viewModel.resumeUserModel.profileImage.isEmpty {
+                KFImage(url)
+                    .resizable()
+                    .placeholder {
+                        Color.grayscale100
+                    }
+                    .retry(maxCount: 3, interval: .seconds(5))
+                    .onFailure { error in
+                        print("failure: \(error.localizedDescription)")
+                    }
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 80, height: 80)
+                    .clipShape(.circle)
+                    .clipped()
+                    .padding(.trailing, 12)
+            } else {
+                Image(.imageProfilePdf)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 80, height: 80)
+                    .padding(.trailing, 12)
+            }
             
             VStack(alignment: .leading, spacing: 0) {
                 HStack{

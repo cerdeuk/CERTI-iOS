@@ -22,6 +22,6 @@ struct UserInfoEntity {
     }
     
     func toResumeUserModel() -> ResumeUserModel {
-        return ResumeUserModel(name: name, university: university, major: major, birthDate: birthDate ?? nil)
+        return ResumeUserModel(name: name, university: university, major: major, profileImage: profileImage ?? "", birthDate: birthDate ?? nil)
     }
 }

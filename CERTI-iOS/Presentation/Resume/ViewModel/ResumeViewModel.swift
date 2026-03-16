@@ -44,6 +44,7 @@ final class ResumeViewModel: ObservableObject {
         name: "",
         university: "",
         major: "",
+        profileImage: "",
         birthDate: nil
     )
     @Published var isCardDetailPresented = false

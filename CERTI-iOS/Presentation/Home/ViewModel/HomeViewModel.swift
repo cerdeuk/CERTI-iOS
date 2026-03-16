@@ -23,6 +23,7 @@ struct HomeStateModel {
     var username: String = ""
     var userUniversity: String = ""
     var userDepartment: String = ""
+    var profileImage: String = ""
     var progressValue: Int = 0
     
     var recommendLicenses: [RecommendCeritificateTileModel] = []
@@ -130,6 +131,7 @@ extension HomeViewModel {
             homeStateModel.userUniversity = response.university
             homeStateModel.userDepartment = response.major
             homeStateModel.progressValue = response.percentage
+            homeStateModel.profileImage = response.profileImage ?? ""
             
             AuthManager.shared.nickname = response.nickname
             AuthManager.shared.name = response.name
