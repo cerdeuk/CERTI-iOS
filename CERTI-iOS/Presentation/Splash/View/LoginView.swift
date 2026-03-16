@@ -83,7 +83,6 @@ struct LoginView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 335, height: 56)
-                .padding(.bottom, 36)
                 .overlay {
                     SignInWithAppleButton(
                         onRequest: { request in
