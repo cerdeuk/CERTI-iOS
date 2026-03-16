@@ -110,6 +110,11 @@ final class MyPageViewModel: ObservableObject {
         let profileImageURL: String
     }
     
+    var isNickNameChanged: Bool {
+        guard let initial = initialProfile else { return false }
+        return userNickName != initial.nickName && !userNickName.isEmpty
+    }
+    
     var isProfileModified: Bool {
         if selectedUIImage != nil { return true }
 
