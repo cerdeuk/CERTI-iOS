@@ -290,7 +290,6 @@ extension AppDIContainer {
             getPreUseCase: makeGetPreCertificationUseCase(),
             getFavoriteUseCase: makeGetFavoritePreCertificationUseCase(),
             fetchUserInfoUseCase: makeFetchUserInfoUseCase(),
-            withDrawUseCase: makeWithDrawUseCase(),
             switchFavoriteUseCase: makeSwitchFavoriteUseCase(),
             fetchRecommendUseCase: makeFetchRecommendUseCase(),
             getMonthlyPreCertificationUseCase: makeGetMonthlyPreCertificationUseCase(),

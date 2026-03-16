@@ -74,13 +74,6 @@ extension HomeView {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 75, height: 25)
-                .onTapGesture {
-                    //TODO: - 탈퇴하기 뷰 생기면 지우기
-                    Task {
-                        await viewModel.withDraw()
-                        viewModel.withDrawNavigate()
-                    }
-                }
             
             Spacer()
         }

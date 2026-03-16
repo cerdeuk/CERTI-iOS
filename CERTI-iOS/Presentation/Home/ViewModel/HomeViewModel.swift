@@ -10,7 +10,6 @@ import Foundation
 import os
 
 enum HomeViewRoute {
-    case withDraw
     case navigateToPreLicenseEdit
     case navigateToCertificateDetail
     case navigateToCertificateTab
@@ -47,7 +46,6 @@ final class HomeViewModel: ObservableObject {
     private let getPreCertificationsUseCase: GetPreCertificationUseCase
     private let getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase
     private let fetchUserInfoUseCase: FetchUserInfoUseCase
-    private let withDrawUseCase: WithDrawUseCase
     private let switchFavoriteUseCase: SwitchFavoriteUseCase
     private let fetchRecommendUseCase: FetchRecommendUseCase
     private let getMonthlyPreCertificationUseCase: GetMonthlyPreCertificationUseCase
@@ -58,7 +56,6 @@ final class HomeViewModel: ObservableObject {
         getPreCertificationsUseCase: GetPreCertificationUseCase,
         getFavoriteCertificationsUseCase: GetFavoriteCertificationUseCase,
         fetchUserInfoUseCase: FetchUserInfoUseCase,
-        withDrawUseCase: WithDrawUseCase,
         switchFavoriteUseCase: SwitchFavoriteUseCase,
         fetchRecommendUseCase: FetchRecommendUseCase,
         getMonthlyPreCertificationUseCase: GetMonthlyPreCertificationUseCase,
@@ -68,7 +65,6 @@ final class HomeViewModel: ObservableObject {
         self.getPreCertificationsUseCase = getPreCertificationsUseCase
         self.getFavoriteCertificationsUseCase = getFavoriteCertificationsUseCase
         self.fetchUserInfoUseCase = fetchUserInfoUseCase
-        self.withDrawUseCase = withDrawUseCase
         self.switchFavoriteUseCase = switchFavoriteUseCase
         self.fetchRecommendUseCase = fetchRecommendUseCase
         self.getMonthlyPreCertificationUseCase = getMonthlyPreCertificationUseCase
@@ -81,10 +77,6 @@ final class HomeViewModel: ObservableObject {
 // MARK: - Navigation Func
 
 extension HomeViewModel {
-    
-    func withDrawNavigate() {
-        homeViewRoute = .withDraw
-    }
     
     func navigateToPreLicenseEdit() {
         homeViewRoute = .navigateToPreLicenseEdit
@@ -107,18 +99,6 @@ extension HomeViewModel {
 // MARK: - Network
 
 extension HomeViewModel {
-    func withDraw() async {
-        let result = await withDrawUseCase.execute()
-
-        switch result {
-        case .success:
-            logger.info("✅ 탈퇴 성공")
-            AuthManager.shared.cleanUserInfo()
-            
-        case .failure(let error):
-            logger.error("❌ 탈퇴 실패: \(error.localizedDescription)")
-        }
-    }
     
     func getUserInfo() async {
         let result = await fetchUserInfoUseCase.execute()
