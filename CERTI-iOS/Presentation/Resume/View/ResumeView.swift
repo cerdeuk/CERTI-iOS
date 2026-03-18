@@ -87,7 +87,7 @@ extension ResumeView {
                     Spacer()
                     
                     Button {
-                        tabRouter.switchTab(tab: .mypage)
+                        viewModel.navigateToEditProfile()
                     } label: {
                         HStack(alignment: .center, spacing: 0) {
                             Image(.iconEdit16)
