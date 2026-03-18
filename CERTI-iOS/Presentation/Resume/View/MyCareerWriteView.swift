@@ -46,13 +46,13 @@ struct MyCareerWriteView: View {
                     .padding(.top, 40)
                 }
             }
-            .onAppear{
-                switch mode {
-                case .add:
-                    viewModel.clearCareerWriteModel()
-                case .edit(let careerId):
+            .onAppear {
+                if case let .edit(careerId) = mode {
                     viewModel.prepareCareerEdit(careerId: careerId)
                 }
+            }
+            .onDisappear {
+                viewModel.clearCareerWriteModel()
             }
             .scrollIndicators(.hidden)
             .navigationBarBackButtonHidden()

@@ -27,7 +27,7 @@ struct ResumeCareerListComponent: View {
                     .frame(height: 18)
                     .padding(.top, 12)
             }
-            .frame(width: 104, height: 48)
+            .frame(width: 108, height: 48)
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(model.place)

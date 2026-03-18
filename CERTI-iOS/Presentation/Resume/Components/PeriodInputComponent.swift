@@ -52,10 +52,16 @@ struct PeriodInputComponent: View {
                     DatePicker("", selection: Binding<Date>(
                         get: { startDate ?? Date() },
                         set: {
-                            startDate = $0
-                            if let end = endDate, $0 > end {
-                                endDate = $0
+                            let selected = $0
+                            startDate = selected
+                            startAt = formatDateToString(selected)
+                            
+                            if let end = endDate, selected > end {
+                                endDate = selected
+                                endAt = formatDateToString(selected)
                             }
+                            
+                            isFilled = startDate != nil && endDate != nil
                         }
                     ), displayedComponents: .date)
                     .datePickerStyle(.graphical)
@@ -82,10 +88,16 @@ struct PeriodInputComponent: View {
                     DatePicker("", selection: Binding<Date>(
                         get: { endDate ?? Date() },
                         set: {
-                            endDate = $0
-                            if let start = startDate, $0 < start {
-                                startDate = $0
+                            let selected = $0
+                            endDate = selected
+                            endAt = formatDateToString(selected)
+                            
+                            if let start = startDate, selected < start {
+                                startDate = selected
+                                startAt = formatDateToString(selected)
                             }
+                            
+                            isFilled = startDate != nil && endDate != nil
                         }
                     ), displayedComponents: .date)
                     .datePickerStyle(.graphical)
@@ -110,15 +122,13 @@ struct PeriodInputComponent: View {
             }
         }
         .onAppear {
-            if startDate == nil, !startAt.isEmpty {
-                startDate = Date.stringToDate(startAt)
-            }
-            
-            if endDate == nil, !endAt.isEmpty {
-                endDate = Date.stringToDate(endAt)
-            }
-            
-            isFilled = startDate != nil && endDate != nil
+            datesBind()
+        }
+        .onChange(of: startAt) { _ in
+            datesBind()
+        }
+        .onChange(of: endAt) { _ in
+            datesBind()
         }
     }
     
@@ -134,6 +144,12 @@ struct PeriodInputComponent: View {
         formatter.dateFormat = "yyyy.MM.dd"
         formatter.locale = Locale(identifier: "ko_KR")
         return formatter.string(from: date)
+    }
+    
+    private func datesBind() {
+        startDate = startAt.isEmpty ? nil : Date.stringToDate(startAt)
+        endDate = endAt.isEmpty ? nil : Date.stringToDate(endAt)
+        isFilled = startDate != nil && endDate != nil
     }
 }
 

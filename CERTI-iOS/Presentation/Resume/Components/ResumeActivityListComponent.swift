@@ -16,7 +16,8 @@ struct ResumeActivityListComponent: View {
             VStack(alignment: .leading, spacing: 0) {
                 let periodText = "\(model.startAt.toYearMonth()) ~ \(model.endAt.toYearMonth())"
 
-                Text(periodText)                    .applyCertiFont(.caption_regular_12)
+                Text(periodText)
+                    .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
                     .frame(height: 18)
                 
@@ -26,8 +27,8 @@ struct ResumeActivityListComponent: View {
                     .frame(height: 18)
                     .padding(.top, 12)
             }
-            .frame(width: 104, height: 48)
-            
+            .frame(width: 108, height: 48)
+
             VStack(alignment: .leading, spacing: 0) {
                 Text(model.place)
                     .applyCertiFont(.body_semibold_16)
