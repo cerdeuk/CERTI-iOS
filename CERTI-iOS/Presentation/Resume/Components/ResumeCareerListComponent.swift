@@ -21,7 +21,7 @@ struct ResumeCareerListComponent: View {
                     .foregroundStyle(.grayscale500)
                     .frame(height: 18)
                 
-                Text(model.place)
+                Text(model.name)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
                     .frame(height: 18)
@@ -30,7 +30,7 @@ struct ResumeCareerListComponent: View {
             .frame(width: 104, height: 48)
             
             VStack(alignment: .leading, spacing: 0) {
-                Text(model.name)
+                Text(model.place)
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
                     .frame(width: 137, height: 22, alignment: .leading)
