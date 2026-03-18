@@ -155,6 +155,7 @@ extension CertificationDetailPlanModalView {
                     Text("나중에 입력하기")
                         .applyCertiFont(.caption_semibold_12)
                         .foregroundStyle(.grayscale300)
+                        .padding(.top, 48)
                     
                     Rectangle()
                         .frame(width: 97, height: 1)

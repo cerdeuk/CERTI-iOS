@@ -60,7 +60,6 @@ struct CommentComponent: View {
         VStack(alignment: .leading, spacing: 0) {
             
             userInfomation
-                .padding(.top, 8)
             
             Text(model.content.antiAppleBySangyup)
                 .applyCertiFont(.caption_regular_14)
