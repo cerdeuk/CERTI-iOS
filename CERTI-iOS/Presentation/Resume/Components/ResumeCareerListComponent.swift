@@ -47,6 +47,7 @@ struct ResumeCareerListComponent: View {
             
             Spacer()
         }
+        .background(.white)
         .onTapGesture {
             onTapCard()
         }

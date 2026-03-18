@@ -46,6 +46,7 @@ struct ResumeActivityListComponent: View {
             
             Spacer()
         }
+        .background(.white)
         .onTapGesture {
             onTapCard()
         }
