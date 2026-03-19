@@ -68,6 +68,7 @@ struct OnboardingMajorView: View {
                                     
                                     Divider()
                                 }
+                                .contentShape(Rectangle())
                                 .onTapGesture {
                                     viewModel.userMajor = major
                                     viewModel.searchMajorText = major

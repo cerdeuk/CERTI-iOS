@@ -23,6 +23,7 @@ final class CertificateViewModel: ObservableObject {
 
     @Published var certificateViewRoute: CertificateViewRoute?
     @Published var selectedLicenseId: Int = 0
+    @Published var username = AuthManager.shared.nickname
 
     // 랭킹관련
     @Published var recommendCertificates: [RecommendCeritificateTileModel] = []
