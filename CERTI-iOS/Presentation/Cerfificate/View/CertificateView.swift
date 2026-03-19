@@ -159,7 +159,7 @@ private extension CertificateView {
     var trackRankingSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .bottom) {
-                Text(verbatim: "\(viewModel.selectedTrack.description) 자격증 TOP3")
+                Text("\(viewModel.selectedTrack.description) 자격증 TOP3")
                     .applyCertiFont(.sub_bold_20)
                     .foregroundStyle(.grayscale600)
                 
@@ -189,7 +189,7 @@ private extension CertificateView {
     var jobRankingSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .bottom) {
-                Text(verbatim: "\(viewModel.selectedJob.description) 자격증 TOP3")
+                Text("\(viewModel.selectedJob.description) 자격증 TOP3")
                     .applyCertiFont(.sub_bold_20)
                     .foregroundStyle(.grayscale600)
                 
