@@ -8,7 +8,7 @@
 import Foundation
 
 protocol FetchCommentUseCase {
-    func execute(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentEntity, NetworkError>
+    func execute(certificationId: Int, page: Int, size: Int, commentSortType: String) async -> Result<CommentEntity, NetworkError>
 }
 
 final class DefaultFetchCommentUseCase: FetchCommentUseCase {
@@ -18,7 +18,7 @@ final class DefaultFetchCommentUseCase: FetchCommentUseCase {
         self.repository = repository
     }
     
-    func execute(certificationId: Int, page: Int, size: Int, sort: String) async -> Result<CommentEntity, NetworkError> {
-        return await repository.getComment(certificationId: certificationId, page: page, size: size, sort: sort)
+    func execute(certificationId: Int, page: Int, size: Int, commentSortType: String) async -> Result<CommentEntity, NetworkError> {
+        return await repository.getComment(certificationId: certificationId, page: page, size: size, commentSortType: commentSortType)
     }
 }

@@ -23,6 +23,7 @@ struct EditProfileView: View {
     }
     
     private let maxLength = 7
+    let onBack: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -40,7 +41,7 @@ struct EditProfileView: View {
                 }
             } backButtonAction: {
                 viewModel.nickNameValid = nil
-                viewModel.myPageViewRoutePop()
+                onBack()
             }
             
             ScrollView(.vertical) {

@@ -17,6 +17,7 @@ enum ResumeViewRoute: Equatable {
     case navigateToActivityManage
     
     case resumeViewRoutePop
+    case navigateToEditProfile
 }
 
 enum CareerWriteMode: Hashable {
@@ -165,6 +166,10 @@ extension ResumeViewModel {
     
     func resumeViewRoutePop() {
         resumeViewRoute = .resumeViewRoutePop
+    }
+    
+    func navigateToEditProfile() {
+        resumeViewRoute = .navigateToEditProfile
     }
 }
 

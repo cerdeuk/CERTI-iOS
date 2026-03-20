@@ -180,7 +180,7 @@ extension CertificateDetailViewModel {
             certificationId: certificationId,
             page: currentPage,
             size: pageSize,
-            sort: isSelectedPopularity ? "likeCount,desc" : ""
+            commentSortType: isSelectedPopularity ? "POPULAR" : "LATEST"
         )
 
         switch result {

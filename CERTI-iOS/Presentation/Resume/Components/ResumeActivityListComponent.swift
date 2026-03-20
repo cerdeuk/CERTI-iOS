@@ -16,20 +16,21 @@ struct ResumeActivityListComponent: View {
             VStack(alignment: .leading, spacing: 0) {
                 let periodText = "\(model.startAt.toYearMonth()) ~ \(model.endAt.toYearMonth())"
 
-                Text(periodText)                    .applyCertiFont(.caption_regular_12)
+                Text(periodText)
+                    .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
                     .frame(height: 18)
                 
-                Text(model.place)
+                Text(model.name)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
                     .frame(height: 18)
                     .padding(.top, 12)
             }
-            .frame(width: 104, height: 48)
-            
+            .frame(width: 108, height: 48)
+
             VStack(alignment: .leading, spacing: 0) {
-                Text(model.name)
+                Text(model.place)
                     .applyCertiFont(.body_semibold_16)
                     .foregroundStyle(.grayscale600)
                     .frame(width: 137, height: 22, alignment: .leading)
@@ -46,6 +47,7 @@ struct ResumeActivityListComponent: View {
             
             Spacer()
         }
+        .background(.white)
         .onTapGesture {
             onTapCard()
         }

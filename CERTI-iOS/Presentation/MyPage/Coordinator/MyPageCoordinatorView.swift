@@ -72,7 +72,7 @@ struct MyPageCoordinatorView: View {
                 .navigationDestination(for: MyPageRoute.self) { route in
                     switch route {
                     case .editProfile:
-                        EditProfileView(viewModel: myPageViewModel)
+                        EditProfileView(viewModel: myPageViewModel) { myPageCoordinator.pop() }
                             .navigationBarBackButtonHidden()
 
                     case .manageAcademicInfo:
