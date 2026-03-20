@@ -23,6 +23,7 @@ struct OnboardingJobCategoryView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             BackButton {
+                viewModel.selectedJobCategory.removeAll()
                 viewModel.onboardingViewRoutePop()
             }
             .padding(.bottom, 13)
@@ -81,20 +82,27 @@ struct OnboardingJobCategoryView: View {
             
             Spacer()
             
+            let isFullySelected = viewModel.selectedJobCategory.count == 3
+            let canProceed = !selectedJob.isEmpty || isFullySelected
+            
             if step == 1 {
                 Button {
-                    viewModel.selectedJobCategory.append(selectedJob)
-                    selectedJob = ""
-                    step += 1
+                    if isFullySelected {
+                        viewModel.navigateToNickName()
+                    } else {
+                        viewModel.selectedJobCategory.append(selectedJob)
+                        selectedJob = ""
+                        step += 1
+                    }
                 } label: {
                     Text("다음")
                         .applyCertiFont(.body_semibold_16)
-                        .foregroundColor(selectedJob.isEmpty ? .grayscale400 : .white)
+                        .foregroundColor(canProceed ? .white : .grayscale400)
                         .frame(maxWidth: .infinity, minHeight: 56)
-                        .background(selectedJob.isEmpty ? .grayscale100 : .purpleblue)
+                        .background(canProceed ? .purpleblue : .grayscale100)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
-                .disabled(selectedJob.isEmpty)
+                .disabled(!canProceed)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 22)
             } else {
@@ -112,7 +120,9 @@ struct OnboardingJobCategoryView: View {
                     }
                     
                     Button {
-                        if step == 3 {
+                        if isFullySelected {
+                            viewModel.navigateToNickName()
+                        } else if step == 3 {
                             viewModel.selectedJobCategory.append(selectedJob)
                             selectedJob = ""
                             viewModel.navigateToNickName()
@@ -124,13 +134,12 @@ struct OnboardingJobCategoryView: View {
                     } label: {
                         Text("다음")
                             .applyCertiFont(.body_semibold_16)
-                            .foregroundColor(selectedJob.isEmpty ? .grayscale400 : .white)
+                            .foregroundColor(canProceed ? .white : .grayscale400)
                             .frame(maxWidth: .infinity, minHeight: 56)
-                            .background(selectedJob.isEmpty ? .grayscale100 : .purpleblue)
+                            .background(canProceed ? .purpleblue : .grayscale100)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
-                    .disabled(selectedJob.isEmpty)
-                    
+                    .disabled(!canProceed)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 22)

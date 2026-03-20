@@ -25,7 +25,7 @@ struct OnboardingInfoView: View {
                 .padding(.bottom, 35)
                 
                 HStack(alignment: .bottom, spacing: 0) {
-                    Text(username.trimmedUsername())
+                    Text(username)
                         .foregroundStyle(.mainblue)
                     
                     Text("님,")

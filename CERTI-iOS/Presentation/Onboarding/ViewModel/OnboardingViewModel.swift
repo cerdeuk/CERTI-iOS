@@ -36,7 +36,13 @@ final class OnboardingViewModel: ObservableObject {
     @Published var selectedJobCategory: [String] = []
     @Published var universityList: [String] = []
     @Published var majorList: [String] = []
-    @Published var nickname: String = ""
+    @Published var nickname: String = "" {
+        didSet {
+            if oldValue != nickname {
+                nickNameValid = nil
+            }
+        }
+    }
     @Published var nickNameValid: nickNameValidateCase? = nil
     @Published var onboardingViewRoute: OnboardingViewRoute?
     

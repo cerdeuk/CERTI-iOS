@@ -27,6 +27,7 @@ struct RankCeritificateTile: View {
                 Text(model.type)
                     .applyCertiFont(.caption_regular_12)
                     .foregroundStyle(.grayscale500)
+                    .frame(maxWidth: 63, alignment: .trailing)
             }
         }
         .padding(.vertical, 16)
