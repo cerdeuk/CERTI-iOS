@@ -8,7 +8,7 @@
 import Foundation
 
 struct ResumeUserModel {
-    let name, university, major: String
+    let name, university, major, profileImage: String
     let birthDate: String?
     
     var birthDateAgeText: String {

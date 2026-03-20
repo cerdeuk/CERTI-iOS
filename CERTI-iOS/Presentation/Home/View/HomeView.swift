@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Kingfisher
+
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     
@@ -72,13 +74,6 @@ extension HomeView {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 75, height: 25)
-                .onTapGesture {
-                    //TODO: - 탈퇴하기 뷰 생기면 지우기
-                    Task {
-                        await viewModel.withDraw()
-                        viewModel.withDrawNavigate()
-                    }
-                }
             
             Spacer()
         }
@@ -88,11 +83,29 @@ extension HomeView {
     private var profileSection: some View {
         Group {
             HStack(alignment: .center, spacing: 0) {
-                Image(.imageProfilePdf)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
-                    .padding(.trailing, 12)
+                if let url = URL(string: viewModel.homeStateModel.profileImage),
+                   !viewModel.homeStateModel.profileImage.isEmpty {
+                    KFImage(url)
+                        .resizable()
+                        .placeholder {
+                            Color.grayscale100
+                        }
+                        .retry(maxCount: 3, interval: .seconds(5))
+                        .onFailure { error in
+                            print("failure: \(error.localizedDescription)")
+                        }
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 80, height: 80)
+                        .clipShape(.circle)
+                        .clipped()
+                        .padding(.trailing, 12)
+                } else {
+                    Image(.imageProfilePdf)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .padding(.trailing, 12)
+                }
                 
                 Text(viewModel.homeStateModel.username.trimmedUsername())
                     .frame(height: 22)
@@ -160,6 +173,7 @@ extension HomeView {
                 
                 Spacer()
             }
+            .padding(.top, 16)
             .padding(.horizontal, 20)
             
             Text("예정된 일정이 없습니다.\n자격증 탭에서 취득 예정 자격증을 추가해보세요.")

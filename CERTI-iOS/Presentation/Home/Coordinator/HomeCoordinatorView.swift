@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HomeCoordinatorView: View {
-    @EnvironmentObject var appCoordinator: AppCoordinator
     @EnvironmentObject var tabCoordinator: CertiTabCoordinator
     
     @ObservedObject var homeCoordinator: HomeCoordinator
@@ -33,8 +32,6 @@ struct HomeCoordinatorView: View {
                 .onChange(of: homeViewModel.homeViewRoute) { route in
                     guard let route = route else { return }
                     switch route {
-                    case .withDraw:
-                        appCoordinator.withDraw()
                     case .navigateToCertificateDetail:
                         homeCoordinator.push(next: .certificateDetail)
                     case .navigateToPreLicenseEdit:

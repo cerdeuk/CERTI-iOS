@@ -9,16 +9,16 @@ typealias DailyPreCertificationResponseDTO = BaseResponseDTO<DailyPreCertificati
 
 struct DailyPreCertificationData: Decodable {
     let date: String
-    let certifications: [DailyPreCertificationInfoData]
+    let certifications: [DailyPreCertificationInfoData]?
 }
 
 extension DailyPreCertificationData {
     func toDailyPreCertificationEntity() -> DailyPreCertificationEntity {
         return DailyPreCertificationEntity(
             date: date,
-            certifications: certifications.map {
+            certifications: certifications?.map {
                 $0.toDailyPreCertificationEntityData()
-            }
+            } ?? []
         )
     }
 }
