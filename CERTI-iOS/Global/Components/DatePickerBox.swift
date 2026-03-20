@@ -18,6 +18,9 @@ struct DatePickerBox: View {
         formatter.locale = Locale(identifier: "ko_KR")
         return formatter
     }
+    private var today: Date {
+        Calendar.current.startOfDay(for: Date())
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -64,7 +67,7 @@ struct DatePickerBox: View {
                             self.isCalendarVisible = false
                         }
                     }
-                ), displayedComponents: .date)
+                ), in: today..., displayedComponents: .date)
                 .datePickerStyle(.graphical)
                 .background(
                     RoundedRectangle(cornerRadius: 12)

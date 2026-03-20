@@ -12,9 +12,6 @@ struct CertificateView: View {
     
     // 툴팁 표시 여부 상태 관리
     @State private var showRecommendationTooltip: Bool = false
-    let username = "김서티"
-    let track = "공학"
-    let job = "경영사무"
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -98,7 +95,7 @@ private extension CertificateView {
             VStack(alignment: .leading, spacing: 0) {
                 
                 HStack(alignment: .center, spacing: 4) {
-                    Text("\(username)님에게 추천하는 자격증")
+                    Text("\(viewModel.username)님에게 추천하는 자격증")
                         .applyCertiFont(.sub_bold_20)
                     
                     Button {
@@ -162,7 +159,7 @@ private extension CertificateView {
     var trackRankingSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .bottom) {
-                Text("\(track)계열 자격증 TOP3")
+                Text("\(viewModel.selectedTrack.description) 자격증 TOP3")
                     .applyCertiFont(.sub_bold_20)
                     .foregroundStyle(.grayscale600)
                 
@@ -192,7 +189,7 @@ private extension CertificateView {
     var jobRankingSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .bottom) {
-                Text("\(job) 자격증 TOP3")
+                Text("\(viewModel.selectedJob.description) 자격증 TOP3")
                     .applyCertiFont(.sub_bold_20)
                     .foregroundStyle(.grayscale600)
                 
@@ -219,13 +216,4 @@ private extension CertificateView {
         }
     }
     
-}
-
-#Preview {
-    let tabCoordinator = CertiTabCoordinator()
-    
-    CertiTabBarCoordinatorView(
-        tabCoordinator: tabCoordinator,
-        appDIContainer: AppDIContainer.shared
-    )
 }

@@ -12,13 +12,18 @@ struct ResumeCoordinatorView: View {
     
     @ObservedObject var resumeCoordinator: ResumeCoordinator
     @StateObject var resumeViewModel: ResumeViewModel
+    @StateObject var myPageViewModel: MyPageViewModel
     
     private let resumeFactory: ResumeFactory
+    private let myPageFactory: MyPageFactory
+
     
-    init(resumeCoordinator: ResumeCoordinator, resumeFactory: ResumeFactory) {
+    init(resumeCoordinator: ResumeCoordinator, resumeFactory: ResumeFactory, myPageFactory: MyPageFactory) {
         self.resumeCoordinator = resumeCoordinator
         self.resumeFactory = resumeFactory
         _resumeViewModel = StateObject(wrappedValue: resumeFactory.makeResumeViewModel())
+        self.myPageFactory = myPageFactory
+        _myPageViewModel = StateObject(wrappedValue: myPageFactory.makeMyPageViewModel())
     }
     
     var body: some View {
@@ -39,6 +44,8 @@ struct ResumeCoordinatorView: View {
                         resumeCoordinator.push(next: .myCareerManageView)
                     case .resumeViewRoutePop:
                         resumeCoordinator.pop()
+                    case .navigateToEditProfile:
+                        resumeCoordinator.push(next: .editProfile)
                     }
                     resumeViewModel.resumeViewRoute = nil
                 }
@@ -54,6 +61,11 @@ struct ResumeCoordinatorView: View {
                         MyActivityManageView(viewModel: resumeViewModel)
                     case .myActivityWriteView(let mode):
                         MyActivityWriteView(viewModel: resumeViewModel, mode: mode)
+                    case .editProfile:
+                        EditProfileView(viewModel: myPageViewModel) {
+                            resumeCoordinator.pop()
+                        }
+                        .navigationBarBackButtonHidden()
                     }
                 }
         }

@@ -46,13 +46,13 @@ struct MyActivityWriteView: View {
                         .padding(.top, 40)
                     }
                 }
-                .onAppear{
-                    switch mode {
-                    case .add:
-                        viewModel.clearActivityWriteModel()
-                    case .edit(let activityId):
+                .onAppear {
+                    if case let .edit(activityId) = mode {
                         viewModel.prepareActivityEdit(activityId: activityId)
                     }
+                }
+                .onDisappear {
+                    viewModel.clearActivityWriteModel()
                 }
                 .navigationBarBackButtonHidden()
                 .scrollIndicators(.hidden)

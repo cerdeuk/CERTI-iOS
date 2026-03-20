@@ -23,6 +23,7 @@ struct EditProfileView: View {
     }
     
     private let maxLength = 7
+    let onBack: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -40,7 +41,7 @@ struct EditProfileView: View {
                 }
             } backButtonAction: {
                 viewModel.nickNameValid = nil
-                viewModel.myPageViewRoutePop()
+                onBack()
             }
             
             ScrollView(.vertical) {
@@ -146,14 +147,15 @@ extension EditProfileView {
             } label: {
                 Text("중복 확인")
                     .applyCertiFont(.caption_regular_12)
-                    .foregroundStyle(viewModel.nickNameValid == .valid ? .grayscale300 : .grayscale600)
+                    .foregroundStyle(viewModel.isNickNameChanged ? .grayscale600 : .grayscale300)
                     .padding(.vertical, 4)
                     .padding(.horizontal, 12)
                     .overlay {
                         Capsule()
-                            .stroke(viewModel.nickNameValid == .valid ? .grayscale200 : .grayscale300, lineWidth: 1)
+                            .stroke(viewModel.isNickNameChanged ? .grayscale300 : .grayscale200, lineWidth: 1)
                     }
             }
+            .disabled(!viewModel.isNickNameChanged)
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 12)

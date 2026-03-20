@@ -32,9 +32,9 @@ struct TrackCategorySegmentedControl: View {
                         selectedCategory = category
                     } label: {
                         Text(category.description)
-                            .applyCertiFont(.body_semibold_16)
+                            .applyCertiFont(selectedCategory == category ? .body_bold_16 : .body_semibold_16)
                             .frame(height: 22)
-                            .foregroundStyle(selectedCategory == category ? .grayscale500 : .grayscale400)
+                            .foregroundStyle(selectedCategory == category ? .grayscale500 : .grayscale300)
                     }
                 }
             }

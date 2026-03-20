@@ -68,6 +68,7 @@ struct OnboardingUnivView: View {
                                     
                                     Divider()
                                 }
+                                .contentShape(Rectangle())
                                 .onTapGesture {
                                     viewModel.userUniversity = univ
                                     viewModel.searchUnivText = univ
